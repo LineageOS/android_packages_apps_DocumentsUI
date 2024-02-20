@@ -154,6 +154,7 @@
                         android:layout_alignBottom="@android:id/title"
                         android:gravity="center_vertical"
                         android:src="@drawable/ic_briefcase"
+                        android:tint="?android:attr/colorAccent"
                         android:contentDescription="@string/a11y_work"/>
 
                     <TextView
