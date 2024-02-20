@@ -20,12 +20,12 @@ import static junit.framework.Assert.assertEquals;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.LocaleList;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.textclassifier.TextClassification;
 import android.view.textclassifier.TextClassificationManager;
 import android.view.textclassifier.TextClassifier;
 
 import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.testing.TestPackageManager;

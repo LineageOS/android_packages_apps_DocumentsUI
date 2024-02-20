@@ -21,9 +21,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.provider.DocumentsContract;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import androidx.annotation.Nullable;
+import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
