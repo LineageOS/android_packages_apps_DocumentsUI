@@ -281,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"ஃபோல்டரைப் பயன்படுத்த இயலாது"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"உங்கள் தனியுரிமையைப் பாதுகாக்க மற்றொரு ஃபோல்டரைத் தேர்வுசெய்யவும்"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"புதிய ஃபோல்டரை உருவாக்கு"</string>
-    <string name="search_bar_hint" msgid="146031513183888721">"இந்தச் சாதனத்தைத் தேடுக"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"இந்தச் சாதனத்தில் தேடுக"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"தேடல் வரலாற்றை நீக்கும் பட்டன் <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"தனிப்பட்டவை"</string>
     <string name="work_tab" msgid="7265359366883747413">"பணி"</string>
