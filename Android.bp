@@ -71,6 +71,9 @@ java_library {
     srcs: [
         ":statslog-docsui-java-gen",
     ],
+    libs: [
+        "androidx.annotation_annotation",
+    ],
     lint: {
         strict_updatability_linting: true,
     },
