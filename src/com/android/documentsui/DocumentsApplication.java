@@ -83,20 +83,7 @@ public class DocumentsApplication extends Application {
     private Lookup<String, String> mFileTypeLookup;
 
     public static ProvidersCache getProvidersCache(Context context) {
-        ProvidersCache providers =
-                ((DocumentsApplication) context.getApplicationContext()).mProviders;
-        final ConfigStore configStore = getConfigStore();
-        // When private space in DocsUI is enabled then ProvidersCache should use UserManagerState
-        // else it should use UserIdManager. The following if-check will ensure the construction of
-        // a new ProvidersCache instance whenever there is a mismatch in this.
-        if (configStore.isPrivateSpaceInDocsUIEnabled()
-                != providers.isProvidersCacheUsingUserManagerState()) {
-            providers = configStore.isPrivateSpaceInDocsUIEnabled()
-                    ? new ProvidersCache(context, getUserManagerState(context), configStore)
-                    : new ProvidersCache(context, getUserIdManager(context), configStore);
-            ((DocumentsApplication) context.getApplicationContext()).mProviders = providers;
-        }
-        return providers;
+        return ((DocumentsApplication) context.getApplicationContext()).mProviders;
     }
 
     public static ThumbnailCache getThumbnailCache(Context context) {
@@ -212,16 +199,11 @@ public class DocumentsApplication extends Application {
         if (getConfigStore().isPrivateSpaceInDocsUIEnabled()) {
             mUserManagerState = UserManagerState.create(this);
             mUserIdManager = null;
-            synchronized (DocumentsApplication.class) {
-                mProviders = new ProvidersCache(this, mUserManagerState, getConfigStore());
-            }
         } else {
             mUserManagerState = null;
             mUserIdManager = UserIdManager.create(this);
-            synchronized (DocumentsApplication.class) {
-                mProviders = new ProvidersCache(this, mUserIdManager, getConfigStore());
-            }
         }
+        mProviders = new ProvidersCache(this);
 
         mProviders.updateAsync(/* forceRefreshAll= */ false, /* callback= */  null);
 
