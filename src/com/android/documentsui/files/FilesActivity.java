@@ -300,7 +300,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
     }
 
