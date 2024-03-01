@@ -18,12 +18,12 @@ package com.android.documentsui.dirlist;
 
 import android.database.Cursor;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.widget.Space;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.testing.TestRecyclerView;
