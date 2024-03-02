@@ -21,9 +21,9 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract.Document;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.MediumTest;
 
 import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.MediumTest;
 
 import java.io.File;
 import java.io.IOException;

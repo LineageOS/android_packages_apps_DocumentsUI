@@ -19,8 +19,8 @@ import android.media.ExifInterface;
 import android.media.MediaMetadata;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import android.test.suitebuilder.annotation.SmallTest;
 
+import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
