@@ -28,8 +28,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 
+import androidx.test.filters.SmallTest;
 import androidx.test.rule.provider.ProviderTestRule;
 
 import com.android.documentsui.InspectorProvider;

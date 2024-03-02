@@ -29,10 +29,10 @@ import android.os.Looper;
 import android.os.UserHandle;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View.OnClickListener;
 
 import androidx.annotation.Nullable;
+import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.InspectorProvider;
