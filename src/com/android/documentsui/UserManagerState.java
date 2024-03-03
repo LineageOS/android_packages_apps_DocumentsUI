@@ -95,6 +95,11 @@ public interface UserManagerState {
     void onProfileActionStatusChange(String action, UserId userId);
 
     /**
+     * Sets the intent that triggered the launch of the DocsUI
+     */
+    void setCurrentStateIntent(Intent intent);
+
+    /**
      * Creates an implementation of {@link UserManagerState}.
      */
     // TODO: b/314746383 Make this class a singleton
@@ -136,6 +141,7 @@ public interface UserManagerState {
         @GuardedBy("mCanFrowardToProfileIdMap")
         private final Map<UserId, Boolean> mCanFrowardToProfileIdMap = new HashMap<>();
 
+        private Intent mCurrentStateIntent;
 
         private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
             @Override
@@ -159,7 +165,7 @@ public interface UserManagerState {
         private RuntimeUserManagerState(Context context) {
             this(context, UserId.CURRENT_USER,
                     Features.CROSS_PROFILE_TABS && isDeviceSupported(context),
-                    DocumentsApplication.getConfigStore(context));
+                    DocumentsApplication.getConfigStore());
         }
 
         @VisibleForTesting
@@ -185,7 +191,6 @@ public interface UserManagerState {
         public List<UserId> getUserIds() {
             synchronized (mUserIds) {
                 if (mUserIds.isEmpty()) {
-                    Log.d("profileAction", "user ids empty");
                     mUserIds.addAll(getUserIdsInternal());
                 }
                 return mUserIds;
@@ -234,15 +239,6 @@ public interface UserManagerState {
                 synchronized (mUserIds) {
                     mUserIds.remove(userId);
                 }
-                synchronized (mUserIdToLabelMap) {
-                    mUserIdToLabelMap.remove(userId);
-                }
-                synchronized (mUserIdToBadgeMap) {
-                    mUserIdToBadgeMap.remove(userId);
-                }
-                synchronized (mCanFrowardToProfileIdMap) {
-                    mCanFrowardToProfileIdMap.remove(userId);
-                }
             } else if (Intent.ACTION_PROFILE_AVAILABLE.equals(action)) {
                 synchronized (mUserIds) {
                     if (!mUserIds.contains(userId)) {
@@ -250,17 +246,38 @@ public interface UserManagerState {
                     }
                 }
                 synchronized (mUserIdToLabelMap) {
-                    mUserIdToLabelMap.put(userId, getProfileLabel(userId));
+                    if (!mUserIdToLabelMap.containsKey(userId)) {
+                        mUserIdToLabelMap.put(userId, getProfileLabel(userId));
+                    }
                 }
                 synchronized (mUserIdToBadgeMap) {
-                    mUserIdToBadgeMap.put(userId, getProfileBadge(userId));
+                    if (!mUserIdToBadgeMap.containsKey(userId)) {
+                        mUserIdToBadgeMap.put(userId, getProfileBadge(userId));
+                    }
                 }
                 synchronized (mCanFrowardToProfileIdMap) {
-                    mCanFrowardToProfileIdMap.put(userId, true);
+                    if (!mCanFrowardToProfileIdMap.containsKey(userId)) {
+                        if (userId.getIdentifier() == ActivityManager.getCurrentUser()
+                                || isCrossProfileContentSharingStrategyDelegatedFromParent(
+                                UserHandle.of(userId.getIdentifier()))
+                                || CrossProfileUtils.getCrossProfileResolveInfo(mCurrentUser,
+                                mContext.getPackageManager(), mCurrentStateIntent, mContext,
+                                mConfigStore.isPrivateSpaceInDocsUIEnabled()) != null) {
+                            mCanFrowardToProfileIdMap.put(userId, true);
+                        } else {
+                            mCanFrowardToProfileIdMap.put(userId, false);
+                        }
+
+                    }
                 }
             } else {
                 Log.e(TAG, "Unexpected action received: " + action);
             }
+        }
+
+        @Override
+        public void setCurrentStateIntent(Intent intent) {
+            mCurrentStateIntent = intent;
         }
 
         private List<UserId> getUserIdsInternal() {
@@ -538,8 +555,7 @@ public interface UserManagerState {
             /*
              * Cross profile resolve info need to be checked in the following 2 cases:
              * 1. current user is either parent or delegates check to parent and the target user
-             * does
-             *    not delegate to parent
+             *    does not delegate to parent
              * 2. current user does not delegate check to the parent and the target user is the
              *    parent profile
              */

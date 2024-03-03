@@ -18,6 +18,7 @@ package com.android.documentsui;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.android.documentsui.base.UserId;
 
@@ -28,12 +29,14 @@ import java.util.Map;
 
 public class TestUserManagerState implements UserManagerState {
 
+    private static final String TAG = "TestUserManagerState";
     public List<UserId> userIds = new ArrayList<>();
     public Map<UserId, String> userIdToLabelMap = new HashMap<>();
     public Map<UserId, Boolean> canFrowardToProfileIdMap = new HashMap<>();
     public Map<UserId, Drawable> userIdToBadgeMap = new HashMap<>();
     public String profileLabel = "Test";
     public Drawable profileBadge = null;
+    public Intent intent = new Intent();
 
     @Override
     public List<UserId> getUserIds() {
@@ -59,16 +62,26 @@ public class TestUserManagerState implements UserManagerState {
     public void onProfileActionStatusChange(String action, UserId userId) {
         if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)) {
             userIds.remove(userId);
-            userIdToLabelMap.remove(userId);
-            userIdToBadgeMap.remove(userId);
-            canFrowardToProfileIdMap.put(userId, false);
             return;
+        } else if (Intent.ACTION_PROFILE_AVAILABLE.equals(action)) {
+            if (!userIds.contains(userId)) {
+                userIds.add(userId);
+            }
+            if (!userIdToLabelMap.containsKey(userId)) {
+                userIdToLabelMap.put(userId, profileLabel);
+            }
+            if (!userIdToBadgeMap.containsKey(userId)) {
+                userIdToBadgeMap.put(userId, profileBadge);
+            }
+            if (!canFrowardToProfileIdMap.containsKey(userId)) {
+                canFrowardToProfileIdMap.put(userId, true);
+            }
+        } else {
+            Log.e(TAG, "Unexpected action received: " + action);
         }
-        if (!userIds.contains(userId)) {
-            userIds.add(userId);
-        }
-        userIdToLabelMap.put(userId, profileLabel);
-        userIdToBadgeMap.put(userId, profileBadge);
-        canFrowardToProfileIdMap.put(userId, true);
+    }
+
+    @Override
+    public void setCurrentStateIntent(Intent intent) {
     }
 }

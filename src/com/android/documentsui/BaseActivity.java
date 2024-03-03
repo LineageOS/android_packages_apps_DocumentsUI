@@ -140,7 +140,7 @@ public abstract class BaseActivity
 
     @VisibleForTesting
     protected void initConfigStore() {
-        mConfigStore = DocumentsApplication.getConfigStore(this);
+        mConfigStore = DocumentsApplication.getConfigStore();
     }
 
     @VisibleForTesting
@@ -287,6 +287,12 @@ public abstract class BaseActivity
 
         mUserIdManager = DocumentsApplication.getUserIdManager(this);
         mUserManagerState = DocumentsApplication.getUserManagerState(this);
+        // If private space feature flag is enabled, we should store the intent that launched docsUi
+        // so that we can use this intent to get CrossProfileResolveInfo when ever we want to,
+        // for example when ACTION_PROFILE_AVAILABLE intent is received
+        if (mUserManagerState != null) {
+            mUserManagerState.setCurrentStateIntent(intent);
+        }
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
                 chipGroup, savedInstanceState);
         // initialize the chip sets by accept mime types

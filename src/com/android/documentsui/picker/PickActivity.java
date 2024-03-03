@@ -300,6 +300,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public String getDrawerTitle() {
         String title;
         try {

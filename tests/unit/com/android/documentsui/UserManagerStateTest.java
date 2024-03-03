@@ -16,22 +16,33 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.DevicePolicyResources.Drawables.Style.SOLID_COLORED;
+import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFILE_ICON;
+import static com.android.documentsui.DevicePolicyResources.Strings.PERSONAL_TAB;
+import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
+
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import android.Manifest;
+import android.app.admin.DevicePolicyManager;
+import android.app.admin.DevicePolicyResourcesManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.UserProperties;
+import android.graphics.drawable.Drawable;
 import android.os.UserHandle;
 import android.os.UserManager;
 
 import androidx.test.filters.SdkSuppress;
 import androidx.test.filters.SmallTest;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.UserManagers;
@@ -52,6 +63,10 @@ import java.util.Map;
 @SdkSuppress(minSdkVersion = 31, codeName = "S")
 public class UserManagerStateTest {
 
+    private static final String PERSONAL = "Personal";
+    private static final String WORK = "Work";
+    private static final String PRIVATE = "Private";
+
     private final UserHandle mSystemUser = UserHandle.SYSTEM;
     private final UserHandle mManagedUser = UserHandle.of(100);
     private final UserHandle mPrivateUser = UserHandle.of(101);
@@ -66,6 +81,7 @@ public class UserManagerStateTest {
     private final Intent mMockIntent = mock(Intent.class);
     private final UserManager mMockUserManager = UserManagers.create();
     private final PackageManager mMockPackageManager = mock(PackageManager.class);
+    private final DevicePolicyManager mDevicePolicyManager = mock(DevicePolicyManager.class);
     private UserManagerState mUserManagerState;
 
     @Before
@@ -114,7 +130,7 @@ public class UserManagerStateTest {
             when(mMockUserManager.getUserProperties(mNormalUser)).thenReturn(normalUserProperties);
         }
 
-        when(mMockUserManager.getProfileParent(mSystemUser)).thenReturn(mSystemUser);
+        when(mMockUserManager.getProfileParent(mSystemUser)).thenReturn(null);
         when(mMockUserManager.getProfileParent(mManagedUser)).thenReturn(mSystemUser);
         when(mMockUserManager.getProfileParent(mPrivateUser)).thenReturn(mSystemUser);
         when(mMockUserManager.getProfileParent(mOtherUser)).thenReturn(mSystemUser);
@@ -129,6 +145,12 @@ public class UserManagerStateTest {
         when(mMockContext.getPackageManager()).thenReturn(mMockPackageManager);
         when(mMockContext.getSystemServiceName(UserManager.class)).thenReturn("mMockUserManager");
         when(mMockContext.getSystemService(UserManager.class)).thenReturn(mMockUserManager);
+        when(mMockContext.getSystemServiceName(DevicePolicyManager.class))
+                .thenReturn(Context.DEVICE_POLICY_SERVICE);
+        when(mMockContext.getSystemService(Context.DEVICE_POLICY_SERVICE))
+                .thenReturn(mDevicePolicyManager);
+        when(mMockContext.getResources()).thenReturn(
+                InstrumentationRegistry.getInstrumentation().getTargetContext().getResources());
     }
 
     @Test
@@ -560,7 +582,7 @@ public class UserManagerStateTest {
     }
 
     @Test
-    public void testOnProfileStatusChange_anyIntentActionOnManagedProfile() {
+    public void testOnProfileStatusChange_anyIntentActionForManagedProfile() {
         if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mSystemUser);
         initializeUserManagerState(currentUser,
@@ -584,7 +606,7 @@ public class UserManagerStateTest {
     }
 
     @Test
-    public void testOnProfileStatusChange_actionProfileUnavailableOnPrivateProfile() {
+    public void testOnProfileStatusChange_actionProfileUnavailableForPrivateProfile() {
         if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mSystemUser);
         UserId managedUser = UserId.of(mManagedUser);
@@ -603,9 +625,6 @@ public class UserManagerStateTest {
                 mUserManagerState.getCanForwardToProfileIdMap(mMockIntent));
 
         List<UserId> expectedUserIdsAfterIntent = Lists.newArrayList(currentUser, managedUser);
-        Map<UserId, Boolean> expectedCanForwardToProfileIdMapAfterIntent = new HashMap<>();
-        expectedCanForwardToProfileIdMapAfterIntent.put(currentUser, true);
-        expectedCanForwardToProfileIdMapAfterIntent.put(managedUser, true);
 
         String action = Intent.ACTION_PROFILE_UNAVAILABLE;
         mUserManagerState.onProfileActionStatusChange(action, privateUser);
@@ -615,19 +634,14 @@ public class UserManagerStateTest {
                 .that(mUserManagerState.getUserIds()).isNotEqualTo(userIdsBeforeIntent);
         assertWithMessage("Unexpected changes to user id list on receiving intent: " + action)
                 .that(mUserManagerState.getUserIds()).isEqualTo(expectedUserIdsAfterIntent);
-        assertWithMessage(
-                "CanForwardToLabelMap should not be same before and after receiving intent: "
-                        + action)
-                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent)).isNotEqualTo(
-                        canForwardToProfileIdMapBeforeIntent);
-        assertWithMessage(
-                "Unexpected changes to canForwardToProfileIdMap on receiving intent: " + action)
+        assertWithMessage("CanForwardToLabelMap should be same before and after receiving intent: "
+                + action)
                 .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent)).isEqualTo(
-                        expectedCanForwardToProfileIdMapAfterIntent);
+                        canForwardToProfileIdMapBeforeIntent);
     }
 
     @Test
-    public void testOnProfileStatusChange_actionProfileAvailableOnPrivateProfile() {
+    public void testOnProfileStatusChange_actionProfileAvailable_profileInitialised() {
         if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mSystemUser);
         UserId managedUser = UserId.of(mManagedUser);
@@ -637,9 +651,54 @@ public class UserManagerStateTest {
                 PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
                 mMockResolveInfoList);
         initializeUserManagerState(currentUser,
-                Lists.newArrayList(mSystemUser, mManagedUser));
+                Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
 
-        // UserManagerState#mUserId and UserManagerState#mCanForwardToProfileIdMap will empty
+        // initialising the userIds list and canForwardToProfileIdMap
+        mUserManagerState.getUserIds();
+        mUserManagerState.getCanForwardToProfileIdMap(mMockIntent);
+
+        // Making the private profile unavailable after it has been initialised
+        mUserManagerState.onProfileActionStatusChange(Intent.ACTION_PROFILE_UNAVAILABLE,
+                privateUser);
+
+        List<UserId> userIdsBeforeIntent = new ArrayList<>(mUserManagerState.getUserIds());
+        Map<UserId, Boolean> canForwardToProfileIdMapBeforeIntent = new HashMap<>(
+                mUserManagerState.getCanForwardToProfileIdMap(mMockIntent));
+
+        List<UserId> expectedUserIdsAfterIntent = Lists.newArrayList(currentUser, managedUser,
+                privateUser);
+
+        String action = Intent.ACTION_PROFILE_AVAILABLE;
+        mUserManagerState.onProfileActionStatusChange(action, privateUser);
+
+        assertWithMessage(
+                "UserIds list should not be same before and after receiving intent: " + action)
+                .that(mUserManagerState.getUserIds()).isNotEqualTo(userIdsBeforeIntent);
+        assertWithMessage("Unexpected changes to user id list on receiving intent: " + action)
+                .that(mUserManagerState.getUserIds()).isEqualTo(expectedUserIdsAfterIntent);
+        assertWithMessage("CanForwardToLabelMap should be same before and after receiving intent: "
+                + action)
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent)).isEqualTo(
+                        canForwardToProfileIdMapBeforeIntent);
+    }
+
+    @Test
+    public void testOnProfileStatusChange_actionProfileAvailable_profileNotInitialised() {
+        if (!SdkLevel.isAtLeastV()) return;
+        UserId currentUser = UserId.of(mSystemUser);
+        UserId managedUser = UserId.of(mManagedUser);
+        UserId privateUser = UserId.of(mPrivateUser);
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
+        when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
+                mMockResolveInfoList);
+
+        // Private user will not be initialised if it is in quiet mode
+        when(mMockUserManager.isQuietModeEnabled(mPrivateUser)).thenReturn(true);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+
+        // UserManagerState#mUserId and UserManagerState#mCanForwardToProfileIdMap will be empty
         // by default if the getters of these member variables have not been called
         List<UserId> userIdsBeforeIntent = new ArrayList<>(mUserManagerState.getUserIds());
         Map<UserId, Boolean> canForwardToProfileIdMapBeforeIntent = new HashMap<>(
@@ -671,11 +730,128 @@ public class UserManagerStateTest {
                         expectedCanForwardToProfileIdMapAfterIntent);
     }
 
+    @Test
+    public void testGetUserIdToLabelMap_systemUserAndManagedUser_PreV() {
+        if (SdkLevel.isAtLeastV()) return;
+        UserId currentUser = UserId.of(mSystemUser);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser));
+        if (SdkLevel.isAtLeastT()) {
+            DevicePolicyResourcesManager devicePolicyResourcesManager = mock(
+                    DevicePolicyResourcesManager.class);
+            when(mDevicePolicyManager.getResources()).thenReturn(devicePolicyResourcesManager);
+            when(devicePolicyResourcesManager.getString(eq(PERSONAL_TAB), any())).thenReturn(
+                    PERSONAL);
+            when(devicePolicyResourcesManager.getString(eq(WORK_TAB), any())).thenReturn(WORK);
+        }
+
+        Map<UserId, String> userIdToLabelMap = mUserManagerState.getUserIdToLabelMap();
+
+        assertWithMessage("Incorrect label returned for user id " + mSystemUser)
+                .that(userIdToLabelMap.get(UserId.of(mSystemUser))).isEqualTo(PERSONAL);
+        assertWithMessage("Incorrect label returned for user id " + mManagedUser)
+                .that(userIdToLabelMap.get(UserId.of(mManagedUser))).isEqualTo(WORK);
+    }
+
+    @Test
+    public void testGetUserIdToLabelMap_systemUserManagedUserPrivateUser_PostV() {
+        if (!SdkLevel.isAtLeastV()) return;
+        UserId currentUser = UserId.of(mSystemUser);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+        if (SdkLevel.isAtLeastT()) {
+            DevicePolicyResourcesManager devicePolicyResourcesManager = mock(
+                    DevicePolicyResourcesManager.class);
+            when(mDevicePolicyManager.getResources()).thenReturn(devicePolicyResourcesManager);
+            when(devicePolicyResourcesManager.getString(eq(PERSONAL_TAB), any())).thenReturn(
+                    PERSONAL);
+        }
+        UserManager managedUserManager = getUserManagerForManagedUser();
+        UserManager privateUserManager = getUserManagerForPrivateUser();
+        when(managedUserManager.getProfileLabel()).thenReturn(WORK);
+        when(privateUserManager.getProfileLabel()).thenReturn(PRIVATE);
+
+        Map<UserId, String> userIdToLabelMap = mUserManagerState.getUserIdToLabelMap();
+
+        assertWithMessage("Incorrect label returned for user id " + mSystemUser)
+                .that(userIdToLabelMap.get(UserId.of(mSystemUser))).isEqualTo(PERSONAL);
+        assertWithMessage("Incorrect label returned for user id " + mManagedUser)
+                .that(userIdToLabelMap.get(UserId.of(mManagedUser))).isEqualTo(WORK);
+        assertWithMessage("Incorrect label returned for user id " + mPrivateUser)
+                .that(userIdToLabelMap.get(UserId.of(mPrivateUser))).isEqualTo(PRIVATE);
+    }
+
+    @Test
+    public void testGetUserIdToBadgeMap_systemUserManagedUser_PreV() {
+        if (SdkLevel.isAtLeastV()) return;
+        UserId currentUser = UserId.of(mSystemUser);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser));
+        Drawable workBadge = mMockContext.getDrawable(R.drawable.ic_briefcase);
+        if (SdkLevel.isAtLeastT()) {
+            DevicePolicyResourcesManager devicePolicyResourcesManager = mock(
+                    DevicePolicyResourcesManager.class);
+            when(mDevicePolicyManager.getResources()).thenReturn(devicePolicyResourcesManager);
+            when(devicePolicyResourcesManager.getDrawable(eq(WORK_PROFILE_ICON), eq(SOLID_COLORED),
+                    any())).thenReturn(workBadge);
+        }
+
+        Map<UserId, Drawable> userIdToBadgeMap = mUserManagerState.getUserIdToBadgeMap();
+
+        assertWithMessage("There should be no badge present for personal user")
+                .that(userIdToBadgeMap.containsKey(UserId.of(mSystemUser))).isFalse();
+        assertWithMessage("Incorrect badge returned for user id " + mManagedUser)
+                .that(userIdToBadgeMap.get(UserId.of(mManagedUser))).isEqualTo(workBadge);
+    }
+
+    @Test
+    public void testGetUserIdToBadgeMap_systemUserManagedUserPrivateUser_PostV() {
+        if (!SdkLevel.isAtLeastV()) return;
+        UserId currentUser = UserId.of(mSystemUser);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+        Drawable workBadge = mock(Drawable.class);
+        Drawable privateBadge = mock(Drawable.class);
+        UserManager managedUserManager = getUserManagerForManagedUser();
+        UserManager privateUserManager = getUserManagerForPrivateUser();
+        when(managedUserManager.getUserBadge()).thenReturn(workBadge);
+        when(privateUserManager.getUserBadge()).thenReturn(privateBadge);
+
+        Map<UserId, Drawable> userIdToBadgeMap = mUserManagerState.getUserIdToBadgeMap();
+
+        assertWithMessage("There should be no badge present for personal user")
+                .that(userIdToBadgeMap.get(UserId.of(mSystemUser))).isNull();
+        assertWithMessage("Incorrect badge returned for user id " + mManagedUser)
+                .that(userIdToBadgeMap.get(UserId.of(mManagedUser))).isEqualTo(workBadge);
+        assertWithMessage("Incorrect badge returned for user id " + mPrivateUser)
+                .that(userIdToBadgeMap.get(UserId.of(mPrivateUser))).isEqualTo(privateBadge);
+    }
+
     private void initializeUserManagerState(UserId current, List<UserHandle> usersOnDevice) {
         when(mMockUserManager.getUserProfiles()).thenReturn(usersOnDevice);
         TestConfigStore testConfigStore = new TestConfigStore();
         testConfigStore.enablePrivateSpaceInPhotoPicker();
         mUserManagerState = new UserManagerState.RuntimeUserManagerState(mMockContext, current,
                 true, testConfigStore);
+    }
+
+    private UserManager getUserManagerForManagedUser() {
+        Context managedUserContext = mock(Context.class);
+        when(mMockContext.createContextAsUser(mManagedUser, 0)).thenReturn(managedUserContext);
+        UserManager managedUserManager = mock(UserManager.class);
+        when(managedUserContext.getSystemServiceName(UserManager.class))
+                .thenReturn("managedUserManager");
+        when(managedUserContext.getSystemService(UserManager.class)).thenReturn(managedUserManager);
+        return managedUserManager;
+    }
+
+    private UserManager getUserManagerForPrivateUser() {
+        Context privateUserContext = mock(Context.class);
+        when(mMockContext.createContextAsUser(mPrivateUser, 0)).thenReturn(privateUserContext);
+        UserManager privateUserManager = mock(UserManager.class);
+        when(privateUserContext.getSystemServiceName(UserManager.class))
+                .thenReturn("privateUserManager");
+        when(privateUserContext.getSystemService(UserManager.class)).thenReturn(privateUserManager);
+        return privateUserManager;
     }
 }
