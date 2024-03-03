@@ -83,20 +83,7 @@ public class DocumentsApplication extends Application {
     private Lookup<String, String> mFileTypeLookup;
 
     public static ProvidersCache getProvidersCache(Context context) {
-        ProvidersCache providers =
-                ((DocumentsApplication) context.getApplicationContext()).mProviders;
-        final ConfigStore configStore = getConfigStore(context);
-        // When private space in DocsUI is enabled then ProvidersCache should use UserManagerState
-        // else it should use UserIdManager. The following if-check will ensure the construction of
-        // a new ProvidersCache instance whenever there is a mismatch in this.
-        if (configStore.isPrivateSpaceInDocsUIEnabled()
-                != providers.isProvidersCacheUsingUserManagerState()) {
-            providers = configStore.isPrivateSpaceInDocsUIEnabled()
-                    ? new ProvidersCache(context, getUserManagerState(context), configStore)
-                    : new ProvidersCache(context, getUserIdManager(context), configStore);
-            ((DocumentsApplication) context.getApplicationContext()).mProviders = providers;
-        }
-        return providers;
+        return ((DocumentsApplication) context.getApplicationContext()).mProviders;
     }
 
     public static ThumbnailCache getThumbnailCache(Context context) {
@@ -140,7 +127,7 @@ public class DocumentsApplication extends Application {
     public static UserManagerState getUserManagerState(Context context) {
         UserManagerState userManagerState =
                 ((DocumentsApplication) context.getApplicationContext()).mUserManagerState;
-        if (userManagerState == null && getConfigStore(context).isPrivateSpaceInDocsUIEnabled()) {
+        if (userManagerState == null && getConfigStore().isPrivateSpaceInDocsUIEnabled()) {
             userManagerState = UserManagerState.create(context);
             ((DocumentsApplication) context.getApplicationContext()).mUserManagerState =
                     userManagerState;
@@ -159,19 +146,11 @@ public class DocumentsApplication extends Application {
     /**
      * Retrieve {@link ConfigStore} instance to access feature flags in production code.
      */
-    public static synchronized ConfigStore getConfigStore(Context context) {
+    public static synchronized ConfigStore getConfigStore() {
         if (sConfigStore == null) {
             sConfigStore = new ConfigStore.ConfigStoreImpl();
         }
         return sConfigStore;
-    }
-
-    /**
-     * Set {@link #mProviders} as null onDestroy of BaseActivity so that new session uses new
-     * instance of {@link #mProviders}
-     */
-    public static void invalidateProvidersCache(Context context) {
-        ((DocumentsApplication) context.getApplicationContext()).mProviders = null;
     }
 
     /**
@@ -217,19 +196,14 @@ public class DocumentsApplication extends Application {
             Log.w(TAG, "Can't obtain OverlayManager from System Service!");
         }
 
-        if (getConfigStore(this).isPrivateSpaceInDocsUIEnabled()) {
+        if (getConfigStore().isPrivateSpaceInDocsUIEnabled()) {
             mUserManagerState = UserManagerState.create(this);
             mUserIdManager = null;
-            synchronized (DocumentsApplication.class) {
-                mProviders = new ProvidersCache(this, mUserManagerState, getConfigStore(this));
-            }
         } else {
             mUserManagerState = null;
             mUserIdManager = UserIdManager.create(this);
-            synchronized (DocumentsApplication.class) {
-                mProviders = new ProvidersCache(this, mUserIdManager, getConfigStore(this));
-            }
         }
+        mProviders = new ProvidersCache(this);
 
         mProviders.updateAsync(/* forceRefreshAll= */ false, /* callback= */  null);
 
@@ -288,13 +262,15 @@ public class DocumentsApplication extends Application {
                 final String packageName = data.getSchemeSpecificPart();
                 mProviders.updatePackageAsync(UserId.DEFAULT_USER, packageName);
             } else if (PROFILE_FILTER_ACTIONS.contains(action)) {
-                // After we have reloaded roots. Resend the broadcast locally so the other
-                // components can reload properly after roots are updated.
-                if (getConfigStore(context).isPrivateSpaceInDocsUIEnabled()) {
+                // Make the changes to UserManagerState object before calling providers updateAsync
+                // so that providers for all the users are loaded
+                if (getConfigStore().isPrivateSpaceInDocsUIEnabled()) {
                     UserHandle userHandle = intent.getParcelableExtra(Intent.EXTRA_USER);
                     UserId userId = UserId.of(userHandle);
                     getUserManagerState(context).onProfileActionStatusChange(action, userId);
                 }
+                // After we have reloaded roots. Resend the broadcast locally so the other
+                // components can reload properly after roots are updated.
                 mProviders.updateAsync(/* forceRefreshAll= */ true,
                         () -> LocalBroadcastManager.getInstance(context).sendBroadcast(intent));
             } else {

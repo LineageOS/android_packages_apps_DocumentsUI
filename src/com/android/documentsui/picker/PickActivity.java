@@ -300,6 +300,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public String getDrawerTitle() {
         String title;
         try {
@@ -352,6 +357,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         final FragmentManager fm = getSupportFragmentManager();
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
+
+        setInitialStack(mState.stack);
 
         if (mState.stack.isRecents()) {
             DirectoryFragment.showRecentsOpen(fm, anim);
