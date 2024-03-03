@@ -300,7 +300,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
     }
 
@@ -351,6 +351,8 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         final FragmentManager fm = getSupportFragmentManager();
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
+
+        setInitialStack(mState.stack);
 
         assert (!mSearchManager.isSearching());
 

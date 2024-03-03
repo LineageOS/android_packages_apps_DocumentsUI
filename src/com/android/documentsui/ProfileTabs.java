@@ -128,13 +128,8 @@ public class ProfileTabs implements ProfileTabsAddons {
             // Update the layout according to the current root if necessary.
             // Make sure we do not invoke callback. Otherwise, it is likely to cause infinite loop.
             mTabs.removeOnTabSelectedListener(mOnTabSelectedListener);
-            if (!mUserIds.contains(currentRoot.userId)) {
-                mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
-                mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(UserId.CURRENT_USER)));
-            } else {
-                mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
-                mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
-            }
+            mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
+            mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
         }
         mTabsContainer.setVisibility(shouldShow() ? View.VISIBLE : View.GONE);
 
