@@ -29,7 +29,7 @@ import com.google.common.base.Supplier;
 public interface ConfigStore {
     // TODO(b/288066342): Remove and replace after new constant definition in
     //  {@link android.provider.DeviceConfig}.
-    String NAMESPACE_MEDIAPROVIDER = "mediaprovider";
+    String NAMESPACE_DOCUMENTSUI = "documentsui";
 
     boolean DEFAULT_PICKER_PRIVATE_SPACE_ENABLED = false;
 
@@ -57,7 +57,7 @@ public interface ConfigStore {
         public boolean isPrivateSpaceInDocsUIEnabled() {
             if (mIsPrivateSpaceEnabled == null) {
                 mIsPrivateSpaceEnabled = getBooleanDeviceConfig(
-                        NAMESPACE_MEDIAPROVIDER,
+                        NAMESPACE_DOCUMENTSUI,
                         KEY_PRIVATE_SPACE_FEATURE_ENABLED,
                         DEFAULT_PICKER_PRIVATE_SPACE_ENABLED);
             }
