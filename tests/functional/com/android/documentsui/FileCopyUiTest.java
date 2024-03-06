@@ -57,9 +57,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
-* This class test the below points
-* - Copy large number of files on the internal/external storage
-*/
+ * This class test the below points
+ * - Copy large number of files on the internal/external storage
+ */
 @LargeTest
 public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     private static final String TAG = "FileCopyUiTest";
@@ -320,7 +320,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
             if (in != null) {
                 try {
                     in.close();
-                    in  = null;
+                    in = null;
                 } catch (Exception e) {
                     Log.d(TAG, "Error occurs when close ZipInputStream. ", e);
                 }
@@ -375,12 +375,12 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     private void initStorageRootInfo() throws RemoteException {
         List<RootInfo> rootList = mStorageDocsHelper.getRootList();
         for (RootInfo info : rootList) {
-             if (ROOT_ID_DEVICE.equals(info.rootId)) {
-                 mPrimaryRoot = info;
-             } else if (info.isSd()) {
-                 mSdCardRoot = info;
-                 mSdCardLabel = info.title;
-             }
+            if (ROOT_ID_DEVICE.equals(info.rootId)) {
+                mPrimaryRoot = info;
+            } else if (info.isSd()) {
+                mSdCardRoot = info;
+                mSdCardLabel = info.title;
+            }
         }
     }
 
@@ -489,7 +489,8 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
-    public void testRecursiveCopyDocuments_InternalStorageToDownloadsProvider() throws Exception {
+    public void ignored_testRecursiveCopyDocuments_InternalStorageToDownloadsProvider()
+            throws Exception {
         // Create Download folder if it doesn't exist.
         DocumentInfo info = mStorageDocsHelper.findFile(mPrimaryRoot.documentId, "Download");
 

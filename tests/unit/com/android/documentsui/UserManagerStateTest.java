@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.UserProperties;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.UserHandle;
 import android.os.UserManager;
@@ -787,7 +788,10 @@ public class UserManagerStateTest {
         UserId currentUser = UserId.of(mSystemUser);
         initializeUserManagerState(currentUser,
                 Lists.newArrayList(mSystemUser, mManagedUser));
-        Drawable workBadge = mMockContext.getDrawable(R.drawable.ic_briefcase);
+        Drawable workBadge = mock(Drawable.class);
+        Resources resources = mock(Resources.class);
+        when(mMockContext.getResources()).thenReturn(resources);
+        when(mMockContext.getDrawable(R.drawable.ic_briefcase)).thenReturn(workBadge);
         if (SdkLevel.isAtLeastT()) {
             DevicePolicyResourcesManager devicePolicyResourcesManager = mock(
                     DevicePolicyResourcesManager.class);
