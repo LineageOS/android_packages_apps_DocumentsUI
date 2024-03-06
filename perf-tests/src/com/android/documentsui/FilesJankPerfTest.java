@@ -16,27 +16,24 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.StressProvider.DEFAULT_AUTHORITY;
-import static com.android.documentsui.StressProvider.STRESS_ROOT_0_ID;
 import static com.android.documentsui.StressProvider.STRESS_ROOT_2_ID;
 
 import android.app.Activity;
-import android.os.RemoteException;
-import android.test.suitebuilder.annotation.LargeTest;
-
 import android.app.UiAutomation;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.RemoteException;
+import android.support.test.jank.GfxMonitor;
 import android.support.test.jank.JankTest;
 import android.support.test.jank.JankTestBase;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.jank.GfxMonitor;
-import android.support.test.uiautomator.UiScrollable;
-import android.util.Log;
+import android.test.suitebuilder.annotation.LargeTest;
 
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiScrollable;
+
+import com.android.documentsui.bots.DirectoryListBot;
 import com.android.documentsui.bots.SidebarBot;
 import com.android.documentsui.files.FilesActivity;
-import com.android.documentsui.bots.DirectoryListBot;
 
 @LargeTest
 public class FilesJankPerfTest extends JankTestBase {

@@ -20,11 +20,12 @@ import static junit.framework.Assert.assertTrue;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiSelector;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiSelector;
 
 import com.android.documentsui.R;
 import com.android.documentsui.inspector.DetailsView;

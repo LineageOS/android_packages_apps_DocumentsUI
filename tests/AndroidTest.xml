@@ -18,6 +18,14 @@
         <option name="test-file-name" value="DocumentsUITests.apk" />
     </target_preparer>
 
+    <target_preparer class="com.android.tradefed.targetprep.RunCommandTargetPreparer">
+        <!-- Disable keyguard -->
+        <!-- Though keyguard is disabled globally in cts-preconditions.xml, this will ensure that
+             the test gets the same treatment when running in other test suites (e.g. MTS), as well
+             as when running locally (e.g. via atest)  -->
+        <option name="run-command" value="locksettings set-disabled true" />
+    </target_preparer>
+
     <option name="test-suite-tag" value="apct" />
     <option name="test-tag" value="DocumentsUITests" />
     <test class="com.android.tradefed.testtype.AndroidJUnitTest" >

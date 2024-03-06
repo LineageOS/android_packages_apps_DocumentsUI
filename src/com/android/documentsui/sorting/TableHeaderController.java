@@ -19,7 +19,6 @@ package com.android.documentsui.sorting;
 import android.view.View;
 
 import com.android.documentsui.R;
-import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
 import javax.annotation.Nullable;
 
@@ -78,7 +77,7 @@ public final class TableHeaderController implements SortController.WidgetControl
         mModel.removeListener(mModelListener);
     }
 
-    private void bindCell(HeaderCell cell, @SortDimensionId int id) {
+    private void bindCell(HeaderCell cell, int id) {
         assert(cell != null);
         SortDimension dimension = mModel.getDimensionById(id);
 
