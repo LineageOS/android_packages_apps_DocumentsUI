@@ -110,8 +110,8 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
-
 import com.android.documentsui.util.VersionUtils;
+
 import com.google.common.base.Objects;
 
 import java.io.IOException;
@@ -833,137 +833,107 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         MutableSelection<String> selection = new MutableSelection<>();
         mSelectionMgr.copySelection(selection);
 
-        switch (item.getItemId()) {
-            case R.id.action_menu_select:
-            case R.id.dir_menu_open:
-                openDocuments(selection);
-                mActionModeController.finishActionMode();
-                return true;
-
-            case R.id.action_menu_open_with:
-            case R.id.dir_menu_open_with:
-                showChooserForDoc(selection);
-                return true;
-
-            case R.id.dir_menu_open_in_new_window:
-                mActions.openSelectedInNewWindow();
-                return true;
-
-            case R.id.action_menu_share:
-            case R.id.dir_menu_share:
-                mActions.shareSelectedDocuments();
-                return true;
-
-            case R.id.action_menu_delete:
-            case R.id.dir_menu_delete:
-                // deleteDocuments will end action mode if the documents are deleted.
-                // It won't end action mode if user cancels the delete.
-                mActions.showDeleteDialog();
-                return true;
-
-            case R.id.action_menu_copy_to:
-                transferDocuments(selection, null, FileOperationService.OPERATION_COPY);
-                // TODO: Only finish selection mode if copy-to is not canceled.
-                // Need to plum down into handling the way we do with deleteDocuments.
-                mActionModeController.finishActionMode();
-                return true;
-
-            case R.id.action_menu_compress:
-                transferDocuments(selection, mState.stack,
-                        FileOperationService.OPERATION_COMPRESS);
-                // TODO: Only finish selection mode if compress is not canceled.
-                // Need to plum down into handling the way we do with deleteDocuments.
-                mActionModeController.finishActionMode();
-                return true;
+        final int id = item.getItemId();
+        if (id == R.id.action_menu_select || id == R.id.dir_menu_open) {
+            openDocuments(selection);
+            mActionModeController.finishActionMode();
+            return true;
+        } else if (id == R.id.action_menu_open_with || id == R.id.dir_menu_open_with) {
+            showChooserForDoc(selection);
+            return true;
+        } else if (id == R.id.dir_menu_open_in_new_window) {
+            mActions.openSelectedInNewWindow();
+            return true;
+        } else if (id == R.id.action_menu_share || id == R.id.dir_menu_share) {
+            mActions.shareSelectedDocuments();
+            return true;
+        } else if (id == R.id.action_menu_delete || id == R.id.dir_menu_delete) {
+            // deleteDocuments will end action mode if the documents are deleted.
+            // It won't end action mode if user cancels the delete.
+            mActions.showDeleteDialog();
+            return true;
+        } else if (id == R.id.action_menu_copy_to) {
+            transferDocuments(selection, null, FileOperationService.OPERATION_COPY);
+            // TODO: Only finish selection mode if copy-to is not canceled.
+            // Need to plum down into handling the way we do with deleteDocuments.
+            mActionModeController.finishActionMode();
+            return true;
+        } else if (id == R.id.action_menu_compress) {
+            transferDocuments(selection, mState.stack,
+                    FileOperationService.OPERATION_COMPRESS);
+            // TODO: Only finish selection mode if compress is not canceled.
+            // Need to plum down into handling the way we do with deleteDocuments.
+            mActionModeController.finishActionMode();
+            return true;
 
             // TODO: Implement extract (to the current directory).
-            case R.id.action_menu_extract_to:
-                transferDocuments(selection, null, FileOperationService.OPERATION_EXTRACT);
-                // TODO: Only finish selection mode if compress-to is not canceled.
-                // Need to plum down into handling the way we do with deleteDocuments.
-                mActionModeController.finishActionMode();
+        } else if (id == R.id.action_menu_extract_to) {
+            transferDocuments(selection, null, FileOperationService.OPERATION_EXTRACT);
+            // TODO: Only finish selection mode if compress-to is not canceled.
+            // Need to plum down into handling the way we do with deleteDocuments.
+            mActionModeController.finishActionMode();
+            return true;
+        } else if (id == R.id.action_menu_move_to) {
+            if (mModel.hasDocuments(selection, DocumentFilters.NOT_MOVABLE)) {
+                mInjector.dialogs.showOperationUnsupported();
                 return true;
+            }
+            // Exit selection mode first, so we avoid deselecting deleted documents.
+            mActionModeController.finishActionMode();
+            transferDocuments(selection, null, FileOperationService.OPERATION_MOVE);
+            return true;
+        } else if (id == R.id.action_menu_inspect || id == R.id.dir_menu_inspect) {
+            mActionModeController.finishActionMode();
+            assert selection.size() <= 1;
+            DocumentInfo doc = selection.isEmpty()
+                    ? mActivity.getCurrentDirectory()
+                    : mModel.getDocuments(selection).get(0);
 
-            case R.id.action_menu_move_to:
-                if (mModel.hasDocuments(selection, DocumentFilters.NOT_MOVABLE)) {
-                    mInjector.dialogs.showOperationUnsupported();
-                    return true;
-                }
-                // Exit selection mode first, so we avoid deselecting deleted documents.
-                mActionModeController.finishActionMode();
-                transferDocuments(selection, null, FileOperationService.OPERATION_MOVE);
-                return true;
+            mActions.showInspector(doc);
+            return true;
+        } else if (id == R.id.dir_menu_cut_to_clipboard) {
+            mActions.cutToClipboard();
+            return true;
+        } else if (id == R.id.dir_menu_copy_to_clipboard) {
+            mActions.copyToClipboard();
+            return true;
+        } else if (id == R.id.dir_menu_paste_from_clipboard) {
+            pasteFromClipboard();
+            return true;
+        } else if (id == R.id.dir_menu_paste_into_folder) {
+            pasteIntoFolder();
+            return true;
+        } else if (id == R.id.action_menu_select_all || id == R.id.dir_menu_select_all) {
+            mActions.selectAllFiles();
+            return true;
+        } else if (id == R.id.action_menu_deselect_all || id == R.id.dir_menu_deselect_all) {
+            mActions.deselectAllFiles();
+            return true;
+        } else if (id == R.id.action_menu_rename || id == R.id.dir_menu_rename) {
+            renameDocuments(selection);
+            return true;
+        } else if (id == R.id.dir_menu_create_dir) {
+            mActions.showCreateDirectoryDialog();
+            return true;
+        } else if (id == R.id.dir_menu_view_in_owner) {
+            mActions.viewInOwner();
+            return true;
+        } else if (id == R.id.action_menu_sort) {
+            mActions.showSortDialog();
+            return true;
+        } else if (id == R.id.action_menu_add_shortcut || id == R.id.dir_menu_add_shortcut) {
+            assert selection.size() <= 1;
+            DocumentInfo documentInfo = selection.isEmpty()
+                    ? mActivity.getCurrentDirectory()
+                    : mModel.getDocuments(selection).get(0);
 
-            case R.id.action_menu_inspect:
-            case R.id.dir_menu_inspect:
-                mActionModeController.finishActionMode();
-                assert selection.size() <= 1;
-                DocumentInfo doc = selection.isEmpty()
-                        ? mActivity.getCurrentDirectory()
-                        : mModel.getDocuments(selection).get(0);
-
-                mActions.showInspector(doc);
-                return true;
-
-            case R.id.dir_menu_cut_to_clipboard:
-                mActions.cutToClipboard();
-                return true;
-
-            case R.id.dir_menu_copy_to_clipboard:
-                mActions.copyToClipboard();
-                return true;
-
-            case R.id.dir_menu_paste_from_clipboard:
-                pasteFromClipboard();
-                return true;
-
-            case R.id.dir_menu_paste_into_folder:
-                pasteIntoFolder();
-                return true;
-
-            case R.id.action_menu_select_all:
-            case R.id.dir_menu_select_all:
-                mActions.selectAllFiles();
-                return true;
-
-            case R.id.action_menu_deselect_all:
-            case R.id.dir_menu_deselect_all:
-                mActions.deselectAllFiles();
-                return true;
-
-            case R.id.action_menu_rename:
-            case R.id.dir_menu_rename:
-                renameDocuments(selection);
-                return true;
-
-            case R.id.dir_menu_create_dir:
-                mActions.showCreateDirectoryDialog();
-                return true;
-
-            case R.id.dir_menu_view_in_owner:
-                mActions.viewInOwner();
-                return true;
-
-            case R.id.action_menu_sort:
-                mActions.showSortDialog();
-                return true;
-
-            case R.id.action_menu_add_shortcut:
-            case R.id.dir_menu_add_shortcut:
-                assert selection.size() <= 1;
-                DocumentInfo documentInfo = selection.isEmpty()
-                        ? mActivity.getCurrentDirectory()
-                        : mModel.getDocuments(selection).get(0);
-
-                mActions.showAddShortcutDialog(documentInfo);
-                return true;
-
-            default:
-                if (DEBUG) {
-                    Log.d(TAG, "Unhandled menu item selected: " + item);
-                }
-                return false;
+            mActions.showAddShortcutDialog(documentInfo);
+            return true;
         }
+        if (DEBUG) {
+            Log.d(TAG, "Unhandled menu item selected: " + item);
+        }
+        return false;
     }
 
     private boolean onAccessibilityClick(View child) {

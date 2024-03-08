@@ -32,8 +32,9 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.DocumentsContract;
-import android.support.test.uiautomator.UiDevice;
 import android.util.Log;
+
+import androidx.test.uiautomator.UiDevice;
 
 import org.junit.After;
 import org.junit.Before;

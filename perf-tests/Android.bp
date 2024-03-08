@@ -28,7 +28,7 @@ android_test {
         "androidx.test.espresso.core",
         "mockito-target",
         "ub-janktesthelper",
-        "ub-uiautomator",
+        "androidx.test.uiautomator_uiautomator",
     ],
 
     platform_apis: true,

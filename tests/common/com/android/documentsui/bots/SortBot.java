@@ -33,19 +33,18 @@ import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.allOf;
 
 import android.content.Context;
-import android.support.test.uiautomator.By;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject2;
 import android.view.View;
 
 import androidx.annotation.StringRes;
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject2;
 
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
 import com.android.documentsui.sorting.SortListFragment;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
 import org.hamcrest.Matcher;
 
@@ -67,7 +66,7 @@ public class SortBot extends Bots.BaseBot {
         mUiBot = uiBot;
     }
 
-    public void sortBy(@SortDimensionId int id, @SortDirection int direction) {
+    public void sortBy(int id, @SortDirection int direction) {
         assert(direction != SortDimension.SORT_DIRECTION_NONE);
 
         final @StringRes int labelId = mSortModel.getDimensionById(id).getLabelId();
@@ -102,7 +101,7 @@ public class SortBot extends Bots.BaseBot {
         assertTrue(Matchers.present(mColumnBot.MATCHER));
     }
 
-    private boolean sortByMenu(@SortDimensionId int id, @SortDirection int direction) {
+    private boolean sortByMenu(int id, @SortDirection int direction) {
         assert(direction != SortDimension.SORT_DIRECTION_NONE);
 
         clickMenuSort();

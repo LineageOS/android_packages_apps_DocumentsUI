@@ -56,7 +56,6 @@ public class RecentsLoaderTests {
     private TestEnv mEnv;
     private TestActivity mActivity;
     private RecentsLoader mLoader;
-    private boolean mContentChanged;
 
     @Before
     public void setUp() {
@@ -148,12 +147,13 @@ public class RecentsLoaderTests {
 
     @Test
     public void testContentsUpdate_observable() throws Exception {
-        CountDownLatch latch = new CountDownLatch(1);
-        Runnable callback = () -> {
-            latch.countDown();
-            mContentChanged = true;
-        };
-        mLoader.setObserver(new LockingContentObserver(new ContentLock(), callback));
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        // Please be mindful of the fact that the callback will be invoked on the Main (aka UI)
+        // thread, while the test itself is running on another (dedicated) thread.
+        final Runnable onContentChangedCallback = latch::countDown;
+        mLoader.setObserver(new LockingContentObserver(
+                new ContentLock(), onContentChangedCallback));
 
         final DocumentInfo doc = mEnv.model.createFile("freddy.jpg");
         doc.lastModified = System.currentTimeMillis();
@@ -162,12 +162,12 @@ public class RecentsLoaderTests {
 
         mLoader.loadInBackground();
 
-        TestCursor c = (TestCursor) mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
+        final TestCursor c = (TestCursor) mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
                 .queryRecentDocuments(null, null);
         c.mockOnChange();
 
-        latch.await(1, TimeUnit.SECONDS);
-        assertTrue(mContentChanged);
+        final boolean onContentChangedCallbackInvoked = latch.await(1, TimeUnit.SECONDS);
+        assertTrue(onContentChangedCallbackInvoked);
     }
 
     @Test

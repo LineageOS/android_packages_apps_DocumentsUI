@@ -75,7 +75,6 @@ import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
-import com.android.documentsui.util.VersionUtils;
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
@@ -523,50 +522,39 @@ public abstract class BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-
-            case R.id.option_menu_create_dir:
-                getInjector().actions.showCreateDirectoryDialog();
-                return true;
-
-            case R.id.option_menu_search:
-                // SearchViewManager listens for this directly.
-                return false;
-
-            case R.id.option_menu_select_all:
-                getInjector().actions.selectAllFiles();
-                return true;
-
-            case R.id.option_menu_debug:
-                getInjector().actions.showDebugMessage();
-                return true;
-
-            case R.id.option_menu_sort:
-                getInjector().actions.showSortDialog();
-                return true;
-
-            case R.id.option_menu_launcher:
-                getInjector().actions.switchLauncherIcon();
-                return true;
-
-            case R.id.option_menu_show_hidden_files:
-                onClickedShowHiddenFiles();
-                return true;
-
-            case R.id.sub_menu_grid:
-                setViewMode(State.MODE_GRID);
-                return true;
-
-            case R.id.sub_menu_list:
-                setViewMode(State.MODE_LIST);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        final int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else if (id == R.id.option_menu_create_dir) {
+            getInjector().actions.showCreateDirectoryDialog();
+            return true;
+        } else if (id == R.id.option_menu_search) {
+            // SearchViewManager listens for this directly.
+            return false;
+        } else if (id == R.id.option_menu_select_all) {
+            getInjector().actions.selectAllFiles();
+            return true;
+        } else if (id == R.id.option_menu_debug) {
+            getInjector().actions.showDebugMessage();
+            return true;
+        } else if (id == R.id.option_menu_sort) {
+            getInjector().actions.showSortDialog();
+            return true;
+        } else if (id == R.id.option_menu_launcher) {
+            getInjector().actions.switchLauncherIcon();
+            return true;
+        } else if (id == R.id.option_menu_show_hidden_files) {
+            onClickedShowHiddenFiles();
+            return true;
+        } else if (id == R.id.sub_menu_grid) {
+            setViewMode(MODE_GRID);
+            return true;
+        } else if (id == R.id.sub_menu_list) {
+            setViewMode(State.MODE_LIST);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     protected final @Nullable DirectoryFragment getDirectoryFragment() {

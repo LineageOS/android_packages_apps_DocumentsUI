@@ -21,9 +21,10 @@ import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 
 import android.content.Context;
-import android.support.test.uiautomator.UiDevice;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import androidx.test.uiautomator.UiDevice;
 
 /**
  * A test helper class that provides support for keyboard manipulation.

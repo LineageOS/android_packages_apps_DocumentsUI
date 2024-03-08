@@ -19,9 +19,9 @@ package com.android.documentsui.bots;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
-import android.support.test.uiautomator.UiDevice;
 
 import androidx.test.InstrumentationRegistry;
+import androidx.test.uiautomator.UiDevice;
 
 import com.android.documentsui.services.TestNotificationService;
 

@@ -263,6 +263,17 @@ public abstract class TestActivity extends AbstractBase {
     public final void finish() {
         finishedHandler.accept(null);
     }
+
+    @Override
+    public boolean isInMultiWindowMode() {
+        // We are seeing this causing NPEs on older platform versions of some OEM, e.g. b/297710004.
+        // Hence we'll wrap this in a try-catch.
+        try {
+            return super.isInMultiWindowMode();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
 
 // Trick Mockito into finding our Addons methods correctly. W/o this
