@@ -175,6 +175,13 @@ public class SearchHistoryManager {
         }
     }
 
+    /**
+     * Closes the database.
+     */
+    public void closeDatabase() {
+        mHelper.close();
+    }
+
     private class DatabaseTask extends AsyncTask<Object, Void, Object> {
         private final String mKeyword;
         private final DATABASE_OPERATION mOperation;
