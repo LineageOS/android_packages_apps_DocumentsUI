@@ -52,13 +52,13 @@
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Zobraziť v službe <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nové okno"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Vystrihnúť"</string>
-    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Kopírovať"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Skopírovať"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Prilepiť"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"Prilepiť do priečinka"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"Zobraziť interné úložisko"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Skryť interné úložisko"</string>
     <string name="button_select" msgid="240863497069321364">"Vybrať"</string>
-    <string name="button_copy" msgid="8219059853840996027">"Kopírovať"</string>
+    <string name="button_copy" msgid="8219059853840996027">"Skopírovať"</string>
     <string name="button_compress" msgid="8951561310857223966">"Komprimovať"</string>
     <string name="button_extract" msgid="1038674453689912247">"Extrahovať"</string>
     <string name="button_move" msgid="8596460499325291272">"Presunúť"</string>
