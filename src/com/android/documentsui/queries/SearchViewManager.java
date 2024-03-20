@@ -227,7 +227,7 @@ public class SearchViewManager implements
         mSearchView.setOnCloseListener(this);
         mSearchView.setOnSearchClickListener(this);
         mSearchView.setOnQueryTextFocusChangeListener(this);
-        final View clearButton = mSearchView.findViewById(R.id.search_close_btn);
+        final View clearButton = mSearchView.findViewById(androidx.appcompat.R.id.search_close_btn);
         if (clearButton != null) {
             clearButton.setPadding(clearButton.getPaddingStart() + getPixelForDp(4),
                     clearButton.getPaddingTop(), clearButton.getPaddingEnd() + getPixelForDp(4),
@@ -239,7 +239,7 @@ public class SearchViewManager implements
             });
         }
         if (SdkLevel.isAtLeastU()) {
-            final View textView = mSearchView.findViewById(R.id.search_src_text);
+            final View textView = mSearchView.findViewById(androidx.appcompat.R.id.search_src_text);
             if (textView != null) {
                 try {
                     textView.setIsHandwritingDelegate(true);
