@@ -70,14 +70,6 @@ platform_compat_config {
     src: ":DocumentsUI",
 }
 
-filegroup {
-    name: "DocumentsUI-srcs",
-    srcs: [
-        "src/**/*.java",
-        ":statslog-docsui-java-gen",
-    ],
-}
-
 java_library {
     name: "docsui-statsd",
     srcs: [
@@ -101,14 +93,10 @@ genrule {
 }
 
 android_library {
-    name: "DocumentsUI-res-lib",
+    name: "DocumentsUI-lib",
+    defaults: ["documentsui_defaults"],
 
-    manifest: "AndroidManifest.xml",
-
-    static_libs: [
-        "androidx.appcompat_appcompat",
-        "com.google.android.material_material",
-    ],
+    manifest: "AndroidManifestLib.xml",
 
     resource_dirs: [
         "res",
@@ -116,6 +104,11 @@ android_library {
 
     aaptflags: [
         "--auto-add-overlay",
+    ],
+
+    srcs: [
+        "src/**/*.java",
+        ":statslog-docsui-java-gen",
     ],
 
     sdk_version: "system_current",
@@ -128,28 +121,13 @@ android_library {
 }
 
 android_library {
-    name: "DocumentsUIUnitTests-res-lib",
+    name: "DocumentsUIManifestLib",
+    defaults: ["documentsui_defaults"],
 
-    manifest: "AndroidManifestForUnitTests.xml",
+    manifest: "AndroidManifest.xml",
 
-    static_libs: [
-        "androidx.appcompat_appcompat",
-        "com.google.android.material_material",
-        "modules-utils-build_system",
-    ],
-
-    resource_dirs: [
-        "res",
-    ],
-
-    licenses: [
-        "Android-Apache-2.0",
-        "packages_apps_DocumentsUI_res_drawable_pd_license",
-    ],
-
-    aaptflags: [
-        "--auto-add-overlay",
-    ],
+    resource_dirs: [],
+    libs: ["DocumentsUI-lib"],
 
     sdk_version: "system_current",
     target_sdk_version: "33",
@@ -167,13 +145,8 @@ android_app {
 
     manifest: "AndroidManifest.xml",
 
-    srcs: [
-        ":DocumentsUI-srcs",
-    ],
-
-    resource_dirs: [
-        "res",
-    ],
+    static_libs: ["DocumentsUI-lib"],
+    resource_dirs: [],
 
     licenses: [
         "Android-Apache-2.0",
