@@ -57,6 +57,7 @@ public class LastAccessedProvider extends ContentProvider {
 
     private static final int URI_LAST_ACCESSED = 1;
 
+    public static final String METHOD_CLOSE_DATABASE = "closeDatabase";
     public static final String METHOD_PURGE = "purge";
     public static final String METHOD_PURGE_PACKAGE = "purgePackage";
 
@@ -236,6 +237,9 @@ public class LastAccessedProvider extends ContentProvider {
 
             return null;
 
+        } else if (METHOD_CLOSE_DATABASE.equals(method)) {
+            mHelper.close();
+            return null;
         } else {
             return super.call(method, arg, extras);
         }

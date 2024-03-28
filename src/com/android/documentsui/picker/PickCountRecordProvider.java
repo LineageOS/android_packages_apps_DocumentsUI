@@ -25,6 +25,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 
 public class PickCountRecordProvider extends ContentProvider {
@@ -39,6 +40,8 @@ public class PickCountRecordProvider extends ContentProvider {
     private static final String TABLE_PICK_COUNT_RECORD = "pickCountRecordTable";
 
     static final String AUTHORITY = "com.android.documentsui.pickCountRecord";
+
+    public static final String METHOD_CLOSE_DATABASE = "closeDatabase";
 
     static {
         MATCHER.addURI(AUTHORITY, "pickCountRecord/*", URI_PICK_RECORD);
@@ -147,5 +150,15 @@ public class PickCountRecordProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         return null;
+    }
+
+    @Override
+    public Bundle call(String method, String arg, Bundle extras) {
+        if (METHOD_CLOSE_DATABASE.equals(method)) {
+            mHelper.close();
+            return null;
+        } else {
+            return super.call(method, arg, extras);
+        }
     }
 }
