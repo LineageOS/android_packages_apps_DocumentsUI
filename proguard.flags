@@ -25,3 +25,6 @@
 # To prevent class not found exception in org.brotli.dec.Dictionary
 -keep final class org.brotli.dec.DictionaryData
 
+# Needed for zip file interactions
+-if class * extends org.apache.commons.compress.archivers.zip.ZipExtraField
+-keep class <1> { <init>(); }
