@@ -35,7 +35,7 @@
     <string name="menu_open_with" msgid="5507647065467520229">"దీనితో తెరువు"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"కొత్త విండోలో తెరవండి"</string>
     <string name="menu_save" msgid="5195367497138965168">"సేవ్ చేయండి"</string>
-    <string name="menu_share" msgid="4307140947108068356">"షేర్ చేయి"</string>
+    <string name="menu_share" msgid="4307140947108068356">"షేర్ చేయండి"</string>
     <string name="menu_delete" msgid="1022254131543256626">"తొలగించండి"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"అన్నింటినీ ఎంచుకోండి"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"అన్నింటి ఎంపికను తీసివేయండి"</string>
@@ -174,7 +174,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> అంశాన్ని తొలగించడం సాధ్యపడలేదు</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"వివరాలను చూడటానికి నొక్కండి"</string>
-    <string name="close" msgid="905969391788869975">"మూసివేయి"</string>
+    <string name="close" msgid="905969391788869975">"మూసివేయండి"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="other">ఈ ఫైళ్లు కాపీ కాలేదు: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="one">ఈ ఫైల్ కాపీ కాలేదు: <xliff:g id="LIST_0">%1$s</xliff:g></item>
