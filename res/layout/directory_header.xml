@@ -69,7 +69,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/root_info_header_horizontal_padding"
         android:layout_marginEnd="@dimen/root_info_header_horizontal_padding"
-        android:minHeight="@dimen/root_info_header_height">
+        android:minHeight="@dimen/root_info_header_height"
+        android:accessibilityHeading="true">
 
         <TextView
             android:id="@+id/header_title"
