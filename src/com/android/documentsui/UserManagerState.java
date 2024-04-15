@@ -90,8 +90,9 @@ public interface UserManagerState {
      * received in broadcast
      *
      * @param userId {@link UserId} for the profile for which the availability status changed
-     * @param action {@link Intent}.ACTION_PROFILE_UNAVAILABLE or
-     *               {@link Intent}.ACTION_PROFILE_AVAILABLE
+     * @param action {@link Intent}.ACTION_PROFILE_UNAVAILABLE and {@link
+     *     Intent}.ACTION_PROFILE_AVAILABLE, {@link Intent}.ACTION_PROFILE_ADDED} and {@link
+     *     Intent}.ACTION_PROFILE_REMOVED}
      */
     void onProfileActionStatusChange(String action, UserId userId);
 
@@ -99,6 +100,9 @@ public interface UserManagerState {
      * Sets the intent that triggered the launch of the DocsUI
      */
     void setCurrentStateIntent(Intent intent);
+
+    /** Returns true if there are hidden profiles */
+    boolean areHiddenInQuietModeProfilesPresent();
 
     /**
      * Creates an implementation of {@link UserManagerState}.
@@ -236,11 +240,13 @@ public interface UserManagerState {
             if (userProperties.getShowInQuietMode() != UserProperties.SHOW_IN_QUIET_MODE_HIDDEN) {
                 return;
             }
-            if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)) {
+            if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)
+                    || Intent.ACTION_PROFILE_REMOVED.equals(action)) {
                 synchronized (mUserIds) {
                     mUserIds.remove(userId);
                 }
-            } else if (Intent.ACTION_PROFILE_AVAILABLE.equals(action)) {
+            } else if (Intent.ACTION_PROFILE_AVAILABLE.equals(action)
+                    || Intent.ACTION_PROFILE_ADDED.equals(action)) {
                 synchronized (mUserIds) {
                     if (!mUserIds.contains(userId)) {
                         mUserIds.add(userId);
@@ -279,6 +285,23 @@ public interface UserManagerState {
         @Override
         public void setCurrentStateIntent(Intent intent) {
             mCurrentStateIntent = intent;
+        }
+
+        @Override
+        public boolean areHiddenInQuietModeProfilesPresent() {
+            if (!SdkLevel.isAtLeastV()) {
+                return false;
+            }
+
+            for (UserId userId : getUserIds()) {
+                if (mUserManager
+                                .getUserProperties(UserHandle.of(userId.getIdentifier()))
+                                .getShowInQuietMode()
+                        == UserProperties.SHOW_IN_QUIET_MODE_HIDDEN) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private List<UserId> getUserIdsInternal() {

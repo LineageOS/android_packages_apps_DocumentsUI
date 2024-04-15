@@ -262,8 +262,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             if (userProperties.getShowInQuietMode()
                     == UserProperties.SHOW_IN_QUIET_MODE_PAUSED) {
                 if (Objects.equal(mActivity.getSelectedUser(), userId)) {
-                    // We only need to refresh the layout when the selected user is equal to the
-                    // received profile user.
+                    // We only need to refresh the layout when the selected user is equal to
+                    // the received profile user.
                     onPausedProfileStatusChange(action, userId);
                 }
                 return;
@@ -308,6 +308,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private void onHiddenProfileStatusChange(String action, UserId userId) {
+        mActivity.updateRecentsSetting();
         if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)) {
             if (mProviderTestRunnable != null) {
                 mHandler.removeCallbacks(mProviderTestRunnable);
@@ -404,7 +405,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private boolean isProfileStatusAction(String action) {
         if (!SdkLevel.isAtLeastV()) return isManagedProfileAction(action);
         return Intent.ACTION_PROFILE_AVAILABLE.equals(action)
-                || Intent.ACTION_PROFILE_UNAVAILABLE.equals(action);
+                || Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)
+                || Intent.ACTION_PROFILE_ADDED.equals(action)
+                || Intent.ACTION_PROFILE_REMOVED.equals(action);
     }
 
     private static boolean isManagedProfileAction(String action) {
@@ -642,6 +645,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             if (SdkLevel.isAtLeastV()) {
                 filter.addAction(Intent.ACTION_PROFILE_AVAILABLE);
                 filter.addAction(Intent.ACTION_PROFILE_UNAVAILABLE);
+                filter.addAction(Intent.ACTION_PROFILE_ADDED);
+                filter.addAction(Intent.ACTION_PROFILE_REMOVED);
             }
             // DocumentsApplication will resend the broadcast locally after roots are updated.
             // Register to a local broadcast manager to avoid this fragment from updating before
