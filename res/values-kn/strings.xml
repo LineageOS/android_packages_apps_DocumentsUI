@@ -174,7 +174,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಅಳಿಸಲಾಗಲಿಲ್ಲ</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ"</string>
-    <string name="close" msgid="905969391788869975">"ಮುಚ್ಚು"</string>
+    <string name="close" msgid="905969391788869975">"ಮುಚ್ಚಿ"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="one">ಈ ಫೈಲ್‌ಗಳನ್ನು ನಕಲು ಮಾಡಿರಲಿಲ್ಲ: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="other">ಈ ಫೈಲ್‌ಗಳನ್ನು ನಕಲು ಮಾಡಿರಲಿಲ್ಲ: <xliff:g id="LIST_1">%1$s</xliff:g></item>
