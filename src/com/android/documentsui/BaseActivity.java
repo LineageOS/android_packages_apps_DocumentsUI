@@ -75,6 +75,7 @@ import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -376,6 +377,7 @@ public abstract class BaseActivity
 
         // Base classes must update result in their onCreate.
         setResult(AppCompatActivity.RESULT_CANCELED);
+        updateRecentsSetting();
     }
 
     private NavigationViewManager getNavigationViewManager(Breadcrumb breadcrumb,
@@ -1045,5 +1047,29 @@ public abstract class BaseActivity
          * @param uri Uri of the loaded directory. If recents, then null.
          */
         void onDirectoryLoaded(@Nullable Uri uri);
+    }
+
+    /**
+     * Updates the Recents preview settings based on presence of hidden profiles. Used not to leak
+     * Private profile existence when it was locked after the app was moved to the Recents.
+     */
+    public void updateRecentsSetting() {
+        if (!SdkLevel.isAtLeastV()) {
+            return;
+        }
+
+        if (mUserManagerState == null) {
+            Log.e(TAG, "Can't update Recents screenshot setting: User manager state is null.");
+            return;
+        }
+
+        if (DEBUG) {
+            Log.d(
+                    TAG,
+                    "Set recents screenshot to "
+                            + (!mUserManagerState.areHiddenInQuietModeProfilesPresent() ? "enabled"
+                            : "disabled"));
+        }
+        setRecentsScreenshotEnabled(!mUserManagerState.areHiddenInQuietModeProfilesPresent());
     }
 }
