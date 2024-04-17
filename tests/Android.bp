@@ -25,7 +25,6 @@ java_defaults {
     ],
 
     static_libs: [
-        "DocumentsUI-lib",
         "androidx.test.rules",
         "androidx.test.espresso.core",
         "androidx.test.ext.truth",
@@ -70,6 +69,10 @@ android_library {
         "unit/**/*.java",
     ],
 
+    libs: [
+        "DocumentsUI-lib",
+    ],
+
     resource_dirs: [
         "res",
     ],
@@ -88,6 +91,10 @@ android_library {
         "common/**/*.java",
         "functional/**/*.java",
         "unit/**/*.java",
+    ],
+
+    libs: [
+        "DocumentsUI-lib",
     ],
 
     asset_dirs: [
