@@ -84,4 +84,9 @@ public class TestUserManagerState implements UserManagerState {
     @Override
     public void setCurrentStateIntent(Intent intent) {
     }
+
+    @Override
+    public boolean areHiddenInQuietModeProfilesPresent() {
+        return false;
+    }
 }
