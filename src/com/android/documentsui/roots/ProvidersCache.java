@@ -58,6 +58,7 @@ import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -705,7 +706,8 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
     }
 
     private List<UserId> getUserIds() {
-        if (DocumentsApplication.getConfigStore().isPrivateSpaceInDocsUIEnabled()) {
+        if (DocumentsApplication.getConfigStore().isPrivateSpaceInDocsUIEnabled()
+                && SdkLevel.isAtLeastS()) {
             return DocumentsApplication.getUserManagerState(mContext).getUserIds();
         }
         return DocumentsApplication.getUserIdManager(mContext).getUserIds();

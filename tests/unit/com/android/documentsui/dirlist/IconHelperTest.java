@@ -49,7 +49,7 @@ public final class IconHelperTest {
     private Context mContext;
     private IconHelper mIconHelper;
     private ThumbnailCache mThumbnailCache = new ThumbnailCache(1000);
-    private final TestUserManagerState mTestUserManagerState = new TestUserManagerState();
+    private TestUserManagerState mTestUserManagerState;
     private final TestConfigStore mTestConfigStore = new TestConfigStore();
 
     @Parameter(0)
@@ -69,6 +69,12 @@ public final class IconHelperTest {
         mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (SdkLevel.isAtLeastS()) {
+            mTestUserManagerState = new TestUserManagerState();
+            mTestUserManagerState.userIds = SdkLevel.isAtLeastV()
+                    ? Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser)
+                    : Lists.newArrayList(mSystemUser, mManagedUser);
+        }
         mIconHelper = isPrivateSpaceEnabled
                 ? new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ true,
                 mThumbnailCache, null, mTestUserManagerState, mTestConfigStore)
@@ -76,9 +82,6 @@ public final class IconHelperTest {
                         mThumbnailCache, mManagedUser, null, mTestConfigStore);
         if (isPrivateSpaceEnabled) {
             mTestConfigStore.enablePrivateSpaceInPhotoPicker();
-            mTestUserManagerState.userIds = SdkLevel.isAtLeastV()
-                    ? Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser)
-                    : Lists.newArrayList(mSystemUser, mManagedUser);
         }
     }
 
@@ -125,7 +128,9 @@ public final class IconHelperTest {
     @Test
     public void testShouldShowBadge_returnFalseOnManagedUser_withoutMultipleUsers() {
         if (!isPrivateSpaceEnabled) return;
-        mTestUserManagerState.userIds = Lists.newArrayList(mManagedUser);
+        if (SdkLevel.isAtLeastS()) {
+            mTestUserManagerState.userIds = Lists.newArrayList(mManagedUser);
+        }
         mIconHelper = new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ true,
                 mThumbnailCache, /* mManagedUser= */ null, mTestUserManagerState, mTestConfigStore);
         assertThat(mIconHelper.shouldShowBadge(mManagedUser.getIdentifier())).isFalse();

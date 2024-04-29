@@ -36,6 +36,7 @@ import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootCursorWrapper;
+import com.android.modules.utils.build.SdkLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,7 +150,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
         holder.setAction(mEnv.getDisplayState().action);
         holder.bindPreviewIcon(mEnv.getDisplayState().shouldShowPreview() && enabled,
                 view -> mEnv.getActionHandler().previewItem(holder.getItemDetails()));
-        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
             holder.bindProfileIcon(mIconHelper.shouldShowBadge(userIdIdentifier), userIdIdentifier);
         } else {
             holder.bindBriefcaseIcon(mIconHelper.shouldShowBadge(userIdIdentifier));

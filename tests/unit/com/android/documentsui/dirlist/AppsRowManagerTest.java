@@ -93,7 +93,6 @@ public class AppsRowManagerTest {
     public void setUp() {
         mActionHandler = new TestActionHandler();
         mTestUserIdManager = new TestUserIdManager();
-        mTestUserManagerState = new TestUserManagerState();
 
         mAppsRowManager = getAppsRowManager();
 

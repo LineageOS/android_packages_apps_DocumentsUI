@@ -63,7 +63,7 @@ public class RootsFragmentTest {
     private RootsFragment mRootsFragment;
     private TestEnv mEnv;
     private final TestConfigStore mTestConfigStore = new TestConfigStore();
-    private final TestUserManagerState mTestUserManagerState = new TestUserManagerState();
+    private TestUserManagerState mTestUserManagerState;
 
     private static final String[] EXPECTED_SORTED_RESULT = {
             TestProvidersAccess.RECENTS.title,
@@ -105,11 +105,12 @@ public class RootsFragmentTest {
         when(mContext.getApplicationContext()).thenReturn(
                 InstrumentationRegistry.getInstrumentation().getTargetContext());
 
-        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
-        if (isPrivateSpaceEnabled) {
+        if (SdkLevel.isAtLeastS() && isPrivateSpaceEnabled) {
             mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            mTestUserManagerState = new TestUserManagerState();
             mTestUserManagerState.canFrowardToProfileIdMap.put(UserId.DEFAULT_USER, true);
         }
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
         mRootsFragment = new RootsFragment();
     }
 
