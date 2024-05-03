@@ -57,6 +57,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiresApi(Build.VERSION_CODES.S)
 public interface UserManagerState {
 
     /**

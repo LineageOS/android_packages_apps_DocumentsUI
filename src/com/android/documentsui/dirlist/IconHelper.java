@@ -49,6 +49,7 @@ import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.base.UserId;
+import com.android.modules.utils.build.SdkLevel;
 
 import java.util.function.BiConsumer;
 
@@ -271,7 +272,7 @@ public class IconHelper {
      * Returns true if we should show a briefcase icon for the given user.
      */
     public boolean shouldShowBadge(int userIdIdentifier) {
-        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
             return mMaybeShowBadge
                     && mUserManagerState.getUserIds().size() > 1
                     && ActivityManager.getCurrentUser() != userIdIdentifier;

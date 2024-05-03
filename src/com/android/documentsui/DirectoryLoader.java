@@ -48,6 +48,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
+import com.android.modules.utils.build.SdkLevel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -331,7 +332,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     }
 
     private List<UserId> getUserIds() {
-        if (mState.configStore.isPrivateSpaceInDocsUIEnabled()) {
+        if (mState.configStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
             return DocumentsApplication.getUserManagerState(getContext()).getUserIds();
         }
         return DocumentsApplication.getUserIdManager(getContext()).getUserIds();

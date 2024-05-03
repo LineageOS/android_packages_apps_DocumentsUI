@@ -66,6 +66,7 @@ import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 import com.android.documentsui.util.CrossProfileUtils;
 import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -230,7 +231,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         moreApps.setComponent(null);
         moreApps.setPackage(null);
         if (mState.supportsCrossProfile) {
-            if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+            if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
                 mState.canForwardToProfileIdMap = mUserManagerState.getCanForwardToProfileIdMap(
                         moreApps);
             } else if (CrossProfileUtils.getCrossProfileResolveInfo(UserId.CURRENT_USER,
