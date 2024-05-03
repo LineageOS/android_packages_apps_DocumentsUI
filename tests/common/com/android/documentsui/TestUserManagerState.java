@@ -18,7 +18,10 @@ package com.android.documentsui;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.android.documentsui.base.UserId;
 
@@ -27,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiresApi(Build.VERSION_CODES.S)
 public class TestUserManagerState implements UserManagerState {
 
     private static final String TAG = "TestUserManagerState";

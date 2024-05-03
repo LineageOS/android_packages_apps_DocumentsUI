@@ -652,15 +652,16 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private DocumentsAdapter getModelBackedDocumentsAdapter() {
-        return mState.configStore.isPrivateSpaceInDocsUIEnabled()
-                ? new DirectoryAddonsAdapter(
-                mAdapterEnv, new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper,
-                mInjector.fileTypeLookup, mState.configStore),
-                UserId.CURRENT_USER,
-                mActivity.getSelectedUser(),
-                DocumentsApplication.getUserManagerState(getContext()).getUserIdToLabelMap(),
-                getContext().getSystemService(UserManager.class), mState.configStore)
-                : new DirectoryAddonsAdapter(
+        if (SdkLevel.isAtLeastS() && mState.configStore.isPrivateSpaceInDocsUIEnabled()) {
+            return new DirectoryAddonsAdapter(
+                    mAdapterEnv, new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper,
+                    mInjector.fileTypeLookup, mState.configStore),
+                    UserId.CURRENT_USER,
+                    mActivity.getSelectedUser(),
+                    DocumentsApplication.getUserManagerState(getContext()).getUserIdToLabelMap(),
+                    getContext().getSystemService(UserManager.class), mState.configStore);
+        }
+        return new DirectoryAddonsAdapter(
                         mAdapterEnv,
                         new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper,
                                 mInjector.fileTypeLookup, mState.configStore),

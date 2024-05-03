@@ -36,6 +36,7 @@ import com.android.documentsui.dirlist.AppsRowItemData.RootData;
 import com.android.documentsui.sidebar.AppItem;
 import com.android.documentsui.sidebar.Item;
 import com.android.documentsui.sidebar.RootItem;
+import com.android.modules.utils.build.SdkLevel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -151,7 +152,7 @@ public class AppsRowManager {
     }
 
     private List<UserId> getUserIds() {
-        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
             return mUserManagerState.getUserIds();
         }
         return mUserIdManager.getUserIds();

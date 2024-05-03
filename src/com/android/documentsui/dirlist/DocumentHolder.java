@@ -202,7 +202,7 @@ public abstract class DocumentHolder
 
     protected String getPreviewIconContentDescription(boolean isNonPersonalProfile,
             String fileName, UserId userId) {
-        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
             UserManagerState userManagerState = DocumentsApplication.getUserManagerState(mContext);
             String profileLabel = userManagerState.getUserIdToLabelMap().get(userId);
             return isNonPersonalProfile
