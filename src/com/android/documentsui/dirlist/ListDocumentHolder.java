@@ -174,6 +174,7 @@ final class ListDocumentHolder extends DocumentHolder {
     }
 
     @Override
+    @RequiresApi(Build.VERSION_CODES.S)
     public void bindProfileIcon(boolean show, int userIdIdentifier) {
         Map<UserId, Drawable> userIdToBadgeMap = DocumentsApplication.getUserManagerState(
                 mContext).getUserIdToBadgeMap();

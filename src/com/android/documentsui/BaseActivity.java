@@ -308,7 +308,7 @@ public abstract class BaseActivity
         // If private space feature flag is enabled, we should store the intent that launched docsUi
         // so that we can use this intent to get CrossProfileResolveInfo when ever we want to,
         // for example when ACTION_PROFILE_AVAILABLE intent is received
-        if (mUserManagerState != null) {
+        if (mUserManagerState != null && SdkLevel.isAtLeastS()) {
             mUserManagerState.setCurrentStateIntent(intent);
         }
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,

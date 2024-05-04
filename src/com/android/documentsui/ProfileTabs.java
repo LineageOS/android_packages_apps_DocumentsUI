@@ -180,7 +180,7 @@ public class ProfileTabs implements ProfileTabsAddons {
             mUserIds.addAll(userIds);
             mTabs.removeAllTabs();
             if (mUserIds.size() > 1) {
-                if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+                if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
                     addTabsPrivateSpaceEnabled();
                 } else {
                     addTabsPrivateSpaceDisabled();
@@ -190,7 +190,7 @@ public class ProfileTabs implements ProfileTabsAddons {
     }
 
     private List<UserId> getUserIds() {
-        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
             assert mUserManagerState != null;
             return mUserManagerState.getUserIds();
         }
@@ -198,6 +198,7 @@ public class ProfileTabs implements ProfileTabsAddons {
         return mUserIdManager.getUserIds();
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     private void addTabsPrivateSpaceEnabled() {
         // set setSelected to false otherwise it will trigger callback.
         assert mUserManagerState != null;
