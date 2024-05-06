@@ -27,24 +27,26 @@ import android.view.MotionEvent;
 import android.view.MotionEvent.PointerCoords;
 import android.view.MotionEvent.PointerProperties;
 
-import androidx.test.filters.SmallTest;
 import androidx.test.filters.Suppress;
 
 import com.android.documentsui.R;
+import com.android.documentsui.TestConfigStore;
 
-@SmallTest
 public class DocumentHolderTest extends AndroidTestCase {
 
     DocumentHolder mHolder;
     TestListener mListener;
+    TestConfigStore mTestConfigStore = new TestConfigStore();
 
     @Override
     public void setUp() throws Exception {
         Context context = getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        mHolder = new DocumentHolder(getContext(), inflater.inflate(R.layout.item_doc_list, null)) {
+        mHolder = new DocumentHolder(getContext(), inflater.inflate(R.layout.item_doc_list, null),
+                mTestConfigStore) {
             @Override
-            public void bind(Cursor cursor, String modelId) {}
+            public void bind(Cursor cursor, String modelId) {
+            }
         };
 
         mListener = new TestListener();
@@ -67,12 +69,12 @@ public class DocumentHolderTest extends AndroidTestCase {
     public MotionEvent createEvent(int tooltype) {
         long time = SystemClock.uptimeMillis();
 
-        PointerProperties properties[] = new PointerProperties[] {
+        PointerProperties[] properties = new PointerProperties[]{
                 new PointerProperties()
         };
         properties[0].toolType = tooltype;
 
-        PointerCoords coords[] = new PointerCoords[] {
+        PointerCoords[] coords = new PointerCoords[]{
                 new PointerCoords()
         };
 
@@ -96,7 +98,7 @@ public class DocumentHolderTest extends AndroidTestCase {
                 0, // edgeflags
                 0, // source
                 0 // flags
-                );
+        );
     }
 
     private class TestListener extends KeyboardEventListener<DocumentItemDetails> {

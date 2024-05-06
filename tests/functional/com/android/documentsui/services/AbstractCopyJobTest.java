@@ -23,8 +23,9 @@ import static org.junit.Assert.assertNotEquals;
 import android.app.Notification;
 import android.net.Uri;
 import android.provider.DocumentsContract;
-import android.test.suitebuilder.annotation.MediumTest;
 import android.text.format.DateUtils;
+
+import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;

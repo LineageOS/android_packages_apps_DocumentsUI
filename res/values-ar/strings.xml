@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"يتعذر تحميل المحتوى في الوقت الحالي"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"تطبيقات العمل متوقفة مؤقتًا"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"تفعيل تطبيقات العمل"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"تطبيقات <xliff:g id="PROFILE">%1$s</xliff:g> متوقفة مؤقتًا"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"تفعيل تطبيقات <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"لا يمكن اختيار ملفات العمل"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"لا يسمح لك مشرف تكنولوجيا المعلومات بالوصول إلى ملفات العمل من تطبيق شخصي."</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"لا يمكن اختيار ملفات شخصية"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"لا يسمح لك مشرف تكنولوجيا المعلومات بالوصول إلى الملفات الشخصية من تطبيق عمل."</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"يتعذّر اختيار ملفات <xliff:g id="PROFILE">%1$s</xliff:g>."</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"لا يسمح لك مشرف تكنولوجيا المعلومات في مؤسستك بالوصول إلى ملفات <xliff:g id="PROFILE_0">%1$s</xliff:g> من خلال تطبيق <xliff:g id="PROFILE_1">%2$s</xliff:g>."</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"لا يمكن حفظ الملفات في الملف الشخصي للعمل"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"لا يسمح لك مشرف تكنولوجيا المعلومات بحفظ الملفات الشخصية في ملفك الشخصي للعمل."</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"لا يمكن حفظ الملفات في الملف الشخصي"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"لا يسمح لك مشرف تكنولوجيا المعلومات بحفظ ملفات العمل في ملفك الشخصي."</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"يتعذّر الحفظ في ملف <xliff:g id="PROFILE">%1$s</xliff:g>."</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"لا يسمح لك مشرف تكنولوجيا المعلومات في مؤسستك بحفظ ملفات <xliff:g id="PROFILE_0">%1$s</xliff:g> في ملف <xliff:g id="PROFILE_1">%2$s</xliff:g>."</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"هذا الإجراء غير مسموح به."</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"لمعرفة مزيد من المعلومات، يمكنك التواصل مع مشرف تكنولوجيا المعلومات."</string>
     <string name="root_recent" msgid="1080156975424341623">"المحتوى المستخدَم أو المعدَّل مؤخرًا"</string>
@@ -354,6 +360,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"اسم جديد"</string>
     <string name="preview_file" msgid="4056622696305432343">"معاينة الملف <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"معاينة ملف العمل <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"معاينة الملف \"<xliff:g id="FILENAME">%2$s</xliff:g>\" في <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"تصفّح الملفات في تطبيقات أخرى"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"مجهول"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"استخدام هذا المجلد"</string>
@@ -362,7 +369,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"لا يمكن استخدام هذا المجلد"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"لحماية خصوصيتك، اختَر مجلدًا آخر"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"إنشاء مجلد جديد"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"البحث في هذا الهاتف"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"البحث في هذا الجهاز"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"حذف سجلّ البحث <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"شخصي"</string>
     <string name="work_tab" msgid="7265359366883747413">"للعمل"</string>

@@ -28,32 +28,42 @@ import android.content.pm.ResolveInfo;
 
 import androidx.test.filters.MediumTest;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.TestConfigStore;
+import com.android.documentsui.TestUserManagerState;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
+import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
+import com.android.modules.utils.build.SdkLevel;
+
+import com.google.android.collect.Lists;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * An unit test for RootsFragment.
+ * A unit test for RootsFragment.
  */
-@RunWith(AndroidJUnit4.class)
+@RunWith(Parameterized.class)
 @MediumTest
 public class RootsFragmentTest {
 
     private Context mContext;
     private DevicePolicyManager mDevicePolicyManager;
     private RootsFragment mRootsFragment;
+    private TestEnv mEnv;
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
+    private final TestUserManagerState mTestUserManagerState = new TestUserManagerState();
 
     private static final String[] EXPECTED_SORTED_RESULT = {
             TestProvidersAccess.RECENTS.title,
@@ -69,15 +79,37 @@ public class RootsFragmentTest {
             TestProvidersAccess.INSPECTOR.title,
             TestProvidersAccess.PICKLES.title};
 
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
+
     @Before
     public void setUp() {
+        mEnv = TestEnv.create();
+        mEnv.state.configStore = mTestConfigStore;
+
         mContext = mock(Context.class);
         mDevicePolicyManager = mock(DevicePolicyManager.class);
         when(mContext.getResources()).thenReturn(
                 InstrumentationRegistry.getInstrumentation().getTargetContext().getResources());
         when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE))
                 .thenReturn(mDevicePolicyManager);
+        when(mContext.getApplicationContext()).thenReturn(
+                InstrumentationRegistry.getInstrumentation().getTargetContext());
 
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            mTestUserManagerState.canFrowardToProfileIdMap.put(UserId.DEFAULT_USER, true);
+        }
         mRootsFragment = new RootsFragment();
     }
 
@@ -85,12 +117,12 @@ public class RootsFragmentTest {
     public void testSortLoadResult_WithCorrectOrder() {
         List<Item> items = mRootsFragment.sortLoadResult(
                 mContext,
-                new State(),
+                mEnv.state,
                 createFakeRootInfoList(),
                 null /* excludePackage */, null /* handlerAppIntent */, new TestProvidersAccess(),
                 UserId.DEFAULT_USER,
                 Collections.singletonList(UserId.DEFAULT_USER),
-                /* maybeShowBadge */ false);
+                /* maybeShowBadge */ false, mTestUserManagerState);
         assertTrue(assertSortedResult(items));
     }
 

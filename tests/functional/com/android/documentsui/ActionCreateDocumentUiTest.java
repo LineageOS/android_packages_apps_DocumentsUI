@@ -80,8 +80,8 @@ public class ActionCreateDocumentUiTest extends DocumentsUiTestBase {
         final String fileName = UUID.randomUUID() + ".txt";
 
         bots.main.setDialogText(fileName);
-        bots.main.clickSaveButton();
         device.waitForIdle();
+        bots.main.clickSaveButton();
 
         final Instrumentation.ActivityResult activityResult = mRule.getActivityResult();
         assertThat(activityResult.getResultCode()).isEqualTo(RESULT_OK);
@@ -93,8 +93,8 @@ public class ActionCreateDocumentUiTest extends DocumentsUiTestBase {
         assertThat(uri.getPath()).contains(fileName);
 
         assertThat(resultData.getFlags()).isEqualTo(FLAG_GRANT_READ_URI_PERMISSION
-                        | FLAG_GRANT_WRITE_URI_PERMISSION
-                        | FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                | FLAG_GRANT_WRITE_URI_PERMISSION
+                | FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 
         final boolean deletedSuccessfully =
                 DocumentsContract.deleteDocument(context.getContentResolver(), uri);

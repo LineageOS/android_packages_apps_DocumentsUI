@@ -26,8 +26,8 @@ import android.os.RemoteException;
 import android.support.test.jank.GfxMonitor;
 import android.support.test.jank.JankTest;
 import android.support.test.jank.JankTestBase;
-import android.test.suitebuilder.annotation.LargeTest;
 
+import androidx.test.filters.LargeTest;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiScrollable;
 

@@ -37,12 +37,20 @@ import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.ui.TestDialogController;
 import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
+
+import com.google.common.collect.Lists;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 @SmallTest
+@RunWith(Parameterized.class)
 public class PickActivityTest {
 
     private static final String RESULT_EXTRA = "test_result_extra";
@@ -51,6 +59,19 @@ public class PickActivityTest {
     private Context mTargetContext;
     private Intent mIntentGetContent;
     private TestDialogController mTestDialogs;
+    private TestConfigStore mTestConfigStore;
+
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
 
     @Rule
     public final ActivityTestRule<PickActivity> mRule =
@@ -67,6 +88,9 @@ public class PickActivityTest {
         mIntentGetContent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, hintUri);
 
         mTestDialogs = new TestDialogController();
+        mTestConfigStore = new TestConfigStore();
+
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
     }
 
     @Test
@@ -77,7 +101,13 @@ public class PickActivityTest {
         doc.documentId = "documentId";
 
         PickActivity pickActivity = mRule.launchActivity(mIntentGetContent);
-        pickActivity.mState.canShareAcrossProfile = true;
+        pickActivity.mState.configStore = mTestConfigStore;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            pickActivity.mState.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
+        } else {
+            pickActivity.mState.canShareAcrossProfile = true;
+        }
         pickActivity.onDocumentPicked(doc);
         SystemClock.sleep(3000);
 
@@ -96,7 +126,15 @@ public class PickActivityTest {
             doc.documentId = "documentId";
 
             PickActivity pickActivity = mRule.launchActivity(mIntentGetContent);
-            pickActivity.mState.canShareAcrossProfile = true;
+            pickActivity.mState.configStore = mTestConfigStore;
+            if (isPrivateSpaceEnabled) {
+                mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+                pickActivity.mState.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
+                pickActivity.mState.canForwardToProfileIdMap.put(
+                        TestProvidersAccess.OtherUser.USER_ID, true);
+            } else {
+                pickActivity.mState.canShareAcrossProfile = true;
+            }
             pickActivity.onDocumentPicked(doc);
             SystemClock.sleep(3000);
 
@@ -114,7 +152,13 @@ public class PickActivityTest {
         doc.documentId = "documentId";
 
         PickActivity pickActivity = mRule.launchActivity(mIntentGetContent);
-        pickActivity.mState.canShareAcrossProfile = false;
+        pickActivity.mState.configStore = mTestConfigStore;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            pickActivity.mState.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
+        } else {
+            pickActivity.mState.canShareAcrossProfile = false;
+        }
         pickActivity.getInjector().dialogs = mTestDialogs;
         pickActivity.onDocumentPicked(doc);
         SystemClock.sleep(3000);

@@ -24,12 +24,12 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.test.suitebuilder.annotation.LargeTest;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.BaseActivity.EventListener;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.files.FilesActivity;
-import com.android.documentsui.ActivityTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -149,8 +149,8 @@ public final class UserId {
      * Returns true if the this user is in quiet mode.
      */
     public boolean isQuietModeEnabled(Context context) {
-        final UserManager userManager =
-                (UserManager) context.getSystemService(Context.USER_SERVICE);
+        final UserManager userManager = context.getSystemService(UserManager.class);
+        assert userManager != null;
         return userManager.isQuietModeEnabled(mUserHandle);
     }
 

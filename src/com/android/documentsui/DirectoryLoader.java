@@ -129,8 +129,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             if (mSearchMode) {
                 queryArgs.putAll(mQueryArgs);
                 if (shouldSearchAcrossProfile()) {
-                    for (UserId userId : DocumentsApplication.getUserIdManager(
-                            getContext()).getUserIds()) {
+                    for (UserId userId : getUserIds()) {
                         if (mState.canInteractWith(userId)) {
                             userIds.add(userId);
                         }
@@ -329,5 +328,12 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             return true;
         }
         return false;
+    }
+
+    private List<UserId> getUserIds() {
+        if (mState.configStore.isPrivateSpaceInDocsUIEnabled()) {
+            return DocumentsApplication.getUserManagerState(getContext()).getUserIds();
+        }
+        return DocumentsApplication.getUserIdManager(getContext()).getUserIds();
     }
 }

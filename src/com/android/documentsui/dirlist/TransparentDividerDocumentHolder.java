@@ -21,6 +21,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.Space;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.R;
 import com.android.documentsui.base.State;
 
@@ -32,8 +33,8 @@ final class TransparentDividerDocumentHolder extends MessageHolder {
     private final int mVisibleHeight;
     private State mState;
 
-    public TransparentDividerDocumentHolder(Context context) {
-        super(context, new Space(context));
+    TransparentDividerDocumentHolder(Context context, ConfigStore configStore) {
+        super(context, new Space(context), configStore);
 
         mVisibleHeight = context.getResources().getDimensionPixelSize(
                 R.dimen.grid_section_separator_height);
@@ -51,6 +52,5 @@ final class TransparentDividerDocumentHolder extends MessageHolder {
         } else {
             itemView.setMinimumHeight(0);
         }
-        return;
     }
 }

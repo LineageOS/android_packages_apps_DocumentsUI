@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Ekki hægt að hlaða efni í augnablikinu"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Hlé gert á vinnuforritum"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Kveikja á vinnuforritum"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Hlé var gert á <xliff:g id="PROFILE">%1$s</xliff:g>-forritum"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Kveikja á <xliff:g id="PROFILE">%1$s</xliff:g>-forritum"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ekki er hægt að velja vinnuskrár"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Kerfisstjórinn þinn leyfir þér ekki að opna vinnuskrár í forritum til einkanota"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Ekki er hægt að velja einkaskrár"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Kerfisstjórinn þinn leyfir þér ekki að opna einkaskrár í vinnuforriti"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Ekki er hægt að velja <xliff:g id="PROFILE">%1$s</xliff:g>-skrár"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"Stjórnandinn þinn leyfir ekki aðgang að <xliff:g id="PROFILE_0">%1$s</xliff:g>-skrám úr <xliff:g id="PROFILE_1">%2$s</xliff:g>-forriti"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ekki er hægt að vista á vinnusniði"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Kerfisstjórinn þinn leyfir þér ekki að vista einkaskrár á vinnusniðinu"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Ekki er hægt að vista á einkasniði"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Kerfisstjórinn þinn leyfir þér ekki að vista vinnuskrár á einkasniði"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Ekki er hægt að vista á <xliff:g id="PROFILE">%1$s</xliff:g>-sniði"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"Stjórnandinn þinn leyfir ekki vistun <xliff:g id="PROFILE_0">%1$s</xliff:g>-skráa á <xliff:g id="PROFILE_1">%2$s</xliff:g>-sniði"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Þessi aðgerð er ekki leyfð"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Hafðu samband við kerfisstjórann til að fá frekari upplýsingar"</string>
     <string name="root_recent" msgid="1080156975424341623">"Nýlegt"</string>
@@ -266,6 +272,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Nýtt heiti"</string>
     <string name="preview_file" msgid="4056622696305432343">"Forskoða skrána <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Forskoða vinnuskrána <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Forskoða <xliff:g id="PROFILE">%1$s</xliff:g>-skrána „<xliff:g id="FILENAME">%2$s</xliff:g>“"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Skoða skrár í öðrum forritum"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Nafnlaus"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Nota þessa möppu"</string>
@@ -274,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Ekki er hægt að nota þessa möppu"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Veldu aðra möppu til að tryggja persónuvernd þína"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Búa til nýja möppu"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Leita í þessum síma"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Leita í þessu tæki"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Eyða leitarferli <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Persónulegt"</string>
     <string name="work_tab" msgid="7265359366883747413">"Vinna"</string>

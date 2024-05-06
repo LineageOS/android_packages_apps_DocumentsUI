@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.R;
 import com.android.documentsui.base.State.ViewMode;
 
@@ -45,8 +46,8 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
     private final Button mActionButton;
     private Message mMessage;
 
-    public HeaderMessageDocumentHolder(Context context, ViewGroup parent) {
-        super(context, parent, R.layout.item_doc_header_message);
+    HeaderMessageDocumentHolder(Context context, ViewGroup parent, ConfigStore configStore) {
+        super(context, parent, R.layout.item_doc_header_message, configStore);
 
         mRoot = itemView.findViewById(R.id.item_root);
         mIcon = (ImageView) itemView.findViewById(R.id.message_icon);

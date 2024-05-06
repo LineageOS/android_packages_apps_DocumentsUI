@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.android.documentsui.picker;
 
 import static android.provider.DocumentsContract.isDocumentUri;
@@ -53,7 +52,6 @@ import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
-import com.android.documentsui.UserIdManager;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -84,8 +82,8 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     private static final String TAG = "PickerActionHandler";
 
     /**
-     * Used to prevent applications from using {@link Intent.ACTION_OPEN_DOCUMENT_TREE} and
-     * the {@link Intent.ACTION_OPEN_DOCUMENT} actions to request that the user select individual
+     * Used to prevent applications from using {@link Intent#ACTION_OPEN_DOCUMENT_TREE} and
+     * the {@link Intent#ACTION_OPEN_DOCUMENT} actions to request that the user select individual
      * files from "/Android/data", "/Android/obb", "/Android/sandbox" directories and all their
      * subdirectories (on the external storage), in accordance with the SAF privacy restrictions
      * introduced in Android 11 (R).
@@ -100,8 +98,6 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     private final Features mFeatures;
     private final ActivityConfig mConfig;
     private final LastAccessedStorage mLastAccessed;
-    private final UserIdManager mUserIdManager;
-
     private UpdatePickResultTask mUpdatePickResultTask;
 
     ActionHandler(
@@ -112,21 +108,19 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
             Injector injector,
-            LastAccessedStorage lastAccessed,
-            UserIdManager userIdManager) {
+            LastAccessedStorage lastAccessed) {
         super(activity, state, providers, docs, searchMgr, executors, injector);
 
         mConfig = injector.config;
         mFeatures = injector.features;
         mLastAccessed = lastAccessed;
         mUpdatePickResultTask = new UpdatePickResultTask(
-            activity.getApplicationContext(), mInjector.pickResult);
-        mUserIdManager = userIdManager;
+                activity.getApplicationContext(), mInjector.pickResult);
     }
 
     @Override
     public void initLocation(Intent intent) {
-        assert(intent != null);
+        assert (intent != null);
 
         // stack is initialized if it's restored from bundle, which means we're restoring a
         // previously stored state.
@@ -247,7 +241,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         final String docId = DocumentsContract.getDocumentId(uri);
         final String filePath;
         try {
-             filePath = FileUtils.getPathFromStorageDocId(docId);
+            filePath = FileUtils.getPathFromStorageDocId(docId);
         } catch (IOException e) {
             Log.w(TAG, "Could not get canonical file path from docId '" + docId + "'");
             return true;
@@ -431,7 +425,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     }
 
     void pickDocument(FragmentManager fm, DocumentInfo pickTarget) {
-        assert(pickTarget != null);
+        assert (pickTarget != null);
         mInjector.pickResult.increaseActionCount();
         Uri result;
         switch (mState.action) {
@@ -450,7 +444,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
 
     void saveDocument(
             String mimeType, String displayName, BooleanConsumer inProgressStateListener) {
-        assert(mState.action == ACTION_CREATE);
+        assert (mState.action == ACTION_CREATE);
         mInjector.pickResult.increaseActionCount();
         new CreatePickedDocumentTask(
                 mActivity,
@@ -467,9 +461,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     // User requested to overwrite a target. If confirmed by user #finishPicking() will be
     // called.
     void saveDocument(FragmentManager fm, DocumentInfo replaceTarget) {
-        assert(mState.action == ACTION_CREATE);
+        assert (mState.action == ACTION_CREATE);
         mInjector.pickResult.increaseActionCount();
-        assert(replaceTarget != null);
+        assert (replaceTarget != null);
 
         // Adding a confirmation dialog breaks an inherited CTS test (testCreateExisting), so we
         // need to add a feature flag to bypass this feature in ARC++ environment.
@@ -488,7 +482,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
                 () -> {
                     onPickFinished(docs);
                 }
-        ) .executeOnExecutor(getExecutorForCurrentDirectory());
+        ).executeOnExecutor(getExecutorForCurrentDirectory());
     }
 
     private void onPickFinished(Uri... uris) {
@@ -509,7 +503,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         }
 
         updatePickResult(
-            intent, mSearchMgr.isSearching(), Metrics.sanitizeRoot(mState.stack.getRoot()));
+                intent, mSearchMgr.isSearching(), Metrics.sanitizeRoot(mState.stack.getRoot()));
 
         // TODO: Separate this piece of logic per action.
         // We don't instantiate different objects for different actions at the first place, so it's

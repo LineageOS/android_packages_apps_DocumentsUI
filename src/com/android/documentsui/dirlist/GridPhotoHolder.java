@@ -36,6 +36,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 
+import com.android.documentsui.ConfigStore;
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
@@ -44,6 +46,7 @@ import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
 import com.android.modules.utils.build.SdkLevel;
 
+import java.util.Map;
 import java.util.function.Function;
 
 final class GridPhotoHolder extends DocumentHolder {
@@ -53,23 +56,24 @@ final class GridPhotoHolder extends DocumentHolder {
     private final ImageView mIconCheck;
     private final IconHelper mIconHelper;
     private final View mPreviewIcon;
-    private final View mIconBriefcase;
+    private final View mIconBadge;
 
     // This is used in as a convenience in our bind method.
     private final DocumentInfo mDoc = new DocumentInfo();
 
-    public GridPhotoHolder(Context context, ViewGroup parent, IconHelper iconHelper) {
-        super(context, parent, R.layout.item_photo_grid);
+    GridPhotoHolder(Context context, ViewGroup parent, IconHelper iconHelper,
+            ConfigStore configStore) {
+        super(context, parent, R.layout.item_photo_grid, configStore);
 
         mIconMimeLg = (ImageView) itemView.findViewById(R.id.icon_mime_lg);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
-        mIconBriefcase = itemView.findViewById(R.id.icon_briefcase);
+        mIconBadge = itemView.findViewById(R.id.icon_profile_badge);
         mPreviewIcon = itemView.findViewById(R.id.preview_icon);
 
         mIconHelper = iconHelper;
 
-        if (SdkLevel.isAtLeastT()) {
+        if (SdkLevel.isAtLeastT() && !mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             setUpdatableWorkProfileIcon(context);
         }
     }
@@ -80,7 +84,7 @@ final class GridPhotoHolder extends DocumentHolder {
         Drawable drawable = dpm.getResources().getDrawable(
                 WORK_PROFILE_ICON, SOLID_NOT_COLORED, () ->
                         context.getDrawable(R.drawable.ic_briefcase));
-        ImageView icon = (ImageView) mIconBriefcase.findViewById(R.id.icon_id);
+        ImageView icon = (ImageView) mIconBadge.findViewById(R.id.icon_id);
 
         icon.setImageDrawable(drawable);
     }
@@ -123,14 +127,24 @@ final class GridPhotoHolder extends DocumentHolder {
             mPreviewIcon.setContentDescription(
                     getPreviewIconContentDescription(
                             mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier()),
-                            mDoc.displayName));
+                            mDoc.displayName, mDoc.userId));
             mPreviewIcon.setAccessibilityDelegate(new PreviewAccessibilityDelegate(clickCallback));
         }
     }
 
     @Override
     public void bindBriefcaseIcon(boolean show) {
-        mIconBriefcase.setVisibility(show ? View.VISIBLE : View.GONE);
+        mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void bindProfileIcon(boolean show, int userIdIdentifier) {
+        Map<UserId, Drawable> userIdToBadgeMap = DocumentsApplication.getUserManagerState(
+                mContext).getUserIdToBadgeMap();
+        Drawable drawable = userIdToBadgeMap.get(UserId.of(userIdIdentifier));
+        ImageView icon = mIconBadge.findViewById(R.id.icon_id);
+        icon.setImageDrawable(drawable);
+        mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -152,7 +166,8 @@ final class GridPhotoHolder extends DocumentHolder {
 
     /**
      * Bind this view to the given document for display.
-     * @param cursor Pointing to the item to be bound.
+     *
+     * @param cursor  Pointing to the item to be bound.
      * @param modelId The model ID of the item.
      */
     @Override

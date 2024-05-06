@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Une honetan ezin da kargatu edukia"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Pausatuta daude laneko aplikazioak"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Aktibatu laneko aplikazioak"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Profil honetako (<xliff:g id="PROFILE">%1$s</xliff:g>) aplikazioak pausatuta daude"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Aktibatu profil honetako (<xliff:g id="PROFILE">%1$s</xliff:g>) aplikazioak"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ezin dira hautatu laneko fitxategiak"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IKT saileko administratzaileak ez dizu ematen baimenik laneko fitxategiak aplikazio pertsonal batetik atzitzeko"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Ezin dira hautatu fitxategi pertsonalak"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IKT saileko administratzaileak ez dizu ematen baimenik fitxategi pertsonalak laneko aplikazio batetik atzitzeko"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Ezin dira hautatu profil honetako (<xliff:g id="PROFILE">%1$s</xliff:g>) fitxategiak"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"IKT saileko administratzaileak ez dizu eman baimenik profil bateko (<xliff:g id="PROFILE_0">%1$s</xliff:g>) fitxategiak beste profil bateko (<xliff:g id="PROFILE_1">%2$s</xliff:g>) aplikazio batekin atzitzeko"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ezin da gorde laneko profilean"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IKT saileko administratzaileak ez dizu ematen baimenik fitxategi pertsonalak zure laneko profilean gordetzeko"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Ezin da gorde profil pertsonalean"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IKT saileko administratzaileak ez dizu ematen baimenik laneko fitxategiak zure profil pertsonalean gordetzeko"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Ezin da gorde profil honetan (<xliff:g id="PROFILE">%1$s</xliff:g>)"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"IKT saileko administratzaileak ez dizu eman baimenik profil bateko (<xliff:g id="PROFILE_0">%1$s</xliff:g>) fitxategiak beste profil batean (<xliff:g id="PROFILE_1">%2$s</xliff:g>) gordetzeko"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ez da onartzen ekintza"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Informazio gehiago lortzeko, jarri IKT saileko administratzailearekin harremanetan"</string>
     <string name="root_recent" msgid="1080156975424341623">"Azkenak"</string>
@@ -266,6 +272,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Izen berria"</string>
     <string name="preview_file" msgid="4056622696305432343">"Aurreikusi <xliff:g id="FILENAME">%1$s</xliff:g> fitxategia"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Aurreikusi laneko <xliff:g id="FILENAME">%1$s</xliff:g> fitxategia"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Aurreikusi profil honetako (<xliff:g id="PROFILE">%1$s</xliff:g>) <xliff:g id="FILENAME">%2$s</xliff:g> fitxategia"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Arakatu beste aplikazio batzuetako fitxategiak"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonimoa"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Erabili karpeta hau"</string>
@@ -274,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Ezin da erabili karpeta hori"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Pribatutasuna babesteko, aukeratu beste karpeta bat"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Sortu karpeta bat"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Bilatu telefono honetan"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Bilatu gailu honetan"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ezabatu bilaketa-historia (<xliff:g id="TEXT">%1$s</xliff:g>)"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Pertsonala"</string>
     <string name="work_tab" msgid="7265359366883747413">"Lanekoa"</string>

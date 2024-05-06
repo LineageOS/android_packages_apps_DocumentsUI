@@ -19,12 +19,12 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import android.content.Context;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.widget.TextView;
 
 import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.inspector.HeaderTextSelector.Selector;

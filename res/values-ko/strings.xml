@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"현재 콘텐츠를 로드할 수 없습니다."</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"직장 앱이 일시중지됨"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"직장 앱 사용 설정"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"<xliff:g id="PROFILE">%1$s</xliff:g> 앱이 일시중지됨"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"<xliff:g id="PROFILE">%1$s</xliff:g> 앱 사용 설정"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"직장 파일을 선택할 수 없음"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT 관리자가 개인 앱에서 직장 파일에 액세스하도록 허용하지 않습니다."</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"개인 파일을 선택할 수 없음"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT 관리자가 직장 앱에서 개인 파일에 액세스하도록 허용하지 않습니다."</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"<xliff:g id="PROFILE">%1$s</xliff:g> 파일을 선택할 수 없음"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"IT 관리자가 <xliff:g id="PROFILE_1">%2$s</xliff:g> 앱에서 <xliff:g id="PROFILE_0">%1$s</xliff:g> 파일에 액세스하도록 허용하지 않습니다."</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"직장 프로필에 저장할 수 없음"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IT 관리자가 직장 프로필에 개인 파일을 저장하도록 허용하지 않습니다."</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"개인 프로필에 저장할 수 없음"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT 관리자가 개인 프로필에 직장 파일을 저장하도록 허용하지 않습니다."</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"<xliff:g id="PROFILE">%1$s</xliff:g> 프로필에 저장할 수 없음"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"IT 관리자가 <xliff:g id="PROFILE_0">%1$s</xliff:g> 파일을 <xliff:g id="PROFILE_1">%2$s</xliff:g> 프로필에 저장하도록 허용하지 않습니다."</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"금지된 작업"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"자세히 알아보려면 IT 관리자에게 문의하세요."</string>
     <string name="root_recent" msgid="1080156975424341623">"최근"</string>
@@ -266,6 +272,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"새 이름"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> 파일 미리보기"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"직장 파일 <xliff:g id="FILENAME">%1$s</xliff:g> 미리보기"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"<xliff:g id="PROFILE">%1$s</xliff:g> 파일(<xliff:g id="FILENAME">%2$s</xliff:g>) 미리보기"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"다른 앱의 파일 탐색"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"익명"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"이 폴더 사용"</string>
@@ -274,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"이 폴더를 사용할 수 없음"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"개인정보 보호를 위해 다른 폴더를 선택하세요."</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"새 폴더 만들기"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"이 휴대전화 검색"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"이 기기 검색"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"검색 기록 삭제 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"개인"</string>
     <string name="work_tab" msgid="7265359366883747413">"직장"</string>

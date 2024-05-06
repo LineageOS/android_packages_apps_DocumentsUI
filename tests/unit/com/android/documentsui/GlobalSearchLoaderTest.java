@@ -27,7 +27,6 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 
 import androidx.test.filters.MediumTest;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
@@ -38,13 +37,19 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFileTypeLookup;
 import com.android.documentsui.testing.TestImmediateExecutor;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.modules.utils.build.SdkLevel;
+
+import com.google.common.collect.Lists;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(Parameterized.class)
 @MediumTest
 public class GlobalSearchLoaderTest {
 
@@ -55,13 +60,34 @@ public class GlobalSearchLoaderTest {
     private TestEnv mEnv;
     private TestActivity mActivity;
     private GlobalSearchLoader mLoader;
+    private TestConfigStore mTestConfigStore;
     private Bundle mQueryArgs = new Bundle();
+
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
 
     @Before
     public void setUp() {
         mEnv = TestEnv.create();
         mActivity = TestActivity.create(mEnv);
         mActivity.activityManager = ActivityManagers.create(false);
+        mTestConfigStore = new TestConfigStore();
+        mEnv.state.configStore = mTestConfigStore;
+
+        isPrivateSpaceEnabled &= SdkLevel.isAtLeastS();
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
+        }
 
         mEnv.state.action = State.ACTION_BROWSE;
         mEnv.state.acceptMimes = new String[]{"*/*"};
@@ -93,6 +119,7 @@ public class GlobalSearchLoaderTest {
 
     @Test
     public void testNotLocalOnlyRoot_beIgnored() {
+        if (isPrivateSpaceEnabled) return;
         TestProvidersAccess.PICKLES.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
         assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.PICKLES));
         TestProvidersAccess.PICKLES.flags &= ~DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
@@ -301,7 +328,11 @@ public class GlobalSearchLoaderTest {
 
     @Test
     public void testSearchResult_includeBothUsersRoots() {
-        mEnv.state.canShareAcrossProfile = true;
+        if (isPrivateSpaceEnabled) {
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
+        } else {
+            mEnv.state.canShareAcrossProfile = true;
+        }
         mEnv.state.supportsCrossProfile = true;
 
         final DocumentInfo pdfDoc = mEnv.model.createFile(SEARCH_STRING + ".pdf");

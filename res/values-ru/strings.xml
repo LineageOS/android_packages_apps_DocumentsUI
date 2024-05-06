@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Не удалось загрузить контент"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Рабочие приложения приостановлены"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Включить рабочие приложения"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Работа приложений из профиля \"<xliff:g id="PROFILE">%1$s</xliff:g>\" приостановлена"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Включить приложения из профиля \"<xliff:g id="PROFILE">%1$s</xliff:g>\""</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Невозможно выбрать рабочие файлы"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Системный администратор запретил доступ к рабочим файлам из личных приложений."</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Невозможно выбрать личные файлы"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Системный администратор запретил доступ к личным файлам из рабочего приложения."</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Невозможно выбрать файлы из профиля \"<xliff:g id="PROFILE">%1$s</xliff:g>\""</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"Системный администратор запретил доступ к файлам из профиля \"<xliff:g id="PROFILE_0">%1$s</xliff:g>\" в приложении из профиля \"<xliff:g id="PROFILE_1">%2$s</xliff:g>\"."</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Невозможно сохранить файлы"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Системный администратор запретил сохранять личные файлы в рабочем профиле."</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Невозможно сохранить файлы"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Системный администратор запретил сохранять рабочие файлы в личном профиле."</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Невозможно сохранить файлы в профиле \"<xliff:g id="PROFILE">%1$s</xliff:g>\""</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"Системный администратор запретил сохранять файлы из профиля \"<xliff:g id="PROFILE_0">%1$s</xliff:g>\" в профиле \"<xliff:g id="PROFILE_1">%2$s</xliff:g>\"."</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Это действие запрещено"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Чтобы узнать больше, обратитесь к администратору."</string>
     <string name="root_recent" msgid="1080156975424341623">"Недавние"</string>
@@ -310,6 +316,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Новое название"</string>
     <string name="preview_file" msgid="4056622696305432343">"Открыть файл \"<xliff:g id="FILENAME">%1$s</xliff:g>\" в режиме предпросмотра."</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Предпросмотр рабочего файла \"<xliff:g id="FILENAME">%1$s</xliff:g>\""</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Предпросмотр файла \"<xliff:g id="FILENAME">%2$s</xliff:g>\" из профиля \"<xliff:g id="PROFILE">%1$s</xliff:g>\""</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Поиск файлов в других приложениях"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонимное приложение"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Использовать эту папку"</string>
@@ -318,7 +325,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Выберите другую папку"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"В целях защиты вашей конфиденциальности мы заблокировали доступ к этой папке."</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Новая папка"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Поиск на этом телефоне"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Поиск на устройстве"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Очистить историю поиска: <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Личное"</string>
     <string name="work_tab" msgid="7265359366883747413">"Рабочее"</string>

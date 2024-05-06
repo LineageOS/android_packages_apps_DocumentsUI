@@ -32,7 +32,6 @@ import android.provider.DocumentsContract.Path;
 
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.test.filters.MediumTest;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
@@ -48,10 +47,16 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.UserManagers;
+import com.android.modules.utils.build.SdkLevel;
+
+import com.google.android.collect.Lists;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
@@ -60,19 +65,39 @@ import java.util.concurrent.TimeUnit;
 /**
  * A unit test *for* AbstractActionHandler, not an abstract test baseclass.
  */
-@RunWith(AndroidJUnit4.class)
+@RunWith(Parameterized.class)
 @MediumTest
 public class AbstractActionHandlerTest {
 
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
     private TestActivity mActivity;
     private TestEnv mEnv;
     private AbstractActionHandler<TestActivity> mHandler;
+
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
 
     @Before
     public void setUp() {
         mEnv = TestEnv.create();
         mActivity = TestActivity.create(mEnv);
         mActivity.userManager = UserManagers.create();
+        mEnv.state.configStore = mTestConfigStore;
+
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
+        }
         mHandler = new AbstractActionHandler<TestActivity>(
                 mActivity,
                 mEnv.state,
@@ -281,7 +306,11 @@ public class AbstractActionHandlerTest {
     @Test
     public void testCrossProfileDocuments_success() throws Exception {
         mEnv.state.action = State.ACTION_GET_CONTENT;
-        mEnv.state.canShareAcrossProfile = true;
+        if (isPrivateSpaceEnabled) {
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
+        } else {
+            mEnv.state.canShareAcrossProfile = true;
+        }
         mEnv.state.stack.changeRoot(TestProvidersAccess.OtherUser.HOME);
         mEnv.state.stack.push(TestEnv.OtherUser.FOLDER_0);
 
@@ -308,7 +337,11 @@ public class AbstractActionHandlerTest {
     @Test
     public void testLoadCrossProfileDoc_failsWithQuietModeException() throws Exception {
         mEnv.state.action = State.ACTION_GET_CONTENT;
-        mEnv.state.canShareAcrossProfile = true;
+        if (isPrivateSpaceEnabled) {
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
+        } else {
+            mEnv.state.canShareAcrossProfile = true;
+        }
         mEnv.state.stack.changeRoot(TestProvidersAccess.OtherUser.HOME);
         mEnv.state.stack.push(TestEnv.OtherUser.FOLDER_0);
         // Turn off the other user.
@@ -389,7 +422,11 @@ public class AbstractActionHandlerTest {
                 .setNextChildDocumentsReturns(TestEnv.OtherUser.FILE_PNG);
 
         // Disallow sharing across profile
-        mEnv.state.canShareAcrossProfile = false;
+        if (isPrivateSpaceEnabled) {
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, false);
+        } else {
+            mEnv.state.canShareAcrossProfile = false;
+        }
 
         TestEventHandler<Model.Update> listener = new TestEventHandler<>();
         mEnv.model.addUpdateListener(listener::accept);
@@ -404,7 +441,11 @@ public class AbstractActionHandlerTest {
                 .isInstanceOf(CrossProfileNoPermissionException.class);
 
         // Allow sharing across profile.
-        mEnv.state.canShareAcrossProfile = true;
+        if (isPrivateSpaceEnabled) {
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
+        } else {
+            mEnv.state.canShareAcrossProfile = true;
+        }
 
         CountDownLatch latch2 = new CountDownLatch(1);
         mEnv.model.addUpdateListener(update -> latch2.countDown());

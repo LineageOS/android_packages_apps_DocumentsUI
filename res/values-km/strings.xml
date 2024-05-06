@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"មិនអាចដំណើរការមាតិកាបានទេនៅពេលនេះ"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"កម្មវិធី​ការងារ​ត្រូវបានផ្អាក"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"បើក​កម្មវិធី​ការងារ"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"កម្មវិធី<xliff:g id="PROFILE">%1$s</xliff:g>ត្រូវបានផ្អាក"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"បើកកម្មវិធី<xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"មិនអាច​ជ្រើសរើស​ឯកសារ​ការងារ​បានទេ"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"អ្នកគ្រប់គ្រង​ផ្នែក​ព័ត៌មានវិទ្យា​របស់អ្នក​មិនអនុញ្ញាត​ឱ្យអ្នក​ចូលប្រើ​ឯកសារ​ការងារ​ពីកម្មវិធី​ផ្ទាល់ខ្លួនទេ"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"មិនអាច​ជ្រើសរើស​ឯកសារ​ផ្ទាល់ខ្លួន​បានទេ"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"អ្នកគ្រប់គ្រង​ផ្នែក​ព័ត៌មានវិទ្យា​របស់អ្នក​មិនអនុញ្ញាត​ឱ្យអ្នក​ចូលប្រើ​ឯកសារ​ផ្ទាល់ខ្លួនពី​កម្មវិធី​ការងារទេ"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"មិនអាចជ្រើសរើសឯកសារ<xliff:g id="PROFILE">%1$s</xliff:g>បានទេ"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"អ្នកគ្រប់គ្រង​ផ្នែកព័ត៌មានវិទ្យារបស់អ្នកមិនអនុញ្ញាតឱ្យអ្នកចូលប្រើឯកសារ<xliff:g id="PROFILE_0">%1$s</xliff:g>ពីកម្មវិធី<xliff:g id="PROFILE_1">%2$s</xliff:g>ទេ"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"មិនអាច​រក្សាទុក​ទៅកម្រង​ព័ត៌មាន​ការងារ​បានទេ"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"អ្នកគ្រប់គ្រង​ផ្នែកព័ត៌មាន​វិទ្យារបស់អ្នក​មិនអនុញ្ញាតឱ្យអ្នក​រក្សាទុក​ឯកសារ​ផ្ទាល់ខ្លួន​ទៅកម្រង​ព័ត៌មាន​ការងារ​របស់អ្នកទេ"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"មិនអាច​រក្សាទុក​កម្រងព័ត៌មាន​ផ្ទាល់ខ្លួន​បានទេ"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"អ្នកគ្រប់គ្រង​ផ្នែក​ព័ត៌មានវិទ្យា​របស់អ្នក​មិនអនុញ្ញាតឱ្យអ្នក​រក្សាទុក​ឯកសារ​ការងារ​ទៅកម្រង​ព័ត៌មាន​ផ្ទាល់ខ្លួន​របស់អ្នកទេ"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"មិនអាចរក្សាទុកទៅកម្រងព័ត៌មាន<xliff:g id="PROFILE">%1$s</xliff:g>ទេ"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"អ្នកគ្រប់គ្រង​ផ្នែកព័ត៌មានវិទ្យារបស់អ្នកមិនអនុញ្ញាតឱ្យអ្នករក្សាទុកឯកសារ<xliff:g id="PROFILE_0">%1$s</xliff:g>ទៅកម្រងព័ត៌មាន<xliff:g id="PROFILE_1">%2$s</xliff:g>របស់អ្នកទេ"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"សកម្មភាពនេះ​មិនត្រូវបាន​អនុញ្ញាតទេ"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"ដើម្បី​ស្វែងយល់​បន្ថែម សូម​ទាក់ទង​អ្នកគ្រប់គ្រងផ្នែក​ព័ត៌មានវិទ្យា​របស់អ្នក"</string>
     <string name="root_recent" msgid="1080156975424341623">"ថ្មីៗ"</string>
@@ -266,6 +272,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"ឈ្មោះ​ថ្មី"</string>
     <string name="preview_file" msgid="4056622696305432343">"មើលឯកសារ <xliff:g id="FILENAME">%1$s</xliff:g> សាកល្បង"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"មើល​ឯកសារ​ការងារ <xliff:g id="FILENAME">%1$s</xliff:g> សាកល្បង"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"មើលឯកសារ<xliff:g id="PROFILE">%1$s</xliff:g> <xliff:g id="FILENAME">%2$s</xliff:g> សាកល្បង"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"រុករក​ឯកសារ​នៅក្នុង​កម្មវិធី​ផ្សេងទៀត"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"អនាមិក"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"ប្រើថតនេះ"</string>
@@ -274,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"មិនអាចប្រើ​ថតនេះ​បានទេ"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ដើម្បី​ការពារ​ឯកជនភាព​របស់អ្នក សូម​ជ្រើសរើស​ថតផ្សេងទៀត"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"បង្កើត​ថត​ថ្មី"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ក្នុងទូរសព្ទ​នេះ"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"ស្វែងរកឧបករណ៍នេះ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"លុប​ប្រវត្តិស្វែងរក <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ផ្ទាល់ខ្លួន"</string>
     <string name="work_tab" msgid="7265359366883747413">"ការងារ"</string>

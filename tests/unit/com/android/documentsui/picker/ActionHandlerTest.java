@@ -36,13 +36,11 @@ import android.provider.DocumentsContract.Path;
 import androidx.fragment.app.FragmentActivity;
 import androidx.test.filters.MediumTest;
 import androidx.test.filters.SdkSuppress;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Injector;
 import com.android.documentsui.R;
-import com.android.documentsui.TestUserIdManager;
-import com.android.documentsui.UserIdManager;
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Lookup;
@@ -59,28 +57,47 @@ import com.android.documentsui.testing.TestLastAccessedStorage;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
 import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
+
+import com.google.common.collect.Lists;
 
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(Parameterized.class)
 @MediumTest
 public class ActionHandlerTest {
 
     private static final String EXTRA_INTENT = "EXTRA_INTENT";
     private static final String EXTRA_USER = "EXTRA_USER";
 
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
+
     private TestEnv mEnv;
     private TestActivity mActivity;
     private TestableActionHandler<TestActivity> mHandler;
     private TestLastAccessedStorage mLastAccessed;
     private PickCountRecordStorage mPickCountRecord;
-    private TestUserIdManager mTestUserIdManager;
+
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
 
     @Before
     public void setUp() {
@@ -89,8 +106,14 @@ public class ActionHandlerTest {
         mEnv.providers.configurePm(mActivity.packageMgr);
         mEnv.injector.pickResult = new PickResult();
         mLastAccessed = new TestLastAccessedStorage();
-        mTestUserIdManager = new TestUserIdManager();
         mPickCountRecord = mock(PickCountRecordStorage.class);
+        mEnv.state.configStore = mTestConfigStore;
+
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
+        }
 
         mHandler = new TestableActionHandler<>(
                 mActivity,
@@ -101,9 +124,9 @@ public class ActionHandlerTest {
                 mEnv::lookupExecutor,
                 mEnv.injector,
                 mLastAccessed,
-                mPickCountRecord,
-                mTestUserIdManager
+                mPickCountRecord
         );
+
 
         mEnv.selectionMgr.select("1");
 
@@ -111,7 +134,7 @@ public class ActionHandlerTest {
     }
 
     private static class TestableActionHandler<T extends FragmentActivity & Addons>
-        extends ActionHandler {
+            extends ActionHandler {
 
         private UpdatePickResultTask mTask;
 
@@ -124,10 +147,8 @@ public class ActionHandlerTest {
                 Lookup<String, Executor> executors,
                 Injector injector,
                 LastAccessedStorage lastAccessed,
-                PickCountRecordStorage pickCountRecordStorage,
-                UserIdManager userIdManager) {
-            super(activity, state, providers, docs, searchMgr, executors, injector, lastAccessed,
-                    userIdManager);
+                PickCountRecordStorage pickCountRecordStorage) {
+            super(activity, state, providers, docs, searchMgr, executors, injector, lastAccessed);
             mTask = new UpdatePickResultTask(
                     mActivity, mInjector.pickResult, pickCountRecordStorage);
         }
@@ -284,7 +305,7 @@ public class ActionHandlerTest {
         mEnv.beforeAsserts();
 
         verify(mPickCountRecord).increasePickCountRecord(
-            mActivity.getApplicationContext(), TestEnv.FILE_JPG.derivedUri);
+                mActivity.getApplicationContext(), TestEnv.FILE_JPG.derivedUri);
 
         mActivity.finishedHandler.assertCalled();
     }
@@ -355,7 +376,8 @@ public class ActionHandlerTest {
         final String mimeType = "audio/aac";
         final String displayName = "foobar.m4a";
 
-        mHandler.saveDocument(mimeType, displayName, (boolean inProgress) -> {});
+        mHandler.saveDocument(mimeType, displayName, (boolean inProgress) -> {
+        });
 
         mEnv.beforeAsserts();
 
@@ -431,7 +453,7 @@ public class ActionHandlerTest {
         mEnv.state.action = State.ACTION_GET_CONTENT;
         mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
-        mEnv.state.acceptMimes = new String[] { "image/*" };
+        mEnv.state.acceptMimes = new String[]{"image/*"};
 
         mActivity.finishedHandler.assertNotCalled();
 
@@ -483,7 +505,7 @@ public class ActionHandlerTest {
         mEnv.state.action = State.ACTION_OPEN;
         mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
-        mEnv.state.acceptMimes = new String[] { "image/*" };
+        mEnv.state.acceptMimes = new String[]{"image/*"};
 
         mActivity.finishedHandler.assertNotCalled();
 
@@ -539,13 +561,17 @@ public class ActionHandlerTest {
     @Test
     public void testOpenAppRoot_otherUser() throws Exception {
         ResolveInfo info = TestResolveInfo.create();
-        mEnv.state.canShareAcrossProfile = true;
+        if (isPrivateSpaceEnabled) {
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
+        } else {
+            mEnv.state.canShareAcrossProfile = true;
+        }
         mHandler.openRoot(info, TestProvidersAccess.OtherUser.USER_ID);
         assertThat(mActivity.startActivityAsUser.getLastValue().first.getComponent()).isEqualTo(
                 new ComponentName(info.activityInfo.applicationInfo.packageName,
-                info.activityInfo.name));
+                        info.activityInfo.name));
         assertThat(mActivity.startActivityAsUser.getLastValue().second)
-            .isEqualTo(TestProvidersAccess.OtherUser.USER_HANDLE);
+                .isEqualTo(TestProvidersAccess.OtherUser.USER_HANDLE);
 
         int flags = mActivity.startActivityAsUser.getLastValue().first.getFlags();
         assertEquals(0, flags & Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
@@ -569,7 +595,7 @@ public class ActionHandlerTest {
         mHandler.openRoot(info, TestProvidersAccess.USER_ID);
         assertThat(mActivity.startActivity.getLastValue().getComponent()).isEqualTo(
                 new ComponentName(info.activityInfo.applicationInfo.packageName,
-                info.activityInfo.name));
+                        info.activityInfo.name));
 
         int flags = mActivity.startActivity.getLastValue().getFlags();
         assertEquals(0, flags & Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
@@ -589,7 +615,7 @@ public class ActionHandlerTest {
         mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.USER_ID);
         assertEquals(queryContent,
                 mActivity.startActivity.getLastValue().getStringExtra(
-                Intent.EXTRA_CONTENT_QUERY));
+                        Intent.EXTRA_CONTENT_QUERY));
     }
 
     @Test

@@ -20,16 +20,18 @@ import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.Space;
 
+import com.android.documentsui.ConfigStore;
+
 /**
  * Base class for all non-Document Holder classes.
  */
 abstract class MessageHolder extends DocumentHolder {
-    public MessageHolder(Context context, Space space) {
-        super(context, space);
+    MessageHolder(Context context, Space space, ConfigStore configStore) {
+        super(context, space, configStore);
     }
 
-    public MessageHolder(Context context, ViewGroup parent, int layout) {
-        super(context, parent, layout);
+    MessageHolder(Context context, ViewGroup parent, int layout, ConfigStore configStore) {
+        super(context, parent, layout, configStore);
     }
 
     @Override

@@ -146,7 +146,7 @@
                     android:paddingEnd="12dp">
 
                     <ImageView
-                        android:id="@+id/icon_briefcase"
+                        android:id="@+id/icon_profile_badge"
                         android:layout_height="@dimen/briefcase_icon_size"
                         android:layout_width="@dimen/briefcase_icon_size"
                         android:layout_marginEnd="@dimen/briefcase_icon_margin"
@@ -154,6 +154,7 @@
                         android:layout_alignBottom="@android:id/title"
                         android:gravity="center_vertical"
                         android:src="@drawable/ic_briefcase"
+                        android:tint="?android:attr/colorAccent"
                         android:contentDescription="@string/a11y_work"/>
 
                     <TextView
@@ -161,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_toEndOf="@+id/icon_briefcase"
+                        android:layout_toEndOf="@+id/icon_profile_badge"
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:textAlignment="viewStart"

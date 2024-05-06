@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"මේ මොහොතේ අන්තර්ගතය පූරණය කිරීමට නොහැකිය"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"කාර්යාල යෙදුම් විරාම කර ඇත"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"කාර්යාල යෙදුම් ක්‍රියාත්මක කරන්න"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"<xliff:g id="PROFILE">%1$s</xliff:g> යෙදුම් විරාම කළා"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"<xliff:g id="PROFILE">%1$s</xliff:g> යෙදුම් සක්‍රීය කරන්න"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"කාර්යාල ගොනු තේරීමට හැකිය"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"ඔබේ IT පරිපාලක ඔබට පෞද්ගලික යෙදුමකින් කාර්යාල ගොනු වෙත ප්‍රවේශ වීමට ඉඩ නොදේ"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"පෞද්ගලික ගොනු තේරීමට නොහැකිය"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ඔබේ IT පරිපාලක ඔබට කාර්යාල යෙදුමකින් පෞද්ගලික ගොනු වෙත ප්‍රවේශ වීමට ඉඩ නොදේ"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"<xliff:g id="PROFILE">%1$s</xliff:g> ගොනු තේරිය නොහැක"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"ඔබේ තොරතුරු තාක්‍ෂණ පරිපාලක <xliff:g id="PROFILE_0">%1$s</xliff:g> ගොනු වෙත <xliff:g id="PROFILE_1">%2$s</xliff:g> යෙදුමකින් ප්‍රවේශ වීමට ඉඩ නොදෙයි"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"කාර්යාල පැතිකඩ වෙත සුරැකිය නොහැකිය"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"ඔබේ IT පරිපාලක පෞද්ගලික ගොනු ඔබේ කාර්යාල පැතිකඩ වෙත සුරැකීමට ඉඩ නොදේ"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"පෞද්ගලික පැතිකඩ වෙත සුරැකීමට හැකිය"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"ඔබේ IT පරිපාලක කාර්යාල ගොනු ඔබේ පෞද්ගලික පැතිකඩ වෙත සුරැකීමට ඉඩ නොදේ"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"<xliff:g id="PROFILE">%1$s</xliff:g> පැතිකඩට සුරැකිය නො හැකි ය"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"ඔබේ තොරතුරු තාලක්‍ෂණ පරිපාලක ඔබට <xliff:g id="PROFILE_0">%1$s</xliff:g> ගොනු ඔබේ <xliff:g id="PROFILE_1">%2$s</xliff:g> පැතිකඩෙහි සුරැකීමට ඉඩ නොදෙයි"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"මෙම ක්‍රියාව ඉඩ දී නැත"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"තවත් දැන ගැනීමට, ඔබේ IT සම්බන්ධ කර ගන්න"</string>
     <string name="root_recent" msgid="1080156975424341623">"මෑත"</string>
@@ -266,6 +272,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"අලුත් නම"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> ගොනුව පෙර දකින්න"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"<xliff:g id="FILENAME">%1$s</xliff:g> කාර්යාල ගොනුව පෙරදසුන් කරන්න"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"<xliff:g id="PROFILE">%1$s</xliff:g> <xliff:g id="FILENAME">%2$s</xliff:g> ගොනුව පෙරදකින්න"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"වෙනත් යෙදුම්වල ගොනු බ්‍රවුස් කරන්න"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"නිර්නාමික"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"මෙම ෆෝල්ඩරය භාවිත කරන්න"</string>
@@ -274,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"මෙම ෆෝල්ඩරය භාවිත කළ නොහැකිය"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ඔබේ රහස්‍යතාව ආරක්ෂා කිරීමට, තවත් ෆෝල්ඩරයක් තෝරා ගන්න"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"නව ෆෝල්ඩරය තනන්න"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"මෙම දුරකථනයේ සොයන්න"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"මෙම උපාංගය සොයන්න"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"සෙවීම් ඉතිහාසය මකන්න <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"පෞද්ගලික"</string>
     <string name="work_tab" msgid="7265359366883747413">"කාර්යාල"</string>

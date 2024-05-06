@@ -111,7 +111,7 @@ public class TestProvidersAccess implements ProvidersAccess {
         INSPECTOR.rootId = InspectorProvider.ROOT_ID;
         INSPECTOR.title = "Inspector";
         INSPECTOR.flags = Root.FLAG_LOCAL_ONLY
-            | Root.FLAG_SUPPORTS_CREATE;
+                | Root.FLAG_SUPPORTS_CREATE;
 
         IMAGE = new RootInfo();
         IMAGE.userId = userId;
@@ -181,6 +181,67 @@ public class TestProvidersAccess implements ProvidersAccess {
 
         static {
             UserId userId = OtherUser.USER_ID;
+
+            DOWNLOADS = new RootInfo();
+            DOWNLOADS.userId = userId;
+            DOWNLOADS.authority = Providers.AUTHORITY_DOWNLOADS;
+            DOWNLOADS.rootId = Providers.ROOT_ID_DOWNLOADS;
+            DOWNLOADS.title = "Downloads";
+            DOWNLOADS.derivedType = RootInfo.TYPE_DOWNLOADS;
+            DOWNLOADS.flags = Root.FLAG_LOCAL_ONLY
+                    | Root.FLAG_SUPPORTS_CREATE
+                    | Root.FLAG_SUPPORTS_RECENTS;
+
+            HOME = new RootInfo();
+            HOME.userId = userId;
+            HOME.authority = Providers.AUTHORITY_STORAGE;
+            HOME.rootId = Providers.ROOT_ID_HOME;
+            HOME.title = "Home";
+            HOME.derivedType = RootInfo.TYPE_LOCAL;
+            HOME.flags = Root.FLAG_LOCAL_ONLY
+                    | Root.FLAG_SUPPORTS_CREATE
+                    | Root.FLAG_SUPPORTS_IS_CHILD
+                    | Root.FLAG_SUPPORTS_RECENTS;
+
+            IMAGE = new RootInfo();
+            IMAGE.userId = userId;
+            IMAGE.authority = Providers.AUTHORITY_MEDIA;
+            IMAGE.rootId = Providers.ROOT_ID_IMAGES;
+            IMAGE.title = "Images";
+            IMAGE.derivedType = RootInfo.TYPE_IMAGES;
+
+            PICKLES = new RootInfo();
+            PICKLES.userId = userId;
+            PICKLES.authority = "yummies";
+            PICKLES.rootId = "pickles";
+            PICKLES.title = "Pickles";
+            PICKLES.summary = "Yummy pickles";
+
+            MTP_ROOT = new RootInfo();
+            MTP_ROOT.userId = userId;
+            MTP_ROOT.authority = Providers.AUTHORITY_MTP;
+            MTP_ROOT.rootId = Providers.ROOT_ID_DOCUMENTS;
+            MTP_ROOT.title = "MTP";
+            MTP_ROOT.derivedType = RootInfo.TYPE_MTP;
+            MTP_ROOT.flags = Root.FLAG_SUPPORTS_CREATE
+                    | Root.FLAG_LOCAL_ONLY
+                    | Root.FLAG_SUPPORTS_IS_CHILD;
+        }
+    }
+
+    public static class AnotherUser {
+        public static final UserHandle USER_HANDLE = UserHandle.of(
+                TestProvidersAccess.USER_ID.getIdentifier() + 2);
+        public static final UserId USER_ID = UserId.of(AnotherUser.USER_HANDLE);
+
+        public static final RootInfo DOWNLOADS;
+        public static final RootInfo HOME;
+        public static final RootInfo IMAGE;
+        public static final RootInfo PICKLES;
+        public static final RootInfo MTP_ROOT;
+
+        static {
+            UserId userId = AnotherUser.USER_ID;
 
             DOWNLOADS = new RootInfo();
             DOWNLOADS.userId = userId;

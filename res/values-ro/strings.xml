@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Momentan, conținutul nu poate fi încărcat"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Aplicațiile pentru lucru sunt întrerupte"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Activează aplicațiile pentru lucru"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Aplicațiile <xliff:g id="PROFILE">%1$s</xliff:g> sunt întrerupte"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Activează aplicațiile <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nu se pot selecta fișiere de lucru"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Administratorul IT nu îți permite să accesezi fișiere de lucru dintr-o aplicație personală"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Nu se pot selecta fișiere personale"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Administratorul IT nu îți permite să accesezi fișiere personale dintr-o aplicație pentru lucru"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Nu se pot selecta fișiere <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"Administratorul IT nu îți permite să accesezi fișiere <xliff:g id="PROFILE_0">%1$s</xliff:g> dintr-o aplicație <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nu se poate salva în profilul de serviciu"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Administratorul IT nu îți permite să salvezi fișiere personale în profilul de serviciu"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nu se poate salva în profilul personal"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Administratorul IT nu îți permite să salvezi fișiere de lucru în profilul personal"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Nu se pot salva în profilul <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"Administratorul IT nu îți permite să salvezi fișiere <xliff:g id="PROFILE_0">%1$s</xliff:g> în profilul <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Acțiunea nu este permisă"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Pentru a afla mai multe, contactează administratorul IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"Recente"</string>
@@ -288,6 +294,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Nume nou"</string>
     <string name="preview_file" msgid="4056622696305432343">"Previzualizează fișierul <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Previzualizează fișierul de lucru <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Previzualizează fișierul <xliff:g id="PROFILE">%1$s</xliff:g> <xliff:g id="FILENAME">%2$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Caută fișiere în alte aplicații"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonim"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Folosește acest dosar"</string>
@@ -296,7 +303,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Nu poți folosi acest dosar"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Alege alt dosar, ca să-ți protejezi confidențialitatea"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Creează un dosar nou"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Caută în acest telefon"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Caută acest dispozitiv"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Șterge istoricul căutărilor <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personale"</string>
     <string name="work_tab" msgid="7265359366883747413">"Serviciu"</string>
