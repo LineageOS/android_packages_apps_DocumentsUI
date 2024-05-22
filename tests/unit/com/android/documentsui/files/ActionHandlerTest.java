@@ -541,7 +541,7 @@ public class ActionHandlerTest {
     public void testDragAndDrop_OnReadOnlyRoot() throws Exception {
         assumeTrue(VersionUtils.isAtLeastS());
         RootInfo root = new RootInfo(); // root by default has no SUPPORT_CREATE flag
-        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, null, null, null,
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, 0, null, null, null,
                 null, null, true);
         assertFalse(mHandler.dropOn(event, root));
     }
@@ -549,7 +549,7 @@ public class ActionHandlerTest {
     @Test
     public void testDragAndDrop_OnLibraryRoot() throws Exception {
         assumeTrue(VersionUtils.isAtLeastS());
-        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, null, null, null,
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, 0, null, null, null,
                 null, null, true);
         assertFalse(mHandler.dropOn(event, TestProvidersAccess.RECENTS));
     }
@@ -562,7 +562,7 @@ public class ActionHandlerTest {
         // our Clipper is getting the original CipData passed in.
         Object localState = new Object();
         ClipData clipData = ClipDatas.createTestClipData();
-        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, localState, null,
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, 0, localState, null,
                 clipData, null, null, true);
 
         mHandler.dropOn(event, TestProvidersAccess.DOWNLOADS);
