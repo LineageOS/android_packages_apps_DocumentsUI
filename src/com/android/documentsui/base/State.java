@@ -108,6 +108,9 @@ public class State implements android.os.Parcelable {
      */
     public boolean canInteractWith(UserId userId) {
         if (configStore.isPrivateSpaceInDocsUIEnabled()) {
+            if (canForwardToProfileIdMap.isEmpty() && UserId.CURRENT_USER.equals(userId)) {
+                return true;
+            }
             return canForwardToProfileIdMap.getOrDefault(userId, false);
         }
         return canShareAcrossProfile || UserId.CURRENT_USER.equals(userId);

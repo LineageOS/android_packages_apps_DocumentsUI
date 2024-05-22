@@ -461,6 +461,7 @@ public class UserItemsCombinerTest {
             rootListAllUsers.add(PRIVATE_ITEMS);
         }
         mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+                .overrideCurrentUserForTest(WORK_USER)
                 .setRootListForAllUsers(rootListAllUsers);
 
         assertThat(mCombiner.createPresentableListForAllUsers(mUserIds, mUserIdToLabelMap))
