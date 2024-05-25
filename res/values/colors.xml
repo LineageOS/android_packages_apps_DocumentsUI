@@ -67,4 +67,6 @@
   <color name="fragment_pick_inactive_text_color">#5F6368</color>
   <color name="fragment_pick_active_button_color">@color/primary</color>
   <color name="fragment_pick_active_text_color">@android:color/white</color>
+
+  <color name="search_chip_text_selected_color">@android:color/white</color>
 </resources>
