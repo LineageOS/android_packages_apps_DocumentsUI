@@ -35,4 +35,6 @@
     <color name="list_item_selected_background_color">?android:colorSecondary</color>
 
     <color name="fragment_pick_active_text_color">#202124</color> <!-- Grey 900 -->
+
+    <color name="search_chip_text_selected_color">@android:color/black</color>
 </resources>
