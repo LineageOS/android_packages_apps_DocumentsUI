@@ -283,7 +283,7 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"නව ෆෝල්ඩරය තනන්න"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"මෙම උපාංගය සොයන්න"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"සෙවීම් ඉතිහාසය මකන්න <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"පෞද්ගලික"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"පුද්ගලික"</string>
     <string name="work_tab" msgid="7265359366883747413">"කාර්යාල"</string>
     <string name="a11y_work" msgid="7504431382825242153">"කාර්යාල"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"ඔබට වෙනත් යෙදුමකින් ගොනු ගෙන ඒමට නොහැකිය."</string>
