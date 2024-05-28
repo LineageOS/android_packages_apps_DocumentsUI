@@ -77,6 +77,7 @@ import com.android.modules.utils.build.SdkLevel;
 import com.google.common.collect.Lists;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -537,6 +538,10 @@ public class ActionHandlerTest {
         assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
     }
 
+    // Ignoring the test because it uses hidden api DragEvent#obtain() and changes to the api is
+    // causing failure on older base builds
+    // TODO: b/343206763 remove dependence on hidden api
+    @Ignore
     @Test
     public void testDragAndDrop_OnReadOnlyRoot() throws Exception {
         assumeTrue(VersionUtils.isAtLeastS());
@@ -546,6 +551,10 @@ public class ActionHandlerTest {
         assertFalse(mHandler.dropOn(event, root));
     }
 
+    // Ignoring the test because it uses hidden api DragEvent#obtain() and changes to the api is
+    // causing failure on older base builds
+    // TODO: b/343206763 remove dependence on hidden api
+    @Ignore
     @Test
     public void testDragAndDrop_OnLibraryRoot() throws Exception {
         assumeTrue(VersionUtils.isAtLeastS());
@@ -554,6 +563,10 @@ public class ActionHandlerTest {
         assertFalse(mHandler.dropOn(event, TestProvidersAccess.RECENTS));
     }
 
+    // Ignoring the test because it uses hidden api DragEvent#obtain() and changes to the api is
+    // causing failure on older base builds
+    // TODO: b/343206763 remove dependence on hidden api
+    @Ignore
     @Test
     public void testDragAndDrop_DropsOnWritableRoot() throws Exception {
         assumeTrue(VersionUtils.isAtLeastS());
