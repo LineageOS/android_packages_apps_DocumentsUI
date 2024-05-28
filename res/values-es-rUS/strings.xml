@@ -306,7 +306,7 @@
     <string name="search_bar_hint" msgid="146031513183888721">"Buscar este dispositivo"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Borrar historial de búsqueda de <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personal"</string>
-    <string name="work_tab" msgid="7265359366883747413">"De trabajo"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Trabajo"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Trabajo"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"No puedes transferir archivos de otra app."</string>
     <string name="grid_mode_showing" msgid="2803166871485028508">"Se muestra en modo de cuadrícula."</string>
