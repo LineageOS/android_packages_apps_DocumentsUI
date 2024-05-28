@@ -283,7 +283,7 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Búa til nýja möppu"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Leita í þessu tæki"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Eyða leitarferli <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"Persónulegt"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Einkasnið"</string>
     <string name="work_tab" msgid="7265359366883747413">"Vinna"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Vinna"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Ekki er hægt að færa skrár úr öðru forriti."</string>
