@@ -95,7 +95,9 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
             case MODE_GRID:
                 switch (viewType) {
                     case ITEM_TYPE_DIRECTORY:
-                        holder = new GridDirectoryHolder(mEnv.getContext(), parent, mConfigStore);
+                        holder =
+                                new GridDirectoryHolder(
+                                        mEnv.getContext(), parent, mIconHelper, mConfigStore);
                         break;
                     case ITEM_TYPE_DOCUMENT:
                         holder = state.isPhotoPicking()

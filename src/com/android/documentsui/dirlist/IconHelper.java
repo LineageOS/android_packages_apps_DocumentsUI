@@ -280,4 +280,13 @@ public class IconHelper {
         return mMaybeShowBadge && mManagedUser != null
                 && mManagedUser.getIdentifier() == userIdIdentifier;
     }
+
+    /** Returns label of the profile the icon belongs to. */
+    public String getProfileLabel(int userIdIdentifier) {
+        if (SdkLevel.isAtLeastS()) {
+            return mUserManagerState.getUserIdToLabelMap().get(UserId.of(userIdIdentifier));
+        } else {
+            return "";
+        }
+    }
 }

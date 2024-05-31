@@ -160,6 +160,7 @@ final class GridDocumentHolder extends DocumentHolder {
         Drawable drawable = userIdToBadgeMap.get(UserId.of(userIdIdentifier));
         mIconBadge.setImageDrawable(drawable);
         mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
+        mIconBadge.setContentDescription(mIconHelper.getProfileLabel(userIdIdentifier));
     }
 
     @Override
