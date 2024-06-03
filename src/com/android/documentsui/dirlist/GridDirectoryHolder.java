@@ -54,7 +54,10 @@ final class GridDirectoryHolder extends DocumentHolder {
     private final ImageView mIconBadge;
     private final View mIconLayout;
 
-    GridDirectoryHolder(Context context, ViewGroup parent, ConfigStore configStore) {
+    private final IconHelper mIconHelper;
+
+    GridDirectoryHolder(
+            Context context, ViewGroup parent, IconHelper iconHelper, ConfigStore configStore) {
         super(context, parent, R.layout.item_dir_grid, configStore);
 
         mIconLayout = itemView.findViewById(R.id.icon);
@@ -64,6 +67,7 @@ final class GridDirectoryHolder extends DocumentHolder {
         mIconBadge = (ImageView) itemView.findViewById(R.id.icon_profile_badge);
         mIconMime.setImageDrawable(
                 IconUtils.loadMimeIcon(context, DocumentsContract.Document.MIME_TYPE_DIR));
+        mIconHelper = iconHelper;
 
         if (SdkLevel.isAtLeastT() && !mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             setUpdatableWorkProfileIcon(context);
@@ -105,6 +109,7 @@ final class GridDirectoryHolder extends DocumentHolder {
         Drawable drawable = userIdToBadgeMap.get(UserId.of(userIdIdentifier));
         mIconBadge.setImageDrawable(drawable);
         mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
+        mIconBadge.setContentDescription(mIconHelper.getProfileLabel(userIdIdentifier));
     }
 
     @Override
