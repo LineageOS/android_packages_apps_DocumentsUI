@@ -265,7 +265,7 @@ public class DocumentsApplication extends Application {
             } else if (PROFILE_FILTER_ACTIONS.contains(action)) {
                 // Make the changes to UserManagerState object before calling providers updateAsync
                 // so that providers for all the users are loaded
-                if (getConfigStore().isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
+                if (getConfigStore().isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastV()) {
                     UserHandle userHandle = intent.getParcelableExtra(Intent.EXTRA_USER);
                     UserId userId = UserId.of(userHandle);
                     getUserManagerState(context).onProfileActionStatusChange(action, userId);
