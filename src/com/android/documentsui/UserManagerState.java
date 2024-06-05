@@ -235,6 +235,7 @@ public interface UserManagerState {
         @Override
         @SuppressLint("NewApi")
         public void onProfileActionStatusChange(String action, UserId userId) {
+            if (!SdkLevel.isAtLeastV()) return;
             UserProperties userProperties = mUserManager.getUserProperties(
                     UserHandle.of(userId.getIdentifier()));
             if (userProperties.getShowInQuietMode() != UserProperties.SHOW_IN_QUIET_MODE_HIDDEN) {
