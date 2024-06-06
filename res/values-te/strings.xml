@@ -86,7 +86,7 @@
     <string name="directory_items" msgid="6645621978998614003">"అంశాల సంఖ్య"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ఆరోహణ"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"అవరోహణ"</string>
-    <string name="open_external_app" msgid="7107920381038980086">"<xliff:g id="APPNAME">%1$s</xliff:g>ని తెరువు"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"<xliff:g id="APPNAME">%1$s</xliff:g>‌ను తెరవండి"</string>
     <string name="drawer_open" msgid="8071673398187261741">"మూలాలను చూపు"</string>
     <string name="drawer_close" msgid="4263880768630848848">"మూలాలను దాచు"</string>
     <string name="save_error" msgid="8631128801982095782">"డాక్యుమెంట్‌ను సేవ్ చేయడంలో విఫలమైంది"</string>
