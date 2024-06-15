@@ -40,6 +40,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.android.documentsui.ConfigStore;
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Lookup;
@@ -51,6 +53,7 @@ import com.android.documentsui.ui.Views;
 import com.android.modules.utils.build.SdkLevel;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.function.Function;
 
 final class ListDocumentHolder extends DocumentHolder {
@@ -67,7 +70,7 @@ final class ListDocumentHolder extends DocumentHolder {
     private final ImageView mIconMime;
     private final ImageView mIconThumb;
     private final ImageView mIconCheck;
-    private final ImageView mIconBriefcase;
+    private final ImageView mIconBadge;
     private final View mIconLayout;
     final View mPreviewIcon;
 
@@ -77,14 +80,14 @@ final class ListDocumentHolder extends DocumentHolder {
     private final DocumentInfo mDoc;
 
     public ListDocumentHolder(Context context, ViewGroup parent, IconHelper iconHelper,
-            Lookup<String, String> fileTypeLookup) {
-        super(context, parent, R.layout.item_doc_list);
+            Lookup<String, String> fileTypeLookup, ConfigStore configStore) {
+        super(context, parent, R.layout.item_doc_list, configStore);
 
         mIconLayout = itemView.findViewById(R.id.icon);
         mIconMime = (ImageView) itemView.findViewById(R.id.icon_mime);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
-        mIconBriefcase = (ImageView) itemView.findViewById(R.id.icon_briefcase);
+        mIconBadge = (ImageView) itemView.findViewById(R.id.icon_profile_badge);
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
         mSize = (TextView) itemView.findViewById(R.id.size);
         mDate = (TextView) itemView.findViewById(R.id.date);
@@ -98,7 +101,7 @@ final class ListDocumentHolder extends DocumentHolder {
         mFileTypeLookup = fileTypeLookup;
         mDoc = new DocumentInfo();
 
-        if (SdkLevel.isAtLeastT()) {
+        if (SdkLevel.isAtLeastT() && !mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             setUpdatableWorkProfileIcon(context);
         }
     }
@@ -108,7 +111,7 @@ final class ListDocumentHolder extends DocumentHolder {
         DevicePolicyManager dpm = context.getSystemService(DevicePolicyManager.class);
         Drawable drawable = dpm.getResources().getDrawable(WORK_PROFILE_ICON, SOLID_COLORED, () ->
                 context.getDrawable(R.drawable.ic_briefcase));
-        mIconBriefcase.setImageDrawable(drawable);
+        mIconBadge.setImageDrawable(drawable);
     }
 
     @Override
@@ -158,7 +161,7 @@ final class ListDocumentHolder extends DocumentHolder {
                 mPreviewIcon.setContentDescription(
                         getPreviewIconContentDescription(
                                 mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier()),
-                                mDoc.displayName));
+                                mDoc.displayName, mDoc.userId));
                 mPreviewIcon.setAccessibilityDelegate(
                         new PreviewAccessibilityDelegate(clickCallback));
             }
@@ -167,7 +170,16 @@ final class ListDocumentHolder extends DocumentHolder {
 
     @Override
     public void bindBriefcaseIcon(boolean show) {
-        mIconBriefcase.setVisibility(show ? View.VISIBLE : View.GONE);
+        mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void bindProfileIcon(boolean show, int userIdIdentifier) {
+        Map<UserId, Drawable> userIdToBadgeMap = DocumentsApplication.getUserManagerState(
+                mContext).getUserIdToBadgeMap();
+        Drawable drawable = userIdToBadgeMap.get(UserId.of(userIdIdentifier));
+        mIconBadge.setImageDrawable(drawable);
+        mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -209,7 +221,7 @@ final class ListDocumentHolder extends DocumentHolder {
     /**
      * Bind this view to the given document for display.
      *
-     * @param cursor Pointing to the item to be bound.
+     * @param cursor  Pointing to the item to be bound.
      * @param modelId The model ID of the item.
      */
     @Override

@@ -23,10 +23,12 @@ import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.Model;
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFileTypeLookup;
+import com.android.documentsui.testing.TestProvidersAccess;
 
 @MediumTest
 public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
@@ -35,6 +37,7 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
 
     private TestEnv mEnv;
     private ActionHandler mActionHandler;
+    private TestConfigStore mTestConfigStore;
     private ModelBackedDocumentsAdapter mAdapter;
 
     public void setUp() {
@@ -42,13 +45,15 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
         mEnv = TestEnv.create(AUTHORITY);
         mActionHandler = new TestActionHandler();
+        mTestConfigStore = new TestConfigStore();
 
         DocumentsAdapter.Environment env = new TestEnvironment(testContext, mEnv, mActionHandler);
 
         mAdapter = new ModelBackedDocumentsAdapter(
                 env,
-                new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */ false),
-                new TestFileTypeLookup());
+                new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */ false, null,
+                        TestProvidersAccess.OtherUser.USER_ID, null, mTestConfigStore),
+                new TestFileTypeLookup(), mTestConfigStore);
         mAdapter.getModelUpdateListener().accept(Model.Update.UPDATE);
     }
 

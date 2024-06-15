@@ -35,33 +35,37 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
+import com.android.documentsui.ConfigStore;
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.ui.Views;
 import com.android.modules.utils.build.SdkLevel;
 
-final class GridDirectoryHolder extends DocumentHolder {
+import java.util.Map;
 
+final class GridDirectoryHolder extends DocumentHolder {
     final TextView mTitle;
 
     private final ImageView mIconCheck;
     private final ImageView mIconMime;
-    private final ImageView mIconBriefcase;
+    private final ImageView mIconBadge;
     private final View mIconLayout;
 
-    public GridDirectoryHolder(Context context, ViewGroup parent) {
-        super(context, parent, R.layout.item_dir_grid);
+    GridDirectoryHolder(Context context, ViewGroup parent, ConfigStore configStore) {
+        super(context, parent, R.layout.item_dir_grid, configStore);
 
         mIconLayout = itemView.findViewById(R.id.icon);
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
         mIconMime = (ImageView) itemView.findViewById(R.id.icon_mime_sm);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
-        mIconBriefcase = (ImageView) itemView.findViewById(R.id.icon_briefcase);
+        mIconBadge = (ImageView) itemView.findViewById(R.id.icon_profile_badge);
         mIconMime.setImageDrawable(
                 IconUtils.loadMimeIcon(context, DocumentsContract.Document.MIME_TYPE_DIR));
 
-        if (SdkLevel.isAtLeastT()) {
+        if (SdkLevel.isAtLeastT() && !mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             setUpdatableWorkProfileIcon(context);
         }
     }
@@ -71,7 +75,7 @@ final class GridDirectoryHolder extends DocumentHolder {
         DevicePolicyManager dpm = context.getSystemService(DevicePolicyManager.class);
         Drawable drawable = dpm.getResources().getDrawable(WORK_PROFILE_ICON, SOLID_COLORED, () ->
                 context.getDrawable(R.drawable.ic_briefcase));
-        mIconBriefcase.setImageDrawable(drawable);
+        mIconBadge.setImageDrawable(drawable);
     }
 
     @Override
@@ -90,7 +94,16 @@ final class GridDirectoryHolder extends DocumentHolder {
 
     @Override
     public void bindBriefcaseIcon(boolean show) {
-        mIconBriefcase.setVisibility(show ? View.VISIBLE : View.GONE);
+        mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void bindProfileIcon(boolean show, int userIdIdentifier) {
+        Map<UserId, Drawable> userIdToBadgeMap = DocumentsApplication.getUserManagerState(
+                mContext).getUserIdToBadgeMap();
+        Drawable drawable = userIdToBadgeMap.get(UserId.of(userIdIdentifier));
+        mIconBadge.setImageDrawable(drawable);
+        mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -107,12 +120,13 @@ final class GridDirectoryHolder extends DocumentHolder {
 
     /**
      * Bind this view to the given document for display.
-     * @param cursor Pointing to the item to be bound.
+     *
+     * @param cursor  Pointing to the item to be bound.
      * @param modelId The model ID of the item.
      */
     @Override
     public void bind(Cursor cursor, String modelId) {
-        assert(cursor != null);
+        assert (cursor != null);
 
         this.mModelId = modelId;
 

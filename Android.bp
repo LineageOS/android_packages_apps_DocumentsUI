@@ -59,8 +59,6 @@ java_defaults {
 
     sdk_version: "system_current",
     min_sdk_version: "29",
-
-    lint: { strict_updatability_linting: true }
 }
 
 platform_compat_config {
@@ -68,39 +66,32 @@ platform_compat_config {
     src: ":DocumentsUI",
 }
 
-filegroup {
-    name: "DocumentsUI-srcs",
-    srcs: [
-        "src/**/*.java",
-	":statslog-docsui-java-gen",
-    ],
-}
-
 java_library {
     name: "docsui-statsd",
     srcs: [
         ":statslog-docsui-java-gen",
     ],
-    lint: { strict_updatability_linting: true }
+    libs: [
+        "androidx.annotation_annotation",
+    ],
+    lint: {
+        strict_updatability_linting: true,
+    },
 }
 
 genrule {
     name: "statslog-docsui-java-gen",
     tools: ["stats-log-api-gen"],
     cmd: "$(location stats-log-api-gen) --java $(out) --module docsui" +
-         " --javaPackage com.android.documentsui --javaClass DocumentsStatsLog --minApiLevel 29",
+        " --javaPackage com.android.documentsui --javaClass DocumentsStatsLog --minApiLevel 29",
     out: ["com/android/documentsui/DocumentsStatsLog.java"],
 }
 
 android_library {
-    name: "DocumentsUI-res-lib",
+    name: "DocumentsUI-lib",
+    defaults: ["documentsui_defaults"],
 
-    manifest: "AndroidManifest.xml",
-
-    static_libs: [
-        "androidx.appcompat_appcompat",
-        "com.google.android.material_material",
-    ],
+    manifest: "AndroidManifestLib.xml",
 
     resource_dirs: [
         "res",
@@ -110,40 +101,31 @@ android_library {
         "--auto-add-overlay",
     ],
 
+    srcs: [
+        "src/**/*.java",
+        ":statslog-docsui-java-gen",
+    ],
+
     sdk_version: "system_current",
     target_sdk_version: "33",
     min_sdk_version: "29",
-    lint: { strict_updatability_linting: true }
+    lint: {
+        baseline_filename: "lint-baseline.xml",
+    },
 }
 
 android_library {
-    name: "DocumentsUIUnitTests-res-lib",
+    name: "DocumentsUIManifestLib",
+    defaults: ["documentsui_defaults"],
 
-    manifest: "AndroidManifestForUnitTests.xml",
+    manifest: "AndroidManifest.xml",
 
-    static_libs: [
-        "androidx.appcompat_appcompat",
-        "com.google.android.material_material",
-        "modules-utils-build_system",
-    ],
-
-    resource_dirs: [
-        "res",
-    ],
-
-    licenses: [
-        "Android-Apache-2.0",
-        "packages_apps_DocumentsUI_res_drawable_pd_license",
-    ],
-
-    aaptflags: [
-        "--auto-add-overlay",
-    ],
+    resource_dirs: [],
+    libs: ["DocumentsUI-lib"],
 
     sdk_version: "system_current",
     target_sdk_version: "33",
     min_sdk_version: "29",
-    lint: { strict_updatability_linting: true }
 }
 
 android_app {
@@ -153,13 +135,8 @@ android_app {
 
     manifest: "AndroidManifest.xml",
 
-    srcs: [
-        ":DocumentsUI-srcs",
-    ],
-
-    resource_dirs: [
-        "res",
-    ],
+    static_libs: ["DocumentsUI-lib"],
+    resource_dirs: [],
 
     licenses: [
         "Android-Apache-2.0",
@@ -170,6 +147,4 @@ android_app {
 
     min_sdk_version: "29",
     updatable: true,
-    lint: { strict_updatability_linting: true }
 }
-

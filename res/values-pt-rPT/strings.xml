@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Não é possível carregar o conteúdo neste momento"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"As Apps de trabalho estão suspensas."</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Ativar apps de trabalho"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"As apps de <xliff:g id="PROFILE">%1$s</xliff:g> estão pausadas"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Ativar apps de <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Não é possível selecionar ficheiros de trabalho."</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"O seu administrador de TI não lhe permite aceder a ficheiros de trabalho a partir de uma app pessoal."</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Não é possível selecionar ficheiros pessoais."</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"O seu administrador de TI não lhe permite aceder a ficheiros pessoais a partir de uma app de trabalho."</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Não é possível selecionar ficheiros de <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"O seu administrador de TI não lhe permite aceder a ficheiros de <xliff:g id="PROFILE_0">%1$s</xliff:g> a partir de uma app <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Não é possível guardar no perfil de trabalho."</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"O seu administrador de TI não lhe permite guardar ficheiros pessoais no seu perfil de trabalho."</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Não é possível guardar no perfil pessoal."</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"O seu administrador de TI não lhe permite guardar ficheiros de trabalho no seu perfil pessoal."</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Não é possível guardar no perfil de <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"O seu administrador de TI não lhe permite guardar ficheiros <xliff:g id="PROFILE_0">%1$s</xliff:g> no seu perfil de <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Esta ação não é permitida"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Para saber mais, contacte o administrador de TI."</string>
     <string name="root_recent" msgid="1080156975424341623">"Recentes"</string>
@@ -288,6 +294,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Novo nome"</string>
     <string name="preview_file" msgid="4056622696305432343">"Pré-visualizar o ficheiro <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Pré-visualize o ficheiro de trabalho <xliff:g id="FILENAME">%1$s</xliff:g>."</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Pré-visualize o ficheiro de <xliff:g id="PROFILE">%1$s</xliff:g> <xliff:g id="FILENAME">%2$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Procure ficheiros noutras apps"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Usar esta pasta"</string>
@@ -296,7 +303,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Não é possível utilizar esta pasta"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Para proteger a sua privacidade, escolha outra pasta."</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Criar nova pasta"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Pesquise neste telemóvel"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Pesquise este dispositivo"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Elimine o histórico de pesquisas <xliff:g id="TEXT">%1$s</xliff:g>."</string>
     <string name="personal_tab" msgid="3878576287868528503">"Pessoal"</string>
     <string name="work_tab" msgid="7265359366883747413">"Trabalho"</string>

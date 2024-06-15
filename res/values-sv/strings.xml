@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Det går inte att läsa in innehållet just nu"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Jobbappar har pausats"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Aktivera jobbappar"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"<xliff:g id="PROFILE">%1$s</xliff:g>appar har pausats"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Slå på <xliff:g id="PROFILE">%1$s</xliff:g>appar"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Det går inte att välja jobbfiler"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT-administratören tillåter inte att du öppnar jobbfiler i en privat app"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Det går inte att välja privata filer"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT-administratören tillåter inte att du öppnar privata filer i en jobbapp"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Det gick inte att välja <xliff:g id="PROFILE">%1$s</xliff:g>filer"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"IT-administratören tillåter inte att du sparar <xliff:g id="PROFILE_0">%1$s</xliff:g>filer från en <xliff:g id="PROFILE_1">%2$s</xliff:g> app"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Det går inte att spara i jobbprofilen"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IT-administratören tillåter inte att du sparar privata filer i jobbprofilen"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Det går inte att spara i den privata profilen"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT-administratören tillåter inte att du sparar jobbfiler i den privata profilen"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Det gick inte att spara i <xliff:g id="PROFILE">%1$s</xliff:g>profilen"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"IT-administratören tillåter inte att du sparar <xliff:g id="PROFILE_0">%1$s</xliff:g>filer i den <xliff:g id="PROFILE_1">%2$s</xliff:g> profilen"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Förbjuden åtgärd"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Kontakta IT-administratören om du vill veta mer"</string>
     <string name="root_recent" msgid="1080156975424341623">"Senaste"</string>
@@ -266,6 +272,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Nytt namn"</string>
     <string name="preview_file" msgid="4056622696305432343">"Förhandsgranska filen <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Förhandsgranska jobbfilen <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Förhandsgranska <xliff:g id="PROFILE">%1$s</xliff:g>filen <xliff:g id="FILENAME">%2$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Bläddra efter filer i andra appar"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonym"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Använd den här mappen"</string>
@@ -274,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Det går inte att använda den här mappen"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Välj en annan mapp för att skydda din integritet"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Skapa ny mapp"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Sök på telefonen"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Sök på den här enheten"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Radera sökhistorik – <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Privat"</string>
     <string name="work_tab" msgid="7265359366883747413">"Jobb"</string>

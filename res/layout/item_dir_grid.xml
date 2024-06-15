@@ -81,11 +81,12 @@
             </FrameLayout>
 
             <ImageView
-                android:id="@+id/icon_briefcase"
+                android:id="@+id/icon_profile_badge"
                 android:layout_height="@dimen/briefcase_icon_size"
                 android:layout_width="@dimen/briefcase_icon_size"
                 android:layout_marginEnd="@dimen/briefcase_icon_margin"
                 android:src="@drawable/ic_briefcase"
+                android:tint="?android:attr/colorAccent"
                 android:contentDescription="@string/a11y_work"/>
 
             <TextView

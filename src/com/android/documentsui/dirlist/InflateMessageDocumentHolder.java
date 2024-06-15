@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.R;
 import com.android.documentsui.util.VersionUtils;
 
@@ -52,8 +53,8 @@ final class InflateMessageDocumentHolder extends MessageHolder {
     private View mCrossProfileContent;
     private ProgressBar mCrossProfileProgress;
 
-    public InflateMessageDocumentHolder(Context context, ViewGroup parent) {
-        super(context, parent, R.layout.item_doc_inflated_message);
+    InflateMessageDocumentHolder(Context context, ViewGroup parent, ConfigStore configStore) {
+        super(context, parent, R.layout.item_doc_inflated_message, configStore);
         mContentView = itemView.findViewById(R.id.content);
         mCrossProfileView = itemView.findViewById(R.id.cross_profile);
         mCrossProfileContent = mCrossProfileView.findViewById(R.id.cross_profile_content);

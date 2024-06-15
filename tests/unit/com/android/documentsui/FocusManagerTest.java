@@ -17,10 +17,10 @@
 package com.android.documentsui;
 
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.TestData;

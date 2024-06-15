@@ -35,6 +35,7 @@ import java.util.concurrent.Executor;
 
 public class RecentsLoader extends MultiRootDocumentsLoader {
 
+    private static final String TAG = "RecentsLoader";
     /** Ignore documents older than this age. */
     private static final long REJECT_OLDER_THAN = 45 * DateUtils.DAY_IN_MILLIS;
 

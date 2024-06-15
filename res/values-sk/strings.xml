@@ -52,13 +52,13 @@
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Zobraziť v službe <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nové okno"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Vystrihnúť"</string>
-    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Kopírovať"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Skopírovať"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Prilepiť"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"Prilepiť do priečinka"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"Zobraziť interné úložisko"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Skryť interné úložisko"</string>
     <string name="button_select" msgid="240863497069321364">"Vybrať"</string>
-    <string name="button_copy" msgid="8219059853840996027">"Kopírovať"</string>
+    <string name="button_copy" msgid="8219059853840996027">"Skopírovať"</string>
     <string name="button_compress" msgid="8951561310857223966">"Komprimovať"</string>
     <string name="button_extract" msgid="1038674453689912247">"Extrahovať"</string>
     <string name="button_move" msgid="8596460499325291272">"Presunúť"</string>
@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Obsah momentálne nie je možné načítať"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Pracovné aplikácie sú pozastavené"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Zapnúť pracovné aplikácie"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Aplikácie profilu <xliff:g id="PROFILE">%1$s</xliff:g> sú pozastavené"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Zapnúť aplikácie profilu <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Pracovné súbory sa nedajú vybrať"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Váš správca IT vám zakázal prístup k pracovným súborom z osobnej aplikácie"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Osobné súbory sa nedajú vybrať"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Váš správca IT vám zakázal prístup k osobným súborom z pracovnej aplikácie"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Súbory profilu <xliff:g id="PROFILE">%1$s</xliff:g> sa nedajú vybrať"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"Váš správca IT vám nepovolil prístup k súborom profilu <xliff:g id="PROFILE_0">%1$s</xliff:g> z aplikácie profilu <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nie je možné ukladať do pracovného profilu"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Váš správca IT vám zakázal ukladať osobné súbory do pracovného profilu"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nedajú sa uložiť do osobného profilu"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Váš správca IT vám zakázal ukladať pracovné súbory do osobného profilu"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Nie je možné uložiť do profilu <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"Váš správca IT vám nepovolil ukladanie súborov profilu <xliff:g id="PROFILE_0">%1$s</xliff:g> do profilu <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Táto akcia nie je povolená"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Viac sa dozviete od svojho správcu IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"Nedávne"</string>
@@ -310,6 +316,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Nové názov"</string>
     <string name="preview_file" msgid="4056622696305432343">"Zobraziť ukážku súboru <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Zobraziť ukážku pracovného súboru <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Zobrazte si ukážku súboru profilu <xliff:g id="PROFILE">%1$s</xliff:g> s názvom <xliff:g id="FILENAME">%2$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Prehliadanie súborov v iných aplikáciách"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonymná"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Použiť tento priečinok"</string>
@@ -318,7 +325,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Tento priečinok sa nedá použiť"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Ak chcete ochrániť svoje súkromie, vyberte iný priečinok"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Vytvoriť nový priečinok"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Hľadať v telefóne"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Vyhľadajte v tomto zariadení"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Odstrániť históriu vyhľadávania <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Osobné"</string>
     <string name="work_tab" msgid="7265359366883747413">"Práca"</string>

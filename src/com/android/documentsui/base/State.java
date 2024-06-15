@@ -23,6 +23,7 @@ import android.util.SparseArray;
 
 import androidx.annotation.IntDef;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.sorting.SortModel;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class State implements android.os.Parcelable {
 
@@ -47,7 +49,9 @@ public class State implements android.os.Parcelable {
             ACTION_OPEN_TREE
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface ActionType {}
+    public @interface ActionType {
+    }
+
     // File manager and related private picking activity.
     public static final int ACTION_BROWSE = 1;
     public static final int ACTION_PICK_COPY_DESTINATION = 2;
@@ -63,7 +67,9 @@ public class State implements android.os.Parcelable {
             MODE_GRID
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface ViewMode {}
+    public @interface ViewMode {
+    }
+
     public static final int MODE_UNKNOWN = 0;
     public static final int MODE_LIST = 1;
     public static final int MODE_GRID = 2;
@@ -85,6 +91,7 @@ public class State implements android.os.Parcelable {
     public boolean openableOnly;
     public boolean restrictScopeStorage;
     public boolean showHiddenFiles;
+    public ConfigStore configStore;
 
     /**
      * Represents whether the state supports cross-profile file picking.
@@ -100,8 +107,17 @@ public class State implements android.os.Parcelable {
      * Returns true if we are allowed to interact with the user.
      */
     public boolean canInteractWith(UserId userId) {
+        if (configStore.isPrivateSpaceInDocsUIEnabled()) {
+            return canForwardToProfileIdMap.getOrDefault(userId, false);
+        }
         return canShareAcrossProfile || UserId.CURRENT_USER.equals(userId);
     }
+
+    /**
+     * Represents whether the intent can be forwarded to the {@link UserId} in the map
+     */
+    public Map<UserId, Boolean> canForwardToProfileIdMap = new HashMap<>();
+
 
     /**
      * This is basically a sub-type for the copy operation. It can be either COPY,
@@ -125,12 +141,13 @@ public class State implements android.os.Parcelable {
         if (intent.hasExtra(Intent.EXTRA_MIME_TYPES)) {
             acceptMimes = intent.getStringArrayExtra(Intent.EXTRA_MIME_TYPES);
         } else {
-            acceptMimes = new String[] { defaultAcceptMimeType };
+            acceptMimes = new String[]{defaultAcceptMimeType};
         }
     }
 
     /**
      * Check current action should have preview function or not.
+     *
      * @return True, if the action should have preview.
      */
     public boolean shouldShowPreview() {
@@ -141,6 +158,7 @@ public class State implements android.os.Parcelable {
 
     /**
      * Check the action is file picking and acceptMimes are all images type or not.
+     *
      * @return True, if acceptMimes are all image type and action is file picking.
      */
     public boolean isPhotoPicking() {

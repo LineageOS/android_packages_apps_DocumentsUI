@@ -54,6 +54,7 @@ import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -87,10 +88,12 @@ public abstract class BaseActivity
         extends AppCompatActivity implements CommonAddons, NavigationViewManager.Environment {
 
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
+    private static final String TAG = "BaseActivity";
 
     protected SearchViewManager mSearchManager;
     protected AppsRowManager mAppsRowManager;
     protected UserIdManager mUserIdManager;
+    protected UserManagerState mUserManagerState;
     protected State mState;
 
     @Injected
@@ -102,6 +105,7 @@ public abstract class BaseActivity
 
     protected NavigationViewManager mNavigator;
     protected SortController mSortController;
+    protected ConfigStore mConfigStore;
 
     private final List<EventListener> mEventListeners = new ArrayList<>();
     private final String mTag;
@@ -116,17 +120,50 @@ public abstract class BaseActivity
 
     private PreferencesMonitor mPreferencesMonitor;
 
+    private final DocumentStack mInitialStack = new DocumentStack();
+    private UserId mLastSelectedUser = null;
+
+    protected void setInitialStack(DocumentStack stack) {
+        if (mInitialStack.isInitialized()) {
+            if (DEBUG) {
+                Log.d(TAG, "Initial stack already initialised. " + mInitialStack.isInitialized());
+            }
+            return;
+        }
+        mInitialStack.reset(stack);
+    }
+
+    public DocumentStack getInitialStack() {
+        return mInitialStack;
+    }
+
+    public UserId getLastSelectedUser() {
+        return mLastSelectedUser;
+    }
+
     public BaseActivity(@LayoutRes int layoutId, String tag) {
         mLayoutId = layoutId;
         mTag = tag;
     }
 
     protected abstract void refreshDirectory(int anim);
+
     /** Allows sub-classes to include information in a newly created State instance. */
     protected abstract void includeState(State initialState);
+
     protected abstract void onDirectoryCreated(DocumentInfo doc);
 
     public abstract Injector<?> getInjector();
+
+    @VisibleForTesting
+    protected void initConfigStore() {
+        mConfigStore = DocumentsApplication.getConfigStore();
+    }
+
+    @VisibleForTesting
+    public void setConfigStore(ConfigStore configStore) {
+        mConfigStore = configStore;
+    }
 
     @CallSuper
     @Override
@@ -166,6 +203,8 @@ public abstract class BaseActivity
 
         setContainer();
 
+        initConfigStore();
+
         mInjector = getInjector();
         mState = getState(savedInstanceState);
         mDrawer = DrawerController.create(this, mInjector.config);
@@ -178,12 +217,11 @@ public abstract class BaseActivity
         setSupportActionBar(toolbar);
 
         Breadcrumb breadcrumb = findViewById(R.id.horizontal_breadcrumb);
-        assert(breadcrumb != null);
+        assert (breadcrumb != null);
         View profileTabsContainer = findViewById(R.id.tabs_container);
         assert (profileTabsContainer != null);
 
-        mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
-                profileTabsContainer, DocumentsApplication.getUserIdManager(this));
+        mNavigator = getNavigationViewManager(breadcrumb, profileTabsContainer);
         AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         if (appBarLayout != null) {
             appBarLayout.addOnOffsetChangedListener(mNavigator);
@@ -280,7 +318,15 @@ public abstract class BaseActivity
                         cmdInterceptor);
 
         ViewGroup chipGroup = findViewById(R.id.search_chip_group);
+
         mUserIdManager = DocumentsApplication.getUserIdManager(this);
+        mUserManagerState = DocumentsApplication.getUserManagerState(this);
+        // If private space feature flag is enabled, we should store the intent that launched docsUi
+        // so that we can use this intent to get CrossProfileResolveInfo when ever we want to,
+        // for example when ACTION_PROFILE_AVAILABLE intent is received
+        if (mUserManagerState != null) {
+            mUserManagerState.setCurrentStateIntent(intent);
+        }
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
                 chipGroup, savedInstanceState);
         // initialize the chip sets by accept mime types
@@ -330,6 +376,9 @@ public abstract class BaseActivity
                 // The activity will clear search on root picked. If we don't clear the search,
                 // user may see the search result screen show up briefly and then get cleared.
                 mSearchManager.cancelSearch();
+                // When a profile with user property SHOW_IN_QUIET_MODE_HIDDEN is currently
+                // selected, and it becomes unavailable, we reset the roots to recents.
+                // We do not reset it to recents when pick activity is due to ACTION_CREATE_DOCUMENT
                 mInjector.actions.loadCrossProfileRoot(getCurrentRoot(), userId);
             }
         });
@@ -344,6 +393,18 @@ public abstract class BaseActivity
 
         // Base classes must update result in their onCreate.
         setResult(AppCompatActivity.RESULT_CANCELED);
+    }
+
+    private NavigationViewManager getNavigationViewManager(Breadcrumb breadcrumb,
+            View profileTabsContainer) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+            return new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
+                    profileTabsContainer, DocumentsApplication.getUserManagerState(this),
+                    mConfigStore);
+        }
+        return new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
+                profileTabsContainer, DocumentsApplication.getUserIdManager(this),
+                mConfigStore);
     }
 
     public void onPreferenceChanged(String pref) {
@@ -366,6 +427,12 @@ public abstract class BaseActivity
                 mSearchManager,
                 mInjector.actionModeController::finishActionMode);
         mRootsMonitor.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLastSelectedUser = getSelectedUser();
     }
 
     @Override
@@ -405,6 +472,8 @@ public abstract class BaseActivity
         }
         mPreferencesMonitor.stop();
         mSortController.destroy();
+        DocumentsApplication.invalidateUserManagerState(this);
+        DocumentsApplication.invalidateConfigStore();
         super.onDestroy();
     }
 
@@ -430,6 +499,7 @@ public abstract class BaseActivity
                 getApplicationContext()
                         .getResources()
                         .getBoolean(R.bool.show_hidden_files_by_default));
+        state.configStore = mConfigStore;
 
         includeState(state);
 
@@ -563,7 +633,6 @@ public abstract class BaseActivity
 
     /**
      * Returns true if a directory can be created in the current location.
-     * @return
      */
     protected boolean canCreateDirectory() {
         final RootInfo root = getCurrentRoot();
@@ -601,7 +670,6 @@ public abstract class BaseActivity
     /**
      * Refreshes the content of the director and the menu/action bar.
      * The current directory name and selection will get updated.
-     * @param anim
      */
     @Override
     public final void refreshCurrentRootAndDirectory(int anim) {
@@ -651,7 +719,7 @@ public abstract class BaseActivity
             try {
                 PackageInfo pkgInfo = getPackageManager().getPackageInfo(packageName,
                         PackageManager.GET_PROVIDERS);
-                for (ProviderInfo provider: pkgInfo.providers) {
+                for (ProviderInfo provider : pkgInfo.providers) {
                     authorities.add(provider.authority);
                 }
             } catch (PackageManager.NameNotFoundException e) {
@@ -727,9 +795,14 @@ public abstract class BaseActivity
         }
     }
 
-    public void updateHeader(boolean shouldHideHeader){
+    /**
+     * Updates headerContainer by setting its visibility
+     *
+     * @param shouldHideHeader whether to hide header container or not
+     */
+    public void updateHeader(boolean shouldHideHeader) {
         View headerContainer = findViewById(R.id.header_container);
-        if(headerContainer == null){
+        if (headerContainer == null) {
             updateHeaderTitle();
             return;
         }
@@ -798,7 +871,7 @@ public abstract class BaseActivity
 
     private String getHeaderDownloadsTitle() {
         return getString(mState.isPhotoPicking()
-            ? R.string.root_info_header_image_downloads : R.string.root_info_header_downloads);
+                ? R.string.root_info_header_image_downloads : R.string.root_info_header_downloads);
     }
 
     private String getHeaderStorageTitle(String rootTitle) {
@@ -828,6 +901,7 @@ public abstract class BaseActivity
 
     /**
      * Get title string equal to the string action bar displayed.
+     *
      * @return current directory title name
      */
     public String getCurrentTitle() {

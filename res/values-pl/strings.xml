@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Teraz nie można załadować zawartości"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Aplikacje służbowe zostały wstrzymane"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Włącz aplikacje służbowe"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Aplikacje <xliff:g id="PROFILE">%1$s</xliff:g> zostały wstrzymane"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Włącz aplikacje typu <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nie można wybrać plików służbowych"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Administrator IT nie pozwala na dostęp do plików służbowych w aplikacjach osobistych"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Nie można wybrać plików osobistych"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Administrator IT nie pozwala na dostęp do plików osobistych w aplikacjach służbowych"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Nie można wybierać plików typu <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"Administrator IT nie pozwala na dostęp do plików typu <xliff:g id="PROFILE_0">%1$s</xliff:g> z aplikacji typu <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nie można zapisać w profilu służbowym"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Administrator IT nie pozwala na zapisywanie plików osobistych w profilu służbowym"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nie można zapisać w profilu osobistym"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Administrator IT nie pozwala na zapisywanie plików służbowych w profilu osobistym"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Nie można zapisać w profilu typu <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"Administrator IT nie pozwala na zapisywanie plików typu <xliff:g id="PROFILE_0">%1$s</xliff:g> w profilu typu <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ta czynność jest niedozwolona"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Aby dowiedzieć się więcej, skontaktuj się z administratorem IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"Najnowsze"</string>
@@ -310,6 +316,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Nowa nazwa"</string>
     <string name="preview_file" msgid="4056622696305432343">"Wyświetl podgląd pliku <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Wyświetl podgląd pliku służbowego <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Wyświetl podgląd pliku <xliff:g id="FILENAME">%2$s</xliff:g> typu <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Przeglądaj pliki w innych aplikacjach"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonimowa"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Użyj tego folderu"</string>
@@ -318,7 +325,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Nie można użyć tego folderu"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Aby chronić swoją prywatność, wybierz inny folder"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Utwórz nowy folder"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Szukaj na telefonie"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Przeszukaj to urządzenie"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Usuń historię wyszukiwania <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Osobiste"</string>
     <string name="work_tab" msgid="7265359366883747413">"Służbowe"</string>

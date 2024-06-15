@@ -18,27 +18,47 @@ package com.android.documentsui;
 
 import static junit.framework.Assert.fail;
 
+import static org.mockito.Mockito.mock;
+
+import android.content.ContentProviderClient;
 import android.content.pm.PackageManager;
 
 import androidx.test.filters.MediumTest;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(Parameterized.class)
 @MediumTest
 public class DocumentsAccessTest {
 
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
     private TestActivity mActivity;
     private DocumentsAccess mDocumentsAccess;
     private TestEnv mEnv;
+    private ContentProviderClient mMockContentProviderClient = mock(ContentProviderClient.class);
+
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
 
     @Before
     public void setUp() throws PackageManager.NameNotFoundException {
@@ -46,6 +66,11 @@ public class DocumentsAccessTest {
         mEnv.reset();
         mActivity = TestActivity.create(mEnv);
         mDocumentsAccess = DocumentsAccess.create(mActivity, mEnv.state);
+        mEnv.state.configStore = mTestConfigStore;
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+        }
     }
 
     @Test

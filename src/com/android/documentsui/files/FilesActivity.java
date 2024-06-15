@@ -83,8 +83,15 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     }
 
     // make these methods visible in this package to work around compiler bug http://b/62218600
-    @Override protected boolean focusSidebar() { return super.focusSidebar(); }
-    @Override protected boolean popDir() { return super.popDir(); }
+    @Override
+    protected boolean focusSidebar() {
+        return super.focusSidebar();
+    }
+
+    @Override
+    protected boolean popDir() {
+        return super.popDir();
+    }
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -157,8 +164,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
                 mInjector.selectionMgr,
                 mProfileTabsAddonsStub);
 
-        mAppsRowManager = new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                mUserIdManager);
+        mAppsRowManager = getAppsRowManager();
         mInjector.appsRowManager = mAppsRowManager;
 
         mActivityInputHandler =
@@ -194,6 +200,14 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         presentFileErrors(icicle, intent);
     }
 
+    private AppsRowManager getAppsRowManager() {
+        return mConfigStore.isPrivateSpaceInDocsUIEnabled()
+                ? new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
+                mUserManagerState, mConfigStore)
+                : new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
+                        mUserIdManager, mConfigStore);
+    }
+
     // This is called in the intent contains label and icon resources.
     // When that is true, the launcher activity has supplied them so we
     // can adapt our presentation to how we were launched.
@@ -207,11 +221,11 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     // called Downloads, which is also not the desired behavior.
     private void updateTaskDescription(final Intent intent) {
         int labelRes = intent.getIntExtra(LauncherActivity.TASK_LABEL_RES, -1);
-        assert(labelRes > -1);
+        assert (labelRes > -1);
         String label = getResources().getString(labelRes);
 
         int iconRes = intent.getIntExtra(LauncherActivity.TASK_ICON_RES, -1);
-        assert(iconRes > -1);
+        assert (iconRes > -1);
 
         setTaskDescription(new TaskDescription(label, iconRes));
     }
@@ -244,14 +258,14 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         final Intent intent = getIntent();
 
         // This is a remnant of old logic where we used to initialize accept MIME types in
-        // BaseActivity. ProvidersAccess still rely on this being correctly initialized so we still have
-        // to initialize it in FilesActivity.
+        // BaseActivity. ProvidersAccess still rely on this being correctly initialized, so we
+        // still have to initialize it in FilesActivity.
         state.initAcceptMimes(intent, "*/*");
         state.action = State.ACTION_BROWSE;
         state.allowMultiple = true;
 
         // Options specific to the DocumentsActivity.
-        assert(!intent.hasExtra(Intent.EXTRA_LOCAL_ONLY));
+        assert (!intent.hasExtra(Intent.EXTRA_LOCAL_ONLY));
     }
 
     @Override
@@ -283,6 +297,11 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         if (mProviders.getRootBlocking(root.userId, root.authority, root.rootId) == null) {
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -336,7 +355,9 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
 
-        assert(!mSearchManager.isSearching());
+        setInitialStack(mState.stack);
+
+        assert (!mSearchManager.isSearching());
 
         if (mState.stack.isRecents()) {
             DirectoryFragment.showRecentsOpen(fm, anim);
@@ -358,7 +379,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
 
     @Override
     public void onDirectoryCreated(DocumentInfo doc) {
-        assert(doc.isDirectory());
+        assert (doc.isDirectory());
         mInjector.focusManager.focusDocument(doc.documentId);
     }
 

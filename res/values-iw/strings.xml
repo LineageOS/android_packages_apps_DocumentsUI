@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"לא ניתן כרגע לטעון תוכן"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"האפליקציות לעבודה מושהות"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"הפעלה של אפליקציות לעבודה"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"אפליקציות מפרופיל <xliff:g id="PROFILE">%1$s</xliff:g> מושהות"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"הפעלת אפליקציות מפרופיל <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"לא ניתן לבחור קובצי עבודה"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"‏מנהל ה-IT לא מאפשר לגשת לקובצי עבודה מאפליקציה לשימוש אישי"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"לא ניתן לבחור קבצים אישיים"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"‏מנהל ה-IT לא מאפשר לגשת לקבצים אישיים מאפליקציה לעבודה"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"לא ניתן לבחור קבצים מפרופיל <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"‏אין אישור מהאדמין ב-IT לגשת לקבצים מפרופיל <xliff:g id="PROFILE_0">%1$s</xliff:g> מאפליקציה <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"לא ניתן לשמור בפרופיל העבודה"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"‏מנהל ה-IT לא מתיר לשמור קבצים אישיים בפרופיל העבודה שלך"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"לא ניתן לשמור בפרופיל האישי"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"‏מנהל ה-IT לא מתיר לשמור קובצי עבודה בפרופיל האישי שלך"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"אי אפשר לשמור בפרופיל ה<xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"‏אין אישור מהאדמין ב-IT לשמור קבצים מפרופיל <xliff:g id="PROFILE_0">%1$s</xliff:g> בפרופיל ה<xliff:g id="PROFILE_1">%2$s</xliff:g> שלך"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"הפעולה הזו אסורה"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"‏כדי לקבל מידע נוסף יש לפנות אל מנהל ה-IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"בשימוש לאחרונה"</string>
@@ -288,6 +294,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"שם חדש"</string>
     <string name="preview_file" msgid="4056622696305432343">"תצוגה מקדימה של הקובץ <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"לצפייה בתצוגה מקדימה של קובץ העבודה <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"תצוגה מקדימה של קובץ ‏<xliff:g id="FILENAME">%2$s</xliff:g> מפרופיל <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"חיפוש קבצים באפליקציות אחרות"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"אנונימית"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"שימוש בתיקייה הזו"</string>
@@ -296,7 +303,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"לא ניתן להשתמש בתיקייה הזו"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"כדי להגן על הפרטיות שלך, עליך לבחור תיקייה אחרת"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"יצירת תיקייה חדשה"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"חיפוש בטלפון הזה"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"חיפוש המכשיר הזה"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"מחיקת היסטוריית החיפושים <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"אישי"</string>
     <string name="work_tab" msgid="7265359366883747413">"עבודה"</string>

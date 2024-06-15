@@ -68,9 +68,11 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
     private final ViewOutlineProvider mDefaultOutlineProvider;
     private final ViewOutlineProvider mSearchBarOutlineProvider;
     private final boolean mShowSearchBar;
+    private final ConfigStore mConfigStore;
 
     private boolean mIsActionModeActivated = false;
-    private @ColorRes int mDefaultStatusBarColorResId;
+    @ColorRes
+    private int mDefaultStatusBarColorResId;
 
     public NavigationViewManager(
             BaseActivity activity,
@@ -79,7 +81,35 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
             NavigationViewManager.Environment env,
             Breadcrumb breadcrumb,
             View tabLayoutContainer,
-            UserIdManager userIdManager) {
+            UserIdManager userIdManager,
+            ConfigStore configStore) {
+        this(activity, drawer, state, env, breadcrumb, tabLayoutContainer, userIdManager, null,
+                configStore);
+    }
+
+    public NavigationViewManager(
+            BaseActivity activity,
+            DrawerController drawer,
+            State state,
+            NavigationViewManager.Environment env,
+            Breadcrumb breadcrumb,
+            View tabLayoutContainer,
+            UserManagerState userManagerState,
+            ConfigStore configStore) {
+        this(activity, drawer, state, env, breadcrumb, tabLayoutContainer, null, userManagerState,
+                configStore);
+    }
+
+    public NavigationViewManager(
+            BaseActivity activity,
+            DrawerController drawer,
+            State state,
+            NavigationViewManager.Environment env,
+            Breadcrumb breadcrumb,
+            View tabLayoutContainer,
+            UserIdManager userIdManager,
+            UserManagerState userManagerState,
+            ConfigStore configStore) {
 
         mActivity = activity;
         mToolbar = activity.findViewById(R.id.toolbar);
@@ -89,7 +119,9 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
         mEnv = env;
         mBreadcrumb = breadcrumb;
         mBreadcrumb.setup(env, state, this::onNavigationItemSelected);
-        mProfileTabs = new ProfileTabs(tabLayoutContainer, mState, userIdManager, mEnv, activity);
+        mConfigStore = configStore;
+        mProfileTabs =
+                getProfileTabs(tabLayoutContainer, userIdManager, userManagerState, activity);
 
         mToolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
@@ -128,6 +160,15 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
         };
     }
 
+    private ProfileTabs getProfileTabs(View tabLayoutContainer, UserIdManager userIdManager,
+            UserManagerState userManagerState, BaseActivity activity) {
+        return mConfigStore.isPrivateSpaceInDocsUIEnabled()
+                ? new ProfileTabs(tabLayoutContainer, mState, userManagerState, mEnv, activity,
+                mConfigStore)
+                : new ProfileTabs(tabLayoutContainer, mState, userIdManager, mEnv, activity,
+                        mConfigStore);
+    }
+
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
         if (!VersionUtils.isAtLeastS()) {
@@ -141,7 +182,8 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
         // move directory_header out of the AppBarLayout.
 
         Window window = mActivity.getWindow();
-        View actionBar = window.getDecorView().findViewById(R.id.action_mode_bar);
+        View actionBar =
+                window.getDecorView().findViewById(androidx.appcompat.R.id.action_mode_bar);
         int dynamicHeaderColor = ContextCompat.getColor(mActivity,
                 offset == 0 ? mDefaultStatusBarColorResId : R.color.color_surface_header);
         if (actionBar != null) {

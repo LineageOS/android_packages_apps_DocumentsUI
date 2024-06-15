@@ -28,6 +28,7 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.UserProperties;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
 import android.os.UserHandle;
+import android.os.UserManager;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
@@ -111,6 +113,7 @@ import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.base.Objects;
 
@@ -132,7 +135,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             REQUEST_COPY_DESTINATION
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface RequestCode {}
+    public @interface RequestCode {
+    }
 
     public static final int REQUEST_COPY_DESTINATION = 1;
 
@@ -236,32 +240,90 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            if (isManagedProfileAction(action)) {
-                UserHandle userHandle = intent.getParcelableExtra(Intent.EXTRA_USER);
-                UserId userId = UserId.of(userHandle);
+            if (SdkLevel.isAtLeastV()
+                    && mState.configStore.isPrivateSpaceInDocsUIEnabled()) {
+                profileStatusReceiverPostV(intent, action);
+            } else {
+                profileStatusReceiverPreV(intent, action);
+            }
+        }
+
+        private void profileStatusReceiverPostV(Intent intent, String action) {
+            if (!SdkLevel.isAtLeastV()) return;
+            if (!isProfileStatusAction(action)) return;
+            UserHandle userHandle = intent.getParcelableExtra(Intent.EXTRA_USER);
+            UserId userId = UserId.of(userHandle);
+            UserManager userManager = mActivity.getSystemService(UserManager.class);
+            if (userManager == null) {
+                Log.e(TAG, "cannot obtain user manager");
+                return;
+            }
+            UserProperties userProperties = userManager.getUserProperties(userHandle);
+            if (userProperties.getShowInQuietMode()
+                    == UserProperties.SHOW_IN_QUIET_MODE_PAUSED) {
                 if (Objects.equal(mActivity.getSelectedUser(), userId)) {
                     // We only need to refresh the layout when the selected user is equal to the
                     // received profile user.
-                    if (Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action)) {
-                        // If the managed profile is turned off, we need to refresh the directory
-                        // to update the UI to show an appropriate error message.
-                        if (mProviderTestRunnable != null) {
-                            mHandler.removeCallbacks(mProviderTestRunnable);
-                            mProviderTestRunnable = null;
-                        }
-                        onRefresh();
-                        return;
-                    }
-
-                    // When the managed profile becomes available, the provider may not be available
-                    // immediately, we need to check if it is ready before we reload the content.
-                    if (Intent.ACTION_MANAGED_PROFILE_UNLOCKED.equals(action)) {
-                        checkUriAndScheduleCheckIfNeeded(userId);
-                    }
+                    onPausedProfileStatusChange(action, userId);
                 }
+                return;
+            }
+            if (userProperties.getShowInQuietMode()
+                    == UserProperties.SHOW_IN_QUIET_MODE_HIDDEN) {
+                onHiddenProfileStatusChange(action, userId);
+            }
+        }
+
+        private void profileStatusReceiverPreV(Intent intent, String action) {
+            if (!isManagedProfileAction(action)) return;
+            UserHandle userHandle = intent.getParcelableExtra(Intent.EXTRA_USER);
+            UserId userId = UserId.of(userHandle);
+            if (Objects.equal(mActivity.getSelectedUser(), userId)) {
+                // We only need to refresh the layout when the selected user is equal to the
+                // received profile user.
+                onPausedProfileStatusChange(action, userId);
             }
         }
     };
+
+    private void onPausedProfileStatusChange(String action, UserId userId) {
+        if (Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action)
+                || (SdkLevel.isAtLeastV() && Intent.ACTION_PROFILE_UNAVAILABLE.equals(action))) {
+            // If the managed/paused profile is turned off, we need to refresh the directory
+            // to update the UI to show an appropriate error message.
+            if (mProviderTestRunnable != null) {
+                mHandler.removeCallbacks(mProviderTestRunnable);
+                mProviderTestRunnable = null;
+            }
+            onRefresh();
+            return;
+        }
+
+        // When the managed/paused profile becomes available, the provider may not be available
+        // immediately, we need to check if it is ready before we reload the content.
+        if (Intent.ACTION_MANAGED_PROFILE_UNLOCKED.equals(action)
+                || (SdkLevel.isAtLeastV() && Intent.ACTION_PROFILE_AVAILABLE.equals(action))) {
+            checkUriAndScheduleCheckIfNeeded(userId);
+        }
+    }
+
+    private void onHiddenProfileStatusChange(String action, UserId userId) {
+        if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)) {
+            if (mProviderTestRunnable != null) {
+                mHandler.removeCallbacks(mProviderTestRunnable);
+                mProviderTestRunnable = null;
+            }
+            if (!mActivity.isSearchExpanded()) {
+                if (mActivity.getLastSelectedUser() != null
+                        && mActivity.getLastSelectedUser().equals(userId)) {
+                    mState.stack.reset(mActivity.getInitialStack());
+                }
+                mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+            }
+        } else {
+            checkUriAndScheduleCheckIfNeeded(userId);
+        }
+    }
 
     private final BroadcastReceiver mSdCardBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -288,7 +350,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mHandler.removeCallbacks(mProviderTestRunnable);
                 mProviderTestRunnable = null;
             }
-            mHandler.post(() -> onRefresh());
+            mHandler.post(this::onRefresh);
         } else {
             checkUriWithDelay(/* numOfRetries= */1, uri, userId);
         }
@@ -326,8 +388,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private boolean isProviderAvailable(Uri uri, UserId userId) {
         try (ContentProviderClient userClient =
-                DocumentsApplication.acquireUnstableProviderOrThrow(
-                        userId.getContentResolver(mActivity), uri.getAuthority())) {
+                     DocumentsApplication.acquireUnstableProviderOrThrow(
+                             userId.getContentResolver(mActivity), uri.getAuthority())) {
             Cursor testCursor = userClient.query(uri, /* projection= */ null,
                     /* queryArgs= */null, /* cancellationSignal= */ null);
             if (testCursor != null) {
@@ -337,6 +399,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             // Provider is not available. Ignore.
         }
         return false;
+    }
+
+    private boolean isProfileStatusAction(String action) {
+        if (!SdkLevel.isAtLeastV()) return isManagedProfileAction(action);
+        return Intent.ACTION_PROFILE_AVAILABLE.equals(action)
+                || Intent.ACTION_PROFILE_UNAVAILABLE.equals(action);
     }
 
     private static boolean isManagedProfileAction(String action) {
@@ -445,12 +513,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             mLocalState.mSelectionId = Integer.toHexString(System.identityHashCode(mRecView));
         }
 
-        mIconHelper = new IconHelper(mActivity, MODE_GRID, mState.supportsCrossProfile());
+        mIconHelper = new IconHelper(mActivity, MODE_GRID, mState.supportsCrossProfile(),
+                mState.configStore);
 
-        mAdapter = new DirectoryAddonsAdapter(
-                mAdapterEnv,
-                new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper, mInjector.fileTypeLookup)
-        );
+        mAdapter = getModelBackedDocumentsAdapter();
 
         mRecView.setAdapter(mAdapter);
 
@@ -486,14 +552,14 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         DragStartListener dragStartListener = mInjector.config.dragAndDropEnabled()
                 ? DragStartListener.create(
-                        mIconHelper,
-                        mModel,
-                        mSelectionMgr,
-                        mSelectionMetadata,
-                        mState,
-                        this::getModelId,
-                        mRecView::findChildViewUnder,
-                        DocumentsApplication.getDragAndDropManager(mActivity))
+                mIconHelper,
+                mModel,
+                mSelectionMgr,
+                mSelectionMetadata,
+                mState,
+                this::getModelId,
+                mRecView::findChildViewUnder,
+                DocumentsApplication.getDragAndDropManager(mActivity))
                 : DragStartListener.STUB;
 
         {
@@ -505,16 +571,16 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     new DocsStableIdProvider(mAdapter),
                     mDetailsLookup,
                     StorageStrategy.createStringStorage())
-                            .withBandOverlay(R.drawable.band_select_overlay)
-                            .withFocusDelegate(mFocusManager)
-                            .withOnDragInitiatedListener(dragStartListener::onDragEvent)
-                            .withOnContextClickListener(this::onContextMenuClick)
-                            .withOnItemActivatedListener(this::onItemActivated)
-                            .withOperationMonitor(mContentLock.getMonitor())
-                            .withSelectionPredicate(selectionPredicate)
-                            .withGestureTooltypes(MotionEvent.TOOL_TYPE_FINGER,
-                                    MotionEvent.TOOL_TYPE_STYLUS)
-                            .build();
+                    .withBandOverlay(R.drawable.band_select_overlay)
+                    .withFocusDelegate(mFocusManager)
+                    .withOnDragInitiatedListener(dragStartListener::onDragEvent)
+                    .withOnContextClickListener(this::onContextMenuClick)
+                    .withOnItemActivatedListener(this::onItemActivated)
+                    .withOperationMonitor(mContentLock.getMonitor())
+                    .withSelectionPredicate(selectionPredicate)
+                    .withGestureTooltypes(MotionEvent.TOOL_TYPE_FINGER,
+                            MotionEvent.TOOL_TYPE_STYLUS)
+                    .build();
             mInjector.updateSharedSelectionTracker(localTracker);
         }
 
@@ -573,12 +639,32 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             final IntentFilter filter = new IntentFilter();
             filter.addAction(Intent.ACTION_MANAGED_PROFILE_UNLOCKED);
             filter.addAction(Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE);
+            if (SdkLevel.isAtLeastV()) {
+                filter.addAction(Intent.ACTION_PROFILE_AVAILABLE);
+                filter.addAction(Intent.ACTION_PROFILE_UNAVAILABLE);
+            }
             // DocumentsApplication will resend the broadcast locally after roots are updated.
             // Register to a local broadcast manager to avoid this fragment from updating before
             // roots are updated.
             LocalBroadcastManager.getInstance(mActivity).registerReceiver(mReceiver, filter);
         }
         getContext().registerReceiver(mSdCardBroadcastReceiver, getSdCardStateChangeFilter());
+    }
+
+    private DocumentsAdapter getModelBackedDocumentsAdapter() {
+        return mState.configStore.isPrivateSpaceInDocsUIEnabled()
+                ? new DirectoryAddonsAdapter(
+                mAdapterEnv, new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper,
+                mInjector.fileTypeLookup, mState.configStore),
+                UserId.CURRENT_USER,
+                mActivity.getSelectedUser(),
+                DocumentsApplication.getUserManagerState(getContext()).getUserIdToLabelMap(),
+                getContext().getSystemService(UserManager.class), mState.configStore)
+                : new DirectoryAddonsAdapter(
+                        mAdapterEnv,
+                        new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper,
+                                mInjector.fileTypeLookup, mState.configStore),
+                        mState.configStore);
     }
 
     @Override
@@ -737,7 +823,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     /**
      * Updates the layout after the view mode switches.
      *
-     * @param mode The new view mode.
+     * @param scale The new view mode.
      */
     private void scaleLayout(float scale) {
         assert DEBUG;
@@ -1338,7 +1424,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     mRefreshLayout.setRefreshing(false);
                     if (rootDoc != null && mActivity.getCurrentDirectory() == null) {
                         // Make sure the stack does not change during task was running.
-                        Log.d(TAG, "Root doc is retrieved. Pushing to the stack");
                         mState.stack.push(rootDoc);
                         mActivity.updateNavigator();
                         mActions.loadDocumentsForCurrentStack();

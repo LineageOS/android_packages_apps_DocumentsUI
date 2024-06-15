@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"目前無法載入內容"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"已暫停工作應用程式"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"開啟工作應用程式"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"已暫停<xliff:g id="PROFILE">%1$s</xliff:g>應用程式"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"開啟<xliff:g id="PROFILE">%1$s</xliff:g>應用程式"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"無法選取工作檔案"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT 管理員不允許你透過個人應用程式存取工作檔案"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"無法選取個人檔案"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT 管理員不允許你透過工作應用程式存取個人檔案"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"無法選取<xliff:g id="PROFILE">%1$s</xliff:g>檔案"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"IT 管理員不允許你使用<xliff:g id="PROFILE_1">%2$s</xliff:g>應用程式存取<xliff:g id="PROFILE_0">%1$s</xliff:g>檔案"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"無法儲存至工作設定檔"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IT 管理員不允許你將個人檔案儲存至工作設定檔"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"無法儲存至個人設定檔"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT 管理員不允許你將工作檔案儲存至個人設定檔"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"無法儲存至<xliff:g id="PROFILE">%1$s</xliff:g>設定檔"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"IT 管理員不允許你將<xliff:g id="PROFILE_0">%1$s</xliff:g>檔案儲存至<xliff:g id="PROFILE_1">%2$s</xliff:g>設定檔"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"不允許執行這項操作"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"詳情請聯絡 IT 管理員。"</string>
     <string name="root_recent" msgid="1080156975424341623">"最近項目"</string>
@@ -266,6 +272,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"新名稱"</string>
     <string name="preview_file" msgid="4056622696305432343">"預覽 <xliff:g id="FILENAME">%1$s</xliff:g> 檔案"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"預覽工作檔案「<xliff:g id="FILENAME">%1$s</xliff:g>」"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"預覽<xliff:g id="PROFILE">%1$s</xliff:g>檔案 <xliff:g id="FILENAME">%2$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"瀏覽其他應用程式中的檔案"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"匿名"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"使用此資料夾"</string>
@@ -274,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"無法使用此資料夾"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"為保護你的私隱，請選擇其他資料夾"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"建立新資料夾"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"在這部手機中搜尋"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"搜尋此裝置"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"刪除搜尋記錄 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"個人"</string>
     <string name="work_tab" msgid="7265359366883747413">"工作"</string>

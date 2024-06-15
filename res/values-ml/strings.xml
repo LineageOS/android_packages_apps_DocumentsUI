@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"ഇപ്പോൾ ഉള്ളടക്കം ലോഡുചെയ്യാൻ കഴിയില്ല"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"ഔദ്യോഗിക ആപ്പുകൾ തൽക്കാലം നിർത്തിയിരിക്കുന്നു"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"ഔദ്യോഗിക ആപ്പുകൾ ഓണാക്കുക"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"<xliff:g id="PROFILE">%1$s</xliff:g> ആപ്പുകൾ താൽക്കാലികമായി നിർത്തി"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"<xliff:g id="PROFILE">%1$s</xliff:g> ആപ്പുകൾ ഓണാക്കുക"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"ഔദ്യോഗിക ഫയലുകൾ തിരഞ്ഞെടുക്കാനാവില്ല"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"വ്യക്തിപരമായ ആപ്പിൽ നിന്ന് ഔദ്യോഗിക ഫയലുകൾ ആക്സസ് ചെയ്യാൻ നിങ്ങളുടെ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"വ്യക്തിപര ഫയലുകൾ തിരഞ്ഞെടുക്കാനാവില്ല"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ഔദ്യോഗിക ആപ്പിൽ നിന്ന് വ്യക്തിപര ഫയലുകൾ ആക്സസ് ചെയ്യാൻ നിങ്ങളുടെ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"<xliff:g id="PROFILE">%1$s</xliff:g> ഫയലുകൾ തിരഞ്ഞെടുക്കാനാകുന്നില്ല"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"<xliff:g id="PROFILE_1">%2$s</xliff:g> ആപ്പിൽ നിന്ന് <xliff:g id="PROFILE_0">%1$s</xliff:g> ഫയലുകൾ ആക്‌സസ് ചെയ്യാൻ നിങ്ങളുടെ ഐടി അഡ്‌മിൻ അനുവദിക്കുന്നില്ല"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"ഔദ്യോഗിക പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാനാവില്ല"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"വ്യക്തിപര ഫയലുകൾ ഔദ്യോഗിക പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാൻ നിങ്ങളുടെ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"വ്യക്തിപര പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാനാവില്ല"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"ഔദ്യോഗിക ഫയലുകൾ നിങ്ങളുടെ വ്യക്തിപര പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാൻ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"<xliff:g id="PROFILE">%1$s</xliff:g> പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാനാകുന്നില്ല"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"<xliff:g id="PROFILE_0">%1$s</xliff:g> ഫയലുകൾ നിങ്ങളുടെ <xliff:g id="PROFILE_1">%2$s</xliff:g> പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാൻ നിങ്ങളുടെ ഐടി അഡ്‌മിൻ അനുവദിക്കുന്നില്ല"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"ഈ പ്രവൃത്തി അനുവദനീയമല്ല"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"കൂടുതലറിയാൻ, നിങ്ങളുടെ ഐടി അഡ്‌മിനെ ബന്ധപ്പെടുക"</string>
     <string name="root_recent" msgid="1080156975424341623">"ഏറ്റവും പുതിയത്"</string>
@@ -266,6 +272,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"പുതിയ പേര്"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> ഫയൽ പ്രിവ്യൂ ചെയ്യുക"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"<xliff:g id="FILENAME">%1$s</xliff:g> എന്ന ഔദ്യോഗിക ഫയൽ പ്രിവ്യൂ ചെയ്യുക"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"<xliff:g id="PROFILE">%1$s</xliff:g> ഫയൽ <xliff:g id="FILENAME">%2$s</xliff:g> പ്രിവ്യൂ ചെയ്യുക"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"ഫയലുകള്‍ മറ്റ് ആപ്പുകളില്‍ ബ്രൗസ് ചെയ്യുക"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"അജ്ഞാതം"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"ഈ ഫോൾഡർ ഉപയോഗിക്കുക"</string>
@@ -274,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"ഈ ഫോൾഡർ ഉപയോഗിക്കാനാവില്ല"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"നിങ്ങളുടെ സ്വകാര്യത പരിരക്ഷിക്കാൻ മറ്റൊരു ഫോൾഡർ തിരഞ്ഞെടുക്കുക"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"പുതിയ ഫോൾഡർ സൃഷ്‌ടിക്കുക"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ഈ ഫോണിൽ തിരയുക"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"ഈ ഉപകരണം തിരയുക"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"തിരയൽ ചരിത്രം <xliff:g id="TEXT">%1$s</xliff:g> ഇല്ലാതാക്കുക"</string>
     <string name="personal_tab" msgid="3878576287868528503">"വ്യക്തിപരം"</string>
     <string name="work_tab" msgid="7265359366883747413">"ഔദ്യോഗികം"</string>

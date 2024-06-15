@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Impossibile caricare i contenuti al momento."</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Le app di lavoro sono in pausa"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Attiva app di lavoro"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Le app <xliff:g id="PROFILE">%1$s</xliff:g> sono in pausa"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Attiva le app <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Impossibile selezionare file di lavoro"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"L\'amministratore IT non consente l\'accesso ai file di lavoro da un\'app personale"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Impossibile selezionare file personali"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"L\'amministratore IT non consente l\'accesso ai file personali da un\'app di lavoro"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Impossibile selezionare i file <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"L\'amministratore IT non consente di accedere ai file <xliff:g id="PROFILE_0">%1$s</xliff:g> da un\'app <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Impossibile salvare sul profilo di lavoro"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"L\'amministratore IT non consente il salvataggio di file personali sul tuo profilo di lavoro"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Impossibile salvare sul profilo personale"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"L\'amministratore IT non consente il salvataggio di file di lavoro sul tuo profilo personale"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Impossibile salvare sul profilo <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"L\'amministratore IT non consente di salvare i file <xliff:g id="PROFILE_0">%1$s</xliff:g> sul profilo <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Questa azione non è consentita"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Per ulteriori informazioni, contatta il tuo amministratore IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"Recenti"</string>
@@ -288,6 +294,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Nuovo nome"</string>
     <string name="preview_file" msgid="4056622696305432343">"Visualizza il file <xliff:g id="FILENAME">%1$s</xliff:g> in anteprima"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Visualizza l\'anteprima del file di lavoro <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Visualizza l\'anteprima del file <xliff:g id="PROFILE">%1$s</xliff:g> <xliff:g id="FILENAME">%2$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Sfoglia i file in altre app"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonima"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Usa questa cartella"</string>
@@ -296,7 +303,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Impossibile usare questa cartella"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Per tutelare la tua privacy, scegli un\'altra cartella"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crea nuova cartella"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Cerca su questo telefono"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Cerca su questo dispositivo"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Elimina la cronologia delle ricerche <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personale"</string>
     <string name="work_tab" msgid="7265359366883747413">"Lavoro"</string>

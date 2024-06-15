@@ -27,11 +27,13 @@ import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.ModelId;
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFileTypeLookup;
+import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.util.VersionUtils;
 
 @MediumTest
@@ -42,12 +44,14 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
     private TestEnv mEnv;
     private DirectoryAddonsAdapter mAdapter;
     private ActionHandler mActionHandler;
+    private TestConfigStore mTestConfigStore;
 
     public void setUp() {
 
         mEnv = TestEnv.create(AUTHORITY);
         mActionHandler = new TestActionHandler();
         mEnv.clear();
+        mTestConfigStore = new TestConfigStore();
 
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
         DocumentsAdapter.Environment env = new TestEnvironment(testContext, mEnv, mActionHandler);
@@ -56,8 +60,10 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
                 env,
                 new ModelBackedDocumentsAdapter(
                         env,
-                        new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */ false),
-                        new TestFileTypeLookup()));
+                        new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */ false,
+                                null, TestProvidersAccess.OtherUser.USER_ID, null,
+                                mTestConfigStore),
+                        new TestFileTypeLookup(), mTestConfigStore), mTestConfigStore);
 
         mEnv.model.addUpdateListener(mAdapter.getModelUpdateListener());
     }

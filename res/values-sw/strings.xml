@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"Imeshindwa kupakia maudhui kwa sasa"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Programu za kazini zimesimamishwa"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Washa programu za kazini"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Programu za <xliff:g id="PROFILE">%1$s</xliff:g> zimesitishwa"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Washa programu za <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Imeshindwa kuchagua faili za kazini"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Msimamizi wako wa TEHAMA hakuruhusu ufikie faili za kazini kwenye programu ya binafsi"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Imeshindwa kuchagua faili za binafsi"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Msimamizi wako wa TEHAMA hakuruhusu ufikie faili za binafsi ukitumia programu ya kazini"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Huwezi kuchagua faili za <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"Msimamizi wako wa TEHAMA hakuruhusu ufikie faili za <xliff:g id="PROFILE_0">%1$s</xliff:g> kwenye programu yako <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Imeshindwa kuhifadhi kwenye wasifu wa kazini"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Msimamizi wako wa TEHAMA hakuruhusu uhifadhi faili za binafsi kwenye wasifu wa kazini"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Imeshindwa kuhifadhi kwenye wasifu wa binafsi"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Msimamizi wako wa TEHAMA hakuruhusu uhifadhi faili za kazini kwenye wasifu wako wa binafsi"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"Imeshindwa kuhifadhi kwenye wasifu wa <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"Msimamizi wako wa TEHAMA hakuruhusu uhifadhi faili <xliff:g id="PROFILE_0">%1$s</xliff:g> kwenye wasifu wako wa <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Kitendo hiki hakiruhusiwi"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Ili upate maelezo zaidi, wasiliana na msimamizi wako wa TEHAMA"</string>
     <string name="root_recent" msgid="1080156975424341623">"Za hivi majuzi"</string>
@@ -266,6 +272,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Jina jipya"</string>
     <string name="preview_file" msgid="4056622696305432343">"Kagua faili ya <xliff:g id="FILENAME">%1$s</xliff:g> kwanza"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Kagua kwanza fali ya kazini ya <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Kagua kwanza faili ya <xliff:g id="PROFILE">%1$s</xliff:g> ya <xliff:g id="FILENAME">%2$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Vinjari faili katika programu nyingine"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Haijulikani"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Tumia folda hii"</string>
@@ -274,7 +281,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Huwezi kutumia folda hii"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Ili ulinde faragha yako, chagua folda nyingine"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Fungua folda mpya"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Tafuta kwenye simu hii"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Tafuta kwenye kifaa hiki"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Futa <xliff:g id="TEXT">%1$s</xliff:g> ya historia ya mambo uliyotafuta"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Binafsi"</string>
     <string name="work_tab" msgid="7265359366883747413">"Kazini"</string>

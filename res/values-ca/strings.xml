@@ -94,14 +94,20 @@
     <string name="query_error" msgid="6625421453613879336">"En aquest moment no es pot carregar el contingut"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Les aplicacions de treball estan en pausa"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Activa les aplicacions de treball"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Les aplicacions d\'aquest perfil (<xliff:g id="PROFILE">%1$s</xliff:g>) s\'han posat en pausa"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Activa les aplicacions d\'aquest perfil (<xliff:g id="PROFILE">%1$s</xliff:g>)"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"No es poden seleccionar els fitxers de treball"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"L\'administrador de TI no et permet accedir als fitxers de treball des de l\'aplicació personal"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"No es poden seleccionar els fitxers personals"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"L\'administrador de TI no et permet accedir als fitxers personals des de l\'aplicació de treball"</string>
+    <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"No es poden seleccionar fitxers d\'aquest perfil (<xliff:g id="PROFILE">%1$s</xliff:g>)"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"L\'administrador de TI no et permet accedir a fitxers d\'un perfil (<xliff:g id="PROFILE_0">%1$s</xliff:g>) des d\'una aplicació de l\'altre perfil (<xliff:g id="PROFILE_1">%2$s</xliff:g>)"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"No es pot desar al perfil de treball"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"L\'administrador de TI no et permet desar fitxers personals al teu perfil de treball"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"No es pot desar al perfil personal"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"L\'administrador de TI no et permet desar fitxers de treball al teu perfil personal"</string>
+    <string name="cant_save_to_cross_profile_error_title" msgid="5158984057654779022">"No es pot desar en aquest perfil (<xliff:g id="PROFILE">%1$s</xliff:g>)"</string>
+    <string name="cant_save_to_cross_profile_error_message" msgid="5845240315510422749">"L\'administrador de TI no et permet desar fitxers d\'un perfil (<xliff:g id="PROFILE_0">%1$s</xliff:g>) a l\'altre perfil (<xliff:g id="PROFILE_1">%2$s</xliff:g>)"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Aquesta acció no està permesa"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Per obtenir més informació, contacta amb l\'administrador de TI"</string>
     <string name="root_recent" msgid="1080156975424341623">"Recents"</string>
@@ -288,6 +294,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Nom nou"</string>
     <string name="preview_file" msgid="4056622696305432343">"Previsualitza el fitxer <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Previsualitza el fitxer de treball <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_cross_profile_file" msgid="7457849216193029610">"Previsualitza el fitxer <xliff:g id="FILENAME">%2$s</xliff:g> d\'aquest perfil (<xliff:g id="PROFILE">%1$s</xliff:g>)"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Cerca fitxers en altres aplicacions"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anònima"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Utilitza aquesta carpeta"</string>
@@ -296,7 +303,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"No es pot utilitzar aquesta carpeta"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Per protegir la teva privadesa, tria una altra carpeta"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crea una carpeta"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Cerca en aquest telèfon"</string>
+    <string name="search_bar_hint" msgid="146031513183888721">"Cerca en aquest dispositiu"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Suprimeix l\'historial de cerques <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personal"</string>
     <string name="work_tab" msgid="7265359366883747413">"Treball"</string>

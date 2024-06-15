@@ -36,9 +36,13 @@ import androidx.annotation.RequiresApi;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.documentsui.ConfigStore;
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
+import com.android.documentsui.UserManagerState;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.modules.utils.build.SdkLevel;
 
 import java.util.function.Function;
@@ -58,30 +62,29 @@ public abstract class DocumentHolder
     protected @Nullable String mModelId;
 
     protected @State.ActionType int mAction;
+    protected final ConfigStore mConfigStore;
 
     // See #addKeyEventListener for details on the need for this field.
     private KeyboardEventListener<DocumentItemDetails> mKeyEventListener;
 
     private final DocumentItemDetails mDetails;
 
-    public DocumentHolder(Context context, ViewGroup parent, int layout) {
-        this(context, inflateLayout(context, parent, layout));
+    public DocumentHolder(Context context, ViewGroup parent, int layout, ConfigStore configStore) {
+        this(context, inflateLayout(context, parent, layout), configStore);
     }
 
-    public DocumentHolder(Context context, View item) {
+    public DocumentHolder(Context context, View item, ConfigStore configStore) {
         super(item);
 
         itemView.setOnKeyListener(this);
 
         mContext = context;
         mDetails = new DocumentItemDetails(this);
+        mConfigStore = configStore;
     }
 
     /**
      * Binds the view to the given item data.
-     * @param cursor
-     * @param modelId
-     * @param state
      */
     public abstract void bind(Cursor cursor, String modelId);
 
@@ -95,10 +98,10 @@ public abstract class DocumentHolder
      * TODO: Use the DirectoryItemAnimator instead of manually controlling animation using a boolean
      * flag.
      *
-     * @param selected
      * @param animate Whether or not to animate the change. Only selection changes initiated by the
-     *            selection manager should be animated. See
-     *            {@link ModelBackedDocumentsAdapter#onBindViewHolder(DocumentHolder, int, java.util.List)}
+     *                selection manager should be animated. See
+     *                {@link ModelBackedDocumentsAdapter#onBindViewHolder(DocumentHolder, int,
+     *                java.util.List)}
      */
     public void setSelected(boolean selected, boolean animate) {
         itemView.setActivated(selected);
@@ -113,13 +116,31 @@ public abstract class DocumentHolder
         mAction = action;
     }
 
-    public void bindPreviewIcon(boolean show, Function<View, Boolean> clickCallback) {}
+    /**
+     * @param show          boolean denoting whether the current profile is non-personal
+     * @param clickCallback call back function
+     */
+    public void bindPreviewIcon(boolean show, Function<View, Boolean> clickCallback) {
+    }
 
-    public void bindBriefcaseIcon(boolean show) {}
+    /**
+     * @param show boolean denoting whether the current profile is managed
+     */
+    public void bindBriefcaseIcon(boolean show) {
+    }
+
+    /**
+     * Binds profile badge icon to the documents thumbnail
+     *
+     * @param show             boolean denoting whether the current profile is non-personal/parent
+     * @param userIdIdentifier user id of the profile the document belongs to
+     */
+    public void bindProfileIcon(boolean show, int userIdIdentifier) {
+    }
 
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
-        assert(mKeyEventListener != null);
+        assert (mKeyEventListener != null);
         DocumentItemDetails details = getItemDetails();
         return (details == null)
                 ? false
@@ -135,7 +156,7 @@ public abstract class DocumentHolder
      * <p>Ideally we'd not involve DocumentHolder in propagation of events like this.
      */
     public void addKeyEventListener(KeyboardEventListener<DocumentItemDetails> listener) {
-        assert(mKeyEventListener == null);
+        assert (mKeyEventListener == null);
         mKeyEventListener = listener;
     }
 
@@ -179,12 +200,22 @@ public abstract class DocumentHolder
         return view.animate().setDuration(Shared.CHECK_ANIMATION_DURATION).alpha(alpha);
     }
 
-    protected String getPreviewIconContentDescription(boolean isWorkProfile, String fileName) {
+    protected String getPreviewIconContentDescription(boolean isNonPersonalProfile,
+            String fileName, UserId userId) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+            UserManagerState userManagerState = DocumentsApplication.getUserManagerState(mContext);
+            String profileLabel = userManagerState.getUserIdToLabelMap().get(userId);
+            return isNonPersonalProfile
+                    ? itemView.getResources().getString(R.string.preview_cross_profile_file,
+                    profileLabel, fileName)
+                    : itemView.getResources().getString(R.string.preview_file, fileName);
+        }
         if (SdkLevel.isAtLeastT()) {
-            return getUpdatablePreviewIconContentDescription(isWorkProfile, fileName);
+            return getUpdatablePreviewIconContentDescription(isNonPersonalProfile, fileName);
         } else {
             return itemView.getResources().getString(
-                    isWorkProfile ? R.string.preview_work_file : R.string.preview_file, fileName);
+                    isNonPersonalProfile ? R.string.preview_work_file : R.string.preview_file,
+                    fileName);
         }
     }
 
