@@ -65,7 +65,7 @@
     <string name="button_dismiss" msgid="7235249361023803349">"Fermer"</string>
     <string name="button_retry" msgid="4011461781916631389">"Réessayer"</string>
     <string name="button_clear" msgid="5412304437764369441">"Effacer"</string>
-    <string name="button_show_provider" msgid="6905880493806292753">"Afficher dans l\'application du fournisseur"</string>
+    <string name="button_show_provider" msgid="6905880493806292753">"Afficher dans l\'appli du fournisseur"</string>
     <string name="button_back" msgid="1888621708934742182">"Retour"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Non trié"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nom"</string>
@@ -92,16 +92,16 @@
     <string name="save_error" msgid="8631128801982095782">"Échec de l\'enregistrement du document"</string>
     <string name="create_error" msgid="3092144450044861994">"Échec de la création du dossier"</string>
     <string name="query_error" msgid="6625421453613879336">"Impossible de charger le contenu pour le moment"</string>
-    <string name="quiet_mode_error_title" msgid="554319751414657910">"Les applications professionnelles sont interrompues"</string>
-    <string name="quiet_mode_button" msgid="8051436551926677305">"Activer les applications professionnelles"</string>
-    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Les applications du profil de type <xliff:g id="PROFILE">%1$s</xliff:g> sont interrompues"</string>
-    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Activer les applications de type : <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Les applis professionnelles sont interrompues"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Activer les applis professionnelles"</string>
+    <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"Les applis du profil de type <xliff:g id="PROFILE">%1$s</xliff:g> sont interrompues"</string>
+    <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Activer les applis de type : <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Impossible de sélectionner des fichiers professionnels"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Votre administrateur informatique ne vous autorise pas à accéder à des fichiers professionnels à partir d\'une application personnelle"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Votre administrateur informatique ne vous autorise pas à accéder à des fichiers professionnels à partir d\'une appli personnelle"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Impossible de sélectionner des fichiers personnels"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Votre administrateur informatique ne vous autorise pas à accéder à des fichiers personnels à partir d\'une application professionnelle"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Votre administrateur informatique ne vous autorise pas à accéder à des fichiers personnels à partir d\'une appli professionnelle"</string>
     <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Impossible de sélectionner les fichiers de type <xliff:g id="PROFILE">%1$s</xliff:g>"</string>
-    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"Votre administrateur informatique ne vous autorise pas à accéder aux fichiers de type <xliff:g id="PROFILE_0">%1$s</xliff:g> à partir d\'une application du profil suivant : <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
+    <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"Votre administrateur informatique ne vous autorise pas à accéder aux fichiers de type <xliff:g id="PROFILE_0">%1$s</xliff:g> à partir d\'une appli du profil suivant : <xliff:g id="PROFILE_1">%2$s</xliff:g>"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ιmpossible d\'enregistrer dans le profil professionnel"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Votre administrateur informatique ne vous autorise pas à enregistrer des fichiers personnels dans votre profil professionnel"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Impossible d\'enregistrer dans le profil personnel"</string>
@@ -115,7 +115,7 @@
     <string name="root_type_service" msgid="6521366147466512289">"Services de stockage"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Raccourcis"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Appareils"</string>
-    <string name="root_type_apps" msgid="8646073235029886342">"Plus d\'applications"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"Plus d\'applis"</string>
     <string name="empty" msgid="5300254272613103004">"Aucun élément"</string>
     <string name="no_results" msgid="2371026325236359209">"Aucune correspondance dans %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Impossible d\'ouvrir le fichier"</string>
@@ -308,7 +308,7 @@
     <string name="personal_tab" msgid="3878576287868528503">"Personnel"</string>
     <string name="work_tab" msgid="7265359366883747413">"Professionnel"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Travail"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Vous ne pouvez pas déplacer de fichiers d\'une autre application."</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Vous ne pouvez pas déplacer de fichiers d\'une autre appli."</string>
     <string name="grid_mode_showing" msgid="2803166871485028508">"Affichage en mode grille."</string>
     <string name="list_mode_showing" msgid="1225413902295895166">"Affichage en mode liste."</string>
 </resources>
