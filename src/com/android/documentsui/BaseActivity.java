@@ -75,6 +75,7 @@ import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -187,6 +188,10 @@ public abstract class BaseActivity
 
         // Record the time when onCreate is invoked for metric.
         mStartTime = new Date().getTime();
+
+        if (SdkLevel.isAtLeastS()) {
+            getWindow().setHideOverlayWindows(true);
+        }
 
         // ToDo Create tool to check resource version before applyStyle for the theme
         // If version code is not match, we should reset overlay package to default,

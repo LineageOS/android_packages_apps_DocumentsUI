@@ -32,6 +32,7 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -102,7 +103,11 @@ public class ConfirmFragment extends DialogFragment {
         builder.setNegativeButton(android.R.string.cancel,
                 (DialogInterface dialog, int id) -> pickResult.increaseActionCount());
 
-        return builder.create();
+        Dialog dialog = builder.create();
+        if (SdkLevel.isAtLeastS()) {
+            dialog.getWindow().setHideOverlayWindows(true);
+        }
+        return dialog;
     }
 
     @Override
