@@ -21,6 +21,7 @@ import static com.android.documentsui.base.Shared.getCallingAppName;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -102,7 +103,11 @@ public class ConfirmFragment extends DialogFragment {
         builder.setNegativeButton(android.R.string.cancel,
                 (DialogInterface dialog, int id) -> pickResult.increaseActionCount());
 
-        return builder.create();
+        Dialog dialog = builder.create();
+        if (Build.VERSION.SDK_INT >= 31) {
+            dialog.getWindow().setHideOverlayWindows(true);
+        }
+        return dialog;
     }
 
     @Override
