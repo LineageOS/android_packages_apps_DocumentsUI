@@ -278,6 +278,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     private void onLastAccessedStackLoaded(@Nullable DocumentStack stack) {
         if (stack == null) {
             loadDefaultLocation();
+        } else if (shouldPreemptivelyRestrictRequestedInitialUri(stack.peek().getDocumentUri())) {
+            // If the last accessed stack has restricted uri, load default location
+            loadDefaultLocation();
         } else {
             mState.stack.reset(stack);
             mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
