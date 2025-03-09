@@ -97,7 +97,7 @@
     <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"<xliff:g id="PROFILE">%1$s</xliff:g> apps word gepouseer"</string>
     <string name="profile_quiet_mode_button" msgid="6791235010992920102">"Skakel <xliff:g id="PROFILE">%1$s</xliff:g> apps aan"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Kan nie werklêers kies nie"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Jou IT-administrateur laat jou nie toe om van \'n persoonlike program af by werklêers in te gaan nie"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Jou IT-administrateur laat jou nie toe om van \'n persoonlike app af by werklêers in te gaan nie"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Kan nie persoonlike lêers kies nie"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Jou IT-administrateur laat jou nie toe om van \'n werkprogram af by persoonlike lêers in te gaan nie"</string>
     <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"Kan nie <xliff:g id="PROFILE">%1$s</xliff:g> lêers kies nie"</string>
@@ -286,7 +286,7 @@
     <string name="personal_tab" msgid="3878576287868528503">"Persoonlik"</string>
     <string name="work_tab" msgid="7265359366883747413">"Werk"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Werk"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Jy kan nie lêers uit \'n ander program skuif nie."</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Jy kan nie lêers uit \'n ander app skuif nie."</string>
     <string name="grid_mode_showing" msgid="2803166871485028508">"Wys tans in roostermodus."</string>
     <string name="list_mode_showing" msgid="1225413902295895166">"Wys tans in lysmodus."</string>
 </resources>

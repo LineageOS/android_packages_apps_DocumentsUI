@@ -321,7 +321,6 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        DirectoryFragment dir;
         final int id = item.getItemId();
         if (id == R.id.option_menu_create_dir) {
             assert (canCreateDirectory());

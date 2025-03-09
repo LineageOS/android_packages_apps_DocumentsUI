@@ -211,15 +211,5 @@
             android:process=":com.android.documentsui.services">
         </service>
 
-        <activity
-            android:name=".selection.demo.SelectionDemoActivity"
-            android:label="Selection Demo"
-            android:exported="true"
-            android:theme="@style/DocumentsTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
     </application>
 </manifest>

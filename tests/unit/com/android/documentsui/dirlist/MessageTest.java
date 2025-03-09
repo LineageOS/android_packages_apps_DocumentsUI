@@ -37,6 +37,7 @@ import android.content.pm.UserProperties;
 import android.graphics.drawable.Drawable;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.util.Log;
 
 import androidx.core.util.Preconditions;
 import androidx.test.filters.SmallTest;
@@ -65,6 +66,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @SmallTest
@@ -157,10 +159,25 @@ public final class MessageTest {
 
         assertThat(mInflateMessage.getLayout())
                 .isEqualTo(InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR);
-        assertThat(mInflateMessage.getTitleString())
-                .isEqualTo(mContext.getString(R.string.cant_select_work_files_error_title));
-        assertThat(mInflateMessage.getMessageString())
-                .isEqualTo(mContext.getString(R.string.cant_select_work_files_error_message));
+        Log.d("DocsUiAdi", "title string in test = " + mInflateMessage.getTitleString());
+        if (isPrivateSpaceEnabled) {
+            String workLabel = mContext.getString(R.string.work_tab);
+            String personalLabel = mContext.getString(R.string.personal_tab);
+            assertThat(mInflateMessage.getTitleString())
+                    .isEqualTo(
+                            mContext.getString(R.string.cant_select_cross_profile_files_error_title,
+                                    workLabel.toLowerCase(Locale.getDefault())));
+            assertThat(mInflateMessage.getMessageString())
+                    .isEqualTo(mContext.getString(
+                            R.string.cant_select_cross_profile_files_error_message,
+                            workLabel.toLowerCase(Locale.getDefault()),
+                            personalLabel.toLowerCase(Locale.getDefault())));
+        } else {
+            assertThat(mInflateMessage.getTitleString())
+                    .isEqualTo(mContext.getString(R.string.cant_select_work_files_error_title));
+            assertThat(mInflateMessage.getMessageString())
+                    .isEqualTo(mContext.getString(R.string.cant_select_work_files_error_message));
+        }
         // No button for this error
         assertThat(mInflateMessage.getButtonString()).isNull();
     }

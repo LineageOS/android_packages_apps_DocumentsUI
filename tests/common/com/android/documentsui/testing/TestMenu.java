@@ -44,6 +44,7 @@ public abstract class TestMenu implements Menu {
                 R.id.dir_menu_open_with,
                 R.id.dir_menu_cut_to_clipboard,
                 R.id.dir_menu_copy_to_clipboard,
+                R.id.dir_menu_compress,
                 R.id.dir_menu_paste_from_clipboard,
                 R.id.dir_menu_create_dir,
                 R.id.dir_menu_select_all,

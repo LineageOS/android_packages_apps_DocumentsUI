@@ -27,6 +27,28 @@ license {
     license_text: [],
 }
 
+aconfig_declarations {
+    name: "docsui-flags-aconfig",
+    package: "com.android.documentsui.flags",
+    container: "system",
+    srcs: ["flags.aconfig"],
+}
+
+java_aconfig_library {
+    name: "docsui-flags-aconfig-java-lib",
+    aconfig_declarations: "docsui-flags-aconfig",
+    min_sdk_version: "29",
+    sdk_version: "system_current",
+}
+
+java_library {
+    name: "docsui-change-ids",
+    srcs: ["src/com/android/documentsui/ChangeIds.java"],
+    libs: ["app-compat-annotations"],
+    min_sdk_version: "29",
+    sdk_version: "system_current",
+}
+
 java_defaults {
     name: "documentsui_defaults",
 
@@ -40,12 +62,9 @@ java_defaults {
         "androidx.transition_transition",
         "apache-commons-compress",
         "com.google.android.material_material",
+        "docsui-change-ids",
         "guava",
         "modules-utils-build_system",
-    ],
-
-    libs: [
-        "app-compat-annotations",
     ],
 
     privileged: true,
@@ -63,7 +82,7 @@ java_defaults {
 
 platform_compat_config {
     name: "documents-ui-compat-config",
-    src: ":DocumentsUI",
+    src: ":docsui-change-ids",
 }
 
 java_library {
@@ -90,6 +109,8 @@ genrule {
 android_library {
     name: "DocumentsUI-lib",
     defaults: ["documentsui_defaults"],
+    static_libs: ["docsui-flags-aconfig-java-lib"],
+    flags_packages: ["docsui-flags-aconfig"],
 
     manifest: "AndroidManifestLib.xml",
 
@@ -101,8 +122,12 @@ android_library {
         "--auto-add-overlay",
     ],
 
+    // This is included in `documentsui_defaults`.
+    exclude_srcs: ["src/com/android/documentsui/ChangeIds.java"],
+
     srcs: [
         "src/**/*.java",
+        "src/**/*.kt",
         ":statslog-docsui-java-gen",
     ],
 

@@ -1,0 +1,12 @@
+This folder is intended for Sydney Files team to experiment constructing Jetpack Compose components
+for DocumentsUI.
+
+## Build and Install
+
+Use `brya` target as an example.
+
+```bash
+lunch brya-trunk_staging-eng
+m DocumentsUICompose
+adb install out/target/product/brya/system/priv-app/DocumentsUICompose/DocumentsUICompose.apk
+```

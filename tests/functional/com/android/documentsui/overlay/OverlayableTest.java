@@ -44,12 +44,6 @@ public class OverlayableTest extends ThemeUiTestBase {
     }
 
     @Test
-    public void testConfig_isLauncherEnable_isNotNull() {
-        assertThat(
-                mTargetContext.getResources().getBoolean(R.bool.is_launcher_enabled)).isNotNull();
-    }
-
-    @Test
     public void testConfig_defaultRootUri_isNotEmpty() {
         assertThat(
                 mTargetContext.getResources().getString(R.string.default_root_uri)).isNotEmpty();

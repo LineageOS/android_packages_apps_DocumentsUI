@@ -17,11 +17,10 @@
 package com.android.documentsui.base;
 
 import static com.android.documentsui.base.SharedMinimal.TAG;
+import static com.android.documentsui.ChangeIds.RESTRICT_STORAGE_ACCESS_FRAMEWORK;
 
 import android.app.Activity;
 import android.app.compat.CompatChanges;
-import android.compat.annotation.ChangeId;
-import android.compat.annotation.EnabledAfter;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -142,16 +141,6 @@ public final class Shared {
     public static final String LAUNCHER_TARGET_CLASS = "com.android.documentsui.LauncherActivity";
 
     private static final Collator sCollator;
-
-    /**
-     * We support restrict Storage Access Framework from {@link android.os.Build.VERSION_CODES#R}.
-     * App Compatibility flag that indicates whether the app should be restricted or not.
-     * This flag is turned on by default for all apps targeting >
-     * {@link android.os.Build.VERSION_CODES#Q}.
-     */
-    @ChangeId
-    @EnabledAfter(targetSdkVersion = android.os.Build.VERSION_CODES.Q)
-    private static final long RESTRICT_STORAGE_ACCESS_FRAMEWORK = 141600225L;
 
     static {
         sCollator = Collator.getInstance();

@@ -95,8 +95,11 @@ public class PreBootReceiver extends BroadcastReceiver {
         if (resId != 0) {
             final ComponentName component = new ComponentName(packageName, className);
             boolean enabled = overlayRes.getBoolean(resId);
-            if (VersionUtils.isAtLeastS() && CONFIG_IS_LAUNCHER_ENABLED.equals(config)) {
-                enabled = false; // Do not allow LauncherActivity to be enabled for S+.
+            if (VersionUtils.isAtLeastS() && !pm.hasSystemFeature(PackageManager.FEATURE_PC)
+                    && CONFIG_IS_LAUNCHER_ENABLED.equals(config)) {
+                // Devices using S+ that don't support the `FEATURE_PC` system feature should not
+                // show Files in the launcher.
+                enabled = false;
             }
             if (DEBUG) {
                 Log.i(TAG,

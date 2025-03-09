@@ -34,6 +34,9 @@
             android:id="@+id/dir_menu_copy_to_clipboard"
             android:title="@string/menu_copy_to_clipboard" />
         <item
+            android:id="@+id/dir_menu_compress"
+            android:title="@string/menu_compress" />
+        <item
             android:id="@+id/dir_menu_paste_into_folder"
             android:title="@string/menu_paste_into_folder" />
     </group>
@@ -47,6 +50,7 @@
             android:id="@+id/dir_menu_delete"
             android:title="@string/menu_delete" />
     </group>
+
     <group
         android:id="@+id/menu_extras_group">
         <item

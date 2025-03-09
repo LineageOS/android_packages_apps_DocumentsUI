@@ -16,6 +16,8 @@
 
 package com.android.documentsui.queries;
 
+import static com.android.documentsui.flags.Flags.useMaterial3;
+
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -39,6 +41,7 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.util.VersionUtils;
 
 import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.common.primitives.Ints;
 
 import java.time.LocalDate;
@@ -372,6 +375,21 @@ public class SearchChipViewManager {
         }
     }
 
+    /**
+     * When the chip is focused, adding a focus ring indicator using Stroke.
+     */
+    private void onChipFocusChange(View v, boolean hasFocus) {
+        Chip chip = (Chip) v;
+        if (hasFocus) {
+            final int focusRingWidth = mChipGroup
+                    .getResources()
+                    .getDimensionPixelSize(R.dimen.focus_ring_width);
+            chip.setChipStrokeWidth(focusRingWidth);
+        } else {
+            chip.setChipStrokeWidth(1f);
+        }
+    }
+
     private void bindChip(Chip chip, SearchChipData chipData) {
         final Context context = mChipGroup.getContext();
         chip.setTag(chipData);
@@ -389,6 +407,10 @@ public class SearchChipViewManager {
         }
         chip.setChipIcon(chipIcon);
         chip.setOnClickListener(this::onChipClick);
+
+        if (useMaterial3()) {
+            chip.setOnFocusChangeListener(this::onChipFocusChange);
+        }
 
         if (mCheckedChipItems.contains(chipData)) {
             setChipChecked(chip, true);
@@ -425,10 +447,20 @@ public class SearchChipViewManager {
             return;
         }
 
-        final int chipSpacing = mChipGroup.getResources().getDimensionPixelSize(
-                R.dimen.search_chip_spacing);
+        final int chipSpacing =
+                useMaterial3()
+                        ? ((ChipGroup) mChipGroup).getChipSpacingHorizontal()
+                        : mChipGroup
+                                .getResources()
+                                .getDimensionPixelSize(R.dimen.search_chip_spacing);
         final boolean isRtl = mChipGroup.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
-        float lastX = isRtl ? mChipGroup.getWidth() - chipSpacing / 2 : chipSpacing / 2;
+        final float chipMarginStartEnd =
+                useMaterial3()
+                        ? 0
+                        : mChipGroup
+                                .getResources()
+                                .getDimensionPixelSize(R.dimen.search_chip_half_spacing);
+        float lastX = isRtl ? mChipGroup.getWidth() - chipMarginStartEnd : chipMarginStartEnd;
 
         // remove all chips except current clicked chip to avoid losing
         // accessibility focus.

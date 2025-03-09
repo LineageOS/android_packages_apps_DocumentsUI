@@ -240,7 +240,7 @@
     <string name="name_conflict" msgid="28407269328862986">"Датотека со истото име веќе постои."</string>
     <string name="authentication_required" msgid="8030880723643436099">"За да го прегледате адресаров, најавете се на <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"Не може да се прикаже содржината"</string>
-    <string name="sign_in" msgid="6253762676723505592">"Најави се"</string>
+    <string name="sign_in" msgid="6253762676723505592">"Најавете се"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"архива<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Да се презапише <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Продолжи во заднина"</string>

@@ -1,0 +1,62 @@
+// Copyright (C) 2024 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+}
+
+android_library {
+    name: "DocumentsUIComposelib",
+    manifest: "AndroidManifest.xml",
+
+    resource_dirs: [
+        "res",
+    ],
+    srcs: [
+        "src/**/*.kt",
+    ],
+
+    static_libs: [
+        "androidx.activity_activity-compose",
+        "androidx.appcompat_appcompat",
+        "androidx.compose.foundation_foundation",
+        "androidx.compose.material3_material3",
+        "androidx.compose.material3_material3-window-size-class",
+        "androidx.compose.material_material-icons-extended",
+        "androidx.compose.runtime_runtime",
+        "androidx.compose.ui_ui",
+        "androidx.core_core-ktx",
+        "androidx.hilt_hilt-navigation-compose",
+        "androidx.lifecycle_lifecycle-runtime-compose",
+        "androidx.lifecycle_lifecycle-runtime-ktx",
+        "hilt_android",
+        "modules-utils-build_system",
+    ],
+
+    sdk_version: "system_current",
+    target_sdk_version: "33",
+    min_sdk_version: "29",
+}
+
+android_app {
+    name: "DocumentsUICompose",
+    manifest: "AndroidManifest.xml",
+    static_libs: ["DocumentsUIComposelib"],
+
+    privileged: true,
+    certificate: "platform",
+
+    sdk_version: "system_current",
+    min_sdk_version: "29",
+}
