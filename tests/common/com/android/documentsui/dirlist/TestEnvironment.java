@@ -88,9 +88,4 @@ public final class TestEnvironment implements DocumentsAdapter.Environment {
     @Override
     public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
     }
-
-    @Override
-    public String getCallingAppName() {
-        return "unknown";
-    }
 }

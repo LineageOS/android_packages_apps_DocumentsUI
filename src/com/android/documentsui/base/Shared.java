@@ -16,6 +16,9 @@
 
 package com.android.documentsui.base;
 
+import static android.text.TextUtils.SAFE_STRING_FLAG_SINGLE_LINE;
+import static android.text.TextUtils.SAFE_STRING_FLAG_TRIM;
+
 import static com.android.documentsui.base.SharedMinimal.TAG;
 import static com.android.documentsui.ChangeIds.RESTRICT_STORAGE_ACCESS_FRAMEWORK;
 
@@ -265,7 +268,7 @@ public final class Shared {
      * @return the calling app name or general anonymous name if not found
      */
     @NonNull
-    public static String getCallingAppName(Activity activity) {
+    public static CharSequence getCallingAppName(Activity activity) {
         final String anonymous = activity.getString(R.string.anonymous_application);
         final String packageName = getCallingPackageName(activity);
         if (TextUtils.isEmpty(packageName)) {
@@ -281,7 +284,12 @@ public final class Shared {
         }
 
         CharSequence result = pm.getApplicationLabel(ai);
-        return TextUtils.isEmpty(result) ? anonymous : result.toString();
+        if (TextUtils.isEmpty(result)) {
+            return anonymous;
+        }
+
+        return TextUtils.makeSafeForPresentation(
+                result.toString(), 500, 0, SAFE_STRING_FLAG_TRIM | SAFE_STRING_FLAG_SINGLE_LINE);
     }
 
     /**

@@ -575,7 +575,7 @@
     <!-- Confrim dialog title show on open document tree flow. [CHAR_LIMIT=80] -->
     <string name="open_tree_dialog_title">Allow <xliff:g id="appName" example="Drive">%1$s</xliff:g> to access files in <xliff:g id="directory" example="DCIM">%2$s</xliff:g>?</string>
     <!-- Confrim dialog message show on open document tree flow.-->
-    <string name="open_tree_dialog_message">This will let <xliff:g id="appName" example="Drive">%1$s</xliff:g> access current and future content stored in <xliff:g id="directory" example="DCIM">%2$s</xliff:g>.</string>
+    <string name="open_tree_dialog_message">This will let "<xliff:g id="appName" example="Drive">%1$s</xliff:g>" access current and future content stored in <xliff:g id="directory" example="DCIM">%2$s</xliff:g>.</string>
     <!-- Header message title show on open document tree flow when directory is blocked. [CHAR_LIMIT=48] -->
     <string name="directory_blocked_header_title">Can\u2019t use this folder</string>
     <!-- Header message subtitle show on open document tree flow when directory is blocked. [CHAR_LIMIT=90]-->
