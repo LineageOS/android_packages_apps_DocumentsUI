@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edaa9b58_6e324ed0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17656
+      },
+      "writtenOn": "2025-04-26T14:16:28Z",
+      "side": 1,
+      "message": "see comment in the code",
+      "revId": "845d62562330bb4b83d008ca7c1378225aea7637",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b433171_ba3e31ff",
+        "filename": "src/com/android/documentsui/picker/ActionHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 17656
+      },
+      "writtenOn": "2025-04-26T14:16:28Z",
+      "side": 1,
+      "message": "The code from commit 901f1d6 \"fix: redirect to root to block access\", which is missing in the android-security-13.0.0_r28 tag, needs to be added again. Please refer to patchset 1, in which I did accordingly.",
+      "revId": "845d62562330bb4b83d008ca7c1378225aea7637",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
