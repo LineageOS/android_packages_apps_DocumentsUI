@@ -169,6 +169,7 @@ android_app {
     licenses: [
         "Android-Apache-2.0",
         "packages_apps_DocumentsUI_res_drawable_pd_license",
+        "opensourcerequest",
     ],
 
     required: ["privapp_whitelist_com.android.documentsui"],
