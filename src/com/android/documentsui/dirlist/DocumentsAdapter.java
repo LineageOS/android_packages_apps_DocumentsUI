@@ -90,7 +90,6 @@ public abstract class DocumentsAdapter extends RecyclerView.Adapter<DocumentHold
         boolean isInSearchMode();
         boolean isSelected(String id);
         Model getModel();
-        String getCallingAppName();
         boolean isDocumentEnabled(String mimeType, int flags);
         void initDocumentHolder(DocumentHolder holder);
         void onBindDocumentHolder(DocumentHolder holder, Cursor cursor);
