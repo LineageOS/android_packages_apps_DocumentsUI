@@ -215,6 +215,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         final Intent moreApps = new Intent(intent);
         moreApps.setComponent(null);
         moreApps.setPackage(null);
+        // Clear the selector to prevent a malicious selector from launching an arbitrary activity.
+        moreApps.setSelector(null);
         if (mState.supportsCrossProfile()
                 && CrossProfileUtils.getCrossProfileResolveInfo(
                         getPackageManager(), moreApps) != null) {
