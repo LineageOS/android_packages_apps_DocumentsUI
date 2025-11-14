@@ -23,7 +23,9 @@ import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
+import static com.android.documentsui.util.Material3Config.getRes;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -246,19 +248,19 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
         if (isMtp()) {
             derivedType = TYPE_MTP;
-            derivedIcon = R.drawable.ic_usb_storage;
+            derivedIcon = getRes(R.drawable.ic_usb_storage);
         } else if (isUsb()) {
             derivedType = TYPE_USB;
-            derivedIcon = R.drawable.ic_usb_storage;
+            derivedIcon = getRes(R.drawable.ic_usb_storage);
         } else if (isSd()) {
             derivedType = TYPE_SD;
-            derivedIcon = R.drawable.ic_sd_storage;
+            derivedIcon = getRes(R.drawable.ic_sd_storage);
         } else if (isExternalStorage()) {
             derivedType = TYPE_LOCAL;
-            derivedIcon = R.drawable.ic_root_smartphone;
+            derivedIcon = getRes(R.drawable.ic_root_smartphone);
         } else if (isDownloads()) {
             derivedType = TYPE_DOWNLOADS;
-            derivedIcon = R.drawable.ic_root_download;
+            derivedIcon = getRes(R.drawable.ic_root_download);
         } else if (isImages()) {
             derivedType = TYPE_IMAGES;
             derivedIcon = LOAD_FROM_CONTENT_RESOLVER;
@@ -278,7 +280,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
             derivedType = TYPE_RECENTS;
         } else if (isBugReport()) {
             derivedType = TYPE_OTHER;
-            derivedIcon = R.drawable.ic_root_bugreport;
+            derivedIcon = getRes(R.drawable.ic_root_bugreport);
         } else {
             derivedType = TYPE_OTHER;
         }
@@ -389,6 +391,14 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         return queryArgs != null && queryArgs.contains(QUERY_ARG_MIME_TYPES);
     }
 
+    /**
+     * Returns true if the DocumentsProvider hosting this root supports us specifying a limit for
+     * the maximum number of search results it should return.
+     */
+    public boolean supportsSearchResultLimit() {
+        return queryArgs != null && queryArgs.contains(ContentResolver.QUERY_ARG_LIMIT);
+    }
+
     public boolean supportsEject() {
         return (flags & Root.FLAG_SUPPORTS_EJECT) != 0;
     }
@@ -446,17 +456,18 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     public Drawable loadDrawerIcon(Context context, boolean maybeShowBadge) {
         if (derivedIcon == LOAD_FROM_CONTENT_RESOLVER) {
-            return IconUtils.applyTintColor(context, loadMimeTypeIcon(context),
-                    R.color.item_root_icon);
+            return IconUtils.applyTintColor(
+                    context, loadMimeTypeIcon(context), getRes(R.color.item_root_icon));
         } else if (derivedIcon != 0) {
-            return IconUtils.applyTintColor(context, derivedIcon, R.color.item_root_icon);
+            return IconUtils.applyTintColor(context, derivedIcon, getRes(R.color.item_root_icon));
         } else {
             return IconUtils.loadPackageIcon(context, userId, authority, icon, maybeShowBadge);
         }
     }
 
     public Drawable loadEjectIcon(Context context) {
-        return IconUtils.applyTintColor(context, R.drawable.ic_eject, R.color.item_action_icon);
+        return IconUtils.applyTintColor(
+                context, getRes(R.drawable.ic_eject), getRes(R.color.item_action_icon));
     }
 
     @Override

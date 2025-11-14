@@ -21,6 +21,7 @@ import static androidx.core.util.Preconditions.checkNotNull;
 import static com.android.documentsui.DevicePolicyResources.Strings.PERSONAL_TAB;
 import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.admin.DevicePolicyManager;
 import android.os.Build;
@@ -82,7 +83,7 @@ public class ProfileTabs implements ProfileTabsAddons {
             @Nullable UserManagerState userManagerState, NavigationViewManager.Environment env,
             AbstractActionHandler.CommonAddons commonAddons, ConfigStore configStore) {
         mTabsContainer = checkNotNull(tabLayoutContainer);
-        mTabs = tabLayoutContainer.findViewById(R.id.tabs);
+        mTabs = tabLayoutContainer.findViewById(getRes(R.id.tabs));
         mState = checkNotNull(state);
         mEnv = checkNotNull(env);
         mCommonAddons = checkNotNull(commonAddons);
@@ -96,7 +97,7 @@ public class ProfileTabs implements ProfileTabsAddons {
         }
         mTabs.removeAllTabs();
         mUserIds = Collections.singletonList(UserId.CURRENT_USER);
-        mTabSeparator = tabLayoutContainer.findViewById(R.id.tab_separator);
+        mTabSeparator = tabLayoutContainer.findViewById(getRes(R.id.tab_separator));
 
         mOnTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
@@ -137,13 +138,21 @@ public class ProfileTabs implements ProfileTabsAddons {
         // Material next changes apply only for version S or greater
         if (SdkLevel.isAtLeastS()) {
             mTabSeparator.setVisibility(View.GONE);
-            int tabContainerHeightInDp = (int) mTabsContainer.getContext().getResources()
-                    .getDimension(R.dimen.tab_container_height);
+            int tabContainerHeightInDp =
+                    (int)
+                            mTabsContainer
+                                    .getContext()
+                                    .getResources()
+                                    .getDimension(getRes(R.dimen.tab_container_height));
             mTabsContainer.getLayoutParams().height = tabContainerHeightInDp;
             ViewGroup.MarginLayoutParams tabContainerMarginLayoutParams =
                     (ViewGroup.MarginLayoutParams) mTabsContainer.getLayoutParams();
-            int tabContainerMarginTop = (int) mTabsContainer.getContext().getResources()
-                    .getDimension(R.dimen.profile_tab_margin_top);
+            int tabContainerMarginTop =
+                    (int)
+                            mTabsContainer
+                                    .getContext()
+                                    .getResources()
+                                    .getDimension(getRes(R.dimen.profile_tab_margin_top));
             tabContainerMarginLayoutParams.setMargins(0, tabContainerMarginTop, 0, 0);
             mTabsContainer.requestLayout();
             for (int i = 0; i < mTabs.getTabCount(); i++) {
@@ -154,8 +163,12 @@ public class ProfileTabs implements ProfileTabsAddons {
                 // Get individual tab to set the style
                 ViewGroup.MarginLayoutParams marginLayoutParams =
                         (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-                int tabMarginSide = (int) mTabsContainer.getContext().getResources()
-                        .getDimension(R.dimen.profile_tab_margin_side);
+                int tabMarginSide =
+                        (int)
+                                mTabsContainer
+                                        .getContext()
+                                        .getResources()
+                                        .getDimension(getRes(R.dimen.profile_tab_margin_side));
                 if (isUseMaterial3FlagEnabled()) {
                     final boolean isRtl = mTabs.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
                     // if use_material3 flag is ON, we uses the margin value as the right margin
@@ -167,11 +180,15 @@ public class ProfileTabs implements ProfileTabsAddons {
                 } else {
                     marginLayoutParams.setMargins(tabMarginSide, 0, tabMarginSide, 0);
                 }
-                int tabHeightInDp = (int) mTabsContainer.getContext().getResources()
-                        .getDimension(R.dimen.tab_height);
+                int tabHeightInDp =
+                        (int)
+                                mTabsContainer
+                                        .getContext()
+                                        .getResources()
+                                        .getDimension(getRes(R.dimen.tab_height));
                 tab.getLayoutParams().height = tabHeightInDp;
                 tab.requestLayout();
-                tab.setBackgroundResource(R.drawable.tab_border_rounded);
+                tab.setBackgroundResource(getRes(R.drawable.tab_border_rounded));
             }
 
         }
@@ -224,12 +241,16 @@ public class ProfileTabs implements ProfileTabsAddons {
     private void addTabsPrivateSpaceDisabled() {
         // set setSelected to false otherwise it will trigger callback.
         assert mUserIdManager != null;
-        mTabs.addTab(createTab(
-                getEnterpriseString(PERSONAL_TAB, R.string.personal_tab),
-                mUserIdManager.getSystemUser()), /* setSelected= */false);
-        mTabs.addTab(createTab(
-                getEnterpriseString(WORK_TAB, R.string.work_tab),
-                mUserIdManager.getManagedUser()), /* setSelected= */false);
+        mTabs.addTab(
+                createTab(
+                        getEnterpriseString(PERSONAL_TAB, getRes(R.string.personal_tab)),
+                        mUserIdManager.getSystemUser()),
+                /* setSelected= */ false);
+        mTabs.addTab(
+                createTab(
+                        getEnterpriseString(WORK_TAB, getRes(R.string.work_tab)),
+                        mUserIdManager.getManagedUser()),
+                /* setSelected= */ false);
     }
 
     private String getEnterpriseString(String updatableStringId, int defaultStringId) {

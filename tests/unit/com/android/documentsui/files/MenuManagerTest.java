@@ -16,18 +16,21 @@
 
 package com.android.documentsui.files;
 
+import static com.android.documentsui.util.FlagUtils.isVisualSignalsFlagEnabled;
 import static com.android.documentsui.util.FlagUtils.isZipNgFlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import static junit.framework.Assert.assertEquals;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doReturn;
 
 import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.platform.test.annotations.RequiresFlagsDisabled;
 import android.platform.test.annotations.RequiresFlagsEnabled;
-import android.platform.test.flag.junit.CheckFlagsRule;
-import android.platform.test.flag.junit.DeviceFlagsValueProvider;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 
@@ -43,6 +46,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.flags.Flags;
+import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
 import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFeatures;
@@ -136,10 +140,16 @@ public final class MenuManagerTest {
     private int mFilesCount;
 
     @Rule
-    public final CheckFlagsRule mCheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule();
+    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
 
     @Before
     public void setUp() {
+        if (isVisualSignalsFlagEnabled()) {
+            // The job progress indicator toolbar icon registers itself as a broadcast receiver to
+            // receive updates, so we need to stub that functionality out.
+            doReturn(null).when(activity).registerReceiver(any(), any(), anyInt());
+        }
+
         testMenu = TestMenu.create();
 
         // The context menu on anything in DirectoryList (including no selection).
@@ -517,7 +527,7 @@ public final class MenuManagerTest {
         selectionDetails.containDirectories = false;
         mgr.inflateContextMenuForDocs(testMenu, inflater, selectionDetails);
 
-        assertEquals(R.menu.file_context_menu, inflater.lastInflatedMenuId);
+        assertEquals(getRes(R.menu.file_context_menu), inflater.lastInflatedMenuId);
     }
 
     @Test
@@ -528,7 +538,7 @@ public final class MenuManagerTest {
         selectionDetails.containDirectories = true;
         mgr.inflateContextMenuForDocs(testMenu, inflater, selectionDetails);
 
-        assertEquals(R.menu.dir_context_menu, inflater.lastInflatedMenuId);
+        assertEquals(getRes(R.menu.dir_context_menu), inflater.lastInflatedMenuId);
     }
 
     @Test
@@ -539,7 +549,7 @@ public final class MenuManagerTest {
         selectionDetails.containDirectories = true;
         mgr.inflateContextMenuForDocs(testMenu, inflater, selectionDetails);
 
-        assertEquals(R.menu.mixed_context_menu, inflater.lastInflatedMenuId);
+        assertEquals(getRes(R.menu.mixed_context_menu), inflater.lastInflatedMenuId);
     }
 
     @SuppressLint("VisibleForTests")
@@ -794,6 +804,9 @@ public final class MenuManagerTest {
         selectionDetails.size = 1;
         selectionDetails.containFiles = true;
         selectionDetails.isArchive = true;
+        selectionDetails.containsFilesInArchive = false;
+        dirDetails.isInArchive = false;
+        dirDetails.canCreateDirectory = true;
         mgr.updateContextMenuForFiles(testMenu, selectionDetails);
         if (isZipNgFlagEnabled()) {
             mDirExtractHere.assertEnabledAndVisible();
@@ -802,6 +815,26 @@ public final class MenuManagerTest {
             mDirExtractHere.assertDisabledAndInvisible();
             mDirBrowse.assertDisabledAndInvisible();
         }
+
+        // On archive in read-only directory (but not a nested archive)
+        selectionDetails.containsFilesInArchive = false;
+        dirDetails.isInArchive = false;
+        dirDetails.canCreateDirectory = false;
+        mgr.updateContextMenuForFiles(testMenu, selectionDetails);
+        mDirExtractHere.assertDisabledAndInvisible();
+        if (isZipNgFlagEnabled()) {
+            mDirBrowse.assertEnabledAndVisible();
+        } else {
+            mDirBrowse.assertDisabledAndInvisible();
+        }
+
+        // On nested archive
+        selectionDetails.containsFilesInArchive = true;
+        dirDetails.isInArchive = true;
+        dirDetails.canCreateDirectory = false;
+        mgr.updateContextMenuForFiles(testMenu, selectionDetails);
+        mDirExtractHere.assertDisabledAndInvisible();
+        mDirBrowse.assertDisabledAndInvisible();
     }
 
     @Test

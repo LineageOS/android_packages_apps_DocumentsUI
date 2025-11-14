@@ -39,34 +39,9 @@ public class TestSearchViewManager extends SearchViewManager {
     private boolean mShowMenuCalled;
 
     public TestSearchViewManager() {
-        super(
-                new SearchManagerListener() {
-                    @Override
-                    public void onSearchChanged(String query) {
-                    }
-
-                    @Override
-                    public void onSearchFinished() {
-                    }
-
-                    @Override
-                    public void onSearchViewChanged(boolean opened) {
-                    }
-
-                    @Override
-                    public void onSearchChipStateChanged(View v) {
-                    }
-
-                    @Override
-                    public void onSearchViewFocusChanged(boolean hasFocus) {
-                    }
-
-                    @Override
-                    public void onSearchViewClearClicked() {
-                    }
-                },
+        super(mock(SearchManagerListener.class),
                 new CommandInterceptor(new TestFeatures()), mock(ViewGroup.class),
-                null /* savedState */);
+                mock(View.class), /*savedState=*/null);
     }
 
     @Override

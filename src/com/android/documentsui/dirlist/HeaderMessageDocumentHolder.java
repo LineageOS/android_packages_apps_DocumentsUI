@@ -17,6 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.base.State.MODE_GRID;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -47,16 +48,16 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
     private Message mMessage;
 
     HeaderMessageDocumentHolder(Context context, ViewGroup parent, ConfigStore configStore) {
-        super(context, parent, R.layout.item_doc_header_message, configStore);
+        super(context, parent, getRes(R.layout.item_doc_header_message), configStore);
 
-        mRoot = itemView.findViewById(R.id.item_root);
-        mIcon = (ImageView) itemView.findViewById(R.id.message_icon);
-        mTitle = itemView.findViewById(R.id.message_title);
-        mSubtitle = itemView.findViewById(R.id.message_subtitle);
-        mTextView = (TextView) itemView.findViewById(R.id.message_textview);
-        mActionView = (View) itemView.findViewById(R.id.action_view);
-        mActionButton = (Button) itemView.findViewById(R.id.action_button);
-        mDismissButton = (Button) itemView.findViewById(R.id.dismiss_button);
+        mRoot = itemView.findViewById(getRes(R.id.item_root));
+        mIcon = (ImageView) itemView.findViewById(getRes(R.id.message_icon));
+        mTitle = itemView.findViewById(getRes(R.id.message_title));
+        mSubtitle = itemView.findViewById(getRes(R.id.message_subtitle));
+        mTextView = (TextView) itemView.findViewById(getRes(R.id.message_textview));
+        mActionView = (View) itemView.findViewById(getRes(R.id.action_view));
+        mActionButton = (Button) itemView.findViewById(getRes(R.id.action_button));
+        mDismissButton = (Button) itemView.findViewById(getRes(R.id.dismiss_button));
     }
 
     public void bind(Message message) {
@@ -72,8 +73,12 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
      * display mode changed, we set the opposite padding on the item.
      */
     public void setPadding(@ViewMode int mode) {
-        int padding = itemView.getResources().getDimensionPixelSize(mode == MODE_GRID
-                ? R.dimen.list_container_padding : R.dimen.grid_container_padding);
+        int padding =
+                itemView.getResources()
+                        .getDimensionPixelSize(
+                                mode == MODE_GRID
+                                        ? getRes(R.dimen.list_container_padding)
+                                        : getRes(R.dimen.grid_container_padding));
         mRoot.setPadding(padding, 0, padding, 0);
     }
 

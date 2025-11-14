@@ -70,6 +70,7 @@
     <string name="button_clear" msgid="5412304437764369441">"Hapus"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Tampilkan di provider"</string>
     <string name="button_back" msgid="1888621708934742182">"Kembali"</string>
+    <string name="button_show_in_folder" msgid="6674673478637689386">"Tampilkan dalam folder"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Tidak diurutkan"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nama"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Ringkasan"</string>
@@ -211,6 +212,12 @@
     <string name="rename_error" msgid="6700093173508118635">"Gagal mengganti nama dokumen"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Keluarkan"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Beberapa file dikonversi"</string>
+    <string name="job_progress_item_see_details" msgid="2069387639574541325">"Lihat detail"</string>
+    <string name="copy_completed" msgid="3749037014674785400">"Disalin"</string>
+    <string name="move_completed" msgid="3981250605092729273">"Dipindahkan"</string>
+    <string name="delete_completed" msgid="4149401155614626199">"Dihapus"</string>
+    <string name="compress_completed" msgid="8808356399995313077">"Dikompresi"</string>
+    <string name="extract_completed" msgid="8824595789915249972">"Diekstrak"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Beri <xliff:g id="APPNAME"><b>^1</b></xliff:g> akses ke direktori <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> di <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Beri <xliff:g id="APPNAME"><b>^1</b></xliff:g> akses ke direktori <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Beri <xliff:g id="APPNAME"><b>^1</b></xliff:g> akses ke data Anda, termasuk foto dan video, di <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
@@ -220,6 +227,12 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> dipilih</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> dipilih</item>
     </plurals>
+    <string name="clear_selection" msgid="5965968983023105329">"Hapus pilihan"</string>
+    <string name="document_click_action" msgid="8073338575301415356">"buka"</string>
+    <string name="selected_document_click_action" msgid="792826130200234885">"batalkan pilihan"</string>
+    <string name="document_long_click_action" msgid="3789836661597702666">"pilih"</string>
+    <string name="selected_document_long_click_action" msgid="666372407184527109">"tarik"</string>
+    <string name="document_long_click_action_picker" msgid="943888101827856784">"pilih beberapa"</string>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> item</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> item</item>
@@ -285,6 +298,17 @@
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Untuk melindungi privasi, pilih folder lain"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Buat folder baru"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Telusuri perangkat ini"</string>
+    <string name="search_bar_clear" msgid="2072000748823434188">"Hapus teks"</string>
+    <string name="search_location_this_folder" msgid="6458835123175563013">"Folder ini"</string>
+    <string name="search_location_root_folder" msgid="4280523560213522303">"Folder root"</string>
+    <string name="search_location_everywhere" msgid="747799487494833887">"Di mana saja"</string>
+    <string name="search_last_modified_any_time" msgid="6027501367865939696">"Kapan saja"</string>
+    <string name="search_last_modified_1_day" msgid="7775353928859139915">"Hari ini"</string>
+    <string name="search_last_modified_2_days" msgid="7885735119033678756">"Kemarin"</string>
+    <string name="search_last_modified_7_days" msgid="7634290601544418836">"Minggu lalu"</string>
+    <string name="search_last_modified_30_days" msgid="4936787546211708940">"Bulan lalu"</string>
+    <string name="search_last_modified_365_days" msgid="7147134152974373466">"Tahun lalu"</string>
+    <string name="search_file_type_all" msgid="6613664493134355781">"Semua jenis"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Menghapus histori penelusuran <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Pribadi"</string>
     <string name="work_tab" msgid="7265359366883747413">"Kerja"</string>
@@ -294,4 +318,7 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"Menampilkan dalam mode daftar."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"Nama file"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Sembunyikan pratinjau file"</string>
+    <string name="peek_no_preview" msgid="8717084152736749464">"Pratinjau tidak tersedia"</string>
+    <string name="a11y_peek_image_preview" msgid="3917148390186060263">"Pratinjau gambar <xliff:g id="FILENAME">%s</xliff:g>"</string>
 </resources>

@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -37,7 +39,7 @@ public class GridItemThumbnail extends ImageView {
     public GridItemThumbnail(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray ta = context.obtainStyledAttributes(R.styleable.GridItem);
-        ColorStateList color = ta.getColorStateList(R.styleable.GridItem_gridItemTint);
+        ColorStateList color = ta.getColorStateList(getRes(R.styleable.GridItem_gridItemTint));
         ta.recycle();
         setImageTintList(color);
     }

@@ -22,25 +22,28 @@ import android.graphics.Rect;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.rules.TestFilesRule;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 @LargeTest
-public class FingerSelectionUiTest extends ActivityTest<FilesActivity> {
+public class FingerSelectionUiTest extends ActivityTestJunit4<FilesActivity> {
 
-    public FingerSelectionUiTest() {
-        super(FilesActivity.class);
-    }
+    @Rule
+    public final TestFilesRule mTestFilesRule = new TestFilesRule();
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        initTestFiles();
+    @Before
+    public void setUpTest() {
         bots.roots.closeDrawer();
     }
 
+    @Test
     public void testFingerSelection_outOfRange() throws Exception {
         bots.main.switchToGridMode();
         Rect dirListBounds = bots.directory.findDocumentsList().getBounds();
-        Rect firstDoc = bots.directory.findDocument(fileName1).getBounds();
+        Rect firstDoc = bots.directory.findDocument(TestFilesRule.FILE_NAME_1).getBounds();
         // Start from list right bottom.
         Point start = new Point(firstDoc.centerX(), firstDoc.centerY());
         // End is center of file1

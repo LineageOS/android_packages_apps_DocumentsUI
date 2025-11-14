@@ -20,26 +20,26 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.LargeTest;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.uiautomator.UiObjectNotFoundException;
 
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
 
+import org.junit.Before;
+import org.junit.Test;
+
 @LargeTest
-public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
+public class DirectoryMessagesUiTest extends ActivityTestJunit4<FilesActivity> {
 
-    public DirectoryMessagesUiTest() {
-        super(FilesActivity.class);
-    }
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUpTest() throws UiObjectNotFoundException {
         bots.roots.openRoot("Demo Root");
         bots.main.switchToListMode();
     }
 
+    @Test
     public void testAuthenticationMessage_visible() throws Exception {
         // If feature is disabled, this test is a no-op.
         if (!features.isRemoteActionsEnabled()) {
@@ -52,6 +52,7 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
+    @Test
     public void testInfoMessage_visible() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_INFO);
         bots.directory.assertHasMessage(DemoProvider.MSG_INFO);
@@ -59,6 +60,7 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
+    @Test
     public void testInfoMessage_dismissable() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_INFO);
         bots.directory.assertHasMessage(true);
@@ -67,6 +69,7 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
+    @Test
     public void testErrorMessage_visible() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_ERROR);
         bots.directory.assertHasMessage(DemoProvider.MSG_ERROR);
@@ -74,6 +77,7 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
+    @Test
     public void testErrorMessage_dismissable() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_ERROR);
         bots.directory.assertHasMessage(true);
@@ -82,6 +86,7 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
+    @Test
     public void testErrorMessage_supercedesInfoMessage() throws Exception {
         // When both error and info are returned in Directory, only show the error.
         bots.directory.openDocument(DemoProvider.DIR_ERROR_AND_INFO);

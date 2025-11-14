@@ -19,11 +19,15 @@ package com.android.documentsui.services;
 import static android.os.SystemClock.uptimeMillis;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.util.FlagUtils.isVisualSignalsFlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.icu.text.MessageFormat;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.text.BidiFormatter;
 import android.util.Log;
 
 import com.android.documentsui.archives.ArchivesProvider;
@@ -38,7 +42,10 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Abstract job that resolves all resource URIs into mResolvedDocs. This provides
@@ -62,6 +69,12 @@ public abstract class ResolvedResourcesJob extends Job {
 
         // Delay the initialization of it to setUp() because it may be IO extensive.
         mResolvedDocs = new ArrayList<>(srcs.getItemCount());
+
+        if (isVisualSignalsFlagEnabled() && srcs.getItemCount() == 1) {
+            // Prebuild the document list so we can get the filename for a single file progress
+            // message. With a single file only, this should not be IO intensive.
+            buildDocumentList();
+        }
     }
 
     boolean setUp() {
@@ -88,7 +101,7 @@ public abstract class ResolvedResourcesJob extends Job {
             return false;
         }
 
-        int docsResolved = buildDocumentList();
+        int docsResolved = refreshDocumentList();
         if (!isCanceled() && docsResolved < mResourceUris.getItemCount()) {
             if (docsResolved == 0) {
                 Log.e(TAG, "Cannot load any documents. Aborting.");
@@ -129,7 +142,7 @@ public abstract class ResolvedResourcesJob extends Job {
     /**
      * @return number of docs successfully loaded.
      */
-    protected int buildDocumentList() {
+    private int buildDocumentList() {
         final ContentResolver resolver = appContext.getContentResolver();
         Iterable<Uri> uris;
         try {
@@ -165,5 +178,38 @@ public abstract class ResolvedResourcesJob extends Job {
         }
 
         return docsLoaded;
+    }
+
+    private int refreshDocumentList() {
+        // We've never built the list in the first place.
+        if (mResolvedDocs.isEmpty() && failureCount == 0) {
+            return buildDocumentList();
+        }
+
+        final ContentResolver resolver = appContext.getContentResolver();
+        mResolvedDocs.removeIf(doc -> {
+            try {
+                doc.updateSelf(resolver, UserId.DEFAULT_USER);
+            } catch (FileNotFoundException e) {
+                onFileFailed(doc);
+                return true;
+            }
+            return false;
+        });
+        return mResolvedDocs.size();
+    }
+
+    protected String getProgressMessage(int stringId, Map<String, Object> formatArgs) {
+        formatArgs.put("count", mResourceUris.getItemCount());
+        if (mResourceUris.getItemCount() == 1 && mResolvedDocs.size() == 1) {
+            formatArgs.put("filename",
+                    BidiFormatter.getInstance().unicodeWrap(mResolvedDocs.get(0).displayName));
+        }
+        return (new MessageFormat(service.getString(getRes(stringId)), Locale.getDefault()))
+                .format(formatArgs);
+    }
+
+    protected String getProgressMessage(int stringId) {
+        return getProgressMessage(stringId, new HashMap<>());
     }
 }

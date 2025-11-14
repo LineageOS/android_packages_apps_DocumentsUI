@@ -17,7 +17,7 @@
 package com.android.documentsui.base;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
-import static com.android.documentsui.util.FlagUtils.isZipNgFlagEnabled;
+import static com.android.documentsui.base.SharedMinimal.redact;
 
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -236,7 +236,7 @@ public class DocumentInfo implements Durable, Parcelable {
         return "DocumentInfo{"
                 + "docId=" + documentId
                 + ", userId=" + userId
-                + ", name=" + displayName
+                + ", displayName=" + displayName
                 + ", mimeType=" + mimeType
                 + ", isContainer=" + isContainer()
                 + ", isDirectory=" + isDirectory()
@@ -320,8 +320,7 @@ public class DocumentInfo implements Durable, Parcelable {
 
     // Containers are documents which can be opened in DocumentsUI as folders.
     public boolean isContainer() {
-        return isDirectory() || (isArchive() && !isPartial() && (isZipNgFlagEnabled()
-                || !isInArchive()));
+        return isDirectory() || (isArchive() && !isPartial() && !isInArchive());
     }
 
     public boolean isVirtual() {
@@ -446,10 +445,8 @@ public class DocumentInfo implements Durable, Parcelable {
             final String type = resolver.getType(uri);
             if (type != null) {
                 mimeTypes.add(type);
-            } else {
-                if (DEBUG) {
-                    Log.d(TAG, "resolver.getType(uri) return null, url:" + uri.toSafeString());
-                }
+            } else if (DEBUG) {
+                Log.d(TAG, "resolver.getType(" + redact(uri) + ") returned null");
             }
             final String[] streamTypes = resolver.getStreamTypes(uri, "*/*");
             if (streamTypes != null) {

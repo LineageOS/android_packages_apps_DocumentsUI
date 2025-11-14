@@ -18,6 +18,7 @@ package com.android.documentsui.services
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.android.documentsui.base.DocumentStack
 
 /**
  * Represents the current progress on an individual job owned by the FileOperationService.
@@ -25,13 +26,30 @@ import android.os.Parcelable
  */
 data class JobProgress @JvmOverloads constructor(
     @JvmField val id: String,
+    @JvmField @FileOperationService.OpType val operationType: Int,
     @JvmField @Job.State val state: Int,
     @JvmField val msg: String?,
     @JvmField val hasFailures: Boolean,
+    @JvmField val destination: DocumentStack? = null,
     @JvmField val currentBytes: Long = -1,
     @JvmField val requiredBytes: Long = -1,
     @JvmField val msRemaining: Long = -1,
 ) : Parcelable {
+
+    val isIndeterminate get() =
+        state == Job.STATE_SET_UP &&
+                (currentBytes == -1L || requiredBytes == -1L || requiredBytes == 0L)
+
+    fun toPercent(): Float = when (state) {
+        Job.STATE_CREATED, Job.STATE_STARTED -> 0f
+        Job.STATE_COMPLETED, Job.STATE_CANCELED -> 100f
+        else -> 100f * currentBytes / requiredBytes
+    }
+
+    val isFinal get() = when (state) {
+        Job.STATE_COMPLETED, Job.STATE_CANCELED -> true
+        else -> false
+    }
 
     override fun describeContents(): Int {
         return 0
@@ -40,22 +58,29 @@ data class JobProgress @JvmOverloads constructor(
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.apply {
             writeString(id)
+            writeInt(operationType)
             writeInt(state)
             writeString(msg)
             writeBoolean(hasFailures)
+            writeParcelable(destination, flags)
             writeLong(currentBytes)
             writeLong(requiredBytes)
             writeLong(msRemaining)
         }
     }
 
-    companion object CREATOR : Parcelable.Creator<JobProgress?> {
-        override fun createFromParcel(parcel: Parcel): JobProgress? {
+    companion object CREATOR : Parcelable.Creator<JobProgress> {
+        override fun createFromParcel(parcel: Parcel): JobProgress {
             return JobProgress(
                 parcel.readString()!!,
                 parcel.readInt(),
+                parcel.readInt(),
                 parcel.readString(),
                 parcel.readBoolean(),
+                parcel.readParcelable(
+                    DocumentStack::class.java.classLoader,
+                    DocumentStack::class.java
+                ),
                 parcel.readLong(),
                 parcel.readLong(),
                 parcel.readLong(),

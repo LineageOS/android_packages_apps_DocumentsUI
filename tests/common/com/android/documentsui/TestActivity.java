@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+
 import static junit.framework.Assert.assertEquals;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -54,6 +56,8 @@ import com.android.documentsui.testing.TestSupportLoaderManager;
 
 import org.mockito.Mockito;
 
+import java.util.List;
+
 /**
  * Abstract to avoid having to implement unnecessary Activity stuff.
  * Instances are created using {@link #create()}.
@@ -76,6 +80,8 @@ public abstract class TestActivity extends AbstractBase {
     public TestEventListener<Intent> startService;
     public TestEventListener<Pair<IntentSender, Integer>> startIntentSender;
     public TestEventListener<RootInfo> rootPicked;
+    public TestEventListener<List<DocumentInfo>> documentsPicked;
+    public TestEventListener<DocumentInfo> documentPicked;
     public TestEventListener<Void> restoreRootAndDirectory;
     public TestEventListener<Integer> refreshCurrentRootAndDirectory;
     public TestEventListener<Boolean> setRootsDrawerOpen;
@@ -100,6 +106,8 @@ public abstract class TestActivity extends AbstractBase {
         startService = new TestEventListener<>();
         startIntentSender = new TestEventListener<>();
         rootPicked = new TestEventListener<>();
+        documentsPicked = new TestEventListener<>();
+        documentPicked = new TestEventListener<>();
         restoreRootAndDirectory = new TestEventListener<>();
         refreshCurrentRootAndDirectory =  new TestEventListener<>();
         setRootsDrawerOpen = new TestEventListener<>();
@@ -185,8 +193,19 @@ public abstract class TestActivity extends AbstractBase {
     }
 
     @Override
+    public final void onDocumentsPicked(List<DocumentInfo> docs) {
+        if (!isUseMaterial3FlagEnabled()) {
+            throw new UnsupportedOperationException();
+        }
+        documentsPicked.accept(docs);
+    }
+
+    @Override
     public final void onDocumentPicked(DocumentInfo doc) {
-        throw new UnsupportedOperationException();
+        if (!isUseMaterial3FlagEnabled()) {
+            throw new UnsupportedOperationException();
+        }
+        documentPicked.accept(doc);
     }
 
     @Override

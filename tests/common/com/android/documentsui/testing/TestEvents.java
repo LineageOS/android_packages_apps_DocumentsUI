@@ -16,12 +16,14 @@
 
 package com.android.documentsui.testing;
 
-import androidx.annotation.IntDef;
 import android.graphics.Point;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.MotionEvent.PointerCoords;
 import android.view.MotionEvent.PointerProperties;
+
+import androidx.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -62,7 +64,7 @@ public final class TestEvents {
     static final int ACTION_UNSET = -1;
 
     // Add other actions from MotionEvent.ACTION_ as needed.
-    @IntDef(flag = true, value = {
+    @IntDef(value = {
             MotionEvent.ACTION_DOWN,
             MotionEvent.ACTION_MOVE,
             MotionEvent.ACTION_UP
@@ -70,8 +72,17 @@ public final class TestEvents {
     @Retention(RetentionPolicy.SOURCE)
     public @interface Action {}
 
+    // Add other types from InputDevice.SOURCE_ as needed.
+    @IntDef(value = {
+            InputDevice.SOURCE_MOUSE,
+            InputDevice.SOURCE_TOUCHSCREEN,
+            InputDevice.SOURCE_UNKNOWN
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Source {}
+
     // Add other types from MotionEvent.TOOL_TYPE_ as needed.
-    @IntDef(flag = true, value = {
+    @IntDef(value = {
             MotionEvent.TOOL_TYPE_FINGER,
             MotionEvent.TOOL_TYPE_MOUSE,
             MotionEvent.TOOL_TYPE_STYLUS,
@@ -96,6 +107,7 @@ public final class TestEvents {
 
     private static final class State {
         private @Action int mAction = ACTION_UNSET;
+        private @Source int mSource = InputDevice.SOURCE_UNKNOWN;
         private @ToolType int mToolType = MotionEvent.TOOL_TYPE_UNKNOWN;
         private int mPointerCount = 1;
         private Set<Integer> mButtons = new HashSet<>();
@@ -121,6 +133,11 @@ public final class TestEvents {
          */
         public Builder action(int action) {
             mState.mAction = action;
+            return this;
+        }
+
+        public Builder source(@Source int source) {
+            mState.mSource = source;
             return this;
         }
 
@@ -184,13 +201,25 @@ public final class TestEvents {
             return this;
         }
 
+        public Builder mouse() {
+            source(InputDevice.SOURCE_MOUSE);
+            type(MotionEvent.TOOL_TYPE_MOUSE);
+            return this;
+        }
+
         public Builder touch() {
+            source(InputDevice.SOURCE_TOUCHSCREEN);
             type(MotionEvent.TOOL_TYPE_FINGER);
             return this;
         }
 
-        public Builder mouse() {
-            type(MotionEvent.TOOL_TYPE_MOUSE);
+        public Builder touchpad() {
+            // For compatibility reasons, some touchpads (but not on ChromeOS
+            // ARC devices) fire SOURCE_MOUSE and TOOL_TYPE_FINGER events even
+            // though the source should be SOURCE_TOUCHPAD and the tool type
+            // could arguably be TOOL_TYPE_MOUSE.
+            source(InputDevice.SOURCE_MOUSE);
+            type(MotionEvent.TOOL_TYPE_FINGER);
             return this;
         }
 
@@ -273,7 +302,7 @@ public final class TestEvents {
                     1.0f,  // y precision
                     0,     // device id
                     0,     // edge flags
-                    0,     // int source,
+                    mState.mSource,
                     0      // int flags
                     );
         }

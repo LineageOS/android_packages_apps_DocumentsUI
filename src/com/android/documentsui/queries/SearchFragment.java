@@ -16,6 +16,9 @@
 
 package com.android.documentsui.queries;
 
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,6 +62,10 @@ public class SearchFragment extends Fragment {
             Log.w(TAG, "Skip show because state saved");
             return;
         }
+        // TODO(b/414507592): Enable recent searches after DockedSearchBar is available.
+        if (isUseMaterial3FlagEnabled()) {
+            return;
+        }
 
         final SearchFragment fragment = new SearchFragment();
         final Bundle args = new Bundle();
@@ -88,10 +95,10 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_search, container, false);
+        final View view = inflater.inflate(getRes(R.layout.fragment_search), container, false);
 
-        mSearchChipGroup = view.findViewById(R.id.search_chip_group);
-        mListView = view.findViewById(R.id.history_list);
+        mSearchChipGroup = view.findViewById(getRes(R.id.search_chip_group));
+        mListView = view.findViewById(getRes(R.id.history_list));
 
         return view;
     }
@@ -121,16 +128,20 @@ public class SearchFragment extends Fragment {
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this::onHistoryItemClicked);
 
-        View toolbar = getActivity().findViewById(R.id.toolbar);
-        View collapsingBarLayout = getActivity().findViewById(R.id.collapsing_toolbar);
+        View toolbar = getActivity().findViewById(getRes(R.id.toolbar));
+        View collapsingBarLayout = getActivity().findViewById(getRes(R.id.collapsing_toolbar));
         if (toolbar != null && collapsingBarLayout != null) {
             // If collapsingBarLayout is used (i.e. not in Tablet mode),
             // need to align top with the bottom of search bar.
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(0, getResources().getDimensionPixelSize(
-                    R.dimen.action_bar_margin) + toolbar.getLayoutParams().height, 0, 0);
+            layoutParams.setMargins(
+                    0,
+                    getResources().getDimensionPixelSize(getRes(R.dimen.action_bar_margin))
+                            + toolbar.getLayoutParams().height,
+                    0,
+                    0);
             getView().setLayoutParams(layoutParams);
         }
 
@@ -138,7 +149,7 @@ public class SearchFragment extends Fragment {
     }
 
     private static int getFragmentId() {
-        return R.id.container_search_fragment;
+        return getRes(R.id.container_search_fragment);
     }
 
     private void onChipClicked(View view) {
@@ -169,12 +180,12 @@ public class SearchFragment extends Fragment {
     }
 
     private void updateDirectoryVisibility(int visibility) {
-        View directoryHeader = getActivity().findViewById(R.id.directory_header);
+        View directoryHeader = getActivity().findViewById(getRes(R.id.directory_header));
         if (directoryHeader != null) {
             directoryHeader.setVisibility(visibility);
         }
 
-        View directoryContainer = getActivity().findViewById(R.id.container_directory);
+        View directoryContainer = getActivity().findViewById(getRes(R.id.container_directory));
         if (directoryContainer != null) {
             directoryContainer.setVisibility(visibility);
         }
@@ -183,13 +194,14 @@ public class SearchFragment extends Fragment {
     private class HistoryListAdapter extends ArrayAdapter<String> {
 
         public HistoryListAdapter(Context context, List<String> list) {
-            super(context, R.layout.item_history, list);
+            super(context, getRes(R.layout.item_history), list);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.item_history, parent, false);
+                convertView =
+                        getLayoutInflater().inflate(getRes(R.layout.item_history), parent, false);
             }
             final String history = getItem(position);
             final TextView text = convertView.findViewById(android.R.id.title);
@@ -202,7 +214,7 @@ public class SearchFragment extends Fragment {
                 notifyDataSetChanged();
             });
             button.setContentDescription(
-                    getContext().getString(R.string.delete_search_history, history));
+                    getContext().getString(getRes(R.string.delete_search_history), history));
 
             return convertView;
         }

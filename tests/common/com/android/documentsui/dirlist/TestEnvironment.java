@@ -29,11 +29,13 @@ public final class TestEnvironment implements DocumentsAdapter.Environment {
     private final Context testContext;
     private final TestEnv mEnv;
     private final ActionHandler mActionHandler;
+    private boolean mInSearchMode;
 
     public TestEnvironment(Context testContext, TestEnv env, ActionHandler actionHandler) {
         this.testContext = testContext;
         mEnv = env;
         mActionHandler = actionHandler;
+        mInSearchMode = false;
     }
 
     @Override
@@ -72,7 +74,7 @@ public final class TestEnvironment implements DocumentsAdapter.Environment {
 
     @Override
     public boolean isInSearchMode() {
-        return false;
+        return mInSearchMode;
     }
 
     @Override
@@ -87,5 +89,9 @@ public final class TestEnvironment implements DocumentsAdapter.Environment {
 
     @Override
     public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
+    }
+
+    public void setInSearchMode(boolean inSearchMode) {
+        mInSearchMode = inSearchMode;
     }
 }

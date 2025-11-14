@@ -17,6 +17,7 @@
 package com.android.documentsui;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -286,8 +287,9 @@ public interface DragAndDropManager {
                 title = doc.displayName;
                 icon = iconHelper.getDocumentIcon(mContext, doc);
             } else {
-                title = mContext.getResources()
-                        .getQuantityString(R.plurals.elements_dragged, size, size);
+                title =
+                        mContext.getResources()
+                                .getQuantityString(getRes(R.plurals.elements_dragged), size, size);
                 icon = mDefaultShadowIcon;
             }
 

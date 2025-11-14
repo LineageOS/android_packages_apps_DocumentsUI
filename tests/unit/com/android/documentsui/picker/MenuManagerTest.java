@@ -19,17 +19,20 @@ package com.android.documentsui.picker;
 import static com.android.documentsui.base.State.ACTION_CREATE;
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 import static com.android.documentsui.base.State.ACTION_OPEN;
+import static com.android.documentsui.flags.Flags.FLAG_USE_MATERIAL3;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.annotation.SuppressLint;
 import android.database.MatrixCursor;
+import android.platform.test.annotations.RequiresFlagsDisabled;
+import android.platform.test.annotations.RequiresFlagsEnabled;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SmallTest;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.Model;
@@ -38,6 +41,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootCursorWrapper;
+import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
 import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestMenu;
@@ -46,12 +50,16 @@ import com.android.documentsui.testing.TestSearchViewManager;
 import com.android.documentsui.testing.TestSelectionDetails;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public final class MenuManagerTest {
+
+    @Rule
+    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
 
     private TestMenu testMenu;
 
@@ -208,11 +216,21 @@ public final class MenuManagerTest {
     }
 
     @Test
+    @RequiresFlagsDisabled(FLAG_USE_MATERIAL3)
     public void testActionMenu_selectAction() {
         state.action = ACTION_OPEN;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         actionModeSelect.assertEnabledAndVisible();
+    }
+
+    @Test
+    @RequiresFlagsEnabled(FLAG_USE_MATERIAL3)
+    public void testActionMenu_selectAction_useMaterial3Enabled() {
+        state.action = ACTION_OPEN;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeSelect.assertDisabledAndInvisible();
     }
 
     @Test
@@ -224,11 +242,21 @@ public final class MenuManagerTest {
     }
 
     @Test
+    @RequiresFlagsDisabled(FLAG_USE_MATERIAL3)
     public void testActionMenu_getContentAction() {
         state.action = ACTION_GET_CONTENT;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         actionModeSelect.assertEnabledAndVisible();
+    }
+
+    @Test
+    @RequiresFlagsEnabled(FLAG_USE_MATERIAL3)
+    public void testActionMenu_getContentAction_useMaterial3Enabled() {
+        state.action = ACTION_GET_CONTENT;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeSelect.assertDisabledAndInvisible();
     }
 
     @Test

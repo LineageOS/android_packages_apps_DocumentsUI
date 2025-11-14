@@ -614,9 +614,11 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
     }
 
     private void showPeek(DocumentInfo doc) {
-        if (mPeekViewManager != null) {
-            mPeekViewManager.peekDocument(doc);
+        if (mPeekViewManager == null) {
+            Log.e(TAG, "Attempting to show Peek when PeekViewManager is not defined");
+            return;
         }
+        mPeekViewManager.peekDocument(doc);
     }
 
     @Override

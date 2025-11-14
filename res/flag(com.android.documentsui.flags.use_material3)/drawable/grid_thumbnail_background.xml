@@ -15,10 +15,39 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- selected -->
+    <item
+        android:state_focused="true"
+        android:state_hovered="true"
+        android:state_selected="true">
+        <layer-list>
+            <item>
+                <shape>
+                    <corners android:radius="@dimen/grid_item_thumbnail_radius" />
+                    <solid android:color="?attr/colorPrimaryContainer" />
+                </shape>
+            </item>
+            <item>
+                <shape android:tint="?attr/colorOnSurface">
+                    <corners android:radius="@dimen/grid_item_thumbnail_radius" />
+                    <solid android:color="@color/overlay_hover_color_percentage" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
     <item android:state_selected="true">
         <shape>
             <corners android:radius="@dimen/grid_item_thumbnail_radius" />
             <solid android:color="?attr/colorPrimaryContainer" />
+        </shape>
+    </item>
+
+    <!-- unselected -->
+    <item
+        android:state_focused="true"
+        android:state_hovered="true">
+        <shape android:tint="?attr/colorOnSurface">
+            <corners android:radius="@dimen/grid_item_thumbnail_radius" />
+            <solid android:color="@color/overlay_hover_color_percentage" />
         </shape>
     </item>
 </selector>

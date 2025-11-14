@@ -15,69 +15,76 @@
  */
 package com.android.documentsui.peek
 
-import android.app.Activity
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
-import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
-import com.android.documentsui.R
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Observer
+import com.android.documentsui.R
 import com.android.documentsui.base.DocumentInfo
-import com.android.documentsui.util.FlagUtils.Companion.isUsePeekPreviewFlagEnabled
+import com.android.documentsui.util.Material3Config.Companion.getRes
 
-/**
- * Manager that controls the Peek UI.
- */
+/** Manager that controls the Peek UI. */
 open class PeekViewManager(
-    private val mActivity: Activity
-) {
+    private val viewModel: PeekViewModel,
+    private val container: FrameLayout,
+    val fm: FragmentManager
+) : Observer<Boolean?> {
     companion object {
-        const val TAG = "PeekViewManager"
+        private const val TAG = "PeekViewManager"
     }
 
-    private var mPeekFragment: PeekFragment? = null
+    private lateinit var peekFragment: PeekFragment
 
-    open fun initFragment(
-        fm: FragmentManager
-    ) {
-        if (!isUsePeekPreviewFlagEnabled()) {
-            Log.e(TAG, "Attempting to create PeekViewManager while Peek disabled")
-            return
+    init {
+        initialize()
+    }
+
+    protected open fun initialize() {
+        // Restore the Peek overlay if it was active.
+        if (viewModel.overlayActive.value == true) {
+            maybeInitializeFragment()
+            setContainerVisibility(true)
+        }
+    }
+
+    /**
+     * Sets the Peek fragment. By either querying it if it has been restored by the fragment
+     * manager, or by initializing it.
+     */
+    private fun maybeInitializeFragment() {
+        // The fragment manager automatically handles state restoration: the fragment might already
+        // exist.
+        val existingFragment = fm.findFragmentById(getRes(R.id.peek_overlay))
+        if (existingFragment == null) {
+            peekFragment = PeekFragment()
+            val ft: FragmentTransaction = fm.beginTransaction()
+            ft.add(getRes(R.id.peek_overlay), peekFragment)
+            ft.commitAllowingStateLoss()
+        } else {
+            peekFragment = existingFragment as PeekFragment
         }
 
-        if (getOverlayContainer() == null) {
-            Log.e(TAG, "Unable to find Peek container")
-            return
-        }
+        // Restore visibility.
+        setContainerVisibility(viewModel.overlayActive.value == true)
+    }
 
-        // Load the Peek fragment into its container.
-        val peekFragment = PeekFragment()
-        mPeekFragment = peekFragment
-        val ft: FragmentTransaction = fm.beginTransaction()
-        ft.replace(getOverlayId(), peekFragment)
-        ft.commitAllowingStateLoss()
+    /** This method is called every time viewModel.overlayActive changes its value. */
+    override fun onChanged(value: Boolean?) {
+        setContainerVisibility(value ?: false)
+    }
+
+    private fun setContainerVisibility(visible: Boolean) {
+        container.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     open fun peekDocument(doc: DocumentInfo) {
-        if (mPeekFragment == null) {
-            Log.e(TAG, "Peek fragment not initialized")
+        maybeInitializeFragment()
+        if (!::peekFragment.isInitialized) {
+            Log.e(TAG, "PeekFragment has not been initialized")
             return
         }
-        show()
-    }
-
-    @IdRes
-    private fun getOverlayId(): Int {
-        return R.id.peek_overlay
-    }
-
-    private fun getOverlayContainer(): FrameLayout? {
-        return mActivity.findViewById(getOverlayId())
-    }
-
-    private fun show() {
-        getOverlayContainer()?.visibility = View.VISIBLE
+        viewModel.setDocInfoAndActivateOverlay(doc)
     }
 }

@@ -49,7 +49,7 @@ public class FilesJankPerfTest extends JankTestBase {
         final UiDevice device = UiDevice.getInstance(getInstrumentation());
         final Context context = getInstrumentation().getTargetContext();
         final UiAutomation automation = getInstrumentation().getUiAutomation();
-        mRootsListBot = new SidebarBot(device, context, BOT_TIMEOUT);
+        mRootsListBot = new SidebarBot(device, automation, context, BOT_TIMEOUT);
         mDirListBot = new DirectoryListBot(device, automation, context, BOT_TIMEOUT);
 
         final Intent intent = new Intent(context, FilesActivity.class);

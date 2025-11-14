@@ -17,12 +17,11 @@ package com.android.documentsui
 
 import android.app.Activity
 import android.app.UiAutomation
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.os.RemoteException
 import android.provider.DocumentsContract
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.test.core.app.ActivityScenario
@@ -36,7 +35,8 @@ import com.android.documentsui.base.UserId
 import com.android.documentsui.bots.Bots
 import com.android.documentsui.files.FilesActivity
 import java.io.IOException
-import java.util.Objects
+import org.junit.After
+import org.junit.Before
 
 /**
  * Provides basic test environment for UI tests:
@@ -45,15 +45,16 @@ import java.util.Objects
  * - Cleans up the test environment
  */
 abstract class ActivityTestJunit4<T : Activity?> {
-    @JvmField
-    var bots: Bots? = null
+    lateinit var bots: Bots
 
     @JvmField
     var device: UiDevice? = null
 
     @JvmField
     var context: Context? = null
-    var userId: UserId? = null
+
+    @JvmField
+    protected var userId: UserId? = null
     var automation: UiAutomation? = null
 
     @JvmField
@@ -72,10 +73,11 @@ abstract class ActivityTestJunit4<T : Activity?> {
 
     @JvmField
     var rootDir1: RootInfo? = null
-    protected var mResolver: ContentResolver? = null
 
     @JvmField
     protected var mDocsHelper: DocumentsProviderHelper? = null
+
+    @JvmField
     protected var mActivityScenario: ActivityScenario<T?>? = null
     private var initialScreenOffTimeoutValue: String? = null
     private var initialSleepTimeoutValue: String? = null
@@ -98,20 +100,19 @@ abstract class ActivityTestJunit4<T : Activity?> {
         this.initialRoot = rootDir0
     }
 
-    @Throws(Exception::class)
-    open fun setUp() {
+    @Before
+    fun setUp() {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         // NOTE: Must be the "target" context, else security checks in content provider will fail.
-        context = InstrumentationRegistry.getInstrumentation().getTargetContext()
+        context = InstrumentationRegistry.getInstrumentation().targetContext
         userId = UserId.DEFAULT_USER
-        automation = InstrumentationRegistry.getInstrumentation().getUiAutomation()
+        automation = InstrumentationRegistry.getInstrumentation().uiAutomation
         features = RuntimeFeatures(context!!.getResources(), null)
 
         bots = Bots(device, automation, context, TIMEOUT)
 
-        Configurator.getInstance().setToolType(MotionEvent.TOOL_TYPE_MOUSE)
+        Configurator.getInstance().toolType = MotionEvent.TOOL_TYPE_MOUSE
 
-        mResolver = context!!.getContentResolver()
         mDocsHelper = DocumentsProviderHelper(
             userId, this.testingProviderAuthority, context,
             this.testingProviderAuthority
@@ -123,29 +124,23 @@ abstract class ActivityTestJunit4<T : Activity?> {
         disableScreenOffAndSleepTimeouts()
 
         setupTestingRoots()
-
         launchActivity()
-        resetStorage()
 
         // Since at the launch of activity, ROOT_0 and ROOT_1 have no files, drawer will
         // automatically open for phone devices. Espresso register click() as (x, y) MotionEvents,
         // so if a drawer is on top of a file we want to select, it will actually click the drawer.
         // Thus to start a clean state, we always try to close first.
-        bots!!.roots!!.closeDrawer()
-
-        // Configure the provider back to default.
-        mDocsHelper!!.configure(null, Bundle.EMPTY)
+        bots.roots!!.closeDrawer()
     }
 
-    @Throws(Exception::class)
-    open fun tearDown() {
+    @After
+    fun tearDown() {
         device!!.unfreezeRotation()
-        mDocsHelper!!.cleanUp()
         restoreScreenOffAndSleepTimeouts()
-        mActivityScenario!!.close()
+        mActivityScenario?.close()
     }
 
-    protected fun launchActivity() {
+    protected open fun launchActivity() {
         val intent = Intent(context, FilesActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         if (this.initialRoot != null) {
@@ -158,28 +153,6 @@ abstract class ActivityTestJunit4<T : Activity?> {
         mActivityScenario = ActivityScenario.launch(intent)
     }
 
-    @Throws(RemoteException::class)
-    protected fun resetStorage() {
-        mDocsHelper!!.clear(null, null)
-        device!!.waitForIdle()
-    }
-
-    @Throws(RemoteException::class)
-    protected open fun initTestFiles() {
-        mDocsHelper!!.createFolder(this.initialRoot, dirName1)
-        mDocsHelper!!.createDocument(this.initialRoot, "text/plain", fileName1)
-        mDocsHelper!!.createDocument(this.initialRoot, "image/png", fileName2)
-        mDocsHelper!!.createDocumentWithFlags(
-            initialRoot!!.documentId,
-            "text/plain",
-            fileNameNoRename,
-            DocumentsContract.Document.FLAG_SUPPORTS_WRITE
-        )
-
-        mDocsHelper!!.createDocument(rootDir1, "text/plain", fileName3)
-        mDocsHelper!!.createDocument(rootDir1, "text/plain", fileName4)
-    }
-
     @Throws(IOException::class)
     private fun disableScreenOffAndSleepTimeouts() {
         initialScreenOffTimeoutValue = device!!.executeShellCommand(
@@ -188,14 +161,23 @@ abstract class ActivityTestJunit4<T : Activity?> {
         initialSleepTimeoutValue = device!!.executeShellCommand(
             "settings get secure sleep_timeout"
         )
+        Log.w(
+            TAG,
+            """initialScreenOffTimeoutValue = '$initialScreenOffTimeoutValue'
+                |initialSleepTimeoutValue = '$initialSleepTimeoutValue'""".trimMargin()
+        )
         device!!.executeShellCommand("settings put system screen_off_timeout -1")
         device!!.executeShellCommand("settings put secure sleep_timeout -1")
     }
 
     @Throws(IOException::class)
     private fun restoreScreenOffAndSleepTimeouts() {
-        Objects.requireNonNull<String?>(initialScreenOffTimeoutValue)
-        Objects.requireNonNull<String?>(initialSleepTimeoutValue)
+        requireNotNull(
+            initialScreenOffTimeoutValue
+        ) { "Require the initial screen off timeout value to be non-null" }
+        requireNotNull(
+            initialSleepTimeoutValue
+        ) { "Require the sleep timeout value to be non-null" }
         try {
             device!!.executeShellCommand(
                 "settings put system screen_off_timeout $initialScreenOffTimeoutValue"
@@ -210,14 +192,7 @@ abstract class ActivityTestJunit4<T : Activity?> {
     }
 
     companion object {
-        // Testing files. For custom ones, override initTestFiles().
-        const val dirName1 = "Dir1"
-        const val childDir1 = "ChildDir1"
-        const val fileName1 = "file1.log"
-        const val fileName2 = "file12.png"
-        const val fileName3 = "anotherFile0.log"
-        const val fileName4 = "poodles.text"
-        const val fileNameNoRename = "NO_RENAMEfile.txt"
         const val TIMEOUT = 5000
+        const val TAG = "ActivityTestJunit4"
     }
 }

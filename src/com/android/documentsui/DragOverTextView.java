@@ -16,9 +16,10 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View.OnDragListener;
 import android.widget.TextView;
 
 /**
@@ -26,7 +27,7 @@ import android.widget.TextView;
  */
 
 public final class DragOverTextView extends TextView {
-    private static final int[] STATE_HIGHLIGHTED = {R.attr.state_highlighted};
+    private static final int[] STATE_HIGHLIGHTED = {getRes(R.attr.state_highlighted)};
 
     private boolean mHighlighted = false;
 

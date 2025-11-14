@@ -30,6 +30,9 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.flag.junit.CheckFlagsRule;
+import android.platform.test.flag.junit.DeviceFlagsValueProvider;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 
@@ -48,6 +51,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ActionType;
+import com.android.documentsui.flags.Flags;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
@@ -63,6 +67,7 @@ import com.google.common.collect.Lists;
 
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -70,6 +75,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 @RunWith(Parameterized.class)
@@ -98,6 +104,9 @@ public class ActionHandlerTest {
     public static Iterable<?> data() {
         return Lists.newArrayList(true, false);
     }
+
+    @Rule
+    public final CheckFlagsRule mCheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule();
 
     @Before
     public void setUp() {
@@ -421,6 +430,39 @@ public class ActionHandlerTest {
         mHandler.pickDocument(null, TestEnv.FOLDER_1);
 
         mEnv.dialogs.assertDocumentTreeConfirmed(TestEnv.FOLDER_1);
+    }
+
+    @Test
+    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    public void testPickSelected_SingleDocuments() throws Exception {
+        mEnv.state.action = State.ACTION_OPEN;
+
+        mEnv.selectDocument(TestEnv.FILE_JPG);
+        mHandler.pickSelected();
+
+        mEnv.beforeAsserts();
+
+        mActivity.documentPicked.assertCalled();
+        DocumentInfo doc = mActivity.documentPicked.getLastValue();
+        assertNotNull(doc);
+        assertEquals(TestEnv.FILE_JPG, doc);
+    }
+
+    @Test
+    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    public void testPickSelected_MultiDocuments() throws Exception {
+        mEnv.state.action = State.ACTION_GET_CONTENT;
+
+        mEnv.selectDocument(TestEnv.FILE_JPG);
+        mEnv.selectDocument(TestEnv.FILE_GIF);
+        mHandler.pickSelected();
+
+        mEnv.beforeAsserts();
+
+        mActivity.documentsPicked.assertCalled();
+        List<DocumentInfo> docs = mActivity.documentsPicked.getLastValue();
+        assertNotNull(docs);
+        assertEquals(Arrays.asList(TestEnv.FILE_JPG, TestEnv.FILE_GIF), docs);
     }
 
     @Test

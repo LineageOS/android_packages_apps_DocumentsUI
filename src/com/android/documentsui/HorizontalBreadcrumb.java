@@ -17,6 +17,7 @@
 package com.android.documentsui;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -82,10 +83,17 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
         // events.
         setAccessibilityDelegateCompat(
                 new AccessibilityEventRouter(this,
-                        (View child) -> onAccessibilityClick(child), null));
+                        (View child) -> onAccessibilityClick(child), null, state.action));
 
         setLayoutManager(mLayoutManager);
         addOnItemTouchListener(new ClickListener(getContext(), this::onSingleTapUp));
+
+        // When use_material3 flag is ON, the item is focusable but the whole row is not focusable.
+        if (isUseMaterial3FlagEnabled()) {
+            // Noe: setting this in the XML file via "android:focusable=false") somehow doesn't
+            // work, i.e. the breadcrumb bar is still focusable, hence forcing it here in the code.
+            setFocusable(false);
+        }
     }
 
     @Override
@@ -178,8 +186,9 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
 
         @Override
         public BreadcrumbHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.navigation_breadcrumb_item, null);
+            View v =
+                    LayoutInflater.from(parent.getContext())
+                            .inflate(getRes(R.layout.navigation_breadcrumb_item), null);
             return new BreadcrumbHolder(v);
         }
 
@@ -194,7 +203,7 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
                     isFirst ? mEnv.getCurrentRoot().title : mState.stack.get(position).displayName);
             if (isUseMaterial3FlagEnabled()) {
                 // The last path part in the breadcrumb is not clickable.
-                holder.mTitle.setEnabled(!isLast);
+                holder.itemView.setEnabled(!isLast);
             } else {
                 holder.mTitle.setEnabled(isLast);
             }
@@ -203,17 +212,20 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
                         (int)
                                 holder.itemView
                                         .getResources()
-                                        .getDimension(R.dimen.breadcrumb_item_padding_horizontal);
+                                        .getDimension(
+                                                getRes(R.dimen.breadcrumb_item_padding_horizontal));
                 final int paddingVertical =
                         (int)
                                 holder.itemView
                                         .getResources()
-                                        .getDimension(R.dimen.breadcrumb_item_padding_vertical);
+                                        .getDimension(
+                                                getRes(R.dimen.breadcrumb_item_padding_vertical));
                 final int arrowPadding =
                         (int)
                                 holder.itemView
                                         .getResources()
-                                        .getDimension(R.dimen.breadcrumb_item_arrow_padding);
+                                        .getDimension(
+                                                getRes(R.dimen.breadcrumb_item_arrow_padding));
                 holder.mTitle.setPadding(
                         paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
 
@@ -223,8 +235,11 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
                 params.setMarginEnd(arrowPadding);
                 holder.mArrow.setLayoutParams(params);
             } else {
-                final int padding = (int) holder.itemView.getResources()
-                        .getDimension(R.dimen.breadcrumb_item_padding);
+                final int padding =
+                        (int)
+                                holder.itemView
+                                        .getResources()
+                                        .getDimension(getRes(R.dimen.breadcrumb_item_padding));
                 holder.mTitle.setPadding(
                         isFirst ? padding * 3 : padding,
                         padding,

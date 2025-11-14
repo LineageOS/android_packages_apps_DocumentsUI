@@ -21,6 +21,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurfaceContainer"
     android:id="@+id/coordinator_layout">
 
     <androidx.drawerlayout.widget.DrawerLayout
@@ -52,7 +53,7 @@
                     android:id="@+id/nav_rail_burger_menu"
                     android:layout_width="@dimen/nav_rail_burger_icon_size"
                     android:layout_height="@dimen/nav_rail_burger_icon_size"
-                    android:layout_marginBottom="24dp"
+                    android:layout_marginBottom="@dimen/space_small_4"
                     app:iconPadding="0dp"
                     app:iconGravity="textStart"
                     app:iconTint="?attr/colorOnSurfaceVariant"
@@ -60,7 +61,7 @@
                     app:rippleColor="@color/nav_rail_burger_icon_ripple_color"
                     app:strokeColor="?attr/colorPrimary"
                     android:contentDescription="@string/drawer_open"
-                    app:icon="@drawable/ic_hamburger" />
+                    app:icon="@drawable/ic_hamburger_m3" />
 
                 <FrameLayout
                     android:id="@+id/nav_rail_container_roots"
@@ -84,24 +85,38 @@
                     android:paddingTop="@dimen/main_container_padding_top"
                     android:background="@drawable/main_container_top_section_background">
 
-                    <com.google.android.material.appbar.MaterialToolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_marginTop="@dimen/action_bar_margin"
-                        android:touchscreenBlocksFocus="false">
+                    <FrameLayout
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent">
 
-                        <TextView
-                            android:id="@+id/searchbar_title"
+                        <com.google.android.material.appbar.MaterialToolbar
+                            android:id="@+id/toolbar"
                             android:layout_width="match_parent"
-                            android:layout_height="?android:attr/actionBarSize"
-                            android:gravity="center_vertical"
-                            android:text="@string/search_bar_hint"
-                            android:textAppearance="@style/SearchBarTitle" />
+                            android:layout_height="?attr/actionBarSize"
+                            android:layout_marginTop="@dimen/action_bar_margin_m3"
+                            android:touchscreenBlocksFocus="false">
 
-                    </com.google.android.material.appbar.MaterialToolbar>
+                            <TextView
+                                android:id="@+id/searchbar_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="?android:attr/actionBarSize"
+                                android:gravity="center_vertical"
+                                android:text="@string/search_bar_hint"
+                                android:textAppearance="@style/SearchBarTitle" />
 
-                    <include layout="@layout/directory_header" />
+                        </com.google.android.material.appbar.MaterialToolbar>
+
+                        <com.google.android.material.appbar.MaterialToolbar
+                            android:id="@+id/selection_bar"
+                            android:layout_width="match_parent"
+                            android:layout_height="?attr/actionBarSize"
+                            android:touchscreenBlocksFocus="false"
+                            android:background="?attr/colorSurfaceBright"
+                            android:visibility="gone"/>
+
+                    </FrameLayout>
+
+                    <include layout="@layout/directory_header_m3" />
 
                 </LinearLayout>
 
@@ -114,7 +129,7 @@
                     android:layout_marginTop="@dimen/main_container_section_gap"
                     android:background="@drawable/main_container_middle_section_background">
 
-                    <include layout="@layout/column_headers"/>
+                    <include layout="@layout/column_headers_m3"/>
 
                     <FrameLayout
                         android:layout_width="match_parent"

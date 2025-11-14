@@ -15,11 +15,28 @@
     limitations under the License.
 -->
 
-<com.google.android.material.progressindicator.CircularProgressIndicator
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/JobProgressToolbarIndicatorStyle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true" />
+    android:layout_width="48dp"
+    android:layout_height="48dp">
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/job_progress_toolbar_indicator"
+        style="@style/JobProgressToolbarIndicatorStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <ImageView
+        android:id="@+id/job_progress_toolbar_badge"
+        android:layout_width="@dimen/job_progress_toolbar_badge_diameter"
+        android:layout_height="@dimen/job_progress_toolbar_badge_diameter"
+        android:src="@drawable/job_progress_badge"
+        android:visible="false"
+        app:layout_constraintEnd_toEndOf="@id/job_progress_toolbar_indicator"
+        app:layout_constraintTop_toTopOf="@id/job_progress_toolbar_indicator" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,7 @@
 -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="@dimen/breadcrumb_item_height" />
+    <corners android:radius="@dimen/breadcrumb_item_height_m3" />
     <!-- The color here doesn't matter, it's just being used as a mask. -->
     <solid android:color="@android:color/white" />
 </shape>

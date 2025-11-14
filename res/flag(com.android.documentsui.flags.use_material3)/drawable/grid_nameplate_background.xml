@@ -82,6 +82,24 @@
                 </layer-list>
             </item>
             <item
+                android:state_drag_hovered="true"
+                android:state_selected="true">
+                <layer-list>
+                    <item>
+                        <shape>
+                            <corners android:radius="@dimen/grid_item_nameplate_radius" />
+                            <solid android:color="?attr/colorPrimaryContainer" />
+                        </shape>
+                    </item>
+                    <item>
+                        <shape android:tint="?attr/colorOnPrimaryContainer">
+                            <corners android:radius="@dimen/grid_item_nameplate_radius" />
+                            <solid android:color="@color/overlay_hover_color_percentage" />
+                        </shape>
+                    </item>
+                </layer-list>
+            </item>
+            <item
                 android:state_hovered="true"
                 android:state_selected="true">
                 <layer-list>
@@ -137,6 +155,12 @@
                     <stroke
                         android:width="@dimen/focus_ring_width"
                         android:color="?attr/colorSecondary" />
+                </shape>
+            </item>
+            <item android:state_drag_hovered="true">
+                <shape android:tint="?attr/colorOnSurface">
+                    <corners android:radius="@dimen/grid_item_nameplate_radius" />
+                    <solid android:color="@color/overlay_hover_color_percentage" />
                 </shape>
             </item>
             <item android:state_hovered="true">

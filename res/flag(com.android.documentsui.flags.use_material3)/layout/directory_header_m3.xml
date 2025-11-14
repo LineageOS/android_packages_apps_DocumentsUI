@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2024 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/directory_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- used for search chip. -->
+    <include layout="@layout/search_chip_row_m3"/>
+    <!-- search options dropdown shown while search view is active. -->
+    <include layout="@layout/search_options_row"/>
+
+    <LinearLayout
+        android:id="@+id/tabs_container"
+        android:clipToPadding="true"
+        android:clipChildren="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/main_container_padding_start"
+        android:paddingEnd="@dimen/main_container_padding_end"
+        android:paddingBottom="@dimen/space_extra_small_6"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            style="@style/ProfileTabStyle"/>
+        <View
+            android:id="@+id/tab_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorOutlineVariant"/>
+    </LinearLayout>
+
+    <!-- used for apps row. -->
+    <include layout="@layout/apps_row_m3"/>
+
+</LinearLayout>

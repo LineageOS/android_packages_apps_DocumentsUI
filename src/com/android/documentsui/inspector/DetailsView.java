@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.inspector;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.text.format.Formatter;
 import android.util.AttributeSet;
@@ -52,16 +54,19 @@ public class DetailsView extends TableView implements DetailsDisplay {
 
         String mimeType = fileTypeLookup.lookup(doc.mimeType);
 
-        put(R.string.sort_dimension_file_type, mimeType);
+        put(getRes(R.string.sort_dimension_file_type), mimeType);
 
         // TODO: Each of these rows need to be removed if the condition is false and previously
         // set.
         if (doc.size >= 0 && !doc.isDirectory()) {
-            put(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), doc.size));
+            put(
+                    getRes(R.string.sort_dimension_size),
+                    Formatter.formatFileSize(getContext(), doc.size));
         }
 
         if (doc.lastModified > 0) {
-            put(R.string.sort_dimension_date,
+            put(
+                    getRes(R.string.sort_dimension_date),
                     DateUtils.formatDate(this.getContext(), doc.lastModified));
         }
 
@@ -72,12 +77,12 @@ public class DetailsView extends TableView implements DetailsDisplay {
         // after the file is renamed, it creates even more confusion (since it still
         // shows the original). For that reason, and others. We only display on partial files.
         if (doc.isPartial() && doc.summary != null) {
-            put(R.string.sort_dimension_summary, doc.summary);
+            put(getRes(R.string.sort_dimension_summary), doc.summary);
         }
     }
 
     @Override
     public void setChildrenCount(int count) {
-        put(R.string.directory_items, String.valueOf(count));
+        put(getRes(R.string.directory_items), String.valueOf(count));
     }
 }

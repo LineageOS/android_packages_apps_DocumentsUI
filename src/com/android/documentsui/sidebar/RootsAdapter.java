@@ -17,6 +17,7 @@
 package com.android.documentsui.sidebar;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Activity;
 import android.os.Looper;
@@ -97,10 +98,10 @@ class RootsAdapter extends ArrayAdapter<Item> {
         }
 
         if (item.isRoot()) {
-            view.setTag(R.id.item_position_tag, position);
+            view.setTag(getRes(R.id.item_position_tag), position);
             view.setOnDragListener(mDragListener);
         } else {
-            view.setTag(R.id.item_position_tag, null);
+            view.setTag(getRes(R.id.item_position_tag), null);
             view.setOnDragListener(null);
         }
         return view;

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2024 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_root"
+    android:layout_width="@dimen/grid_width_m3"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/grid_item_margin_m3"
+    android:clickable="true"
+    android:defaultFocusHighlightEnabled="false"
+    android:focusable="true">
+
+<!-- Main item thumbnail.  Comprised of two overlapping images, the
+         visibility of which is controlled by code in
+         DirectoryFragment.java. -->
+
+    <FrameLayout
+        android:id="@+id/thumbnail"
+        android:layout_width="@dimen/grid_item_thumbnail_width"
+        android:layout_height="@dimen/grid_item_thumbnail_height"
+        android:layout_centerHorizontal="true"
+        android:duplicateParentState="true"
+        android:background="@drawable/grid_thumbnail_background">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/icon_wrapper"
+            android:layout_width="@dimen/grid_item_icon_width"
+            android:layout_height="@dimen/grid_item_icon_height"
+            android:layout_gravity="center"
+            style="@style/GridThumbnailCardViewStyle">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/icon_thumb"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:scaleType="centerCrop"
+                style="@style/GridThumbnailImageViewStyle" />
+
+            <com.android.documentsui.GridItemThumbnail
+                android:id="@+id/icon_mime_lg"
+                android:layout_width="@dimen/icon_size_m3"
+                android:layout_height="@dimen/icon_size_m3"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:scaleType="fitCenter" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:id="@+id/selection_circle"
+            android:layout_width="@dimen/button_container_size"
+            android:layout_height="@dimen/button_container_size"
+            android:layout_marginStart="@dimen/selection_circle_margin"
+            android:layout_marginTop="@dimen/selection_circle_margin"
+            android:layout_gravity="top|start"
+            android:background="@drawable/selection_circle"
+            android:contentDescription="@null"
+            android:elevation="0dp"
+            android:scaleType="center" />
+
+        <ImageView
+            android:id="@+id/icon_check"
+            android:layout_width="@dimen/button_container_size"
+            android:layout_height="@dimen/button_container_size"
+            android:layout_gravity="top|start"
+            android:alpha="0"
+            android:background="@drawable/icon_check_background"
+            android:contentDescription="@null"
+            android:duplicateParentState="true"
+            android:scaleType="center"
+            android:src="@drawable/ic_check_circle_m3" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/icon_profile_badge"
+            android:layout_width="@dimen/briefcase_icon_grid_size"
+            android:layout_height="@dimen/briefcase_icon_grid_size"
+            android:layout_marginBottom="@dimen/briefcase_icon_grid_margin"
+            android:layout_marginEnd="@dimen/briefcase_icon_grid_margin"
+            android:layout_gravity="bottom|end"
+            android:contentDescription="@string/a11y_work"
+            android:gravity="center_vertical"
+            android:background="?attr/colorSurfaceContainerLowest"
+            app:shapeAppearance="?attr/shapeAppearanceCornerExtraSmall"
+            app:contentPadding="@dimen/briefcase_icon_grid_padding"
+            android:src="@drawable/ic_briefcase_m3"
+            android:tint="@color/briefcase_icon_color" />
+
+        <FrameLayout
+            android:id="@+id/preview_icon"
+            android:layout_width="@dimen/button_container_size"
+            android:layout_height="@dimen/button_container_size"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="@dimen/preview_icon_margin"
+            android:layout_marginTop="@dimen/preview_icon_margin"
+            android:clickable="true"
+            android:focusable="true"
+            android:pointerIcon="hand">
+
+                <!-- Black circle background -->
+                <ImageView
+                    android:layout_width="@dimen/preview_icon_circle_size"
+                    android:layout_height="@dimen/preview_icon_circle_size"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_button_background_m3" />
+
+                <!-- White eye icon -->
+                <ImageView
+                    android:layout_width="@dimen/preview_icon_eye_size"
+                    android:layout_height="@dimen/preview_icon_eye_size"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_zoom_out_m3" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <!-- Item nameplate. Has some text fields (title, size, mod-time, etc). -->
+
+    <LinearLayout
+        android:id="@+id/nameplate"
+        android:layout_width="@dimen/grid_item_nameplate_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thumbnail"
+        android:layout_marginTop="@dimen/grid_item_nameplate_marginTop"
+        android:background="@drawable/grid_nameplate_background"
+        android:orientation="vertical"
+        android:duplicateParentState="true"
+        android:padding="@dimen/grid_item_nameplate_padding">
+
+        <!-- Top row. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@android:id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="middle"
+                android:singleLine="true"
+                android:textAlignment="center"
+                android:textAppearance="@style/FileItemLabelText" />
+
+        </LinearLayout>
+
+        <!-- Bottom row. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/ItemCaptionTextM3" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/bullet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:singleLine="true"
+                android:text="@string/bullet"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/ItemCaptionTextM3"
+                android:importantForAccessibility="no" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/ItemCaptionTextM3" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

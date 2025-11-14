@@ -17,6 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.base.SharedMinimal.TAG;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -79,12 +80,12 @@ public class RenameDocumentFragment extends DialogFragment {
         Context context = getActivity();
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         LayoutInflater dialogInflater = LayoutInflater.from(builder.getContext());
-        View view = dialogInflater.inflate(R.layout.dialog_file_name, null, false);
+        View view = dialogInflater.inflate(getRes(R.layout.dialog_file_name), null, false);
 
         mEditText = (EditText) view.findViewById(android.R.id.text1);
-        mRenameInputWrapper = (TextInputLayout) view.findViewById(R.id.input_wrapper);
-        mRenameInputWrapper.setHint(getString(R.string.input_hint_rename));
-        builder.setTitle(R.string.menu_rename);
+        mRenameInputWrapper = (TextInputLayout) view.findViewById(getRes(R.id.input_wrapper));
+        mRenameInputWrapper.setHint(getString(getRes(R.string.input_hint_rename)));
+        builder.setTitle(getRes(R.string.menu_rename));
         builder.setView(view);
         builder.setPositiveButton(android.R.string.ok, null);
         builder.setNegativeButton(android.R.string.cancel, null);
@@ -184,9 +185,10 @@ public class RenameDocumentFragment extends DialogFragment {
         if (newDisplayName.equals(mDocument.displayName)) {
             mDialog.dismiss();
         } else if (newDisplayName.isEmpty()) {
-            mRenameInputWrapper.setError(getContext().getString(R.string.missing_rename_error));
+            mRenameInputWrapper.setError(
+                    getContext().getString(getRes(R.string.missing_rename_error)));
         } else if (activity.getInjector().getModel().hasFileWithName(newDisplayName)) {
-            mRenameInputWrapper.setError(getContext().getString(R.string.name_conflict));
+            mRenameInputWrapper.setError(getContext().getString(getRes(R.string.name_conflict)));
             selectFileName(mEditText);
         } else {
             new RenameDocumentsTask(activity, newDisplayName).execute(mDocument);

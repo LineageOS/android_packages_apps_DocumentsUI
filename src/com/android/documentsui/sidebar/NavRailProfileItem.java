@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sidebar;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.pm.ResolveInfo;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,14 +26,13 @@ import android.widget.TextView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.R;
 
-
 /**
  * Similar to {@link ProfileItem} but only used in the navigation rail.
  */
 public class NavRailProfileItem extends ProfileItem {
 
     public NavRailProfileItem(ResolveInfo info, String title, ActionHandler actionHandler) {
-        super(R.layout.nav_rail_item_root, info, title, actionHandler);
+        super(getRes(R.layout.nav_rail_item_root), info, title, actionHandler);
     }
 
     @Override
@@ -43,5 +44,14 @@ public class NavRailProfileItem extends ProfileItem {
         titleView.setContentDescription(userId.getUserBadgedLabel(convertView.getContext(), title));
 
         bindIcon(icon);
+    }
+
+    @Override
+    public String toString() {
+        return "NavRailProfileItem{"
+                + "id=" + stringId
+                + ", userId=" + userId
+                + ", resolveInfo=" + info
+                + "}";
     }
 }

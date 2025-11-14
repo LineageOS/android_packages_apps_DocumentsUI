@@ -20,6 +20,8 @@ import static android.os.ParcelFileDescriptor.MODE_READ_ONLY;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
+import static java.util.Collections.unmodifiableList;
+
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Point;
@@ -64,6 +66,8 @@ import java.util.Stack;
 public class ReadableArchive extends Archive {
     private static final String TAG = "ReadableArchive";
 
+    // All the archive entries, in the order they are listed in the archive.
+    private final List<ArchiveEntry> mAllEntries = new ArrayList<>();
     private final StorageManager mStorageManager;
     private final ArchiveHandle mArchiveHandle;
     private final ParcelFileDescriptor mParcelFileDescriptor;
@@ -98,6 +102,8 @@ public class ReadableArchive extends Archive {
         final Stack<ArchiveEntry> stack = new Stack<>();
         while (it.hasMoreElements()) {
             entry = it.nextElement();
+            mAllEntries.add(entry);
+
             if (entry.isDirectory() != entry.getName().endsWith("/")) {
                 if (DEBUG) {
                     Log.d(TAG, "directory entry doesn't end with /");
@@ -188,19 +194,21 @@ public class ReadableArchive extends Archive {
     }
 
     /**
-     * Creates a DocumentsArchive instance for opening, browsing and accessing
-     * documents within the archive passed as a file descriptor.
+     * Creates a ReadableArchive instance for opening, browsing and accessing documents within
+     * the archive passed as a file descriptor.
      * <p>
      * If the file descriptor is not seekable, then a snapshot will be created.
      * </p><p>
      * This method takes ownership for the passed descriptor. The caller must
      * not use it after passing.
      * </p>
-     * @param context Context of the provider.
-     * @param descriptor File descriptor for the archive's contents.
-     * @param archiveUri Uri of the archive document.
-     * @param accessMode Access mode for the archive {@see ParcelFileDescriptor}.
-     * @param notificationUri notificationUri Uri for notifying that the archive file has changed.
+     *
+     * @param context         Context of the provider.
+     * @param descriptor      File descriptor for the archive's contents.
+     * @param archiveUri      URI of the archive document.
+     * @param archiveMimeType MIME type of the archive document.
+     * @param accessMode      Access mode for the archive {@see ParcelFileDescriptor}.
+     * @param notificationUri URI for notifying that the archive file has changed.
      */
     public static ReadableArchive createForParcelFileDescriptor(
             Context context, ParcelFileDescriptor descriptor, Uri archiveUri,
@@ -338,6 +346,20 @@ public class ReadableArchive extends Archive {
 
         return new AssetFileDescriptor(
                 openDocument(documentId, "r", signal), 0, entry.getSize(), null);
+    }
+
+    /**
+     * Gets the unmodifiable list of all the entries of this archive, in the original order they are
+     * stored in the archive.
+     */
+    public List<ArchiveEntry> getEntries() {
+        return unmodifiableList(mAllEntries);
+    }
+
+    /** Gets an InputStream for reading the contents of the given entry. */
+    public @NonNull InputStream getInputStream(@NonNull ArchiveEntry entry)
+            throws IOException, CompressorException, ArchiveException {
+        return mArchiveHandle.getInputStream(entry);
     }
 
     /**

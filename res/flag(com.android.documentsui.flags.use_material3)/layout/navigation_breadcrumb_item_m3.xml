@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2024 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/breadcrumb_height"
+    android:gravity="center_vertical"
+    android:focusable="true"
+    android:clickable="true"
+    android:defaultFocusHighlightEnabled="false"
+    android:orientation="horizontal">
+
+    <!-- We can't put clickable/focusable on the TextView below even though we only want the
+         highlight/focus ring on the TextView instead of the whole item, this is because there is a
+         specific logic in HorizontalBreadcrumb when binding click event, the event is bound
+         on the whole item directly and there are special a11y handling (check the
+         `setAccessibilityDelegateCompat` call). Given we don't want the focus background on
+         the item, we also need defaultFocusHighlightEnabled above and duplicateParentState
+         below.  -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/breadcrumb_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:duplicateParentState="true"
+        android:maxWidth="275dp"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textAppearance="@style/BreadcrumbTextM3"
+        android:background="@drawable/breadcrumb_item_background_m3" />
+
+    <ImageView
+        android:id="@+id/breadcrumb_arrow"
+        android:layout_width="@dimen/breadcrumb_item_arrow_size"
+        android:layout_height="@dimen/breadcrumb_item_arrow_size"
+        android:src="@drawable/ic_breadcrumb_arrow_m3"/>
+
+</LinearLayout>

@@ -18,6 +18,7 @@ package com.android.documentsui.services;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.util.FlagUtils.isVisualSignalsFlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -62,6 +63,7 @@ public class FileOperationService extends Service implements Job.Listener {
 
     public static final String EXTRA_FAILED_URIS = "com.android.documentsui.FAILED_URIS";
     public static final String EXTRA_FAILED_DOCS = "com.android.documentsui.FAILED_DOCS";
+    public static final String EXTRA_FAILED_PATHS = "com.android.documentsui.FAILED_PATHS";
 
     // Extras used to start or cancel a file operation...
     public static final String EXTRA_JOB_ID = "com.android.documentsui.JOB_ID";
@@ -70,6 +72,7 @@ public class FileOperationService extends Service implements Job.Listener {
 
     public static final String ACTION_PROGRESS = "com.android.documentsui.action.PROGRESS";
     public static final String EXTRA_PROGRESS = "com.android.documentsui.PROGRESS";
+    public static final String EXTRA_PROGRESS_ID = "com.android.documentsui.PROGRESS_ID";
 
     @IntDef({
             OPERATION_UNKNOWN,
@@ -77,7 +80,8 @@ public class FileOperationService extends Service implements Job.Listener {
             OPERATION_COMPRESS,
             OPERATION_EXTRACT,
             OPERATION_MOVE,
-            OPERATION_DELETE
+            OPERATION_DELETE,
+            OPERATION_UNPACK,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface OpType {}
@@ -87,6 +91,7 @@ public class FileOperationService extends Service implements Job.Listener {
     public static final int OPERATION_COMPRESS = 3;
     public static final int OPERATION_MOVE = 4;
     public static final int OPERATION_DELETE = 5;
+    public static final int OPERATION_UNPACK = 6;
 
     @IntDef({
             MESSAGE_PROGRESS,
@@ -188,10 +193,11 @@ public class FileOperationService extends Service implements Job.Listener {
 
     private void setUpNotificationChannel() {
         if (features.isNotificationChannelEnabled()) {
-            NotificationChannel channel = new NotificationChannel(
-                    NOTIFICATION_CHANNEL_ID,
-                    getString(R.string.app_label),
-                    NotificationManager.IMPORTANCE_LOW);
+            NotificationChannel channel =
+                    new NotificationChannel(
+                            NOTIFICATION_CHANNEL_ID,
+                            getString(getRes(R.string.app_label)),
+                            NotificationManager.IMPORTANCE_LOW);
             notificationManager.createNotificationChannel(channel);
         }
     }
@@ -306,6 +312,7 @@ public class FileOperationService extends Service implements Job.Listener {
             if (record != null) {
                 record.job.cancel();
                 updateForegroundState(record.job);
+                onFinished(record.job);
             }
         }
 
@@ -324,6 +331,7 @@ public class FileOperationService extends Service implements Job.Listener {
             case OPERATION_COMPRESS:
             case OPERATION_EXTRACT:
             case OPERATION_MOVE:
+            case OPERATION_UNPACK:
                 return executor;
             case OPERATION_DELETE:
                 return deletionExecutor;
@@ -425,11 +433,16 @@ public class FileOperationService extends Service implements Job.Listener {
         if (DEBUG) {
             Log.d(TAG, "onFinished: " + job.id);
         }
-        if (mVisualSignalsEnabled) {
-            mJobMonitor.sendProgress();
-        }
 
         synchronized (mJobs) {
+            if (!mJobs.containsKey(job.id)) {
+                return;
+            }
+
+            if (mVisualSignalsEnabled) {
+                mJobMonitor.sendProgress();
+            }
+
             // Delete the job from mJobs first to avoid this job being selected as the foreground
             // task again if we need to swap the foreground job.
             deleteJob(job);
@@ -473,9 +486,11 @@ public class FileOperationService extends Service implements Job.Listener {
                 }
 
                 notificationManager.cancel(candidate.id, NOTIFICATION_ID_PROGRESS);
-                Notification notification = (candidate.getState() == Job.STATE_STARTED)
-                        ? candidate.getSetupNotification()
-                        : candidate.getProgressNotification();
+                var jobState = candidate.getState();
+                Notification notification =
+                        (jobState == Job.STATE_CREATED || jobState == Job.STATE_STARTED)
+                                ? candidate.getSetupNotification()
+                                : candidate.getProgressNotification();
                 notificationManager.notify(NOTIFICATION_ID_PROGRESS, notification);
             }
         }
@@ -495,6 +510,9 @@ public class FileOperationService extends Service implements Job.Listener {
             }
             if (!job.failedDocs.isEmpty()) {
                 Log.e(TAG, "Job failed to process docs: " + job.failedDocs + ".");
+            }
+            if (!job.failedPaths.isEmpty()) {
+                Log.e(TAG, "Job failed to extract paths: " + job.failedPaths);
             }
             notificationManager.notify(
                     job.id, NOTIFICATION_ID_FAILURE, job.getFailureNotification());
@@ -601,13 +619,22 @@ public class FileOperationService extends Service implements Job.Listener {
             var progress = new ArrayList<JobProgress>();
             synchronized (mJobs) {
                 for (JobRecord rec : mJobs.values()) {
-                    progress.add(rec.job.getJobProgress());
+                    var job = rec.job;
+                    progress.add(job.getJobProgress());
+
+                    // Only job in set up state has progress bar
+                    if (job.getState() == Job.STATE_SET_UP) {
+                        notificationManager.notify(
+                                mForegroundJob == job ? null : job.id,
+                                NOTIFICATION_ID_PROGRESS,
+                                job.getProgressNotification());
+                    }
                 }
             }
             Intent intent = new Intent();
             intent.setPackage(getPackageName());
             intent.setAction(ACTION_PROGRESS);
-            intent.putExtra("id", mLastId++);
+            intent.putExtra(EXTRA_PROGRESS_ID, mLastId++);
             intent.putParcelableArrayListExtra(EXTRA_PROGRESS, progress);
             sendBroadcast(intent);
         }

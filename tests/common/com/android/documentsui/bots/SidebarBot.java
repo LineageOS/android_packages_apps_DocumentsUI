@@ -17,12 +17,21 @@
 package com.android.documentsui.bots;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.swipeRight;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.allOf;
+
+import android.app.UiAutomation;
 import android.content.Context;
+import android.graphics.Rect;
+import android.os.SystemClock;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.test.uiautomator.UiDevice;
@@ -32,6 +41,7 @@ import androidx.test.uiautomator.UiScrollable;
 import androidx.test.uiautomator.UiSelector;
 
 import com.android.documentsui.R;
+import com.android.documentsui.actions.RelaxedClickAction;
 
 import junit.framework.Assert;
 
@@ -47,9 +57,11 @@ public class SidebarBot extends Bots.BaseBot {
     private static final String TAG = "RootsListBot";
 
     private final String mRootListId;
+    private final UiAutomation mAutomation;
 
-    public SidebarBot(UiDevice device, Context context, int timeout) {
+    public SidebarBot(UiDevice device, UiAutomation automation, Context context, int timeout) {
         super(device, context, timeout);
+        mAutomation = automation;
         mRootListId = mTargetPackage + ":id/roots_list";
     }
 
@@ -57,9 +69,10 @@ public class SidebarBot extends Bots.BaseBot {
         // We might need to expand drawer if not visible
         openDrawer();
 
-        final UiSelector rootsList = new UiSelector().resourceId(
-                mTargetPackage + ":id/container_roots").childSelector(
-                new UiSelector().resourceId(mRootListId));
+        final UiSelector rootsList =
+                new UiSelector()
+                        .resourceIdMatches(mTargetPackage + ":id/.*container_roots")
+                        .childSelector(new UiSelector().resourceId(mRootListId));
 
         // Wait for the first list item to appear
         new UiObject(rootsList.childSelector(new UiSelector())).waitForExists(mTimeout);
@@ -69,16 +82,43 @@ public class SidebarBot extends Bots.BaseBot {
         return new UiObject(rootsList.childSelector(new UiSelector().text(label)));
     }
 
+    /** Open navigation root either from the Drawer or the Navigation rail. */
     public void openRoot(String label) throws UiObjectNotFoundException {
         findRoot(label).click();
         // Close the drawer in case we select a pre-selected root already
         closeDrawer();
     }
 
+    /**
+     * Use openRoot above for general usage, which caters both the navigation rail and the drawer,
+     * only use openNavRailRoot if you want to open root explicitly from the navigation rail.
+     */
+    public void openNavRailRoot(String label) throws UiObjectNotFoundException {
+        // Use UiScrollable to scroll into the view.
+        final UiSelector rootsList =
+                new UiSelector()
+                        .resourceId(mTargetPackage + ":id/nav_rail_container_roots")
+                        .childSelector(new UiSelector().resourceId(mRootListId));
+        new UiObject(rootsList.childSelector(new UiSelector())).waitForExists(mTimeout);
+        new UiScrollable(rootsList).scrollIntoView(new UiSelector().text(label));
+
+        // Use Espresso to click.
+        onView(allOf(withText(label), isDescendantOfA(withId(R.id.nav_rail_container_roots))))
+                .perform(click());
+    }
+
+    /** Open navigation drawer from the burger menu button within the navigation rail layout. */
+    public void openDrawerFromNavRail() {
+        onView(withId(R.id.nav_rail_burger_menu)).perform(click());
+    }
+
     public void openDrawer() throws UiObjectNotFoundException {
-        final UiSelector rootsList = new UiSelector().resourceId(
-                mTargetPackage + ":id/container_roots").childSelector(
-                new UiSelector().resourceId(mRootListId));
+        // Let's check for `nav_rail_container_roots` as well as `container_roots` to avoid opening
+        // the drawer in nav rail layout.
+        final UiSelector rootsList =
+                new UiSelector()
+                        .resourceIdMatches(mTargetPackage + ":id/.*container_roots")
+                        .childSelector(new UiSelector().resourceId(mRootListId));
 
         // We might need to expand drawer if not visible
         if (!new UiObject(rootsList).waitForExists(mTimeout)) {
@@ -134,5 +174,39 @@ public class SidebarBot extends Bots.BaseBot {
 
     public void assertHasFocus() {
         assertHasFocus(mRootListId);
+    }
+
+    /** Right clicks a root with `label` and then clicks the `menuOption`. */
+    public void rightClickRootAndClickMenuOption(String rootLabel, String menuOption)
+            throws UiObjectNotFoundException {
+        Rect point = findRoot(rootLabel).getVisibleBounds();
+
+        // The RootsFragment listens to right clicks in the GenericMotionListener. This is to allow
+        // for a left and right click to be used interchangeably. This means to mock this behaviour,
+        // 4 input events needs to be synthesized. A down, button press, button release and an up.
+        MotionEvent motionDown =
+                getTestRightClickMotionEvent(
+                        MotionEvent.ACTION_DOWN, point.centerX(), point.centerY());
+        mAutomation.injectInputEvent(motionDown, true);
+        SystemClock.sleep(25);
+
+        MotionEvent motionButtonPress =
+                getTestRightClickMotionEvent(
+                        MotionEvent.ACTION_BUTTON_PRESS, point.centerX(), point.centerY());
+        mAutomation.injectInputEvent(motionButtonPress, true);
+        SystemClock.sleep(25);
+
+        MotionEvent motionButtonRelease =
+                getTestRightClickMotionEvent(
+                        MotionEvent.ACTION_BUTTON_RELEASE, point.centerX(), point.centerY());
+        mAutomation.injectInputEvent(motionButtonRelease, true);
+        SystemClock.sleep(25);
+
+        MotionEvent motionUp =
+                getTestRightClickMotionEvent(
+                        MotionEvent.ACTION_UP, point.centerX(), point.centerY());
+        mAutomation.injectInputEvent(motionUp, true);
+
+        onView(withText(menuOption)).perform(new RelaxedClickAction());
     }
 }

@@ -17,6 +17,7 @@
 package com.android.documentsui.picker;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -77,7 +78,7 @@ public class SaveFragment extends Fragment {
         fragment.setArguments(args);
 
         final FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.container_save, fragment, TAG);
+        ft.replace(getRes(R.id.container_save), fragment, TAG);
         ft.commitAllowingStateLoss();
     }
 
@@ -90,13 +91,13 @@ public class SaveFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Context context = inflater.getContext();
 
-        final View view = inflater.inflate(R.layout.fragment_save, container, false);
+        final View view = inflater.inflate(getRes(R.layout.fragment_save), container, false);
 
         final Drawable icon =
                 IconUtils.loadMimeIcon(context, getArguments().getString(EXTRA_MIME_TYPE));
         if (isUseMaterial3FlagEnabled()) {
             final TextInputLayout titleWrapper =
-                    (TextInputLayout) view.findViewById(R.id.title_wrapper);
+                    (TextInputLayout) view.findViewById(getRes(R.id.title_wrapper));
             titleWrapper.setStartIconDrawable(icon);
         } else {
             final ImageView iconHolder = view.findViewById(android.R.id.icon);
@@ -201,12 +202,13 @@ public class SaveFragment extends Fragment {
 
     };
 
-    private View.OnClickListener mCancelListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mInjector.actions.finishPicking();
-        }
-    };
+    private View.OnClickListener mCancelListener =
+            new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mInjector.actions.cancelPicking();
+                }
+            };
 
     private void performSave() {
         if (mReplaceTarget != null) {

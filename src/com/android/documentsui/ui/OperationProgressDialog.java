@@ -16,11 +16,12 @@
 
 package com.android.documentsui.ui;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Message;
-import android.text.format.DateUtils;
 
 import androidx.annotation.StringRes;
 
@@ -56,32 +57,36 @@ public class OperationProgressDialog {
                     mDialog.dismiss();
                 });
 
-        mDialog.setButton(ProgressDialog.BUTTON_NEUTRAL,
-                activity.getString(R.string.continue_in_background),
+        mDialog.setButton(
+                ProgressDialog.BUTTON_NEUTRAL,
+                activity.getString(getRes(R.string.continue_in_background)),
                 (dialog, button) -> mDialog.dismiss());
 
-        operation.addMessageListener(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message message) {
-                switch (message.what) {
-                    case FileOperationService.MESSAGE_PROGRESS:
-                        mDialog.setIndeterminate(false);
-                        if (message.arg1 != -1) {
-                            mDialog.setProgress(message.arg1);
+        operation.addMessageListener(
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message message) {
+                        switch (message.what) {
+                            case FileOperationService.MESSAGE_PROGRESS:
+                                mDialog.setIndeterminate(false);
+                                if (message.arg1 != -1) {
+                                    mDialog.setProgress(message.arg1);
+                                }
+                                if (message.arg2 > 0) {
+                                    mDialog.setMessage(
+                                            mActivity.getString(
+                                                    getRes(R.string.copy_remaining),
+                                                    FormatUtils.formatDuration(message.arg2)));
+                                }
+                                return true;
+                            case FileOperationService.MESSAGE_FINISH:
+                                operation.removeMessageListener(this);
+                                mDialog.dismiss();
+                                return true;
                         }
-                        if (message.arg2 > 0) {
-                            mDialog.setMessage(mActivity.getString(R.string.copy_remaining,
-                                    FormatUtils.formatDuration(message.arg2)));
-                        }
-                        return true;
-                    case FileOperationService.MESSAGE_FINISH:
-                        operation.removeMessageListener(this);
-                        mDialog.dismiss();
-                        return true;
-                }
-                return false;
-            }
-        });
+                        return false;
+                    }
+                });
     }
 
     public static OperationProgressDialog create(Activity activity, String jobId,
@@ -90,20 +95,21 @@ public class OperationProgressDialog {
         int prepareResId;
         switch (operation.getOpType()) {
             case FileOperationService.OPERATION_COPY:
-                titleResId = R.string.copy_notification_title;
-                prepareResId = R.string.copy_preparing;
+                titleResId = getRes(R.string.copy_notification_title);
+                prepareResId = getRes(R.string.copy_preparing);
                 break;
             case FileOperationService.OPERATION_COMPRESS:
-                titleResId = R.string.compress_notification_title;
-                prepareResId = R.string.compress_preparing;
+                titleResId = getRes(R.string.compress_notification_title);
+                prepareResId = getRes(R.string.compress_preparing);
                 break;
             case FileOperationService.OPERATION_EXTRACT:
-                titleResId = R.string.extract_notification_title;
-                prepareResId = R.string.extract_preparing;
+            case FileOperationService.OPERATION_UNPACK:
+                titleResId = getRes(R.string.extract_notification_title);
+                prepareResId = getRes(R.string.extract_preparing);
                 break;
             case FileOperationService.OPERATION_MOVE:
-                titleResId = R.string.move_notification_title;
-                prepareResId = R.string.move_preparing;
+                titleResId = getRes(R.string.move_notification_title);
+                prepareResId = getRes(R.string.move_preparing);
                 break;
             case FileOperationService.OPERATION_DELETE:
                 // Not supported yet. Pass through to default.

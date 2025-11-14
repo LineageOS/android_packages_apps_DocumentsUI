@@ -19,6 +19,8 @@ package com.android.documentsui.testing;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.mockito.Mockito;
 
 public final class Views {
@@ -46,6 +48,8 @@ public final class Views {
 
     public static View createTestView(boolean activated) {
         View view = createTestView();
+        Mockito.when(view.getResources()).thenReturn(
+                InstrumentationRegistry.getInstrumentation().getTargetContext().getResources());
         Mockito.when(view.isActivated()).thenReturn(activated);
 
         return view;

@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sidebar;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -23,20 +25,20 @@ import android.widget.LinearLayout;
 import com.android.documentsui.R;
 
 public final class RootItemView extends LinearLayout {
-    private static final int[] STATE_HIGHLIGHTED = {R.attr.state_highlighted};
+    private final int[] mStateHighlighted;
 
     private boolean mHighlighted = false;
 
     public RootItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mStateHighlighted = new int[] {getRes(R.attr.state_highlighted)};
     }
 
     @Override
     public int[] onCreateDrawableState(int extraSpace) {
         final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-
         if (mHighlighted) {
-            mergeDrawableStates(drawableState, STATE_HIGHLIGHTED);
+            mergeDrawableStates(drawableState, mStateHighlighted);
         }
 
         return drawableState;

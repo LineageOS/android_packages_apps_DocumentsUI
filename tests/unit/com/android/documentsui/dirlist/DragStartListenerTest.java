@@ -106,9 +106,21 @@ public class DragStartListenerTest {
     public void testMouseEvent() {
         MotionEvent e = mEvent.build();
         // Assert it is a mouse drag event.
-        assertTrue(Events.isMouseEvent(e));
+        assertTrue(Events.isMousyEvent(e));
         assertTrue(e.getActionMasked() == MotionEvent.ACTION_MOVE);
         assertTrue(e.isButtonPressed(MotionEvent.BUTTON_PRIMARY));
+    }
+
+    @Test
+    public void testTouchEventIsNotMousy() {
+        MotionEvent e = TestEvents.builder().touch().build();
+        assertFalse(Events.isMousyEvent(e));
+    }
+
+    @Test
+    public void testTouchpadEventIsMousy() {
+        MotionEvent e = TestEvents.builder().touchpad().build();
+        assertTrue(Events.isMousyEvent(e));
     }
 
     @Test

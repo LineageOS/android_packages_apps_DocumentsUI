@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.inspector;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
@@ -24,9 +26,10 @@ import android.media.MediaMetadata;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import androidx.annotation.VisibleForTesting;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
+
+import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -89,21 +92,27 @@ public class MediaView extends TableView implements MediaDisplay {
     public static void showAudioData(TableDisplay table, Bundle tags) {
 
         if (tags.containsKey(MediaMetadata.METADATA_KEY_ARTIST)) {
-            table.put(R.string.metadata_artist, tags.getString(MediaMetadata.METADATA_KEY_ARTIST));
+            table.put(
+                    getRes(R.string.metadata_artist),
+                    tags.getString(MediaMetadata.METADATA_KEY_ARTIST));
         }
 
         if (tags.containsKey(MediaMetadata.METADATA_KEY_COMPOSER)) {
-            table.put(R.string.metadata_composer,
+            table.put(
+                    getRes(R.string.metadata_composer),
                     tags.getString(MediaMetadata.METADATA_KEY_COMPOSER));
         }
 
         if (tags.containsKey(MediaMetadata.METADATA_KEY_ALBUM)) {
-            table.put(R.string.metadata_album, tags.getString(MediaMetadata.METADATA_KEY_ALBUM));
+            table.put(
+                    getRes(R.string.metadata_album),
+                    tags.getString(MediaMetadata.METADATA_KEY_ALBUM));
         }
 
         if (tags.containsKey(MediaMetadata.METADATA_KEY_DURATION)) {
             int millis = tags.getInt(MediaMetadata.METADATA_KEY_DURATION);
-            table.put(R.string.metadata_duration, DateUtils.formatElapsedTime(millis / 1000));
+            table.put(
+                    getRes(R.string.metadata_duration), DateUtils.formatElapsedTime(millis / 1000));
         }
     }
 
@@ -124,7 +133,8 @@ public class MediaView extends TableView implements MediaDisplay {
 
         if (tags.containsKey(MediaMetadata.METADATA_KEY_DURATION)) {
             int millis = tags.getInt(MediaMetadata.METADATA_KEY_DURATION);
-            table.put(R.string.metadata_duration, DateUtils.formatElapsedTime(millis / 1000));
+            table.put(
+                    getRes(R.string.metadata_duration), DateUtils.formatElapsedTime(millis / 1000));
         }
     }
 
@@ -141,12 +151,12 @@ public class MediaView extends TableView implements MediaDisplay {
 
         if (tags.containsKey(ExifInterface.TAG_DATETIME)) {
             String date = tags.getString(ExifInterface.TAG_DATETIME);
-            table.put(R.string.metadata_date_time, date);
+            table.put(getRes(R.string.metadata_date_time), date);
         }
 
         if (tags.containsKey(ExifInterface.TAG_GPS_ALTITUDE)) {
             double altitude = tags.getDouble(ExifInterface.TAG_GPS_ALTITUDE);
-            table.put(R.string.metadata_altitude, String.valueOf(altitude));
+            table.put(getRes(R.string.metadata_altitude), String.valueOf(altitude));
         }
 
         if (tags.containsKey(ExifInterface.TAG_MAKE) || tags.containsKey(ExifInterface.TAG_MODEL)) {
@@ -154,32 +164,38 @@ public class MediaView extends TableView implements MediaDisplay {
                 String model = tags.getString(ExifInterface.TAG_MODEL);
                 make = make != null ? make : "";
                 model = model != null ? model : "";
-                table.put(
-                        R.string.metadata_camera,
-                        resources.getString(R.string.metadata_camera_format, make, model));
+            table.put(
+                    getRes(R.string.metadata_camera),
+                    resources.getString(getRes(R.string.metadata_camera_format), make, model));
         }
 
         if (tags.containsKey(ExifInterface.TAG_APERTURE)) {
-            table.put(R.string.metadata_aperture, resources.getString(
-                    R.string.metadata_aperture_format, tags.getDouble(ExifInterface.TAG_APERTURE)));
+            table.put(
+                    getRes(R.string.metadata_aperture),
+                    resources.getString(
+                            getRes(R.string.metadata_aperture_format),
+                            tags.getDouble(ExifInterface.TAG_APERTURE)));
         }
 
         if (tags.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
             String shutterSpeed = String.valueOf(
                     formatShutterSpeed(tags.getDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE)));
-            table.put(R.string.metadata_shutter_speed, shutterSpeed);
+            table.put(getRes(R.string.metadata_shutter_speed), shutterSpeed);
         }
 
         if (tags.containsKey(ExifInterface.TAG_FOCAL_LENGTH)) {
             double length = tags.getDouble(ExifInterface.TAG_FOCAL_LENGTH);
-            table.put(R.string.metadata_focal_length,
-                    String.format(resources.getString(R.string.metadata_focal_format), length));
+            table.put(
+                    getRes(R.string.metadata_focal_length),
+                    String.format(
+                            resources.getString(getRes(R.string.metadata_focal_format)), length));
         }
 
         if (tags.containsKey(ExifInterface.TAG_ISO_SPEED_RATINGS)) {
             int iso = tags.getInt(ExifInterface.TAG_ISO_SPEED_RATINGS);
-            table.put(R.string.metadata_iso_speed_ratings,
-                    String.format(resources.getString(R.string.metadata_iso_format), iso));
+            table.put(
+                    getRes(R.string.metadata_iso_speed_ratings),
+                    String.format(resources.getString(getRes(R.string.metadata_iso_format)), iso));
         }
 
         if (MetadataUtils.hasExifGpsFields(tags)) {
@@ -195,18 +211,18 @@ public class MediaView extends TableView implements MediaDisplay {
             float[] coords,
             @Nullable Runnable geoClickListener) {
 
-        String value = resources.getString(
-                R.string.metadata_coordinates_format, coords[0], coords[1]);
+        String value =
+                resources.getString(
+                        getRes(R.string.metadata_coordinates_format), coords[0], coords[1]);
         if (geoClickListener != null) {
             table.put(
-                    R.string.metadata_coordinates,
+                    getRes(R.string.metadata_coordinates),
                     value,
                     view -> {
                         geoClickListener.run();
-                    }
-            );
+                    });
         } else {
-            table.put(R.string.metadata_coordinates, value);
+            table.put(getRes(R.string.metadata_coordinates), value);
         }
     }
 
@@ -221,15 +237,19 @@ public class MediaView extends TableView implements MediaDisplay {
                 assert (coords.length == 2);
                 Geocoder geocoder = new Geocoder(mContext);
                 try {
-                    Address address = geocoder.getFromLocation(coords[0], // latitude
-                            coords[1], // longitude
-                            1 // amount of results returned
-                    ).get(0);
+                    Address address =
+                            geocoder.getFromLocation(
+                                            coords[0], // latitude
+                                            coords[1], // longitude
+                                            1 // amount of results returned
+                                            )
+                                    .get(0);
                     return address;
                 } catch (IOException e) {
                     return null;
                 }
             }
+
             @Override
             protected void onPostExecute(@Nullable Address address) {
                 if (address != null) {
@@ -246,16 +266,17 @@ public class MediaView extends TableView implements MediaDisplay {
                             }
                         }
                         formattedAddress = addressBuilder.toString();
-                        table.put(R.string.metadata_address, formattedAddress);
+                        table.put(getRes(R.string.metadata_address), formattedAddress);
                     } else if (address.getLocality() != null) {
-                        table.put(R.string.metadata_address, address.getLocality());
+                        table.put(getRes(R.string.metadata_address), address.getLocality());
                     } else if (address.getSubAdminArea() != null) {
-                        table.put(R.string.metadata_address, address.getSubAdminArea());
+                        table.put(getRes(R.string.metadata_address), address.getSubAdminArea());
                     } else if (address.getAdminArea() != null) {
-                        table.put(R.string.metadata_address, address.getAdminArea());
+                        table.put(getRes(R.string.metadata_address), address.getAdminArea());
                     } else if (address.getCountryName() != null) {
-                        table.put(R.string.metadata_address, address.getCountryName());
-                    }                }
+                        table.put(getRes(R.string.metadata_address), address.getCountryName());
+                    }
+                }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, coords[0], coords[1]);
     }
@@ -289,9 +310,13 @@ public class MediaView extends TableView implements MediaDisplay {
             int width = tags.getInt(ExifInterface.TAG_IMAGE_WIDTH);
             int height = tags.getInt(ExifInterface.TAG_IMAGE_LENGTH);
             float megaPixels = height * width / 1000000f;
-            table.put(R.string.metadata_dimensions,
+            table.put(
+                    getRes(R.string.metadata_dimensions),
                     resources.getString(
-                            R.string.metadata_dimensions_format, width, height, megaPixels));
+                            getRes(R.string.metadata_dimensions_format),
+                            width,
+                            height,
+                            megaPixels));
         }
     }
 }

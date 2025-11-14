@@ -19,50 +19,44 @@ package com.android.documentsui;
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
+import static org.junit.Assert.fail;
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.view.KeyEvent;
 
 import androidx.test.filters.LargeTest;
-import androidx.test.filters.Suppress;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
+import com.android.documentsui.rules.TestFilesRule;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
+
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
 
 import java.util.List;
 
 @LargeTest
-public class FileManagementUiTest extends ActivityTest<FilesActivity> {
+public class FileManagementUiTest extends ActivityTestJunit4<FilesActivity> {
 
-    public FileManagementUiTest() {
-        super(FilesActivity.class);
-    }
+    @Rule
+    public final TestFilesRule mTestFilesRule =
+            new TestFilesRule()
+                    .createFolderInRoot(ROOT_0_ID, TestFilesRule.DIR_NAME_1)
+                    .createFolderWithParent(TestFilesRule.DIR_NAME_1, "ChildDir1")
+                    .createFileInRoot(ROOT_0_ID, "file0.log", "text/plain")
+                    .createFileInRoot(ROOT_0_ID, "file1.png", "image/png")
+                    .createFileInRoot(ROOT_0_ID, "file2.csv", "text/csv")
+                    .createFileInRoot(ROOT_0_ID, "anotherFile0.log", "text/plain")
+                    .createFileInRoot(ROOT_0_ID, "poodles.text", "text/plain");
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        initTestFiles();
-    }
-
-    @Override
-    public void initTestFiles() throws RemoteException {
-        Uri uri = mDocsHelper.createFolder(rootDir0, dirName1);
-        mDocsHelper.createFolder(uri, childDir1);
-
-        mDocsHelper.createDocument(rootDir0, "text/plain", "file0.log");
-        mDocsHelper.createDocument(rootDir0, "image/png", "file1.png");
-        mDocsHelper.createDocument(rootDir0, "text/csv", "file2.csv");
-
-        mDocsHelper.createDocument(rootDir1, "text/plain", "anotherFile0.log");
-        mDocsHelper.createDocument(rootDir1, "text/plain", "poodles.text");
-    }
-
-    @Suppress
+    @Ignore
+    @Test
     public void testCreateDirectory() throws Exception {
         bots.main.openOverflowMenu();
         device.waitForIdle();
@@ -78,18 +72,20 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
         bots.directory.waitForDocument("Kung Fu Panda");
     }
 
+    @Test
     public void testDeleteDocument() throws Exception {
         bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
         bots.main.clickToolbarItem(R.id.action_menu_delete);
 
-        bots.main.clickDialogOkButton();
+        bots.main.clickDialogOkButton(/* closeSoftKeyboard */ false);
         device.waitForIdle();
 
         bots.directory.assertDocumentsAbsent("file1.png");
     }
 
     @HugeLongTest
+    @Test
     public void testKeyboard_CutDocument() throws Exception {
         bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
@@ -108,6 +104,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
+    @Test
     public void testKeyboard_CopyDocument() throws Exception {
         bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
@@ -125,6 +122,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
+    @Test
     public void testKeyboard_PasteDocumentWhileSelectionActive() throws Exception {
         bots.directory.selectDocument("file1.png", 1);
         bots.keyboard.pressKey(KeyEvent.KEYCODE_C, KeyEvent.META_CTRL_ON);
@@ -139,17 +137,19 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertDocumentsPresent("file1.png");
     }
 
+    @Test
     public void testDeleteDocument_Cancel() throws Exception {
         bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
         bots.main.clickToolbarItem(R.id.action_menu_delete);
 
-        bots.main.clickDialogCancelButton();
+        bots.main.clickDialogCancelButton(/* closeSoftKeyboard */ false);
 
         bots.directory.waitForDocument("file1.png");
     }
 
     @HugeLongTest
+    @Test
     public void testCopyLargeAmountOfFiles() throws Exception {
         // Suppress root notification. We're gonna create tons of files and it will soon crash
         // DocsUI because too many root refreshes are queued in an executor.

@@ -70,6 +70,7 @@
     <string name="button_clear" msgid="5412304437764369441">"সাফ করুন"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"প্রদানকারীতে দেখুন"</string>
     <string name="button_back" msgid="1888621708934742182">"ফিরে যান"</string>
+    <string name="button_show_in_folder" msgid="6674673478637689386">"ফোল্ডারে দেখুন"</string>
     <string name="not_sorted" msgid="7813496644889115530">"সাজানো নেই"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"নাম"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"সারাংশ"</string>
@@ -211,6 +212,12 @@
     <string name="rename_error" msgid="6700093173508118635">"দস্তাবেজের পুনঃনামকরণ করা গেল না"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"সরিয়ে দিন"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"কিছু ফাইল রূপান্তরিত হয়েছে"</string>
+    <string name="job_progress_item_see_details" msgid="2069387639574541325">"বিবরণ দেখুন"</string>
+    <string name="copy_completed" msgid="3749037014674785400">"কপি করা হয়েছে"</string>
+    <string name="move_completed" msgid="3981250605092729273">"সরানো হয়েছে"</string>
+    <string name="delete_completed" msgid="4149401155614626199">"মোছা হয়েছে"</string>
+    <string name="compress_completed" msgid="8808356399995313077">"কম্প্রেস করা হয়েছে"</string>
+    <string name="extract_completed" msgid="8824595789915249972">"এক্সট্র্যাক্ট করা হয়েছে"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> কে <xliff:g id="STORAGE"><i>^3</i></xliff:g> এ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> সংগ্রহ অ্যাক্সেস করার অনুমতি দেবেন?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> কে <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> সংগ্রহ অ্যাক্সেস করার অনুমতি দেবেন?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="STORAGE"><i>^2</i></xliff:g> এ থাকা ফটো ও ভিডিওগুলি সমেত <xliff:g id="APPNAME"><b>^1</b></xliff:g> কে আপনার ডেটা অ্যাক্সেস করার অনুমতি দেবেন?"</string>
@@ -220,6 +227,12 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি নির্বাচন করা হয়েছে</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি নির্বাচন করা হয়েছে</item>
     </plurals>
+    <string name="clear_selection" msgid="5965968983023105329">"আগে থেকে বেছে নেওয়া আইটেম সরান"</string>
+    <string name="document_click_action" msgid="8073338575301415356">"খুলুন"</string>
+    <string name="selected_document_click_action" msgid="792826130200234885">"বাদ দিন"</string>
+    <string name="document_long_click_action" msgid="3789836661597702666">"বেছে নিন"</string>
+    <string name="selected_document_long_click_action" msgid="666372407184527109">"টেনে আনুন"</string>
+    <string name="document_long_click_action_picker" msgid="943888101827856784">"একাধিক বেছে নিন"</string>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম</item>
@@ -285,6 +298,17 @@
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"আপনার গোপনীয়তা সুরক্ষিত রাখতে, অন্য ফোল্ডার বেছে নিন"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"নতুন ফোল্ডার তৈরি করুন"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"এই ডিভাইসে খুঁজুন"</string>
+    <string name="search_bar_clear" msgid="2072000748823434188">"টেক্সট মুছুন"</string>
+    <string name="search_location_this_folder" msgid="6458835123175563013">"এই ফোল্ডার"</string>
+    <string name="search_location_root_folder" msgid="4280523560213522303">"রুট ফোল্ডার"</string>
+    <string name="search_location_everywhere" msgid="747799487494833887">"সব জায়গায়"</string>
+    <string name="search_last_modified_any_time" msgid="6027501367865939696">"যেকোনও সময়"</string>
+    <string name="search_last_modified_1_day" msgid="7775353928859139915">"আজ"</string>
+    <string name="search_last_modified_2_days" msgid="7885735119033678756">"গতকাল"</string>
+    <string name="search_last_modified_7_days" msgid="7634290601544418836">"গত সপ্তাহ"</string>
+    <string name="search_last_modified_30_days" msgid="4936787546211708940">"গত মাস"</string>
+    <string name="search_last_modified_365_days" msgid="7147134152974373466">"গত বছর"</string>
+    <string name="search_file_type_all" msgid="6613664493134355781">"সব ধরনের"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"সার্চের ইতিহাস মুছুন <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ব্যক্তিগত"</string>
     <string name="work_tab" msgid="7265359366883747413">"অফিস"</string>
@@ -294,4 +318,7 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"তালিকা মোডে দেখানো হচ্ছে।"</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"ফাইলের নাম"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"ফাইলের প্রিভিউ লুকান"</string>
+    <string name="peek_no_preview" msgid="8717084152736749464">"কোনও প্রিভিউ নেই"</string>
+    <string name="a11y_peek_image_preview" msgid="3917148390186060263">"<xliff:g id="FILENAME">%s</xliff:g>-এর ছবির প্রিভিউ"</string>
 </resources>

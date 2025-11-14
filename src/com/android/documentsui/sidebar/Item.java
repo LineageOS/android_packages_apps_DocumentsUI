@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sidebar;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,11 +52,11 @@ public abstract class Item {
 
     public View getView(View convertView, ViewGroup parent) {
         if (convertView == null
-                || (Integer) convertView.getTag(R.id.layout_id_tag) != mLayoutId) {
+                || (Integer) convertView.getTag(getRes(R.id.layout_id_tag)) != mLayoutId) {
             convertView = LayoutInflater.from(parent.getContext())
                     .inflate(mLayoutId, parent, false);
         }
-        convertView.setTag(R.id.layout_id_tag, mLayoutId);
+        convertView.setTag(getRes(R.id.layout_id_tag), mLayoutId);
         bindView(convertView);
         return convertView;
     }

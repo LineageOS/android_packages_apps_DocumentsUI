@@ -16,6 +16,12 @@
 
 package com.android.documentsui.bots;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 
 import static junit.framework.Assert.assertEquals;
@@ -24,12 +30,13 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
+import static org.hamcrest.Matchers.allOf;
+
 import android.app.UiAutomation;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.SystemClock;
-import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +51,8 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiScrollable;
 import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.Until;
+
+import com.android.documentsui.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +70,8 @@ public class DirectoryListBot extends Bots.BaseBot {
     private final String mDirListId;
     private final String mItemRootId;
     private final String mPreviewId;
-    private final String mIconId;
+    private final String mGridSelectionRegionId;
+    private final String mListSelectionRegionId;
 
     private final UiAutomation mAutomation;
 
@@ -73,7 +83,10 @@ public class DirectoryListBot extends Bots.BaseBot {
         mDirListId = mTargetPackage + ":id/dir_list";
         mItemRootId = mTargetPackage + ":id/item_root";
         mPreviewId = mTargetPackage + ":id/preview_icon";
-        mIconId = mTargetPackage + (isUseMaterial3FlagEnabled() ? ":id/icon_wrapper" : ":id/icon");
+        mListSelectionRegionId = mTargetPackage + ":id/icon";
+        mGridSelectionRegionId =
+                mTargetPackage
+                        + (isUseMaterial3FlagEnabled() ? ":id/selection_circle" : ":id/icon");
     }
 
     public void assertDocumentsCount(int count) throws UiObjectNotFoundException {
@@ -184,7 +197,7 @@ public class DirectoryListBot extends Bots.BaseBot {
         Configurator.getInstance().setToolType(toolType);
     }
 
-    public void selectDocument(String label) throws UiObjectNotFoundException {
+    private void selectDocument(String label) throws UiObjectNotFoundException {
         waitForDocument(label);
         UiObject2 selectionHotspot = findSelectionHotspot(label);
         selectionHotspot.click();
@@ -202,6 +215,25 @@ public class DirectoryListBot extends Bots.BaseBot {
         assertSelection(number);
     }
 
+    private BySelector getSelectionRegionSelector() {
+        BySelector selectionRegionSelector = By.res(mGridSelectionRegionId);
+        if (mDevice.findObject(selectionRegionSelector) == null) {
+            selectionRegionSelector = By.res(mListSelectionRegionId);
+        }
+        return selectionRegionSelector;
+    }
+
+    /** Select the first document that has a selectable region in the list or grid view. */
+    public void selectFirstDocument() throws UiObjectNotFoundException {
+        final BySelector list = By.res(mDirListId);
+        final BySelector selectionRegionSelector = getSelectionRegionSelector();
+
+        UiObject2 firstAvailableSelectionHotspot =
+                mDevice.findObject(list).findObject(selectionRegionSelector);
+        firstAvailableSelectionHotspot.click();
+        assertSelection(1);
+    }
+
     public UiObject2 findSelectionHotspot(String label) throws UiObjectNotFoundException {
         final BySelector list = By.res(mDirListId);
 
@@ -210,16 +242,29 @@ public class DirectoryListBot extends Bots.BaseBot {
         final UiSelector docList = findDocumentsListSelector();
         new UiScrollable(docList).scrollIntoView(new UiSelector().text(label));
 
+        final BySelector selectionRegionSelector = getSelectionRegionSelector();
         UiObject2 parent = mDevice.findObject(list).findObject(selector);
         UiObject2 selectionHotspot = null;
         for (int i = 1; i <= MAX_LAYOUT_LEVEL; i++) {
             parent = parent.getParent();
-            selectionHotspot = parent.findObject(By.res(mIconId));
+            selectionHotspot = parent.findObject(selectionRegionSelector);
             if (selectionHotspot != null) {
                 break;
             }
         }
         return selectionHotspot;
+    }
+
+    /**
+     * Clicks the "X" cancel selection button.
+     */
+    public void clearSelection() {
+        int parentId = isUseMaterial3FlagEnabled()
+                ? R.id.selection_bar : androidx.appcompat.R.id.action_mode_bar;
+        int contentDescription = isUseMaterial3FlagEnabled()
+                ? R.string.clear_selection : android.R.string.cancel;
+        onView(allOf(withContentDescription(contentDescription),
+                isDescendantOfA(withId(parentId)))).perform(click());
     }
 
     public void pasteFilesFromClipboard() {
@@ -327,59 +372,16 @@ public class DirectoryListBot extends Bots.BaseBot {
     }
 
     public void rightClickDocument(Point point) throws UiObjectNotFoundException {
-        //TODO: Use Espresso instead of doing the events mock ourselves
-        MotionEvent motionDown = getTestMotionEvent(
-                MotionEvent.ACTION_DOWN,
-                MotionEvent.BUTTON_SECONDARY,
-                MotionEvent.TOOL_TYPE_MOUSE,
-                InputDevice.SOURCE_MOUSE,
-                point.x,
-                point.y);
+        // TODO: Use Espresso instead of doing the events mock ourselves
+        MotionEvent motionDown =
+                getTestRightClickMotionEvent(MotionEvent.ACTION_DOWN, point.x, point.y);
         mAutomation.injectInputEvent(motionDown, true);
         SystemClock.sleep(100);
 
-        MotionEvent motionUp = getTestMotionEvent(
-                MotionEvent.ACTION_UP,
-                MotionEvent.BUTTON_SECONDARY,
-                MotionEvent.TOOL_TYPE_MOUSE,
-                InputDevice.SOURCE_MOUSE,
-                point.x,
-                point.y);
+        MotionEvent motionUp =
+                getTestRightClickMotionEvent(MotionEvent.ACTION_UP, point.x, point.y);
 
         mAutomation.injectInputEvent(motionUp, true);
-    }
-
-    private MotionEvent getTestMotionEvent(
-            int action, int buttonState, int toolType, int source, int x, int y) {
-        long eventTime = SystemClock.uptimeMillis();
-
-        MotionEvent.PointerProperties[] pp = {new MotionEvent.PointerProperties()};
-        pp[0].clear();
-        pp[0].id = 0;
-        pp[0].toolType = toolType;
-
-        MotionEvent.PointerCoords[] pointerCoords = {new MotionEvent.PointerCoords()};
-        pointerCoords[0].clear();
-        pointerCoords[0].x = x;
-        pointerCoords[0].y = y;
-        pointerCoords[0].pressure = 0;
-        pointerCoords[0].size = 1;
-
-        return MotionEvent.obtain(
-                eventTime,
-                eventTime,
-                action,
-                1,
-                pp,
-                pointerCoords,
-                0,
-                buttonState,
-                1f,
-                1f,
-                0,
-                0,
-                source,
-                0);
     }
 
     private void assertOrder(String first, String second) throws UiObjectNotFoundException {

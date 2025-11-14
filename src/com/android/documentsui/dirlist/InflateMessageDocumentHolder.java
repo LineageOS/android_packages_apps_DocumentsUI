@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.text.TextUtils;
@@ -54,19 +56,19 @@ final class InflateMessageDocumentHolder extends MessageHolder {
     private ProgressBar mCrossProfileProgress;
 
     InflateMessageDocumentHolder(Context context, ViewGroup parent, ConfigStore configStore) {
-        super(context, parent, R.layout.item_doc_inflated_message, configStore);
-        mContentView = itemView.findViewById(R.id.content);
-        mCrossProfileView = itemView.findViewById(R.id.cross_profile);
-        mCrossProfileContent = mCrossProfileView.findViewById(R.id.cross_profile_content);
-        mCrossProfileProgress = mCrossProfileView.findViewById(R.id.cross_profile_progress);
+        super(context, parent, getRes(R.layout.item_doc_inflated_message), configStore);
+        mContentView = itemView.findViewById(getRes(R.id.content));
+        mCrossProfileView = itemView.findViewById(getRes(R.id.cross_profile));
+        mCrossProfileContent = mCrossProfileView.findViewById(getRes(R.id.cross_profile_content));
+        mCrossProfileProgress = mCrossProfileView.findViewById(getRes(R.id.cross_profile_progress));
 
-        mContentMessage = mContentView.findViewById(R.id.message);
-        mContentImage = mContentView.findViewById(R.id.artwork);
+        mContentMessage = mContentView.findViewById(getRes(R.id.message));
+        mContentImage = mContentView.findViewById(getRes(R.id.artwork));
 
-        mCrossProfileTitle = mCrossProfileView.findViewById(R.id.title);
-        mCrossProfileMessage = mCrossProfileView.findViewById(R.id.message);
-        mCrossProfileImage = mCrossProfileView.findViewById(R.id.artwork);
-        mCrossProfileButton = mCrossProfileView.findViewById(R.id.button);
+        mCrossProfileTitle = mCrossProfileView.findViewById(getRes(R.id.title));
+        mCrossProfileMessage = mCrossProfileView.findViewById(getRes(R.id.message));
+        mCrossProfileImage = mCrossProfileView.findViewById(getRes(R.id.artwork));
+        mCrossProfileButton = mCrossProfileView.findViewById(getRes(R.id.button));
     }
 
     public void bind(Message message) {

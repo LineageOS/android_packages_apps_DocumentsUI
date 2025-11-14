@@ -16,13 +16,20 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.widget.TextView;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,6 +45,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Alert dialog for operation dialogs.
@@ -62,16 +70,18 @@ public class OperationDialogFragment extends DialogFragment {
     public static void show(
             FragmentManager fm,
             @DialogType int dialogType,
-            ArrayList<DocumentInfo> failedSrcList,
-            ArrayList<Uri> uriList,
+            ArrayList<DocumentInfo> failedDocs,
+            ArrayList<Uri> failedUris,
+            ArrayList<String> failedPaths,
             DocumentStack dstStack,
             @OpType int operationType) {
 
         final Bundle args = new Bundle();
         args.putInt(FileOperationService.EXTRA_DIALOG_TYPE, dialogType);
         args.putInt(FileOperationService.EXTRA_OPERATION_TYPE, operationType);
-        args.putParcelableArrayList(FileOperationService.EXTRA_FAILED_DOCS, failedSrcList);
-        args.putParcelableArrayList(FileOperationService.EXTRA_FAILED_URIS, uriList);
+        args.putParcelableArrayList(FileOperationService.EXTRA_FAILED_DOCS, failedDocs);
+        args.putParcelableArrayList(FileOperationService.EXTRA_FAILED_URIS, failedUris);
+        args.putStringArrayList(FileOperationService.EXTRA_FAILED_PATHS, failedPaths);
 
         final FragmentTransaction ft = fm.beginTransaction();
         final OperationDialogFragment fragment = new OperationDialogFragment();
@@ -82,25 +92,27 @@ public class OperationDialogFragment extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle inState) {
+    public @NonNull Dialog onCreateDialog(Bundle inState) {
         super.onCreate(inState);
 
         final @DialogType int dialogType =
               getArguments().getInt(FileOperationService.EXTRA_DIALOG_TYPE);
         final @OpType int operationType =
               getArguments().getInt(FileOperationService.EXTRA_OPERATION_TYPE);
-        final ArrayList<Uri> uriList = getArguments().getParcelableArrayList(
-                FileOperationService.EXTRA_FAILED_URIS);
-        final ArrayList<DocumentInfo> docList = getArguments().getParcelableArrayList(
-                FileOperationService.EXTRA_FAILED_DOCS);
+        final List<DocumentInfo> failedDocs = getArguments().getParcelableArrayList(
+                FileOperationService.EXTRA_FAILED_DOCS, DocumentInfo.class);
+        final List<Uri> failedUris = getArguments().getParcelableArrayList(
+                FileOperationService.EXTRA_FAILED_URIS, Uri.class);
+        final List<String> failedPaths = getArguments().getStringArrayList(
+                FileOperationService.EXTRA_FAILED_PATHS);
 
         final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         final String message = new MessageBuilder(getContext()).generateListMessage(
-                dialogType, operationType, docList, uriList);
+                dialogType, operationType, failedDocs, failedUris, failedPaths);
 
         builder.setMessage(Html.fromHtml(message));
         builder.setPositiveButton(
-                R.string.close,
+                getRes(R.string.close),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -108,6 +120,31 @@ public class OperationDialogFragment extends DialogFragment {
                     }
                 });
 
-        return builder.create();
+        Dialog dialog = builder.create();
+        // message content returned by `Html.fromHtml()` above doesn't inherit the theme level
+        // dialog body text style, we need to manually apply it. In addition, set the same padding
+        // as other dialogs.
+        if (isUseMaterial3FlagEnabled()) {
+            final Resources resources = getResources();
+            dialog.setOnShowListener(
+                    dialogInterface -> {
+                        TextView body =
+                                ((AlertDialog) dialogInterface).findViewById(android.R.id.message);
+                        if (body != null) {
+                            body.setTextAppearance(getRes(R.style.MaterialAlertDialogBodyStyle));
+                            body.setPadding(
+                                    resources.getDimensionPixelSize(
+                                            getRes(R.dimen.dialog_content_padding_horizontal)),
+                                    resources.getDimensionPixelSize(
+                                            getRes(R.dimen.dialog_content_padding_top)),
+                                    resources.getDimensionPixelSize(
+                                            getRes(R.dimen.dialog_content_padding_horizontal)),
+                                    resources.getDimensionPixelSize(
+                                            getRes(R.dimen.dialog_content_padding_bottom)));
+                        }
+                    });
+        }
+
+        return dialog;
     }
 }

@@ -17,14 +17,14 @@
 <!-- Transparent container so shadow layer can be drawn -->
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/drag_shadow_width"
-    android:layout_height="@dimen/drag_shadow_height"
-    android:background="@color/item_drag_shadow_container_background">
+    android:layout_width="@dimen/drag_shadow_width_m3"
+    android:layout_height="@dimen/drag_shadow_height_m3"
+    android:background="@color/item_drag_shadow_container_background_m3">
 
     <View
         android:layout_width="@dimen/drag_content_width"
         android:layout_height="@dimen/drag_content_height"
         android:layout_marginTop="@dimen/drag_additional_layer_margin_top"
-        android:layout_marginStart="@dimen/drag_shadow_radius"
-        android:background="@drawable/drag_shadow_background" />
+        android:layout_marginStart="@dimen/drag_shadow_radius_m3"
+        android:background="@drawable/drag_shadow_background_m3" />
 </FrameLayout>

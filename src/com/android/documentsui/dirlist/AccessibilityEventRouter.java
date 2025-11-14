@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+
 import android.os.Bundle;
 import android.view.View;
 
@@ -28,6 +30,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate;
 
 import com.android.documentsui.BreadcrumbHolder;
+import com.android.documentsui.R;
+import com.android.documentsui.base.State;
 
 import java.util.function.Function;
 
@@ -53,7 +57,8 @@ public class AccessibilityEventRouter extends RecyclerViewAccessibilityDelegate 
 
     public AccessibilityEventRouter(
             RecyclerView recyclerView, @NonNull Function<View, Boolean> clickCallback,
-            @Nullable Function<View, Boolean> longClickCallback) {
+            @Nullable Function<View, Boolean> longClickCallback,
+            @State.ActionType int actionType) {
         super(recyclerView);
         mClickCallback = clickCallback;
         mLongClickCallback = longClickCallback;
@@ -67,7 +72,11 @@ public class AccessibilityEventRouter extends RecyclerViewAccessibilityDelegate 
                 // is null, it can't be clicked
                 if (holder instanceof DocumentHolder) {
                     if (((DocumentHolder) holder).getItemDetails() != null) {
-                        addAction(info);
+                        if (isUseMaterial3FlagEnabled()) {
+                            addActionForDocumentHolder(info, host, actionType);
+                        } else {
+                            addAction(info);
+                        }
                     }
                 } else if (holder instanceof BreadcrumbHolder) {
                     if (!((BreadcrumbHolder) holder).isLast()) {
@@ -102,6 +111,65 @@ public class AccessibilityEventRouter extends RecyclerViewAccessibilityDelegate 
         info.addAction(AccessibilityActionCompat.ACTION_CLICK);
         if (mLongClickCallback != null) {
             info.addAction(AccessibilityNodeInfoCompat.ACTION_LONG_CLICK);
+        }
+    }
+
+    private void addActionForDocumentHolder(AccessibilityNodeInfoCompat info, View host,
+            @State.ActionType int actionType) {
+        // The click and long click actions behave differently based on its selection state
+        // and app intent action mode (e.g. browsing/picker mode):
+        // * browsing:
+        //      * for unselected document: click -> open, long click -> select
+        //      * for selected document: click -> deselect, long click -> drag
+        // * picker:
+        //      * for unselected document: click -> select, long click -> select multiple
+        //      * for selected document: click -> deselect, long click -> no op
+
+        String clickDescription =
+                host.getResources().getString(R.string.document_click_action);
+        String longClickDescription =
+                host.getResources().getString(R.string.document_long_click_action);
+        String clickForSelectedDescription =
+                host.getResources().getString(R.string.selected_document_click_action);
+        String longClickForSelectedDescription =
+                host.getResources().getString(R.string.selected_document_long_click_action);
+        String clickPickerDescription =
+                host.getResources().getString(R.string.document_long_click_action);
+        String longClickPickerDescription =
+                host.getResources().getString(R.string.document_long_click_action_picker);
+        String clickForSelectedPickerDescription =
+                host.getResources().getString(R.string.selected_document_click_action);
+
+        final boolean isBrowsingMode = actionType == State.ACTION_BROWSE;
+        final boolean isSelected = host.isActivated();
+        final boolean isLongClickSupported = mLongClickCallback != null;
+        String clickActionDescription;
+        String longClickActionDescription;
+        if (isSelected) {
+            clickActionDescription = isBrowsingMode ? clickForSelectedDescription
+                    : clickForSelectedPickerDescription;
+            longClickActionDescription = isBrowsingMode ? longClickForSelectedDescription : "";
+        } else {
+            clickActionDescription = isBrowsingMode ? clickDescription : clickPickerDescription;
+            longClickActionDescription =
+                    isBrowsingMode ? longClickDescription : longClickPickerDescription;
+        }
+        // Add click action.
+        AccessibilityActionCompat clickAction =
+                new AccessibilityActionCompat(AccessibilityNodeInfoCompat.ACTION_CLICK,
+                        clickActionDescription);
+        info.addAction(clickAction);
+        // Add long click action if supported.
+        if (!isLongClickSupported) {
+            return;
+        }
+        if (longClickActionDescription.isEmpty()) {
+            info.addAction(AccessibilityNodeInfoCompat.ACTION_LONG_CLICK);
+        } else {
+            AccessibilityActionCompat longClickAction =
+                    new AccessibilityActionCompat(AccessibilityNodeInfoCompat.ACTION_LONG_CLICK,
+                            longClickActionDescription);
+            info.addAction(longClickAction);
         }
     }
 }

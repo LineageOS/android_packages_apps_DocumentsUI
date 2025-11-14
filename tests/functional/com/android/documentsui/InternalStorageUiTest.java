@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static org.junit.Assert.assertNull;
+
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.Providers;
@@ -23,26 +25,24 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 /**
  * A Ui test will do tests in the internal storage root. It is implemented because some operations
  * is failed and its result will different from the test on the StubProvider. b/115304092 is a
- * example which only happen on root from ExternalStorageProvidrer.
+ * example which only happen on root from ExternalStorageProvider.
  */
 @LargeTest
-public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
+public class InternalStorageUiTest extends ActivityTestJunit4<FilesActivity> {
 
     private static final String fileName = "!Test3345678";
     private static final String newFileName = "!9527Test";
     private RootInfo rootPrimary;
 
-    public InternalStorageUiTest() {
-        super(FilesActivity.class);
-    }
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-
+    @Before
+    public void setUpTest() throws Exception {
         mDocsHelper = new DocumentsProviderHelper(userId, Providers.AUTHORITY_STORAGE, context,
                 Providers.AUTHORITY_STORAGE);
         rootPrimary = mDocsHelper.getRoot(Providers.ROOT_ID_DEVICE);
@@ -51,17 +51,17 @@ public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
         deleteTestFiles();
     }
 
-    @Override
-    public void tearDown() throws Exception {
+    @After
+    public void tearDownTest() throws Exception {
         deleteTestFiles();
-        super.tearDown();
     }
 
     @HugeLongTest
+    @Test
     public void testRenameFile() throws Exception {
         createTestFiles();
 
-        bots.directory.selectDocument(fileName);
+        bots.directory.selectDocument(fileName, 1);
         device.waitForIdle();
 
         bots.main.clickRename();
@@ -85,19 +85,19 @@ public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
         boolean selected = false;
         // Delete the added file for not affect user and also avoid error on next test.
         if (bots.directory.hasDocuments(fileName)) {
-            bots.directory.selectDocument(fileName);
+            bots.directory.selectDocument(fileName, 1);
             device.waitForIdle();
             selected = true;
         }
         if (bots.directory.hasDocuments(newFileName)) {
-            bots.directory.selectDocument(newFileName);
+            bots.directory.selectDocument(newFileName, 1);
             device.waitForIdle();
             selected = true;
         }
         if (selected) {
             bots.main.clickDelete();
             device.waitForIdle();
-            bots.main.clickDialogOkButton();
+            bots.main.clickDialogOkButton(/* closeSoftKeyboard */ false);
         }
     }
 }

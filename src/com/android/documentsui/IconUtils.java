@@ -22,13 +22,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.content.res.Resources;
-import android.graphics.Outline;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewOutlineProvider;
-import android.widget.ImageView;
 
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.util.ColorUtils;
@@ -44,7 +40,8 @@ public class IconUtils {
 
     static {
         if (isUseMaterial3FlagEnabled()) {
-            // Use Resources.getSystem().getIdentifier() here instead of R.drawable.ic_doc_folder
+            // Use Resources.getSystem().getIdentifier() here instead of
+            // getRes(R.drawable.ic_doc_folder)
             // because com.android.internal.R is not public.
             sCustomIconColorMap.put(
                     Resources.getSystem().getIdentifier("ic_doc_folder", "drawable", "android"),
@@ -132,34 +129,6 @@ public class IconUtils {
         final TypedValue outValue = new TypedValue();
         context.getTheme().resolveAttribute(tintAttrId, outValue, true);
         return applyTintColor(context, drawableId, outValue.resourceId);
-    }
-
-    /**
-     * When a ImageView loads a thumbnail from a bitmap, we usually uses a CardView to wrap it to
-     * apply CardView's corner radius to the ImageView. This causes the corner pixelation of the
-     * thumbnail especially when there's a border (stroke) around the CardView. This method creates
-     * a custom clip outline with the correct shape to fix this issue.
-     *
-     * @param imageView ImageView to apply clip outline.
-     * @param strokeWidth stroke width of the thumbnail.
-     * @param cornerRadius corner radius of the thumbnail.
-     */
-    public static void applyThumbnailClipOutline(
-            ImageView imageView, int strokeWidth, int cornerRadius) {
-        ViewOutlineProvider outlineProvider =
-                new ViewOutlineProvider() {
-                    @Override
-                    public void getOutline(View view, Outline outline) {
-                        outline.setRoundRect(
-                                strokeWidth,
-                                strokeWidth,
-                                view.getWidth() - strokeWidth,
-                                view.getHeight() - strokeWidth,
-                                cornerRadius);
-                    }
-                };
-        imageView.setOutlineProvider(outlineProvider);
-        imageView.setClipToOutline(true);
     }
 
     public static int getIconResId(String mimeType) {

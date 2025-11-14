@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.inspector;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -64,7 +66,7 @@ public class KeyValueRow extends LinearLayout {
      * should be passed.
      */
     public void setKey(CharSequence key) {
-        ((TextView) findViewById(R.id.table_row_key)).setText(key);
+        ((TextView) findViewById(getRes(R.id.table_row_key))).setText(key);
     }
 
     public void setKey(@StringRes int id) {
@@ -72,7 +74,7 @@ public class KeyValueRow extends LinearLayout {
     }
 
     public void setValue(CharSequence value) {
-        TextView text = ((TextView) findViewById(R.id.table_row_value));
+        TextView text = ((TextView) findViewById(getRes(R.id.table_row_value)));
         text.setText(value);
         text.setTextClassifier(mClassifier);
         text.setOnLongClickListener((View view) -> {
@@ -90,13 +92,13 @@ public class KeyValueRow extends LinearLayout {
 
     @Override
     public boolean hasOnClickListeners() {
-        TextView value = findViewById(R.id.table_row_value);
+        TextView value = findViewById(getRes(R.id.table_row_value));
         return value.hasOnClickListeners();
     }
 
     @Override
     public void setOnClickListener(OnClickListener callback) {
-        TextView clickable = ((TextView) findViewById(R.id.table_row_value));
+        TextView clickable = ((TextView) findViewById(getRes(R.id.table_row_value)));
         mDefaultTextColor = clickable.getTextColors();
         TypedArray ta =
                 getContext().obtainStyledAttributes(androidx.appcompat.R.styleable.TextAppearance);
@@ -110,7 +112,7 @@ public class KeyValueRow extends LinearLayout {
     }
 
     public void removeOnClickListener() {
-        TextView reset = ((TextView) findViewById(R.id.table_row_value));
+        TextView reset = ((TextView) findViewById(getRes(R.id.table_row_value)));
         if (mDefaultTextColor != null) {
             reset.setTextColor(mDefaultTextColor);
         }

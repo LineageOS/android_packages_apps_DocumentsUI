@@ -19,6 +19,7 @@ package com.android.documentsui;
 import static android.content.ContentResolver.wrap;
 
 import static com.android.documentsui.base.SharedMinimal.TAG;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Dialog;
 import android.content.ContentProviderClient;
@@ -80,13 +81,13 @@ public class CreateDirectoryFragment extends DialogFragment {
         final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         final LayoutInflater dialogInflater = LayoutInflater.from(builder.getContext());
 
-        final View view = dialogInflater.inflate(R.layout.dialog_file_name, null, false);
+        final View view = dialogInflater.inflate(getRes(R.layout.dialog_file_name), null, false);
         mEditText = (EditText) view.findViewById(android.R.id.text1);
 
-        mInputWrapper = view.findViewById(R.id.input_wrapper);
-        mInputWrapper.setHint(getString(R.string.input_hint_new_folder));
+        mInputWrapper = view.findViewById(getRes(R.id.input_wrapper));
+        mInputWrapper.setHint(getString(getRes(R.string.input_hint_new_folder)));
 
-        builder.setTitle(R.string.menu_create_dir);
+        builder.setTitle(getRes(R.string.menu_create_dir));
         builder.setView(view);
         builder.setPositiveButton(android.R.string.ok, null);
         builder.setNegativeButton(android.R.string.cancel, null);
@@ -125,8 +126,7 @@ public class CreateDirectoryFragment extends DialogFragment {
 
     private void createDirectory(String name) {
         if (name.isEmpty()) {
-            mInputWrapper.setError(getContext().getString(
-                    R.string.add_folder_name_error));
+            mInputWrapper.setError(getContext().getString(getRes(R.string.add_folder_name_error)));
         } else {
             final BaseActivity activity = (BaseActivity) getActivity();
             final DocumentInfo cwd = activity.getCurrentDirectory();
@@ -175,7 +175,8 @@ public class CreateDirectoryFragment extends DialogFragment {
                 mActivity.onDirectoryCreated(result);
                 Metrics.logCreateDirOperation();
             } else {
-                Snackbars.makeSnackbar(mActivity, R.string.create_error, Snackbar.LENGTH_LONG)
+                Snackbars.makeSnackbar(
+                                mActivity, getRes(R.string.create_error), Snackbar.LENGTH_LONG)
                         .show();
                 Metrics.logCreateDirError();
             }

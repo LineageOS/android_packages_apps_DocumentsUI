@@ -17,6 +17,7 @@
 package com.android.documentsui.sorting;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.view.KeyEvent;
 import android.view.View;
@@ -50,9 +51,9 @@ public final class TableHeaderController implements SortController.WidgetControl
 
         mTitleCell = tableHeader.findViewById(android.R.id.title);
         mSummaryCell = tableHeader.findViewById(android.R.id.summary);
-        mSizeCell = tableHeader.findViewById(R.id.size);
-        mFileTypeCell = tableHeader.findViewById(R.id.file_type);
-        mDateCell = tableHeader.findViewById(R.id.date);
+        mSizeCell = tableHeader.findViewById(getRes(R.id.size));
+        mFileTypeCell = tableHeader.findViewById(getRes(R.id.file_type));
+        mDateCell = tableHeader.findViewById(getRes(R.id.date));
 
         onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
 

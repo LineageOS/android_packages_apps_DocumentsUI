@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sidebar;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.pm.ResolveInfo;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,7 +34,7 @@ public class NavRailAppItem extends AppItem {
 
     public NavRailAppItem(
             ResolveInfo info, String title, UserId userId, ActionHandler actionHandler) {
-        super(R.layout.nav_rail_item_root, info, title, userId, actionHandler);
+        super(getRes(R.layout.nav_rail_item_root), info, title, userId, actionHandler);
     }
 
     @Override
@@ -44,5 +46,14 @@ public class NavRailAppItem extends AppItem {
         titleView.setContentDescription(userId.getUserBadgedLabel(convertView.getContext(), title));
 
         bindIcon(icon);
+    }
+
+    @Override
+    public String toString() {
+        return "NavRailAppItem{"
+                + "id=" + stringId
+                + ", userId=" + userId
+                + ", resolveInfo=" + info
+                + "}";
     }
 }

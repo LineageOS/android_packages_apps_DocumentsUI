@@ -17,6 +17,7 @@
 package com.android.documentsui.sidebar;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.util.Log;
 import android.view.View;
@@ -34,7 +35,7 @@ class HeaderItem extends Item {
     private static final String STRING_ID = "HeaderItem";
 
     HeaderItem(String title) {
-        super(R.layout.item_root_header, title, STRING_ID, UserId.UNSPECIFIED_USER);
+        super(getRes(R.layout.item_root_header), title, STRING_ID, UserId.UNSPECIFIED_USER);
     }
 
     @Override

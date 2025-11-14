@@ -16,7 +16,6 @@
 
 package com.android.documentsui.files;
 
-import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 import static com.android.documentsui.testing.IntentAsserts.assertHasAction;
 import static com.android.documentsui.testing.IntentAsserts.assertHasData;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtra;
@@ -24,6 +23,8 @@ import static com.android.documentsui.testing.IntentAsserts.assertHasExtraIntent
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraList;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraUri;
 import static com.android.documentsui.testing.IntentAsserts.assertTargetsComponent;
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.FlagUtils.isZipNgFlagEnabled;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -44,8 +45,6 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.platform.test.annotations.RequiresFlagsDisabled;
 import android.platform.test.annotations.RequiresFlagsEnabled;
-import android.platform.test.flag.junit.CheckFlagsRule;
-import android.platform.test.flag.junit.DeviceFlagsValueProvider;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.util.Pair;
@@ -68,6 +67,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.flags.Flags;
 import com.android.documentsui.inspector.InspectorActivity;
+import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
 import com.android.documentsui.testing.ClipDatas;
 import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.Roots;
@@ -118,7 +118,7 @@ public class ActionHandlerTest {
     @Mock private Runnable mMockCloseSelectionBar;
 
     @Rule
-    public final CheckFlagsRule mCheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule();
+    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
 
     @Parameter(0)
     public boolean isPrivateSpaceEnabled;
@@ -143,7 +143,7 @@ public class ActionHandlerTest {
         mDialogs = new TestDialogController();
         mClipper = new TestDocumentClipper();
         mDragAndDropManager = new TestDragAndDropManager();
-        mPeekViewManager = new TestPeekViewManager(mActivity);
+        mPeekViewManager = new TestPeekViewManager();
         mTestConfigStore = new TestConfigStore();
         mEnv.state.configStore = mTestConfigStore;
 
@@ -400,12 +400,16 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testDocumentPicked_InArchive_Unopenable() throws Exception {
+    public void testDocumentPicked_InArchive_OpenableOrNot() throws Exception {
         mActivity.currentRoot = TestProvidersAccess.HOME;
 
         mHandler.openDocument(TestEnv.FILE_IN_ARCHIVE, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
-        mDialogs.assertViewInArchivesShownUnsupported();
+        if (isZipNgFlagEnabled()) {
+            mActivity.assertActivityStarted(Intent.ACTION_VIEW);
+        } else {
+            mDialogs.assertViewInArchivesShownUnsupported();
+        }
     }
 
     @Test

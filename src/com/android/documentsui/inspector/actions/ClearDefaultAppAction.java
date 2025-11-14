@@ -15,16 +15,17 @@
  */
 package com.android.documentsui.inspector.actions;
 
-import androidx.annotation.StringRes;
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import androidx.annotation.StringRes;
+
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
-
-import java.util.List;
 
 /**
  * Model for clearing the default app that opens a file.
@@ -40,12 +41,12 @@ public final class ClearDefaultAppAction extends Action {
      */
     @Override
     public String getHeader() {
-        return mContext.getString(R.string.handler_app_file_opens_with);
+        return mContext.getString(getRes(R.string.handler_app_file_opens_with));
     }
 
     @Override
     public int getButtonIcon() {
-        return R.drawable.ic_action_clear;
+        return getRes(R.drawable.ic_action_clear);
     }
 
     /**
@@ -72,6 +73,6 @@ public final class ClearDefaultAppAction extends Action {
     }
 
     public @StringRes int getButtonLabel() {
-        return R.string.button_clear;
+        return getRes(R.string.button_clear);
     }
 }

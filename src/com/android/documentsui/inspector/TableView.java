@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.inspector;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Selection;
@@ -71,11 +73,12 @@ public class TableView extends LinearLayout implements TableDisplay {
         TextView view = mTitles.get(title);
         if (view == null) {
             LinearLayout layout =
-                (LinearLayout) mInflater.inflate(R.layout.inspector_section_title, null);
+                    (LinearLayout)
+                            mInflater.inflate(getRes(R.layout.inspector_section_title), null);
             if (!showDivider) {
                 layout.setDividerDrawable(null);
             }
-            view = (TextView) layout.findViewById(R.id.inspector_header_title);
+            view = (TextView) layout.findViewById(getRes(R.id.inspector_header_title));
             addView(layout);
             mTitles.put(title, view);
         }
@@ -90,7 +93,8 @@ public class TableView extends LinearLayout implements TableDisplay {
     }
 
     protected KeyValueRow createKeyValueRow(ViewGroup parent) {
-        KeyValueRow row = (KeyValueRow) mInflater.inflate(R.layout.table_key_value_row, null);
+        KeyValueRow row =
+                (KeyValueRow) mInflater.inflate(getRes(R.layout.table_key_value_row), null);
         parent.addView(row);
         row.setTextClassifier(mClassifier);
         return row;

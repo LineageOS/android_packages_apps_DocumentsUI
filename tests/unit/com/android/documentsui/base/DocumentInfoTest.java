@@ -16,6 +16,8 @@
 
 package com.android.documentsui.base;
 
+import static android.provider.DocumentsContract.Document.MIME_TYPE_DIR;
+
 import static androidx.core.util.Preconditions.checkArgument;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -33,6 +35,7 @@ import androidx.test.filters.SmallTest;
 import androidx.test.rule.provider.ProviderTestRule;
 
 import com.android.documentsui.InspectorProvider;
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.util.VersionUtils;
 
@@ -134,7 +137,7 @@ public class DocumentInfoTest extends AndroidTestCase {
 
         assertThat(mimeTypes.size()).isEqualTo(1);
 
-        assertThat(mimeTypes.contains(DocumentsContract.Document.MIME_TYPE_DIR)).isTrue();
+        assertThat(mimeTypes.contains(MIME_TYPE_DIR)).isTrue();
     }
 
     @Test
@@ -201,5 +204,60 @@ public class DocumentInfoTest extends AndroidTestCase {
             assertThat(otherUserDoc.getTreeDocumentUri().getUserInfo())
                     .isEqualTo(otherUserDoc.getDocumentUri().getUserInfo());
         }
+    }
+
+    @Test
+    public void testTextFile() throws Exception {
+        final DocumentInfo doc = createDocInfo("authority.a", "doc.1", "text/plain");
+        assertThat(doc.isArchive()).isFalse();
+        assertThat(doc.isContainer()).isFalse();
+        assertThat(doc.isDirectory()).isFalse();
+        assertThat(doc.isInArchive()).isFalse();
+    }
+
+    @Test
+    public void testDirectory() throws Exception {
+        final DocumentInfo doc = createDocInfo("authority.a", "doc.1", MIME_TYPE_DIR);
+        assertThat(doc.isArchive()).isFalse();
+        assertThat(doc.isContainer()).isTrue();
+        assertThat(doc.isDirectory()).isTrue();
+        assertThat(doc.isInArchive()).isFalse();
+    }
+
+    @Test
+    public void testArchive() throws Exception {
+        final DocumentInfo doc = createDocInfo("authority.a", "doc.1", "application/zip");
+        assertThat(doc.isArchive()).isTrue();
+        assertThat(doc.isContainer()).isTrue();
+        assertThat(doc.isDirectory()).isFalse();
+        assertThat(doc.isInArchive()).isFalse();
+    }
+
+    @Test
+    public void testTextFileInArchive() throws Exception {
+        final DocumentInfo doc = createDocInfo(ArchivesProvider.AUTHORITY, "doc.1", "text/plain");
+        assertThat(doc.isArchive()).isFalse();
+        assertThat(doc.isContainer()).isFalse();
+        assertThat(doc.isDirectory()).isFalse();
+        assertThat(doc.isInArchive()).isTrue();
+    }
+
+    @Test
+    public void testDirectoryInArchive() throws Exception {
+        final DocumentInfo doc = createDocInfo(ArchivesProvider.AUTHORITY, "doc.1", MIME_TYPE_DIR);
+        assertThat(doc.isArchive()).isFalse();
+        assertThat(doc.isContainer()).isTrue();
+        assertThat(doc.isDirectory()).isTrue();
+        assertThat(doc.isInArchive()).isTrue();
+    }
+
+    @Test
+    public void testArchiveInArchive() throws Exception {
+        final DocumentInfo doc = createDocInfo(ArchivesProvider.AUTHORITY, "doc.1",
+                "application/zip");
+        assertThat(doc.isArchive()).isTrue();
+        assertThat(doc.isContainer()).isFalse();
+        assertThat(doc.isDirectory()).isFalse();
+        assertThat(doc.isInArchive()).isTrue();
     }
 }

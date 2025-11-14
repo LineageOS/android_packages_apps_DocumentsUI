@@ -70,6 +70,7 @@
     <string name="button_clear" msgid="5412304437764369441">"Effacer"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Afficher dans l\'appli du fournisseur"</string>
     <string name="button_back" msgid="1888621708934742182">"Retour"</string>
+    <string name="button_show_in_folder" msgid="6674673478637689386">"Afficher dans le dossier"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Non triés"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nom"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Résumé"</string>
@@ -227,6 +228,12 @@
     <string name="rename_error" msgid="6700093173508118635">"Impossible de renommer le document"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Éjecter"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Certains fichiers ont été convertis"</string>
+    <string name="job_progress_item_see_details" msgid="2069387639574541325">"Affichez les détails"</string>
+    <string name="copy_completed" msgid="3749037014674785400">"Copié"</string>
+    <string name="move_completed" msgid="3981250605092729273">"Déplacé"</string>
+    <string name="delete_completed" msgid="4149401155614626199">"Supprimé"</string>
+    <string name="compress_completed" msgid="8808356399995313077">"Compressé"</string>
+    <string name="extract_completed" msgid="8824595789915249972">"Extrait"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Accorder à <xliff:g id="APPNAME"><b>^1</b></xliff:g> l\'accès au répertoire <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> sur <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Accorder à <xliff:g id="APPNAME"><b>^1</b></xliff:g> l\'accès au répertoire <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Voulez-vous accorder l\'accès à vos données à <xliff:g id="APPNAME"><b>^1</b></xliff:g>, y compris vos photos et vos vidéos, sur <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
@@ -237,6 +244,12 @@
       <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> éléments sélectionnés</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> éléments sélectionnés</item>
     </plurals>
+    <string name="clear_selection" msgid="5965968983023105329">"Effacer la sélection"</string>
+    <string name="document_click_action" msgid="8073338575301415356">"ouvrir"</string>
+    <string name="selected_document_click_action" msgid="792826130200234885">"désélectionner"</string>
+    <string name="document_long_click_action" msgid="3789836661597702666">"sélectionner"</string>
+    <string name="selected_document_long_click_action" msgid="666372407184527109">"glisser"</string>
+    <string name="document_long_click_action_picker" msgid="943888101827856784">"sélectionner plusieurs éléments"</string>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> article</item>
       <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> articles</item>
@@ -307,13 +320,27 @@
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Pour protéger votre confidentialité, choisissez un autre dossier"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Créer un dossier"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Faire une recherche dans cet appareil"</string>
+    <string name="search_bar_clear" msgid="2072000748823434188">"Effacer le texte"</string>
+    <string name="search_location_this_folder" msgid="6458835123175563013">"Ce dossier"</string>
+    <string name="search_location_root_folder" msgid="4280523560213522303">"Dossier racine"</string>
+    <string name="search_location_everywhere" msgid="747799487494833887">"Partout"</string>
+    <string name="search_last_modified_any_time" msgid="6027501367865939696">"À tout moment"</string>
+    <string name="search_last_modified_1_day" msgid="7775353928859139915">"Aujourd\'hui"</string>
+    <string name="search_last_modified_2_days" msgid="7885735119033678756">"Hier"</string>
+    <string name="search_last_modified_7_days" msgid="7634290601544418836">"La semaine dernière"</string>
+    <string name="search_last_modified_30_days" msgid="4936787546211708940">"Le mois dernier"</string>
+    <string name="search_last_modified_365_days" msgid="7147134152974373466">"L\'année dernière"</string>
+    <string name="search_file_type_all" msgid="6613664493134355781">"Tous les types"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Supprimer l\'historique de recherche <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personnel"</string>
     <string name="work_tab" msgid="7265359366883747413">"Professionnel"</string>
-    <string name="a11y_work" msgid="7504431382825242153">"Travail"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"Professionnel"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Vous ne pouvez pas déplacer de fichiers d\'une autre appli."</string>
     <string name="grid_mode_showing" msgid="2803166871485028508">"Affichage en mode grille."</string>
     <string name="list_mode_showing" msgid="1225413902295895166">"Affichage en mode liste."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"Nom de fichier"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Masquer l\'aperçu du fichier"</string>
+    <string name="peek_no_preview" msgid="8717084152736749464">"Aucun aperçu n\'est accessible"</string>
+    <string name="a11y_peek_image_preview" msgid="3917148390186060263">"Aperçu de l\'image de <xliff:g id="FILENAME">%s</xliff:g>"</string>
 </resources>

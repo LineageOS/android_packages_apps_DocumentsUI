@@ -23,10 +23,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.RemoteException;
-import android.test.AndroidTestCase;
 
-import androidx.test.InstrumentationRegistry;
-import androidx.test.filters.MediumTest;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.android.documentsui.DocumentsProviderHelper;
 import com.android.documentsui.R;
@@ -40,10 +39,14 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.testing.DocsProviders;
 import com.android.documentsui.testing.TestFeatures;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.runner.RunWith;
+
 import java.util.List;
 
-@MediumTest
-public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
+@RunWith(AndroidJUnit4.class)
+public abstract class AbstractJobTest<T extends Job> {
 
     static final String AUTHORITY = StubProvider.DEFAULT_AUTHORITY;
     static final byte[] HAM_BYTES = "ham and cheese".getBytes();
@@ -59,20 +62,19 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
 
     private TestFeatures mFeatures;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
+    @Before
+    public void setUp() throws Exception {
+        // NOTE: Must be the "target" context, else security checks in content provider will fail.
+        mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
         mFeatures = new TestFeatures();
-        mFeatures.notificationChannel = InstrumentationRegistry.getTargetContext()
-                .getResources().getBoolean(R.bool.feature_notification_channel);
+        mFeatures.notificationChannel = mContext.getResources()
+                .getBoolean(R.bool.feature_notification_channel);
+
+        mUserId = UserId.DEFAULT_USER;
+        mResolver = mContext.getContentResolver();
 
         mJobListener = new TestJobListener();
-
-        // NOTE: Must be the "target" context, else security checks in content provider will fail.
-        mUserId = UserId.DEFAULT_USER;
-        mContext = getContext();
-        mResolver = mContext.getContentResolver();
 
         mDocs = new DocumentsProviderHelper(mUserId, AUTHORITY, mContext, AUTHORITY);
 
@@ -82,11 +84,10 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
         initTestFiles();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         resetStorage();
         mDocs.cleanUp();
-        super.tearDown();
     }
 
     private void resetStorage() throws RemoteException {
@@ -125,7 +126,7 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
     final T createJob(@OpType int opType, List<Uri> srcs, Uri srcParent, Uri destination)
             throws Exception {
         DocumentStack stack =
-                new DocumentStack(mSrcRoot, DocumentInfo.fromUri(mResolver, destination, mUserId));
+                new DocumentStack(mDestRoot, DocumentInfo.fromUri(mResolver, destination, mUserId));
 
         UrisSupplier urisSupplier = DocsProviders.createDocsProvider(srcs);
         FileOperation operation = new FileOperation.Builder()

@@ -18,14 +18,15 @@ package com.android.documentsui.services;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import android.app.Notification;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.text.format.DateUtils;
-
-import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -35,7 +36,6 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.stream.IntStream;
 
-@MediumTest
 public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJobTest<T> {
 
     private final @OpType int mOpType;
@@ -45,7 +45,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
     }
 
     private String getVerb() {
-        switch(mOpType) {
+        switch (mOpType) {
             case FileOperationService.OPERATION_COPY:
             case FileOperationService.OPERATION_EXTRACT:
                 return "Copying";
@@ -53,15 +53,34 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
                 return "Zipping";
             case FileOperationService.OPERATION_MOVE:
                 return "Moving";
+
+            // DeleteJob does not inherit from CopyJob
             case FileOperationService.OPERATION_DELETE:
-                // DeleteJob does not inherit from CopyJob
+            case FileOperationService.OPERATION_UNPACK:
             case FileOperationService.OPERATION_UNKNOWN:
             default:
                 return "";
         }
     }
 
-    public void runCopyFilesTest() throws Exception {
+    protected void runCopyFilesTest() throws Exception {
+        Uri testFile1 = mDocs.createDocument(mSrcRoot, "text/plain", "test1.txt");
+        mDocs.writeDocument(testFile1, HAM_BYTES);
+
+        Uri testFile2 = mDocs.createDocument(mSrcRoot, "text/plain", "test2.txt");
+        mDocs.writeDocument(testFile2, FRUITY_BYTES);
+
+        createJob(newArrayList(testFile1, testFile2)).run();
+        mJobListener.waitForFinished();
+
+        mDocs.assertChildCount(mDestRoot, 2);
+        mDocs.assertHasFile(mDestRoot, "test1.txt");
+        mDocs.assertHasFile(mDestRoot, "test2.txt");
+        mDocs.assertFileContents(mDestRoot.documentId, "test1.txt", HAM_BYTES);
+        mDocs.assertFileContents(mDestRoot.documentId, "test2.txt", FRUITY_BYTES);
+    }
+
+    protected void runCopyFilesTestWithJobProgress() throws Exception {
         Uri testFile1 = mDocs.createDocument(mSrcRoot, "text/plain", "test1.txt");
         mDocs.writeDocument(testFile1, HAM_BYTES);
 
@@ -70,7 +89,11 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
 
         CopyJob job = createJob(newArrayList(testFile1, testFile2));
         JobProgress progress = job.getJobProgress();
+        assertEquals(job.id, progress.id);
+        assertEquals(mOpType, progress.operationType);
         assertEquals(Job.STATE_CREATED, progress.state);
+        assertEquals(getVerb() + " 2 files to " + mDestRoot.title, progress.msg);
+        assertFalse(progress.hasFailures);
 
         job.run();
         mJobListener.waitForFinished();
@@ -83,18 +106,39 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
 
         progress = job.getJobProgress();
         assertEquals(Job.STATE_COMPLETED, progress.state);
+        assertEquals(mOpType, progress.operationType);
         assertFalse(progress.hasFailures);
         assertEquals(getVerb() + " 2 files to " + mDestRoot.title, progress.msg);
         assertEquals(HAM_BYTES.length + FRUITY_BYTES.length, progress.currentBytes);
         assertEquals(HAM_BYTES.length + FRUITY_BYTES.length, progress.requiredBytes);
     }
 
-    public void runCopyVirtualTypedFileTest() throws Exception {
+    protected void runCopyVirtualTypedFileTest() throws Exception {
+        Uri testFile = mDocs.createVirtualFile(
+                mSrcRoot, "/virtual.sth", "virtual/mime-type",
+                FRUITY_BYTES, "application/pdf", "text/html");
+
+        createJob(newArrayList(testFile)).run();
+        waitForJobFinished();
+
+        mDocs.assertChildCount(mDestRoot, 1);
+        mDocs.assertHasFile(mDestRoot, "virtual.sth.pdf");  // copy should convert file to PDF.
+        mDocs.assertFileContents(mDestRoot.documentId, "virtual.sth.pdf", FRUITY_BYTES);
+    }
+
+    protected void runCopyVirtualTypedFileTestWithJobProgress() throws Exception {
         Uri testFile = mDocs.createVirtualFile(
                 mSrcRoot, "/virtual.sth", "virtual/mime-type",
                 FRUITY_BYTES, "application/pdf", "text/html");
 
         CopyJob job = createJob(newArrayList(testFile));
+        JobProgress progress = job.getJobProgress();
+        assertEquals(job.id, progress.id);
+        assertEquals(mOpType, progress.operationType);
+        assertEquals(Job.STATE_CREATED, progress.state);
+        assertEquals("Copying virtual.sth to " + mDestRoot.title, progress.msg);
+        assertFalse(progress.hasFailures);
+
         job.run();
         waitForJobFinished();
 
@@ -102,15 +146,30 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         mDocs.assertHasFile(mDestRoot, "virtual.sth.pdf");  // copy should convert file to PDF.
         mDocs.assertFileContents(mDestRoot.documentId, "virtual.sth.pdf", FRUITY_BYTES);
 
-        JobProgress progress = job.getJobProgress();
+        progress = job.getJobProgress();
         assertEquals(Job.STATE_COMPLETED, progress.state);
+        assertEquals(mOpType, progress.operationType);
         assertFalse(progress.hasFailures);
         assertEquals("Copying virtual.sth to " + mDestRoot.title, progress.msg);
         assertEquals(FRUITY_BYTES.length, progress.currentBytes);
         assertEquals(FRUITY_BYTES.length, progress.requiredBytes);
     }
 
-    public void runCopyVirtualNonTypedFileTest() throws Exception {
+    protected void runCopyVirtualNonTypedFileTest() throws Exception {
+        Uri testFile = mDocs.createVirtualFile(
+                mSrcRoot, "/virtual.sth", "virtual/mime-type",
+                FRUITY_BYTES);
+
+        createJob(newArrayList(testFile)).run();
+        waitForJobFinished();
+
+        mJobListener.assertFailed();
+        mJobListener.assertFilesFailed(newArrayList("virtual.sth"));
+
+        mDocs.assertChildCount(mDestRoot, 0);
+    }
+
+    protected void runCopyVirtualNonTypedFileTestWithJobProgress() throws Exception {
         Uri testFile = mDocs.createVirtualFile(
                 mSrcRoot, "/virtual.sth", "virtual/mime-type",
                 FRUITY_BYTES);
@@ -126,13 +185,14 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
 
         JobProgress progress = job.getJobProgress();
         assertEquals(Job.STATE_COMPLETED, progress.state);
+        assertEquals(mOpType, progress.operationType);
         assertTrue(progress.hasFailures);
         assertEquals(getVerb() + " virtual.sth to " + mDestRoot.title, progress.msg);
         assertEquals(0, progress.currentBytes);
         assertEquals(FRUITY_BYTES.length, progress.requiredBytes);
     }
 
-    public void runCopyEmptyDirTest() throws Exception {
+    protected void runCopyEmptyDirTest() throws Exception {
         Uri testDir = mDocs.createFolder(mSrcRoot, "emptyDir");
 
         CopyJob job = createJob(newArrayList(testDir));
@@ -143,21 +203,40 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         String copyPercentage = progressNotification.extras.getString(Notification.EXTRA_SUB_TEXT);
 
         // the percentage representation should not be NaN.
-        assertNotEquals(copyPercentage.equals(NumberFormat.getPercentInstance().format(Double.NaN)),
-                "Percentage representation should not be NaN.");
+        assertNotEquals("Percentage representation should not be NaN.",
+                NumberFormat.getPercentInstance().format(Double.NaN), copyPercentage);
+
+        mDocs.assertChildCount(mDestRoot, 1);
+        mDocs.assertHasDirectory(mDestRoot, "emptyDir");
+    }
+
+    protected void runCopyEmptyDirTestWithJobProgress() throws Exception {
+        Uri testDir = mDocs.createFolder(mSrcRoot, "emptyDir");
+
+        CopyJob job = createJob(newArrayList(testDir));
+        job.run();
+        waitForJobFinished();
+
+        Notification progressNotification = job.getProgressNotification();
+        String copyPercentage = progressNotification.extras.getString(Notification.EXTRA_SUB_TEXT);
+
+        // the percentage representation should not be NaN.
+        assertNotEquals("Percentage representation should not be NaN.",
+                NumberFormat.getPercentInstance().format(Double.NaN), copyPercentage);
 
         mDocs.assertChildCount(mDestRoot, 1);
         mDocs.assertHasDirectory(mDestRoot, "emptyDir");
 
         JobProgress progress = job.getJobProgress();
         assertEquals(Job.STATE_COMPLETED, progress.state);
+        assertEquals(mOpType, progress.operationType);
         assertFalse(progress.hasFailures);
         assertEquals(getVerb() + " emptyDir to " + mDestRoot.title, progress.msg);
         assertEquals(-1, progress.currentBytes);
         assertEquals(-1, progress.requiredBytes);
     }
 
-    public void runCopyDirRecursivelyTest() throws Exception {
+    protected void runCopyDirRecursivelyTest() throws Exception {
 
         Uri testDir1 = mDocs.createFolder(mSrcRoot, "dir1");
         mDocs.createDocument(testDir1, "text/plain", "test1.txt");
@@ -179,7 +258,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         mDocs.assertHasFile(dir2Copy.derivedUri, "test2.txt");
     }
 
-    public void runNoCopyDirToSelfTest() throws Exception {
+    protected void runNoCopyDirToSelfTest() throws Exception {
         Uri testDir = mDocs.createFolder(mSrcRoot, "someDir");
 
         createJob(mOpType,
@@ -194,7 +273,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         mDocs.assertChildCount(mDestRoot, 0);
     }
 
-    public void runNoCopyDirToDescendentTest() throws Exception {
+    protected void runNoCopyDirToDescendentTest() throws Exception {
         Uri testDir = mDocs.createFolder(mSrcRoot, "someDir");
         Uri destDir = mDocs.createFolder(testDir, "theDescendent");
 
@@ -210,7 +289,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         mDocs.assertChildCount(mDestRoot, 0);
     }
 
-    public void runCopyFileWithReadErrorsTest() throws Exception {
+    protected void runCopyFileWithReadErrorsTest() throws Exception {
         Uri testFile = mDocs.createDocument(mSrcRoot, "text/plain", "test1.txt");
         mDocs.writeDocument(testFile, HAM_BYTES);
 
@@ -226,7 +305,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         mDocs.assertChildCount(mDestRoot, 0);
     }
 
-    public void runCopyProgressForFileCountTest() throws Exception {
+    protected void runCopyProgressForFileCountTest() throws Exception {
         // Init FileCountProgressTracker with 10 docs required to copy.
         TestCopyJobProcessTracker<CopyJob.FileCountProgressTracker> tracker =
                 new TestCopyJobProcessTracker(CopyJob.FileCountProgressTracker.class, 10,
@@ -260,7 +339,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         tracker.assertNoRemainingTime();
     }
 
-    public void runCopyProgressForByteCountTest() throws Exception {
+    protected void runCopyProgressForByteCountTest() throws Exception {
         // Init ByteCountProgressTracker with 100 KBytes required to copy.
         TestCopyJobProcessTracker<CopyJob.ByteCountProgressTracker> tracker =
                 new TestCopyJobProcessTracker(CopyJob.ByteCountProgressTracker.class, 100000,

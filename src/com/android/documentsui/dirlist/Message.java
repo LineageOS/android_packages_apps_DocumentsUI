@@ -30,6 +30,8 @@ import static com.android.documentsui.DevicePolicyResources.Strings.CROSS_PROFIL
 import static com.android.documentsui.DevicePolicyResources.Strings.CROSS_PROFILE_NOT_ALLOWED_TITLE;
 import static com.android.documentsui.DevicePolicyResources.Strings.WORK_PROFILE_OFF_ENABLE_BUTTON;
 import static com.android.documentsui.DevicePolicyResources.Strings.WORK_PROFILE_OFF_ERROR_TITLE;
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.Manifest;
 import android.app.ActivityManager;
@@ -44,6 +46,7 @@ import android.os.UserHandle;
 import android.os.UserManager;
 import android.util.Log;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
@@ -172,11 +175,17 @@ abstract class Message {
             if (event.hasAuthenticationException()) {
                 updateToAuthenticationExceptionHeader(event);
             } else if (mEnv.getModel().error != null) {
-                update(null, mEnv.getModel().error, null,
-                        mEnv.getContext().getDrawable(R.drawable.ic_dialog_alert));
+                update(
+                        null,
+                        mEnv.getModel().error,
+                        null,
+                        mEnv.getContext().getDrawable(getRes(R.drawable.ic_dialog_alert)));
             } else if (mEnv.getModel().info != null) {
-                update(null, mEnv.getModel().info, null,
-                        mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
+                update(
+                        null,
+                        mEnv.getModel().info,
+                        null,
+                        mEnv.getContext().getDrawable(getRes(R.drawable.ic_dialog_info)));
             } else if (mEnv.getDisplayState().action == State.ACTION_OPEN_TREE
                     && mEnv.getDisplayState().stack.peek() != null
                     && mEnv.getDisplayState().stack.peek().isBlockedFromTree()
@@ -194,9 +203,11 @@ abstract class Message {
             RootInfo root = mEnv.getDisplayState().stack.getRoot();
             String appName = DocumentsApplication.getProvidersCache(
                     mEnv.getContext()).getApplicationName(root.userId, root.authority);
-            update(null, mEnv.getContext().getString(R.string.authentication_required, appName),
+            update(
+                    null,
+                    mEnv.getContext().getString(getRes(R.string.authentication_required), appName),
                     mEnv.getContext().getResources().getText(R.string.sign_in),
-                    mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
+                    mEnv.getContext().getDrawable(getRes(R.drawable.ic_dialog_info)));
             mCallback = () -> {
                 AuthenticationRequiredException exception =
                         (AuthenticationRequiredException) event.getException();
@@ -206,10 +217,11 @@ abstract class Message {
 
         private void updateBlockFromTreeMessage() {
             mShouldKeep = true;
-            update(mEnv.getContext().getString(R.string.directory_blocked_header_title),
-                    mEnv.getContext().getString(R.string.directory_blocked_header_subtitle),
-                    mEnv.getContext().getString(R.string.create_new_folder_button),
-                    mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
+            update(
+                    mEnv.getContext().getString(getRes(R.string.directory_blocked_header_title)),
+                    mEnv.getContext().getString(getRes(R.string.directory_blocked_header_subtitle)),
+                    mEnv.getContext().getString(getRes(R.string.create_new_folder_button)),
+                    mEnv.getContext().getDrawable(getRes(R.drawable.ic_dialog_info)));
         }
     }
 
@@ -300,20 +312,26 @@ abstract class Message {
                 selectedProfile = mUserIdToLabelMap.get(userId);
             }
             if (mCanModifyQuietMode) {
-                buttonText = mConfigStore.isPrivateSpaceInDocsUIEnabled()
-                        ? res.getString(R.string.profile_quiet_mode_button,
-                        selectedProfile.toLowerCase(Locale.getDefault()))
-                        : getEnterpriseString(
-                                WORK_PROFILE_OFF_ENABLE_BUTTON, R.string.quiet_mode_button);
+                buttonText =
+                        mConfigStore.isPrivateSpaceInDocsUIEnabled()
+                                ? res.getString(
+                                        getRes(R.string.profile_quiet_mode_button),
+                                        selectedProfile.toLowerCase(Locale.getDefault()))
+                                : getEnterpriseString(
+                                        WORK_PROFILE_OFF_ENABLE_BUTTON,
+                                        getRes(R.string.quiet_mode_button));
                 mCallback = () -> mEnv.getActionHandler().requestQuietModeDisabled(
                         mEnv.getDisplayState().stack.getRoot(), userId);
             }
 
-            update(mConfigStore.isPrivateSpaceInDocsUIEnabled()
-                            ? res.getString(R.string.profile_quiet_mode_error_title,
-                            selectedProfile)
+            update(
+                    mConfigStore.isPrivateSpaceInDocsUIEnabled()
+                            ? res.getString(
+                                    getRes(R.string.profile_quiet_mode_error_title),
+                                    selectedProfile)
                             : getEnterpriseString(
-                                    WORK_PROFILE_OFF_ERROR_TITLE, R.string.quiet_mode_error_title),
+                                    WORK_PROFILE_OFF_ERROR_TITLE,
+                                    getRes(R.string.quiet_mode_error_title)),
                     /* messageString= */ "",
                     buttonText,
                     getWorkProfileOffIcon());
@@ -321,10 +339,11 @@ abstract class Message {
 
         private void updateToCrossProfileNoPermissionErrorMessage() {
             mLayout = InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR;
-            update(getCrossProfileNoPermissionErrorTitle(),
+            update(
+                    getCrossProfileNoPermissionErrorTitle(),
                     getCrossProfileNoPermissionErrorMessage(),
                     /* buttonString= */ null,
-                    mEnv.getContext().getDrawable(R.drawable.share_off));
+                    mEnv.getContext().getDrawable(getRes(R.drawable.share_off)));
         }
 
         private CharSequence getCrossProfileNoPermissionErrorTitle() {
@@ -342,7 +361,7 @@ abstract class Message {
             }
             return getEnterpriseString(
                     CROSS_PROFILE_NOT_ALLOWED_TITLE,
-                    R.string.cross_profile_action_not_allowed_title);
+                    getRes(R.string.cross_profile_action_not_allowed_title));
         }
 
         private CharSequence getErrorTitlePrivateSpaceEnabled(int action) {
@@ -350,10 +369,12 @@ abstract class Message {
             String selectedProfileLabel = mUserIdToLabelMap.get(mSelectedUserId);
             if (selectedProfileLabel == null) return "";
             if (action == ACCESS_CROSS_PROFILE_FILES) {
-                return res.getString(R.string.cant_select_cross_profile_files_error_title,
+                return res.getString(
+                        getRes(R.string.cant_select_cross_profile_files_error_title),
                         selectedProfileLabel.toLowerCase(Locale.getDefault()));
             } else if (action == State.ACTION_CREATE) {
-                return res.getString(R.string.cant_save_to_cross_profile_error_title,
+                return res.getString(
+                        getRes(R.string.cant_save_to_cross_profile_error_title),
                         selectedProfileLabel.toLowerCase(Locale.getDefault()));
             } else {
                 Log.e(TAG, "Unexpected intent action received.");
@@ -365,16 +386,20 @@ abstract class Message {
             boolean currentUserIsSystem = UserId.CURRENT_USER.isSystem();
             if (action == ACCESS_CROSS_PROFILE_FILES) {
                 return currentUserIsSystem
-                        ? getEnterpriseString(CANT_SELECT_WORK_FILES_TITLE,
-                        R.string.cant_select_work_files_error_title)
-                        : getEnterpriseString(CANT_SELECT_PERSONAL_FILES_TITLE,
-                                R.string.cant_select_personal_files_error_title);
+                        ? getEnterpriseString(
+                                CANT_SELECT_WORK_FILES_TITLE,
+                                getRes(R.string.cant_select_work_files_error_title))
+                        : getEnterpriseString(
+                                CANT_SELECT_PERSONAL_FILES_TITLE,
+                                getRes(R.string.cant_select_personal_files_error_title));
             } else if (action == State.ACTION_CREATE) {
                 return currentUserIsSystem
-                        ? getEnterpriseString(CANT_SAVE_TO_WORK_TITLE,
-                        R.string.cant_save_to_work_error_title)
-                        : getEnterpriseString(CANT_SAVE_TO_PERSONAL_TITLE,
-                                R.string.cant_save_to_personal_error_title);
+                        ? getEnterpriseString(
+                                CANT_SAVE_TO_WORK_TITLE,
+                                getRes(R.string.cant_save_to_work_error_title))
+                        : getEnterpriseString(
+                                CANT_SAVE_TO_PERSONAL_TITLE,
+                                getRes(R.string.cant_save_to_personal_error_title));
             } else {
                 Log.e(TAG, "Unexpected intent action received.");
                 return "";
@@ -397,7 +422,7 @@ abstract class Message {
             }
             return getEnterpriseString(
                     CROSS_PROFILE_NOT_ALLOWED_MESSAGE,
-                    R.string.cross_profile_action_not_allowed_message);
+                    getRes(R.string.cross_profile_action_not_allowed_message));
         }
 
         private CharSequence getErrorMessagePrivateSpaceEnabled(int action) {
@@ -406,11 +431,13 @@ abstract class Message {
             String selectedProfileLabel = mUserIdToLabelMap.get(mSelectedUserId);
             if (sourceProfileLabel == null || selectedProfileLabel == null) return "";
             if (action == ACCESS_CROSS_PROFILE_FILES) {
-                return res.getString(R.string.cant_select_cross_profile_files_error_message,
+                return res.getString(
+                        getRes(R.string.cant_select_cross_profile_files_error_message),
                         selectedProfileLabel.toLowerCase(Locale.getDefault()),
                         sourceProfileLabel.toLowerCase(Locale.getDefault()));
             } else if (action == State.ACTION_CREATE) {
-                return res.getString(R.string.cant_save_to_cross_profile_error_message,
+                return res.getString(
+                        getRes(R.string.cant_save_to_cross_profile_error_message),
                         sourceProfileLabel.toLowerCase(Locale.getDefault()),
                         selectedProfileLabel.toLowerCase(Locale.getDefault()));
             } else {
@@ -423,16 +450,20 @@ abstract class Message {
             boolean currentUserIsSystem = UserId.CURRENT_USER.isSystem();
             if (action == ACCESS_CROSS_PROFILE_FILES) {
                 return currentUserIsSystem
-                        ? getEnterpriseString(CANT_SELECT_WORK_FILES_MESSAGE,
-                        R.string.cant_select_work_files_error_message)
-                        : getEnterpriseString(CANT_SELECT_PERSONAL_FILES_MESSAGE,
-                                R.string.cant_select_personal_files_error_message);
+                        ? getEnterpriseString(
+                                CANT_SELECT_WORK_FILES_MESSAGE,
+                                getRes(R.string.cant_select_work_files_error_message))
+                        : getEnterpriseString(
+                                CANT_SELECT_PERSONAL_FILES_MESSAGE,
+                                getRes(R.string.cant_select_personal_files_error_message));
             } else if (action == State.ACTION_CREATE) {
                 return currentUserIsSystem
-                        ? getEnterpriseString(CANT_SAVE_TO_WORK_MESSAGE,
-                        R.string.cant_save_to_work_error_message)
-                        : getEnterpriseString(CANT_SAVE_TO_PERSONAL_MESSAGE,
-                                R.string.cant_save_to_personal_error_message);
+                        ? getEnterpriseString(
+                                CANT_SAVE_TO_WORK_MESSAGE,
+                                getRes(R.string.cant_save_to_work_error_message))
+                        : getEnterpriseString(
+                                CANT_SAVE_TO_PERSONAL_MESSAGE,
+                                getRes(R.string.cant_save_to_personal_error_message));
             } else {
                 Log.e(TAG, "Unexpected intent action received.");
                 return "";
@@ -440,26 +471,38 @@ abstract class Message {
         }
 
         private void updateToInflatedErrorMessage() {
-            update(null, mEnv.getContext().getResources().getText(R.string.query_error), null,
-                    mEnv.getContext().getDrawable(R.drawable.hourglass));
+            update(
+                    null,
+                    mEnv.getContext().getResources().getText(R.string.query_error),
+                    null,
+                    mEnv.getContext().getDrawable(getRes(R.drawable.hourglass)));
         }
 
         private void updateToCantDisplayContentMessage() {
-            update(null, mEnv.getContext().getResources().getText(R.string.cant_display_content),
-                    null, mEnv.getContext().getDrawable(R.drawable.empty));
+            update(
+                    null,
+                    mEnv.getContext().getResources().getText(R.string.cant_display_content),
+                    null,
+                    mEnv.getContext().getDrawable(getRes(R.drawable.empty)));
         }
 
         private void updateToInflatedEmptyMessage() {
             final CharSequence message;
+            final @DrawableRes int drawableId;
             if (mEnv.isInSearchMode()) {
                 message = String.format(
                         String.valueOf(
                                 mEnv.getContext().getResources().getText(R.string.no_results)),
                         mEnv.getDisplayState().stack.getRoot().title);
+                drawableId =
+                        isUseMaterial3FlagEnabled()
+                                ? R.drawable.empty_search
+                                : R.drawable.empty;
             } else {
                 message = mEnv.getContext().getResources().getText(R.string.empty);
+                drawableId = getRes(R.drawable.empty);
             }
-            update(null, message, null, mEnv.getContext().getDrawable(R.drawable.empty));
+            update(null, message, null, mEnv.getContext().getDrawable(drawableId));
         }
 
         private String getEnterpriseString(String updatableStringId, int defaultStringId) {
@@ -482,7 +525,7 @@ abstract class Message {
             if (SdkLevel.isAtLeastT()) {
                 return getUpdatableWorkProfileIcon();
             } else {
-                return mEnv.getContext().getDrawable(R.drawable.work_off);
+                return mEnv.getContext().getDrawable(getRes(R.drawable.work_off));
             }
         }
 
@@ -490,9 +533,11 @@ abstract class Message {
         private Drawable getUpdatableWorkProfileIcon() {
             DevicePolicyManager dpm = mEnv.getContext().getSystemService(
                     DevicePolicyManager.class);
-            return dpm.getResources().getDrawable(
-                    WORK_PROFILE_OFF_ICON, OUTLINE,
-                    () -> mEnv.getContext().getDrawable(R.drawable.work_off));
+            return dpm.getResources()
+                    .getDrawable(
+                            WORK_PROFILE_OFF_ICON,
+                            OUTLINE,
+                            () -> mEnv.getContext().getDrawable(getRes(R.drawable.work_off)));
         }
     }
 }

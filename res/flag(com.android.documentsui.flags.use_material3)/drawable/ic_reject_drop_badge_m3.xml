@@ -1,0 +1,32 @@
+<!--
+Copyright (C) 2024 The Android Open Source Project
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="14dp"
+    android:height="14dp"
+    android:viewportWidth="14"
+    android:viewportHeight="14">
+    <path
+        android:pathData="M7,0L7,0A7,7 0,0 1,14 7L14,7A7,7 0,0 1,7 14L7,14A7,7 0,0 1,0 7L0,7A7,7 0,0 1,7 0z"
+        android:fillColor="@color/drop_icon_reject_container_background"/>
+    <group>
+        <clip-path
+            android:pathData="M1,1h12v12h-12z"/>
+        <path
+            android:pathData="M7,12.038C6.308,12.038 5.654,11.908 5.037,11.65C4.429,11.383 3.896,11.021 3.438,10.563C2.979,10.096 2.617,9.558 2.35,8.95C2.092,8.333 1.962,7.679 1.962,6.988C1.962,6.287 2.092,5.637 2.35,5.037C2.617,4.429 2.979,3.896 3.438,3.438C3.896,2.979 4.429,2.621 5.037,2.362C5.654,2.096 6.308,1.962 7,1.962C7.7,1.962 8.354,2.096 8.962,2.362C9.571,2.621 10.104,2.979 10.563,3.438C11.021,3.896 11.379,4.429 11.637,5.037C11.904,5.637 12.038,6.287 12.038,6.988C12.038,7.679 11.904,8.333 11.637,8.95C11.379,9.558 11.021,10.096 10.563,10.563C10.104,11.021 9.571,11.383 8.962,11.65C8.354,11.908 7.7,12.038 7,12.038ZM7,10.813C7.417,10.813 7.817,10.75 8.2,10.625C8.583,10.5 8.925,10.317 9.225,10.075L3.912,4.762C3.679,5.079 3.5,5.425 3.375,5.8C3.25,6.175 3.188,6.571 3.188,6.988C3.188,8.046 3.558,8.95 4.3,9.7C5.042,10.442 5.942,10.813 7,10.813ZM10.087,9.212C10.321,8.896 10.5,8.55 10.625,8.175C10.75,7.8 10.813,7.404 10.813,6.988C10.813,5.929 10.442,5.033 9.7,4.3C8.958,3.558 8.058,3.188 7,3.188C6.583,3.188 6.188,3.25 5.813,3.375C5.446,3.492 5.104,3.662 4.787,3.888L10.087,9.212Z"
+            android:fillColor="@color/drop_icon_reject_symbol_color"/>
+    </group>
+</vector>

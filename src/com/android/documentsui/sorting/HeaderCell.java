@@ -17,6 +17,7 @@
 package com.android.documentsui.sorting;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.animation.AnimatorInflater;
 import android.animation.LayoutTransition;
@@ -62,7 +63,7 @@ public class HeaderCell extends LinearLayout {
         setVisibility(dimension.getVisibility());
 
         if (dimension.getVisibility() == View.VISIBLE) {
-            TextView label = findViewById(R.id.label);
+            TextView label = findViewById(getRes(R.id.label));
             label.setText(dimension.getLabelId());
             switch (dimension.getDataType()) {
                 case SortDimension.DATA_TYPE_NUMBER:
@@ -77,7 +78,7 @@ public class HeaderCell extends LinearLayout {
             }
 
             if (mCurDirection != dimension.getSortDirection()) {
-                ImageView arrow = findViewById(R.id.sort_arrow);
+                ImageView arrow = findViewById(getRes(R.id.sort_arrow));
                 switch (dimension.getSortDirection()) {
                     case SortDimension.SORT_DIRECTION_NONE:
                         arrow.setVisibility(View.GONE);
@@ -86,13 +87,13 @@ public class HeaderCell extends LinearLayout {
                         showArrow(
                                 arrow,
                                 R.animator.arrow_rotate_up,
-                                R.string.sort_direction_ascending);
+                                getRes(R.string.sort_direction_ascending));
                         break;
                     case SortDimension.SORT_DIRECTION_DESCENDING:
                         showArrow(
                                 arrow,
                                 R.animator.arrow_rotate_down,
-                                R.string.sort_direction_descending);
+                                getRes(R.string.sort_direction_descending));
                         break;
                     default:
                         throw new IllegalArgumentException(
@@ -114,7 +115,7 @@ public class HeaderCell extends LinearLayout {
             View.OnClickListener clickListener,
             View.OnKeyListener keyListener,
             SortDimension dimension) {
-        ImageView arrow = findViewById(R.id.sort_arrow);
+        ImageView arrow = findViewById(getRes(R.id.sort_arrow));
         arrow.setTag(dimension);
         arrow.setOnKeyListener(keyListener);
         arrow.setOnClickListener(clickListener);

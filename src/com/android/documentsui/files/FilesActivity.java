@@ -18,9 +18,12 @@ package com.android.documentsui.files;
 
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_UNKNOWN;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.flags.Flags.usePeekPreviewRo;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.FlagUtils.isUsePeekPreviewFlagEnabled;
 import static com.android.documentsui.util.FlagUtils.isVisualSignalsFlagEnabled;
 import static com.android.documentsui.util.FlagUtils.isZipNgFlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.ActivityManager.TaskDescription;
 import android.content.Intent;
@@ -36,6 +39,7 @@ import android.view.View;
 
 import androidx.annotation.CallSuper;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActionModeController;
@@ -44,6 +48,8 @@ import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
+import com.android.documentsui.JobPanelController;
+import com.android.documentsui.JobPanelViewModel;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
@@ -51,6 +57,7 @@ import com.android.documentsui.ProfileTabsAddons;
 import com.android.documentsui.ProfileTabsController;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
+import com.android.documentsui.SelectionBarController;
 import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.ShortcutsUpdater;
 import com.android.documentsui.StubProfileTabsAddons;
@@ -62,6 +69,8 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.peek.PeekViewManager;
+import com.android.documentsui.peek.PeekViewModel;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
@@ -69,6 +78,8 @@ import com.android.documentsui.ui.MessageBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * Standalone file management activity.
@@ -81,10 +92,11 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     private Injector<ActionHandler<FilesActivity>> mInjector;
     private ActivityInputHandler mActivityInputHandler;
     private SharedInputHandler mSharedInputHandler;
+    private @Nullable PeekViewManager mPeekViewManager;
     private final ProfileTabsAddons mProfileTabsAddonsStub = new StubProfileTabsAddons();
 
     public FilesActivity() {
-        super(R.layout.files_activity, TAG);
+        super(getRes(R.layout.files_activity), TAG);
     }
 
     // make these methods visible in this package to work around compiler bug http://b/62218600
@@ -100,7 +112,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
 
     @Override
     public void onCreate(Bundle icicle) {
-        setTheme(R.style.DocumentsTheme);
+        setTheme(getRes(R.style.DocumentsTheme));
 
         MessageBuilder messages = new MessageBuilder(this);
         Features features = Features.create(this);
@@ -118,14 +130,15 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         DocumentClipper clipper = DocumentsApplication.getDocumentClipper(this);
         mInjector.selectionMgr = DocsSelectionHelper.create();
 
-        mInjector.focusManager = new FocusManager(
-                mInjector.features,
-                mInjector.selectionMgr,
-                mDrawer,
-                this::focusSidebar,
-                getColor(R.color.primary));
+        mInjector.focusManager =
+                new FocusManager(
+                        mInjector.features,
+                        mInjector.selectionMgr,
+                        mDrawer,
+                        this::focusSidebar,
+                        getColor(getRes(R.color.primary)));
 
-        mInjector.menuManager = new MenuManager(
+        MenuManager menuManager = new MenuManager(
                 mInjector.features,
                 mSearchManager,
                 mState,
@@ -135,13 +148,20 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
                         return clipper.hasItemsToPaste();
                     }
                 },
-                isVisualSignalsFlagEnabled() ? this : getApplicationContext(),
+                getApplicationContext(),
                 mInjector.selectionMgr,
                 mProviders::getApplicationName,
                 mInjector.getModel()::getItemUri,
                 mInjector.getModel()::getItemCount);
+        mInjector.menuManager = menuManager;
 
-        if (!isUseMaterial3FlagEnabled()) {
+        if (isUseMaterial3FlagEnabled()) {
+            mInjector.selectionBarController =
+                    new SelectionBarController(
+                            findViewById(getRes(R.id.selection_bar)),
+                            mInjector.menuManager,
+                            mInjector.selectionMgr);
+        } else {
             mInjector.actionModeController =
                     new ActionModeController(
                             this,
@@ -150,6 +170,28 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
                             mInjector.menuManager,
                             mInjector.messages);
         }
+
+        // Directly use the generated method `usePeekPreviewRo` to optimize out Peek when the flag
+        // isn't enabled. The optimization is not happening with the FlagUtils's
+        // `isUsePeekPreviewFlagEnabled`.
+        if (usePeekPreviewRo()) {
+            if (isUsePeekPreviewFlagEnabled()) {
+                ViewModelProvider viewModelProvider = new ViewModelProvider(this);
+                PeekViewModel viewModel = viewModelProvider.get(PeekViewModel.class);
+                mPeekViewManager = new PeekViewManager(
+                        viewModel,
+                        findViewById(getRes(R.id.peek_overlay)),
+                        getSupportFragmentManager());
+                viewModel.getOverlayActive().observe(
+                        this,
+                        mPeekViewManager);
+            }
+        }
+
+        Runnable closeSelectionBarRunnable =
+                (isUseMaterial3FlagEnabled()
+                        ? mInjector.selectionBarController::closeSelectionBar
+                        : () -> {});
 
         mInjector.actions =
                 new ActionHandler<>(
@@ -160,12 +202,20 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
                         mSearchManager,
                         ProviderExecutor::forAuthority,
                         mInjector.actionModeController,
-                        getNavigator()::closeSelectionBar,
+                        closeSelectionBarRunnable,
                         clipper,
                         DocumentsApplication.getClipStore(this),
                         DocumentsApplication.getDragAndDropManager(this),
                         mPeekViewManager,
                         mInjector);
+
+        if (isVisualSignalsFlagEnabled()) {
+            JobPanelController jobPanelController = new JobPanelController(this,
+                    mInjector.actions,
+                    new ViewModelProvider(this).get(JobPanelViewModel.class));
+            getLifecycle().addObserver(jobPanelController);
+            menuManager.setJobPanelController(jobPanelController);
+        }
 
         mInjector.searchManager = mSearchManager;
 
@@ -193,7 +243,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         RootsFragment.show(getSupportFragmentManager(), /* includeApps= */ false,
                 /* intent= */ null);
         if (isUseMaterial3FlagEnabled()) {
-            View navRailRoots = findViewById(R.id.nav_rail_container_roots);
+            View navRailRoots = findViewById(getRes(R.id.nav_rail_container_roots));
             if (navRailRoots != null) {
                 // Medium layout, populate navigation rail layout.
                 RootsFragment.showNavRail(getSupportFragmentManager(), /* includeApps= */ false,
@@ -216,7 +266,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         // hence the edge to edge nav bar is no longer required.
         if (!isUseMaterial3FlagEnabled()) {
             // Set save container background to transparent for edge to edge nav bar.
-            View saveContainer = findViewById(R.id.container_save);
+            View saveContainer = findViewById(getRes(R.id.container_save));
             saveContainer.setBackgroundColor(Color.TRANSPARENT);
         }
 
@@ -224,11 +274,22 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     }
 
     private AppsRowManager getAppsRowManager() {
+        boolean shouldShowByDefault =
+                !isUseMaterial3FlagEnabled()
+                        || getResources().getBoolean(R.bool.show_apps_row);
         return mConfigStore.isPrivateSpaceInDocsUIEnabled()
-                ? new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                mUserManagerState, mConfigStore)
-                : new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                        mUserIdManager, mConfigStore);
+                ? new AppsRowManager(
+                mInjector.actions,
+                mState.supportsCrossProfile(),
+                mUserManagerState,
+                mConfigStore,
+                shouldShowByDefault)
+                : new AppsRowManager(
+                        mInjector.actions,
+                        mState.supportsCrossProfile(),
+                        mUserIdManager,
+                        mConfigStore,
+                        shouldShowByDefault);
     }
 
     // This is called in the intent contains label and icon resources.
@@ -262,15 +323,18 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
             final int opType = intent.getIntExtra(
                     FileOperationService.EXTRA_OPERATION_TYPE,
                     FileOperationService.OPERATION_COPY);
-            final ArrayList<DocumentInfo> docList =
-                    intent.getParcelableArrayListExtra(FileOperationService.EXTRA_FAILED_DOCS);
-            final ArrayList<Uri> uriList =
-                    intent.getParcelableArrayListExtra(FileOperationService.EXTRA_FAILED_URIS);
+            final ArrayList<DocumentInfo> failedDocs = intent.getParcelableArrayListExtra(
+                    FileOperationService.EXTRA_FAILED_DOCS, DocumentInfo.class);
+            final ArrayList<Uri> failedUris = intent.getParcelableArrayListExtra(
+                    FileOperationService.EXTRA_FAILED_URIS, Uri.class);
+            final ArrayList<String> failedPaths = intent.getStringArrayListExtra(
+                    FileOperationService.EXTRA_FAILED_PATHS);
             OperationDialogFragment.show(
                     getSupportFragmentManager(),
                     dialogType,
-                    docList,
-                    uriList,
+                    failedDocs,
+                    failedUris,
+                    failedPaths,
                     mState.stack,
                     opType);
         }
@@ -332,37 +396,35 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         Intent intent = getIntent();
         return (intent != null && intent.hasExtra(Intent.EXTRA_TITLE))
                 ? intent.getStringExtra(Intent.EXTRA_TITLE)
-                : getString(R.string.app_label);
+                : getString(getRes(R.string.app_label));
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (!isUseMaterial3FlagEnabled()) {
-            mInjector.menuManager.updateOptionMenu(menu);
-        }
+        mInjector.menuManager.updateOptionMenu(menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int id = item.getItemId();
-        if (id == R.id.option_menu_create_dir) {
+        if (id == getRes(R.id.option_menu_create_dir)) {
             assert (canCreateDirectory());
             mInjector.actions.showCreateDirectoryDialog();
-        } else if (id == R.id.option_menu_new_window) {
+        } else if (id == getRes(R.id.option_menu_new_window)) {
             mInjector.actions.openInNewWindow(mState.stack);
-        } else if (id == R.id.option_menu_settings) {
+        } else if (id == getRes(R.id.option_menu_settings)) {
             mInjector.actions.openSettings(getCurrentRoot());
-        } else if (id == R.id.option_menu_extract_all) {
+        } else if (id == getRes(R.id.option_menu_extract_all)) {
             if (!isZipNgFlagEnabled()) return false;
             final DirectoryFragment dir = getDirectoryFragment();
             if (dir == null) return false;
             mInjector.actions.selectAllFiles();
             return dir.onContextItemSelected(item);
-        } else if (id == R.id.option_menu_select_all) {
+        } else if (id == getRes(R.id.option_menu_select_all)) {
             mInjector.actions.selectAllFiles();
-        } else if (id == R.id.option_menu_inspect) {
+        } else if (id == getRes(R.id.option_menu_inspect)) {
             mInjector.actions.showPreview(getCurrentDirectory());
         } else if (id == R.id.option_menu_add_shortcut) {
             assert(canCreateDirectory());

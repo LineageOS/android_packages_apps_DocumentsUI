@@ -19,18 +19,17 @@ package com.android.documentsui.services;
 import static android.content.ContentResolver.wrap;
 
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Notification;
 import android.app.Notification.Builder;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.icu.text.MessageFormat;
 import android.net.Uri;
 import android.os.Messenger;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
-import android.text.BidiFormatter;
 import android.util.Log;
 
 import com.android.documentsui.R;
@@ -42,9 +41,6 @@ import com.android.documentsui.base.UserId;
 import com.android.documentsui.clipping.UrisSupplier;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
 // TODO: Stop extending CopyJob.
 final class CompressJob extends CopyJob {
@@ -69,46 +65,32 @@ final class CompressJob extends CopyJob {
     @Override
     Builder createProgressBuilder() {
         return super.createProgressBuilder(
-                service.getString(R.string.compress_notification_title),
-                R.drawable.ic_menu_compress,
+                service.getString(getRes(R.string.compress_notification_title)),
+                getRes(R.drawable.ic_menu_compress),
                 service.getString(android.R.string.cancel),
-                R.drawable.ic_cab_cancel);
+                getRes(R.drawable.ic_cab_cancel));
     }
 
     @Override
     public Notification getSetupNotification() {
-        return getSetupNotification(service.getString(R.string.compress_preparing));
+        return getSetupNotification(service.getString(getRes(R.string.compress_preparing)));
     }
 
     @Override
     public Notification getProgressNotification() {
-        return getProgressNotification(R.string.copy_remaining);
+        return getProgressNotification(getRes(R.string.copy_remaining));
     }
 
     @Override
-    Notification getFailureNotification() {
+    public Notification getFailureNotification() {
         return getFailureNotification(
-                R.plurals.compress_error_notification_title, R.drawable.ic_menu_compress);
+                getRes(R.plurals.compress_error_notification_title),
+                getRes(R.drawable.ic_menu_compress));
     }
 
     @Override
     protected String getProgressMessage() {
-        switch (getState()) {
-            case Job.STATE_SET_UP:
-            case Job.STATE_COMPLETED:
-            case Job.STATE_CANCELED:
-                Map<String, Object> formatArgs = new HashMap<>();
-                formatArgs.put("count", mResolvedDocs.size());
-                if (mResolvedDocs.size() == 1) {
-                    formatArgs.put("filename", BidiFormatter.getInstance().unicodeWrap(
-                            mResolvedDocs.get(0).displayName));
-                }
-                return (new MessageFormat(
-                        service.getString(R.string.compress_in_progress), Locale.getDefault()))
-                        .format(formatArgs);
-            default:
-                return "";
-        }
+        return getProgressMessage(R.string.compress_in_progress);
     }
 
     @Override
@@ -125,7 +107,9 @@ final class CompressJob extends CopyJob {
         if (mResolvedDocs.size() == 1) {
             displayName = mResolvedDocs.get(0).displayName + NEW_ARCHIVE_EXTENSION;
         } else {
-            displayName = service.getString(R.string.new_archive_file_name, NEW_ARCHIVE_EXTENSION);
+            displayName =
+                    service.getString(
+                            getRes(R.string.new_archive_file_name), NEW_ARCHIVE_EXTENSION);
         }
 
         try {

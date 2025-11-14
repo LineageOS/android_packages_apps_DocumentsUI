@@ -16,13 +16,13 @@
 
 package com.android.documentsui.roots;
 
+import static com.android.documentsui.base.SharedMinimal.VERBOSE;
+
 import android.database.AbstractCursor;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-
-import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
 import com.android.documentsui.base.UserId;
 
@@ -90,6 +90,11 @@ public class RootCursorWrapper extends AbstractCursor {
         }
 
         return extras;
+    }
+
+    @Override
+    public void setExtras(Bundle bundle) {
+        mCursor.setExtras(bundle);
     }
 
     @Override

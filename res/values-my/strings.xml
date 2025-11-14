@@ -70,6 +70,7 @@
     <string name="button_clear" msgid="5412304437764369441">"ရှင်းထုတ်ရန်"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"ပံ့ပိုးပေးသူတွင် ပြရန်"</string>
     <string name="button_back" msgid="1888621708934742182">"နောက်သို့"</string>
+    <string name="button_show_in_folder" msgid="6674673478637689386">"ဖိုင်တွဲတွင် ပြပါ"</string>
     <string name="not_sorted" msgid="7813496644889115530">"စီမထားပါ"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"အမည်"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"အနှစ်ချုပ်"</string>
@@ -211,6 +212,12 @@
     <string name="rename_error" msgid="6700093173508118635">"စာဖိုင်ကို အမည်ပြောင်းခြင်း မအောင်မြင်ပါ"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ထုတ်ပါ"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"အချို့ဖိုင်များကို ပြောင်းလဲထားသည်"</string>
+    <string name="job_progress_item_see_details" msgid="2069387639574541325">"အသေးစိတ် ကြည့်ရန်"</string>
+    <string name="copy_completed" msgid="3749037014674785400">"မိတ္တူကူးပြီးပြီ"</string>
+    <string name="move_completed" msgid="3981250605092729273">"ရွှေ့ပြီးပြီ"</string>
+    <string name="delete_completed" msgid="4149401155614626199">"ဖျက်ပြီးပြီ"</string>
+    <string name="compress_completed" msgid="8808356399995313077">"ချုံ့ပြီးပြီ"</string>
+    <string name="extract_completed" msgid="8824595789915249972">"ထုတ်ယူပြီးပြီ"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> အား <xliff:g id="STORAGE"><i>^3</i></xliff:g> ရှိ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ဖိုင်လမ်းညွှန်ကို အသုံးပြုခွင့်ပေးမှာလား။"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> အား <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ဖိုင်လမ်းညွှန်ကို အသုံးပြုခွင့်ပေးမှာလား။"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> အား <xliff:g id="STORAGE"><i>^2</i></xliff:g> ရှိ ဓာတ်ပုံများနှင့် ဗီဒီယိုများအပါအဝင် သင့်ဒေတာများကို အသုံးပြုခွင့်ပေးမှာလား။"</string>
@@ -220,6 +227,12 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင် ရွေးထားသည်</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ဖိုင် ရွေးထားသည်</item>
     </plurals>
+    <string name="clear_selection" msgid="5965968983023105329">"ရွေးချယ်မှုကို ရှင်းရန်"</string>
+    <string name="document_click_action" msgid="8073338575301415356">"ဖွင့်ရန်"</string>
+    <string name="selected_document_click_action" msgid="792826130200234885">"ပြန်ဖြုတ်ရန်"</string>
+    <string name="document_long_click_action" msgid="3789836661597702666">"ရွေးရန်"</string>
+    <string name="selected_document_long_click_action" msgid="666372407184527109">"ဖိဆွဲရန်"</string>
+    <string name="document_long_click_action_picker" msgid="943888101827856784">"အများအပြား ရွေးရန်"</string>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ခု </item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ခု </item>
@@ -285,6 +298,17 @@
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"သင်၏ကိုယ်ရေးလုံခြုံမှုကို ကာကွယ်ရန် ဖိုင်တွဲနောက်တစ်ခု ရွေးပါ"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"ဖိုင်တွဲအသစ် ပြုလုပ်ရန်"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"ဤစက်တွင် ရှာရန်"</string>
+    <string name="search_bar_clear" msgid="2072000748823434188">"စာသား ဖယ်ရှားရန်"</string>
+    <string name="search_location_this_folder" msgid="6458835123175563013">"ဤဖိုင်တွဲ"</string>
+    <string name="search_location_root_folder" msgid="4280523560213522303">"မူလဖိုင်တွဲ"</string>
+    <string name="search_location_everywhere" msgid="747799487494833887">"နေရာအနှံ့"</string>
+    <string name="search_last_modified_any_time" msgid="6027501367865939696">"အချိန်မရွေး"</string>
+    <string name="search_last_modified_1_day" msgid="7775353928859139915">"ယနေ့"</string>
+    <string name="search_last_modified_2_days" msgid="7885735119033678756">"မနေ့က"</string>
+    <string name="search_last_modified_7_days" msgid="7634290601544418836">"ပြီးခဲ့သော သီတင်းပတ်"</string>
+    <string name="search_last_modified_30_days" msgid="4936787546211708940">"ပြီးခဲ့သောလ"</string>
+    <string name="search_last_modified_365_days" msgid="7147134152974373466">"မနှစ်က"</string>
+    <string name="search_file_type_all" msgid="6613664493134355781">"အမျိုးအစားအားလုံး"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ရှာဖွေမှတ်တမ်း <xliff:g id="TEXT">%1$s</xliff:g> ကိုဖျက်သည်"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ကိုယ်ပိုင်"</string>
     <string name="work_tab" msgid="7265359366883747413">"အလုပ်"</string>
@@ -294,4 +318,7 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"စာရင်းမုဒ်ဖြင့် ပြသရန်။"</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"ဖိုင်အမည်"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"ဖိုင်အစမ်းကြည့်ရှုခြင်း ဖျောက်ရန်"</string>
+    <string name="peek_no_preview" msgid="8717084152736749464">"အစမ်းကြည့်၍ မရပါ"</string>
+    <string name="a11y_peek_image_preview" msgid="3917148390186060263">"<xliff:g id="FILENAME">%s</xliff:g> အတွက် ပုံအစမ်းပြကွက်"</string>
 </resources>

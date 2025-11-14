@@ -16,6 +16,8 @@
 
 package com.android.documentsui.services;
 
+import static com.android.documentsui.services.FileOperationService.EXTRA_CANCEL;
+import static com.android.documentsui.services.FileOperationService.EXTRA_JOB_ID;
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
 import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
 import static com.android.documentsui.services.FileOperations.createBaseIntent;
@@ -109,8 +111,6 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
 
         assertNull(mService.features);
         mService.features = features;
-
-        mService.mVisualSignalsEnabled = false;
     }
 
     @Override
@@ -265,26 +265,37 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
     public void testRunsInForeground_MultipleJobs() throws Exception {
         startService(createCopyIntent(Arrays.asList(ALPHA_DOC), BETA_DOC));
         startService(createCopyIntent(Arrays.asList(GAMMA_DOC), DELTA_DOC));
+        Job job2 = mCopyJobs.get(1);
 
         mExecutor.run(0);
         mForegroundManager.assertInForeground();
 
-        mHandler.dispatchAllMessages();
+        while (mTestNotificationManager.hasNotification(
+                FileOperationService.NOTIFICATION_ID_PROGRESS, job2.id)) {
+            mHandler.dispatchNextMessage();
+        }
         mForegroundManager.assertInForeground();
     }
 
     public void testFinishesInBackground_MultipleJobs() throws Exception {
         startService(createCopyIntent(Arrays.asList(ALPHA_DOC), BETA_DOC));
         startService(createCopyIntent(Arrays.asList(GAMMA_DOC), DELTA_DOC));
+        Job job2 = mCopyJobs.get(1);
 
         mExecutor.run(0);
         mForegroundManager.assertInForeground();
 
-        mHandler.dispatchAllMessages();
+        while (mTestNotificationManager.hasNotification(
+                FileOperationService.NOTIFICATION_ID_PROGRESS, job2.id)) {
+            mHandler.dispatchNextMessage();
+        }
         mForegroundManager.assertInForeground();
 
         mExecutor.run(0);
-        mHandler.dispatchAllMessages();
+        while (mTestNotificationManager.hasNotification(
+                FileOperationService.NOTIFICATION_ID_PROGRESS, null)) {
+            mHandler.dispatchNextMessage();
+        }
         mForegroundManager.assertInBackground();
     }
 
@@ -312,15 +323,29 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         mTestNotificationManager.assertHasNotification(
                 FileOperationService.NOTIFICATION_ID_PROGRESS, job2.id);
 
-        job1.cancel();
+        startService(createCancelIntent(job1.id));
         mService.onFinished(job1);
         mTestNotificationManager.assertHasNotification(
                 FileOperationService.NOTIFICATION_ID_PROGRESS, null);
         mTestNotificationManager.assertNoNotification(
                 FileOperationService.NOTIFICATION_ID_PROGRESS, job2.id);
 
-        job2.cancel();
+        startService(createCancelIntent(job2.id));
         mService.onFinished(job2);
+        mTestNotificationManager.assertNumberOfNotifications(0);
+    }
+
+    public void testCancelJobWithQueuedJobs() throws Exception {
+        startService(createCopyIntent(Arrays.asList(ALPHA_DOC), BETA_DOC));
+        startService(createCopyIntent(Arrays.asList(GAMMA_DOC), DELTA_DOC));
+        Job job1 = mCopyJobs.get(0);
+        Job job2 = mCopyJobs.get(1);
+
+        mService.onStart(job1);
+        startService(createCancelIntent(job1.id));
+        mService.onFinished(job1);
+
+        startService(createCancelIntent(job2.id));
         mTestNotificationManager.assertNumberOfNotifications(0);
     }
 
@@ -352,6 +377,13 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         TestFileOperation operation = new TestFileOperation(OPERATION_DELETE, urisSupplier, stack);
 
         return createBaseIntent(getContext(), createJobId(), operation);
+    }
+
+    private Intent createCancelIntent(String jobId) {
+        Intent intent = new Intent(getContext(), FileOperationService.class);
+        intent.putExtra(EXTRA_CANCEL, true);
+        intent.putExtra(EXTRA_JOB_ID, jobId);
+        return intent;
     }
 
     private static DocumentInfo createDoc(String name) {

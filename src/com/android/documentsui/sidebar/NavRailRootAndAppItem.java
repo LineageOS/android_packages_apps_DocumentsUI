@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sidebar;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.pm.ResolveInfo;
 import android.view.View;
 
@@ -30,11 +32,22 @@ public class NavRailRootAndAppItem extends RootAndAppItem {
 
     public NavRailRootAndAppItem(
             RootInfo root, ResolveInfo info, ActionHandler actionHandler, boolean maybeShowBadge) {
-        super(R.layout.nav_rail_item_root, root, info, actionHandler, maybeShowBadge);
+        super(getRes(R.layout.nav_rail_item_root), root, info, actionHandler, maybeShowBadge);
     }
 
     @Override
     public void bindView(View convertView) {
         bindIconAndTitle(convertView);
+    }
+
+    @Override
+    public String toString() {
+        return "NavRailRootAndAppItem{"
+                + "id=" + stringId
+                + ", userId=" + userId
+                + ", root=" + root
+                + ", resolveInfo=" + resolveInfo
+                + ", docInfo=" + docInfo
+                + "}";
     }
 }

@@ -16,31 +16,42 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.StubProvider.ROOT_0_ID;
+import static com.android.documentsui.util.FlagUtils.isDesktopFileHandlingFlagEnabled;
+
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.net.Uri;
-import android.os.RemoteException;
 
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.rules.TestFilesRule;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @LargeTest
-public class ContextMenuUiTest extends ActivityTest<FilesActivity> {
+public class ContextMenuUiTest extends ActivityTestJunit4<FilesActivity> {
+
+    @Rule
+    public final TestFilesRule mTestFilesRule =
+            new TestFilesRule()
+                    .createFolderInRoot(ROOT_0_ID, TestFilesRule.DIR_NAME_1)
+                    .createFolderWithParent(TestFilesRule.DIR_NAME_1, "ChildDir1")
+                    .createFileInRoot(ROOT_0_ID, "file0.log", "text/plain")
+                    .createFileInRoot(ROOT_0_ID, "file1.png", "image/png")
+                    .createFileInRoot(ROOT_0_ID, "file2.csv", "text/csv")
+                    .createFileInRoot(ROOT_0_ID, "anotherFile0.log", "text/plain")
+                    .createFileInRoot(ROOT_0_ID, "poodles.text", "text/plain");
 
     private Map<String, Boolean> menuItems;
 
-    public ContextMenuUiTest() {
-        super(FilesActivity.class);
-    }
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        initTestFiles();
+    @Before
+    public void setUpTest() {
         bots.roots.closeDrawer();
         menuItems = new HashMap<>();
 
@@ -56,22 +67,10 @@ public class ContextMenuUiTest extends ActivityTest<FilesActivity> {
         menuItems.put("New folder", false);
     }
 
-    @Override
-    public void initTestFiles() throws RemoteException {
-        Uri uri = mDocsHelper.createFolder(rootDir0, dirName1);
-        mDocsHelper.createFolder(uri, childDir1);
-
-        mDocsHelper.createDocument(rootDir0, "text/plain", "file0.log");
-        mDocsHelper.createDocument(rootDir0, "image/png", "file1.png");
-        mDocsHelper.createDocument(rootDir0, "text/csv", "file2.csv");
-
-        mDocsHelper.createDocument(rootDir1, "text/plain", "anotherFile0.log");
-        mDocsHelper.createDocument(rootDir1, "text/plain", "poodles.text");
-    }
-
+    @Test
     public void testContextMenu_onFile() throws Exception {
         menuItems.put("Share", true);
-        menuItems.put("Open", false);
+        menuItems.put("Open", isDesktopFileHandlingFlagEnabled());
         menuItems.put("Open with", true);
         menuItems.put("Cut", true);
         menuItems.put("Copy", true);
@@ -82,6 +81,7 @@ public class ContextMenuUiTest extends ActivityTest<FilesActivity> {
         bots.menu.assertPresentMenuItems(menuItems);
     }
 
+    @Test
     public void testContextMenu_onDir() throws Exception {
         menuItems.put("Cut", true);
         menuItems.put("Copy", true);
@@ -92,6 +92,7 @@ public class ContextMenuUiTest extends ActivityTest<FilesActivity> {
         bots.menu.assertPresentMenuItems(menuItems);
     }
 
+    @Test
     public void testContextMenu_onMixedFileDir() throws Exception {
         menuItems.put("Cut", true);
         menuItems.put("Copy", true);
@@ -102,11 +103,12 @@ public class ContextMenuUiTest extends ActivityTest<FilesActivity> {
         bots.menu.assertPresentMenuItems(menuItems);
     }
 
+    @Test
     public void testContextMenu_onEmptyArea() throws Exception {
         menuItems.put("Select all", true);
         menuItems.put("New folder", true);
         Rect dirListBounds = bots.directory.findDocumentsList().getBounds();
-        Rect dirBounds = bots.directory.findDocument(dirName1).getBounds();
+        Rect dirBounds = bots.directory.findDocument(TestFilesRule.DIR_NAME_1).getBounds();
 
         bots.main.switchToGridMode();
         // right side of dir1 area

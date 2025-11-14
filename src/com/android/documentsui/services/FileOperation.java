@@ -22,6 +22,7 @@ import static com.android.documentsui.services.FileOperationService.OPERATION_CO
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
 import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_EXTRACT;
+import static com.android.documentsui.services.FileOperationService.OPERATION_UNPACK;
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_UNKNOWN;
 
@@ -102,8 +103,8 @@ public abstract class FileOperation implements Parcelable {
 
     private void appendInfoTo(StringBuilder builder) {
         builder.append("opType=").append(mOpType);
-        builder.append(", srcs=").append(mSrcs.toString());
-        builder.append(", destination=").append(mDestination.toString());
+        builder.append(", srcs=").append(mSrcs);
+        builder.append(", destination=").append(mDestination);
     }
 
     @Override
@@ -122,8 +123,8 @@ public abstract class FileOperation implements Parcelable {
     }
 
     public static class CopyOperation extends FileOperation {
-        private CopyOperation(UrisSupplier srcs, DocumentStack destination) {
-            super(OPERATION_COPY, srcs, destination);
+        private CopyOperation(@OpType int opType, UrisSupplier srcs, DocumentStack destination) {
+            super(opType, srcs, destination);
         }
 
         @Override
@@ -203,44 +204,43 @@ public abstract class FileOperation implements Parcelable {
                 };
     }
 
-    public static class ExtractOperation extends FileOperation {
-        private ExtractOperation(UrisSupplier srcs, DocumentStack destination) {
-            super(OPERATION_EXTRACT, srcs, destination);
+    public static class UnpackOperation extends FileOperation {
+        private UnpackOperation(UrisSupplier srcs, DocumentStack destination) {
+            super(OPERATION_UNPACK, srcs, destination);
         }
 
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
 
-            builder.append("ExtractOperation{");
+            builder.append("UnpackOperation{");
             super.appendInfoTo(builder);
             builder.append("}");
 
             return builder.toString();
         }
 
-        // TODO: Replace CopyJob with ExtractJob.
         @Override
-        CopyJob createJob(Context service, Job.Listener listener, String id, Features features) {
-            return new CopyJob(
-                    service, listener, id, getDestination(), getSrc(), getMessenger(), features);
+        UnpackJob createJob(Context service, Job.Listener listener, String id, Features features) {
+            return new UnpackJob(
+                    service, listener, id, getDestination(), getSrc(), features);
         }
 
-        private ExtractOperation(Parcel in) {
+        private UnpackOperation(Parcel in) {
             super(in);
         }
 
-        public static final Parcelable.Creator<ExtractOperation> CREATOR =
-                new Parcelable.Creator<ExtractOperation>() {
+        public static final Parcelable.Creator<UnpackOperation> CREATOR =
+                new Parcelable.Creator<UnpackOperation>() {
 
                     @Override
-                    public ExtractOperation createFromParcel(Parcel source) {
-                        return new ExtractOperation(source);
+                    public UnpackOperation createFromParcel(Parcel source) {
+                        return new UnpackOperation(source);
                     }
 
                     @Override
-                    public ExtractOperation[] newArray(int size) {
-                        return new ExtractOperation[size];
+                    public UnpackOperation[] newArray(int size) {
+                        return new UnpackOperation[size];
                     }
                 };
     }
@@ -276,7 +276,7 @@ public abstract class FileOperation implements Parcelable {
 
             builder.append("MoveDeleteOperation{");
             super.appendInfoTo(builder);
-            builder.append(", srcParent=").append(mSrcParent.toString());
+            builder.append(", srcParent=").append(mSrcParent);
             builder.append("}");
 
             return builder.toString();
@@ -338,14 +338,15 @@ public abstract class FileOperation implements Parcelable {
         public FileOperation build() {
             switch (mOpType) {
                 case OPERATION_COPY:
-                    return new CopyOperation(mSrcs, mDestination);
+                case OPERATION_EXTRACT:
+                    return new CopyOperation(mOpType, mSrcs, mDestination);
                 case OPERATION_COMPRESS:
                     return new CompressOperation(mSrcs, mDestination);
-                case OPERATION_EXTRACT:
-                    return new ExtractOperation(mSrcs, mDestination);
                 case OPERATION_MOVE:
                 case OPERATION_DELETE:
                     return new MoveDeleteOperation(mOpType, mSrcs, mDestination, mSrcParent);
+                case OPERATION_UNPACK:
+                    return new UnpackOperation(mSrcs, mDestination);
                 default:
                     throw new UnsupportedOperationException("Unsupported op type: " + mOpType);
             }

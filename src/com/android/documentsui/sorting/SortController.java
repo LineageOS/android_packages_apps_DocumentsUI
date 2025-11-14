@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sorting;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -84,8 +86,10 @@ public final class SortController {
             }
         });
 
-        SortController controller = new SortController(
-                TableHeaderController.create(sortModel, activity.findViewById(R.id.table_header)));
+        SortController controller =
+                new SortController(
+                        TableHeaderController.create(
+                                sortModel, activity.findViewById(getRes(R.id.table_header))));
 
         controller.onViewModeChanged(initialMode);
         return controller;

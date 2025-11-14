@@ -35,6 +35,8 @@ import static com.android.documentsui.services.FileOperationService.EXTRA_OPERAT
 import static com.android.documentsui.services.FileOperationService.MESSAGE_FINISH;
 import static com.android.documentsui.services.FileOperationService.MESSAGE_PROGRESS;
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
+import static com.android.documentsui.util.FlagUtils.isVisualSignalsFlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Notification;
 import android.app.Notification.Builder;
@@ -44,9 +46,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.icu.text.MessageFormat;
 import android.net.Uri;
 import android.os.DeadObjectException;
 import android.os.FileUtils;
@@ -96,7 +98,6 @@ import java.io.SyncFailedException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
@@ -137,15 +138,15 @@ class CopyJob extends ResolvedResourcesJob {
     @Override
     Builder createProgressBuilder() {
         return super.createProgressBuilder(
-                service.getString(R.string.copy_notification_title),
-                R.drawable.ic_menu_copy,
+                service.getString(getRes(R.string.copy_notification_title)),
+                getRes(R.drawable.ic_menu_copy),
                 service.getString(android.R.string.cancel),
-                R.drawable.ic_cab_cancel);
+                getRes(R.drawable.ic_cab_cancel));
     }
 
     @Override
     public Notification getSetupNotification() {
-        return getSetupNotification(service.getString(R.string.copy_preparing));
+        return getSetupNotification(service.getString(getRes(R.string.copy_preparing)));
     }
 
     Notification getProgressNotification(@StringRes int msgId) {
@@ -156,7 +157,7 @@ class CopyJob extends ResolvedResourcesJob {
 
     @Override
     public Notification getProgressNotification() {
-        return getProgressNotification(R.string.copy_remaining);
+        return getProgressNotification(getRes(R.string.copy_remaining));
     }
 
     @Override
@@ -170,9 +171,9 @@ class CopyJob extends ResolvedResourcesJob {
     }
 
     @Override
-    Notification getFailureNotification() {
+    public Notification getFailureNotification() {
         return getFailureNotification(
-                R.plurals.copy_error_notification_title, R.drawable.ic_menu_copy);
+                getRes(R.plurals.copy_error_notification_title), getRes(R.drawable.ic_menu_copy));
     }
 
     @Override
@@ -182,44 +183,34 @@ class CopyJob extends ResolvedResourcesJob {
         navigateIntent.putExtra(EXTRA_OPERATION_TYPE, operationType);
 
         navigateIntent.putParcelableArrayListExtra(EXTRA_FAILED_DOCS, convertedFiles);
-
+        final Resources resources = service.getResources();
         // TODO: Consider adding a dialog on tapping the notification with a list of
         // converted files.
-        final Notification.Builder warningBuilder = createNotificationBuilder()
-                .setContentTitle(service.getResources().getString(
-                        R.string.notification_copy_files_converted_title))
-                .setContentText(service.getString(
-                        R.string.notification_touch_for_details))
-                .setContentIntent(PendingIntent.getActivity(appContext, 0, navigateIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT
-                                | PendingIntent.FLAG_IMMUTABLE))
-                .setCategory(Notification.CATEGORY_ERROR)
-                .setSmallIcon(R.drawable.ic_menu_copy)
-                .setAutoCancel(true);
+        final Notification.Builder warningBuilder =
+                createNotificationBuilder()
+                        .setContentTitle(
+                                resources.getString(
+                                        getRes(R.string.notification_copy_files_converted_title)))
+                        .setContentText(
+                                service.getString(getRes(R.string.notification_touch_for_details)))
+                        .setContentIntent(
+                                PendingIntent.getActivity(
+                                        appContext,
+                                        0,
+                                        navigateIntent,
+                                        PendingIntent.FLAG_UPDATE_CURRENT
+                                                | PendingIntent.FLAG_ONE_SHOT
+                                                | PendingIntent.FLAG_IMMUTABLE))
+                        .setCategory(Notification.CATEGORY_ERROR)
+                        .setSmallIcon(getRes(R.drawable.ic_menu_copy))
+                        .setAutoCancel(true);
         return warningBuilder.build();
     }
 
     protected String getProgressMessage() {
-        switch (getState()) {
-            case Job.STATE_SET_UP:
-            case Job.STATE_COMPLETED:
-            case Job.STATE_CANCELED:
-                Map<String, Object> formatArgs = new HashMap<>();
-                formatArgs.put("count", mResolvedDocs.size());
-                formatArgs.put("directory",
-                        BidiFormatter.getInstance().unicodeWrap(mDstInfo.displayName));
-                if (mResolvedDocs.size() == 1) {
-                    formatArgs.put("filename",
-                            BidiFormatter.getInstance().unicodeWrap(
-                                    mResolvedDocs.get(0).displayName));
-                }
-                return (new MessageFormat(
-                        service.getString(R.string.copy_in_progress), Locale.getDefault()))
-                        .format(formatArgs);
-
-            default:
-                return "";
-        }
+        Map<String, Object> formatArgs = new HashMap<>();
+        formatArgs.put("directory", BidiFormatter.getInstance().unicodeWrap(stack.getTitle()));
+        return getProgressMessage(R.string.copy_in_progress, formatArgs);
     }
 
     @Override
@@ -227,16 +218,20 @@ class CopyJob extends ResolvedResourcesJob {
         if (mProgressTracker == null) {
             return new JobProgress(
                     id,
+                    operationType,
                     getState(),
                     getProgressMessage(),
-                    hasFailures());
+                    hasFailures(),
+                    stack);
         }
         mProgressTracker.updateEstimateRemainingTime();
         return new JobProgress(
                 id,
+                operationType,
                 getState(),
                 getProgressMessage(),
                 hasFailures(),
+                stack,
                 mProgressTracker.getCurrentBytes(),
                 mProgressTracker.getRequiredBytes(),
                 mProgressTracker.getRemainingTimeEstimate());
@@ -1042,7 +1037,11 @@ class CopyJob extends ResolvedResourcesJob {
         }
 
         protected void update(Builder builder, Function<Long, String> messageFormatter) {
-            updateEstimateRemainingTime();
+            // When the flag is enabled, updateEstimatedRemainingTime() is already called
+            // elsewhere at the same time, so only call it when the flag is disabled.
+            if (!isVisualSignalsFlagEnabled()) {
+                updateEstimateRemainingTime();
+            }
             final double completed = getProgress();
 
             builder.setProgress(100, (int) (completed * 100), false);

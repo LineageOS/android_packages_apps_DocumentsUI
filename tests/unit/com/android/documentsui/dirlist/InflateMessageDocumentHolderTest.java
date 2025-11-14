@@ -26,6 +26,7 @@ import android.os.UserManager;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.test.annotation.UiThreadTest;
 import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -121,12 +122,14 @@ public final class InflateMessageDocumentHolderTest {
             mInflateMessage = new Message.InflateMessage(env, mDefaultCallback, mTestConfigStore);
             env.getDisplayState().canShareAcrossProfile = true;
         }
-        mHolder = new InflateMessageDocumentHolder(mContext, /* parent= */null, mTestConfigStore);
     }
 
     @Test
+    @UiThreadTest
     public void testClickingButtonShouldShowProgressBar() {
         if (SdkLevel.isAtLeastV()) return;
+        mHolder = new InflateMessageDocumentHolder(mContext, /* parent= */null, mTestConfigStore);
+
         Model.Update error = new Model.Update(
                 new CrossProfileQuietModeException(TestProvidersAccess.OtherUser.USER_ID),
                 /* remoteActionsEnabled= */ true);

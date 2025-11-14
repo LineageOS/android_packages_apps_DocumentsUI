@@ -186,6 +186,6 @@ public class SelectionMetadata extends SelectionObserver<String>
     @Override
     public boolean canOpen() {
         return mFileCount == 1 && mDirectoryCount == 0 && mPartialCount == 0 && (
-                isZipNgFlagEnabled() || mInArchiveCount == 0);
+                mInArchiveCount == 0 || (isZipNgFlagEnabled() && mArchiveCount == 0));
     }
 }

@@ -17,6 +17,7 @@
 package com.android.documentsui.files;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -26,8 +27,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import androidx.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.android.documentsui.R;
 
@@ -98,8 +100,8 @@ public class LauncherActivity extends Activity {
     private void startTask() {
         Intent intent = createLaunchIntent(this);
 
-        intent.putExtra(TASK_LABEL_RES, R.string.launcher_label);
-        intent.putExtra(TASK_ICON_RES, R.drawable.launcher_icon);
+        intent.putExtra(TASK_LABEL_RES, getRes(R.string.launcher_label));
+        intent.putExtra(TASK_ICON_RES, getRes(R.drawable.launcher_icon));
 
         // Forward any flags from the original intent.
         intent.setFlags(getIntent().getFlags());

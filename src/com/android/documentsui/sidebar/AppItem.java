@@ -17,6 +17,7 @@
 package com.android.documentsui.sidebar;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -45,7 +46,7 @@ public class AppItem extends Item {
     private final ActionHandler mActionHandler;
 
     public AppItem(ResolveInfo info, String title, UserId userId, ActionHandler actionHandler) {
-        this(R.layout.item_root, info, title, userId, actionHandler);
+        this(getRes(R.layout.item_root), info, title, userId, actionHandler);
     }
 
     public AppItem(
@@ -78,9 +79,10 @@ public class AppItem extends Item {
         actionIconArea.setVisibility(View.VISIBLE);
         actionIconArea.setFocusable(false);
         actionIcon.setImageDrawable(
-                IconUtils.applyTintColor(actionIcon.getContext(), R.drawable.ic_exit_to_app,
-                        R.color.item_action_icon));
-
+                IconUtils.applyTintColor(
+                        actionIcon.getContext(),
+                        getRes(R.drawable.ic_exit_to_app),
+                        getRes(R.color.item_action_icon)));
     }
 
     @Override
@@ -103,8 +105,9 @@ public class AppItem extends Item {
         // When use_material3 flag is ON, we don't show action icon for the app items, do nothing
         // here because the icons are hidden by default.
         if (!isUseMaterial3FlagEnabled()) {
-            final View actionIconArea = convertView.findViewById(R.id.action_icon_area);
-            final ImageView actionIcon = (ImageView) convertView.findViewById(R.id.action_icon);
+            final View actionIconArea = convertView.findViewById(getRes(R.id.action_icon_area));
+            final ImageView actionIcon =
+                    (ImageView) convertView.findViewById(getRes(R.id.action_icon));
             bindActionIcon(actionIconArea, actionIcon);
         }
 

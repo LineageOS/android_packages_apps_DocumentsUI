@@ -17,6 +17,8 @@
 package com.android.documentsui.sidebar;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.util.Log;
 import android.view.View;
@@ -34,12 +36,20 @@ class SpacerItem extends Item {
 
     public SpacerItem() {
         // Multiple spacer items can share the same string id as they're identical.
-        super(R.layout.item_root_spacer, "" /* title */, STRING_ID, UserId.UNSPECIFIED_USER);
+        super(
+                getRes(R.layout.item_root_spacer),
+                "" /* title */,
+                STRING_ID,
+                UserId.UNSPECIFIED_USER);
     }
 
     @Override
     void bindView(View convertView) {
         // Nothing to bind
+        if (isUseMaterial3FlagEnabled()) {
+            // Let TalkBack ignore the spacer item.
+            convertView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        }
     }
 
     @Override

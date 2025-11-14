@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.ui;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.app.Activity;
 
 import androidx.fragment.app.FragmentManager;
@@ -101,6 +103,7 @@ public interface DialogController {
                     Snackbars.showCompress(mActivity, docCount);
                     break;
                 case FileOperationService.OPERATION_EXTRACT:
+                case FileOperationService.OPERATION_UNPACK:
                     Snackbars.showExtract(mActivity, docCount);
                     break;
                 case FileOperationService.OPERATION_DELETE:
@@ -140,13 +143,17 @@ public interface DialogController {
         public void showActionNotAllowed() {
             // Shows as a last resort when a document is not allowed to share across users
             Snackbars.makeSnackbar(
-                    mActivity, R.string.toast_action_not_allowed, Snackbar.LENGTH_LONG).show();
+                            mActivity,
+                            getRes(R.string.toast_action_not_allowed),
+                            Snackbar.LENGTH_LONG)
+                    .show();
         }
 
         @Override
         public void showNoApplicationFound() {
             Snackbars.makeSnackbar(
-                    mActivity, R.string.toast_no_application, Snackbar.LENGTH_LONG).show();
+                            mActivity, getRes(R.string.toast_no_application), Snackbar.LENGTH_LONG)
+                    .show();
         }
 
         @Override
@@ -156,8 +163,11 @@ public interface DialogController {
 
         @Override
         public void showViewInArchivesUnsupported() {
-            Snackbars.makeSnackbar(mActivity, R.string.toast_view_in_archives_unsupported,
-                    Snackbar.LENGTH_LONG).show();
+            Snackbars.makeSnackbar(
+                            mActivity,
+                            getRes(R.string.toast_view_in_archives_unsupported),
+                            Snackbar.LENGTH_LONG)
+                    .show();
         }
 
         @Override
@@ -167,7 +177,7 @@ public interface DialogController {
 
         @Override
         public void showShareOverLimit(int size) {
-            String message = mActivity.getString(R.string.toast_share_over_limit, size);
+            String message = mActivity.getString(getRes(R.string.toast_share_over_limit), size);
             Snackbars.makeSnackbar(mActivity, message, Snackbar.LENGTH_LONG).show();
         }
 

@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sidebar;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.pm.ResolveInfo;
 import android.view.View;
 import android.widget.ImageView;
@@ -41,7 +43,7 @@ class ProfileItem extends AppItem {
 
     @Override
     protected void bindIcon(ImageView icon) {
-        icon.setImageResource(com.android.documentsui.R.drawable.ic_user_profile);
+        icon.setImageResource(getRes(com.android.documentsui.R.drawable.ic_user_profile));
     }
 
     @Override

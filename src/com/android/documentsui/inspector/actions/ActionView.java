@@ -15,7 +15,8 @@
  */
 package com.android.documentsui.inspector.actions;
 
-import androidx.annotation.Nullable;
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -25,6 +26,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.android.documentsui.R;
 import com.android.documentsui.inspector.InspectorController;
@@ -54,19 +57,19 @@ public final class ActionView extends LinearLayout implements InspectorControlle
         super(context, attrs, defStyleAttr);
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(
             Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.inspector_action_view, null);
+        View view = inflater.inflate(getRes(R.layout.inspector_action_view), null);
         addView(view);
 
         mContext = context;
         mHeader = getSectionTitle();
-        mAppIcon = (ImageView) findViewById(R.id.app_icon);
-        mAppName = (TextView) findViewById(R.id.app_name);
-        mActionButton = (ImageButton) findViewById(R.id.inspector_action_button);
+        mAppIcon = (ImageView) findViewById(getRes(R.id.app_icon));
+        mAppName = (TextView) findViewById(getRes(R.id.app_name));
+        mActionButton = (ImageButton) findViewById(getRes(R.id.inspector_action_button));
     }
 
     public TextView getSectionTitle() {
-        LinearLayout header = (LinearLayout) findViewById(R.id.action_header);
-        return (TextView) header.findViewById(R.id.inspector_header_title);
+        LinearLayout header = (LinearLayout) findViewById(getRes(R.id.action_header));
+        return (TextView) header.findViewById(getRes(R.id.inspector_header_title));
     }
 
     @Override

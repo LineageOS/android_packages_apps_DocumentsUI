@@ -30,6 +30,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.sevenz.SevenZFile;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.compress.compressors.CompressorException;
+import org.apache.commons.compress.compressors.CompressorStreamFactory;
+
 import java.io.Closeable;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -40,16 +50,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.ArchiveException;
-import org.apache.commons.compress.archivers.ArchiveInputStream;
-import org.apache.commons.compress.archivers.ArchiveStreamFactory;
-import org.apache.commons.compress.archivers.sevenz.SevenZFile;
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipFile;
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
 
 /**
  * To handle to all of supported support types of archive or compressed+archive files.
@@ -129,17 +129,14 @@ abstract class ArchiveHandle<T> implements Closeable {
     }
 
     /**
-     * Neither SevenZFile nor ArchiveInputStream likes ZipFile that has the API
-     * getInputStream(ArchiveEntry), rewind or reset, so it needs to close the
-     * current instance and recreate a new one.
+     * Gets an InputStream for reading the contents of the given entry.
      *
-     * @param archiveEntry the target entry
-     * @return the input stream related to archiveEntry
-     * @throws IOException invalid file descriptor may raise the IOException
-     * @throws CompressorException invalid compress name may raise the CompressException
-     * @throws ArchiveException invalid Archive name may raise the ArchiveException
+     * @throws IOException         if there is an error when reading the archive file, or if the
+     *                             given entry is an encrypted file (in a 7Z or a ZIP archive).
+     * @throws CompressorException if there is an error while decompressing the archive data.
+     * @throws ArchiveException    if there is an error with archive format itself.
      */
-    protected InputStream getInputStream(@NonNull ArchiveEntry archiveEntry)
+    protected @NonNull InputStream getInputStream(@NonNull ArchiveEntry archiveEntry)
             throws IOException, CompressorException, ArchiveException {
 
         if (!isCommonArchiveSupportGetInputStream()) {

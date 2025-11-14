@@ -19,8 +19,8 @@ package com.android.documentsui.sidebar;
 import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
-import static com.android.documentsui.util.FlagUtils.isHideRootsOnDesktopFlagEnabled;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
@@ -31,6 +31,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.os.ext.SdkExtensions;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -157,7 +158,7 @@ public class RootsFragment extends Fragment {
      * Show the RootsFragment inside the navigation drawer container.
      */
     public static RootsFragment show(FragmentManager fm, boolean includeApps, Intent intent) {
-        return showWithLayout(R.id.container_roots, fm, includeApps, intent);
+        return showWithLayout(getRes(R.id.container_roots), fm, includeApps, intent);
     }
 
     /**
@@ -165,7 +166,7 @@ public class RootsFragment extends Fragment {
      */
     public static RootsFragment showNavRail(FragmentManager fm, boolean includeApps,
             Intent intent) {
-        return showWithLayout(R.id.nav_rail_container_roots, fm, includeApps, intent);
+        return showWithLayout(getRes(R.id.nav_rail_container_roots), fm, includeApps, intent);
     }
 
     /**
@@ -201,14 +202,14 @@ public class RootsFragment extends Fragment {
      * Get the RootsFragment instance for the navigation drawer.
      */
     public static RootsFragment get(FragmentManager fm) {
-        return (RootsFragment) fm.findFragmentById(R.id.container_roots);
+        return (RootsFragment) fm.findFragmentById(getRes(R.id.container_roots));
     }
 
     /**
      * Get the RootsFragment instance for the navigation drawer.
      */
     public static RootsFragment getNavRail(FragmentManager fm) {
-        return (RootsFragment) fm.findFragmentById(R.id.nav_rail_container_roots);
+        return (RootsFragment) fm.findFragmentById(getRes(R.id.nav_rail_container_roots));
     }
 
     @Override
@@ -219,7 +220,7 @@ public class RootsFragment extends Fragment {
             mUseRailAsContainer =
                     getArguments() != null
                             && getArguments().getInt(EXTRA_CONTAINER_ID)
-                                    == R.id.nav_rail_container_roots;
+                                    == getRes(R.id.nav_rail_container_roots);
         }
 
         mInjector = getBaseActivity().getInjector();
@@ -227,11 +228,11 @@ public class RootsFragment extends Fragment {
         final View view =
                 inflater.inflate(
                         mUseRailAsContainer
-                                ? R.layout.fragment_nav_rail_roots
-                                : R.layout.fragment_roots,
+                                ? getRes(R.layout.fragment_nav_rail_roots)
+                                : getRes(R.layout.fragment_roots),
                         container,
                         false);
-        mList = (ListView) view.findViewById(R.id.roots_list);
+        mList = (ListView) view.findViewById(getRes(R.id.roots_list));
         mList.setOnItemClickListener(mItemListener);
         // ListView does not have right-click specific listeners, so we will have a
         // GenericMotionListener to listen for it.
@@ -243,7 +244,7 @@ public class RootsFragment extends Fragment {
                 new OnGenericMotionListener() {
                     @Override
                     public boolean onGenericMotion(View v, MotionEvent event) {
-                        if (Events.isMouseEvent(event)
+                        if (Events.isMousyEvent(event)
                                 && event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
                             int x = (int) event.getX();
                             int y = (int) event.getY();
@@ -475,20 +476,20 @@ public class RootsFragment extends Fragment {
         final RootItemListBuilder storageProvidersBuilder = new RootItemListBuilder(selectedUser,
                 userIds);
         final List<RootItem> otherProviders = new ArrayList<>();
+        final boolean hideMediaRoots =
+                isUseMaterial3FlagEnabled()
+                        && !context.getResources().getBoolean(R.bool.show_media_roots);
 
         for (final RootInfo root : roots) {
             final RootItem item;
 
             if (root.isExternalStorageHome()) {
-                continue;
-            } else if (isHideRootsOnDesktopFlagEnabled()
-                    && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_PC)
+                // No-op.
+            } else if (hideMediaRoots
                     && (root.isImages() || root.isVideos()
                     || root.isDocuments()
                     || root.isAudio())) {
-                // Hide Images/Videos/Documents/Audio roots on desktop.
                 Log.d(TAG, "Hiding " + root);
-                continue;
             } else if (root.isLibrary() || root.isDownloads()) {
                 item =
                         mUseRailAsContainer
@@ -573,16 +574,22 @@ public class RootsFragment extends Fragment {
     private List<Item> getPresentableListPrivateSpaceEnabled(Context context, State state,
             List<List<Item>> rootListAllUsers, List<UserId> userIds,
             UserManagerState userManagerState) {
-        return new UserItemsCombiner(context.getResources(),
-                context.getSystemService(DevicePolicyManager.class), state)
+        return new UserItemsCombiner(
+                        context.getResources(),
+                        context.getSystemService(UserManager.class),
+                        context.getSystemService(DevicePolicyManager.class),
+                        state)
                 .setRootListForAllUsers(rootListAllUsers)
                 .createPresentableListForAllUsers(userIds, userManagerState.getUserIdToLabelMap());
     }
 
     private List<Item> getPresentableListPrivateSpaceDisabled(Context context, State state,
             List<Item> rootList, List<Item> rootListOtherUser) {
-        return new UserItemsCombiner(context.getResources(),
-                context.getSystemService(DevicePolicyManager.class), state)
+        return new UserItemsCombiner(
+                        context.getResources(),
+                        context.getSystemService(UserManager.class),
+                        context.getSystemService(DevicePolicyManager.class),
+                        state)
                 .setRootListForCurrentUser(rootList)
                 .setRootListForOtherUser(rootListOtherUser)
                 .createPresentableList();
@@ -710,8 +717,8 @@ public class RootsFragment extends Fragment {
             }
         }
 
-        final String preferredRootPackage = getResources().getString(
-                R.string.preferred_root_package, "");
+        final String preferredRootPackage =
+                getResources().getString(getRes(R.string.preferred_root_package), "");
         final ItemComparator comp = new ItemComparator(preferredRootPackage);
 
         if (state.configStore.isPrivateSpaceInDocsUIEnabled()) {
@@ -852,17 +859,18 @@ public class RootsFragment extends Fragment {
         }
         final RootItem rootItem = (RootItem) mAdapter.getItem(adapterMenuInfo.position);
         final int id = item.getItemId();
-        if (id == R.id.root_menu_eject_root) {
-            final View ejectIcon = adapterMenuInfo.targetView.findViewById(R.id.action_icon);
+        if (id == getRes(R.id.root_menu_eject_root)) {
+            final View ejectIcon =
+                    adapterMenuInfo.targetView.findViewById(getRes(R.id.action_icon));
             ejectClicked(ejectIcon, rootItem.root, mActionHandler);
             return true;
-        } else if (id == R.id.root_menu_open_in_new_window) {
+        } else if (id == getRes(R.id.root_menu_open_in_new_window)) {
             mActionHandler.openInNewWindow(new DocumentStack(rootItem.root));
             return true;
-        } else if (id == R.id.root_menu_paste_into_folder) {
+        } else if (id == getRes(R.id.root_menu_paste_into_folder)) {
             mActionHandler.pasteIntoFolder(rootItem.root);
             return true;
-        } else if (id == R.id.root_menu_settings) {
+        } else if (id == getRes(R.id.root_menu_settings)) {
             mActionHandler.openSettings(rootItem.root);
             return true;
         }
@@ -884,7 +892,7 @@ public class RootsFragment extends Fragment {
     }
 
     private Item getItem(View v) {
-        final int pos = (Integer) v.getTag(R.id.item_position_tag);
+        final int pos = (Integer) v.getTag(getRes(R.id.item_position_tag));
         return mAdapter.getItem(pos);
     }
 

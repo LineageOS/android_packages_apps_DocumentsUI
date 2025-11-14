@@ -20,6 +20,8 @@ import static junit.framework.Assert.assertNotNull;
 
 import android.app.UiAutomation;
 import android.content.Context;
+import android.os.SystemClock;
+import android.view.MotionEvent;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
@@ -48,12 +50,12 @@ public final class Bots {
     public final UiBot main;
     public final InspectorBot inspector;
     public final NotificationsBot notifications;
-    public final PeekBot peek;
+    public final PickerBot picker;
 
     public Bots(UiDevice device, UiAutomation automation, Context context, int timeout) {
         main = new UiBot(device, context, TIMEOUT);
         breadcrumb = new BreadBot(device, context, TIMEOUT);
-        roots = new SidebarBot(device, context, TIMEOUT);
+        roots = new SidebarBot(device, automation, context, TIMEOUT);
         directory = new DirectoryListBot(device, automation, context, TIMEOUT);
         sort = new SortBot(device, context, TIMEOUT, main);
         keyboard = new KeyboardBot(device, context, TIMEOUT);
@@ -62,7 +64,7 @@ public final class Bots {
         menu = new MenuBot(device, context, TIMEOUT);
         inspector = new InspectorBot(device, context, TIMEOUT);
         notifications = new NotificationsBot(device, context, TIMEOUT);
-        peek = new PeekBot(device, context, TIMEOUT);
+        picker = new PickerBot(device, context, TIMEOUT);
     }
 
     /**
@@ -71,9 +73,9 @@ public final class Bots {
      */
     public static abstract class BaseBot {
         public final UiDevice mDevice;
+        public final String mTargetPackage;
         final Context mContext;
         final int mTimeout;
-        public final String mTargetPackage;
 
         BaseBot(UiDevice device, Context context, int timeout) {
             mDevice = device;
@@ -82,6 +84,55 @@ public final class Bots {
             mTargetPackage =
                     InstrumentationRegistry.getInstrumentation()
                             .getTargetContext().getPackageName();
+        }
+
+        /**
+         * Returns a `MotionEvent` that mocks a right click.
+         * There are 2 ways right clicks are intercepted throughout DocumentsUI:
+         *   1. Via an onClickListener and thus the actions can simply be one of ACTION_DOWN and
+         *      ACTION_UP.
+         *   2. Via an onGenericMotionListener and therefore there needs to be 4 actions,
+         *      ACTION_DOWN, ACTION_BUTTON_PRESS, ACTION_BUTTON_RELEASE and ACTION_UP.
+         */
+        protected static MotionEvent getTestRightClickMotionEvent(int action, int x, int y) {
+            long eventTime = SystemClock.uptimeMillis();
+
+            MotionEvent.PointerProperties[] pp = {new MotionEvent.PointerProperties()};
+            pp[0].clear();
+            pp[0].id = 0;
+            pp[0].toolType = MotionEvent.TOOL_TYPE_MOUSE;
+
+            MotionEvent.PointerCoords[] pointerCoords = {new MotionEvent.PointerCoords()};
+            pointerCoords[0].clear();
+            pointerCoords[0].x = x;
+            pointerCoords[0].y = y;
+            pointerCoords[0].pressure = 0;
+            pointerCoords[0].size = 1;
+
+            MotionEvent event =
+                    MotionEvent.obtain(
+                            eventTime,
+                            eventTime,
+                            action,
+                            1, // pointerCount.
+                            pp,
+                            pointerCoords,
+                            0, // metaState.
+                            MotionEvent.BUTTON_SECONDARY,
+                            1f, // xPrecision.
+                            1f, // yPrecision.
+                            0, // deviceId.
+                            0, // edgeFlags.
+                            android.view.InputDevice.SOURCE_MOUSE,
+                            0 // flags.
+                    );
+
+            if (action == MotionEvent.ACTION_BUTTON_PRESS
+                    || action == MotionEvent.ACTION_BUTTON_RELEASE) {
+                event.setActionButton(MotionEvent.BUTTON_SECONDARY);
+            }
+
+            return event;
         }
 
         /**

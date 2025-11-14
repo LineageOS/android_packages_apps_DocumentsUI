@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,8 +33,8 @@ public final class BreadcrumbHolder extends RecyclerView.ViewHolder {
 
     public BreadcrumbHolder(View itemView) {
         super(itemView);
-        mTitle = itemView.findViewById(R.id.breadcrumb_text);
-        mArrow = itemView.findViewById(R.id.breadcrumb_arrow);
+        mTitle = itemView.findViewById(getRes(R.id.breadcrumb_text));
+        mArrow = itemView.findViewById(getRes(R.id.breadcrumb_arrow));
         mLast = false;
     }
 

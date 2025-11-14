@@ -24,6 +24,7 @@ import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 
@@ -71,6 +72,7 @@ import com.android.documentsui.util.FileUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.regex.Pattern;
 
@@ -270,7 +272,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     }
 
     private void onLastAccessedStackLoaded(@Nullable DocumentStack stack) {
-        if (stack == null) {
+        if (stack == null || stack.peek() == null) {
             loadDefaultLocation();
         } else if (shouldPreemptivelyRestrictRequestedInitialUri(stack.peek().getDocumentUri())) {
             // If the last accessed stack has restricted uri, load default location
@@ -427,6 +429,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         return !doc.isContainer();
     }
 
+    /**
+     * Picks a folder for the ACTION_OPEN_TREE or ACTION_PICK_COPY_DESTINATION picker.
+     */
     void pickDocument(FragmentManager fm, DocumentInfo pickTarget) {
         assert (pickTarget != null);
         mInjector.pickResult.increaseActionCount();
@@ -442,6 +447,28 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
             default:
                 // Should not be reached
                 throw new IllegalStateException("Invalid mState.action");
+        }
+    }
+
+    /**
+     * Picks selected documents for the ACTION_OPEN or ACTION_GET_CONTENT picker.
+     */
+    void pickSelected() {
+        if (!isUseMaterial3FlagEnabled()) {
+            return;
+        }
+        assert (mState.action == ACTION_OPEN || mState.action == ACTION_GET_CONTENT);
+        List<DocumentInfo> selection = mInjector.getModel().getDocuments(
+                mInjector.selectionMgr.getSelection());
+        if (selection.isEmpty()) {
+            Log.w(TAG, "There are no selected files");
+            return;
+        }
+
+        if (selection.size() > 1) {
+            mActivity.onDocumentsPicked(selection);
+        } else {
+            mActivity.onDocumentPicked(selection.getFirst());
         }
     }
 
@@ -475,6 +502,20 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         } else {
             finishPicking(replaceTarget.getDocumentUri());
         }
+    }
+
+    /** Cancels the picking by first setting the last accessed location first. */
+    void cancelPicking() {
+        new SetLastAccessedStackTask(mActivity, mLastAccessed, mState.stack, this::onPickCanceled)
+                .executeOnExecutor(getExecutorForCurrentDirectory());
+    }
+
+    /** Sets the activity result to canceled and finishes the current activity. */
+    private void onPickCanceled() {
+        if (DEBUG) Log.d(TAG, "onPickCanceled()");
+
+        mActivity.setResult(FragmentActivity.RESULT_CANCELED, /* intent= */ null, 0);
+        mActivity.finish();
     }
 
     void finishPicking(Uri... docs) {

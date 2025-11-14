@@ -13,34 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.android.documentsui;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.view.View;
 
 import androidx.test.filters.LargeTest;
 
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.rules.TestFilesRule;
+import com.android.documentsui.sorting.SortDimension;
+import com.android.documentsui.sorting.SortModel;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
+import java.util.List;
 
 @LargeTest
-public class BandSelectionUiTest extends ActivityTest<FilesActivity> {
+public class BandSelectionUiTest extends ActivityTestJunit4<FilesActivity> {
 
-    public BandSelectionUiTest() {
-        super(FilesActivity.class);
-    }
+    @Rule
+    public TestFilesRule mTestFiles = new TestFilesRule();
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        initTestFiles();
+    @Before
+    public void setUpTest() {
         bots.roots.closeDrawer();
     }
 
+    @Test
     public void testBandSelection_allFiles() throws Exception {
         bots.main.switchToGridMode();
         Rect dirListBounds = bots.directory.findDocumentsList().getBounds();
-        Rect startDir = bots.directory.findDocument(dirName1).getBounds();
+        Rect startDir = bots.directory.findDocument(TestFilesRule.DIR_NAME_1).getBounds();
         Point start = new Point(dirListBounds.right - 1, startDir.centerY());
         Point end = new Point(dirListBounds.left + 1, dirListBounds.bottom - 1);
         bots.gesture.bandSelection(start, end);
@@ -48,17 +57,41 @@ public class BandSelectionUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertSelection(4);
     }
 
+    @Test
     public void testBandSelection_someFiles() throws Exception {
+        // Switch to Grid mode and ensure the list is sorted by title.
         bots.main.switchToGridMode();
-        Rect dirListBounds = bots.directory.findDocumentsList().getBounds();
-        Rect startDoc = bots.directory.findDocument(fileNameNoRename).getBounds();
-        Rect endDoc = bots.directory.findDocument(fileName1).getBounds();
-        // Start from right side of file NoRename.
-        Point start = new Point(dirListBounds.right - 1, startDoc.bottom - 1);
-        // End is center of file1
-        Point end = new Point(endDoc.centerX(), endDoc.centerY());
-        bots.gesture.bandSelection(start, end);
+        bots.sort.sortBy(SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
 
-        bots.directory.assertSelection(3);
+        // Get all the documents to enumerate through and find all the documents in the top row.
+        RootInfo root = mTestFiles.docsHelper.getRootList().get(0);
+        List<DocumentInfo> createdDocs = mTestFiles.docsHelper.listAllChildren(root);
+
+        // Work out the start and end of the drag selection to go select the top row of documents
+        // if this is done in the opposite direction it will trigger the drawer to be swiped open.
+        Rect dirListBounds = bots.directory.findDocumentsList().getBounds();
+        Rect startDoc = bots.directory.findDocument(createdDocs.get(0).displayName).getBounds();
+        Point endPoint = new Point(dirListBounds.left + 1, startDoc.centerY());
+        Point startPoint = new Point(dirListBounds.right - 1, startDoc.centerY());
+
+        // Count the number of documents in the top row. This can differ based on the screen size so
+        // calculate it dynamically to avoid failing on different devices.
+        int docsInTopRow = 0;
+        for (DocumentInfo doc : createdDocs) {
+            Rect docBounds = bots.directory.findDocument(doc.displayName).getBounds();
+            if (docBounds.centerY() != startDoc.centerY()) {
+                break;
+            }
+            docsInTopRow++;
+        }
+
+        // Perform drag and assert that the number of docs in the top row is selected.
+        if (context.getResources().getConfiguration().getLayoutDirection()
+                == View.LAYOUT_DIRECTION_RTL) {
+            bots.gesture.bandSelection(endPoint, startPoint);
+        } else {
+            bots.gesture.bandSelection(startPoint, endPoint);
+        }
+        bots.directory.assertSelection(docsInTopRow);
     }
 }

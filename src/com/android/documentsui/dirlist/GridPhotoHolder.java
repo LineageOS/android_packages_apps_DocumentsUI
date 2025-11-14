@@ -21,6 +21,7 @@ import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFI
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
@@ -49,6 +50,8 @@ import com.android.modules.utils.build.SdkLevel;
 import java.util.Map;
 import java.util.function.Function;
 
+// TODO(b/379776735): remove this file after use_material3 flag is launched.
+// GridDocumentHolder is used for all types of grid items.
 final class GridPhotoHolder extends DocumentHolder {
 
     private final ImageView mIconMimeLg;
@@ -63,13 +66,13 @@ final class GridPhotoHolder extends DocumentHolder {
 
     GridPhotoHolder(Context context, ViewGroup parent, IconHelper iconHelper,
             ConfigStore configStore) {
-        super(context, parent, R.layout.item_photo_grid, configStore);
+        super(context, parent, getRes(R.layout.item_photo_grid), configStore);
 
-        mIconMimeLg = (ImageView) itemView.findViewById(R.id.icon_mime_lg);
-        mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
-        mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
-        mIconBadge = itemView.findViewById(R.id.icon_profile_badge);
-        mPreviewIcon = itemView.findViewById(R.id.preview_icon);
+        mIconMimeLg = (ImageView) itemView.findViewById(getRes(R.id.icon_mime_lg));
+        mIconThumb = (ImageView) itemView.findViewById(getRes(R.id.icon_thumb));
+        mIconCheck = (ImageView) itemView.findViewById(getRes(R.id.icon_check));
+        mIconBadge = itemView.findViewById(getRes(R.id.icon_profile_badge));
+        mPreviewIcon = itemView.findViewById(getRes(R.id.preview_icon));
 
         mIconHelper = iconHelper;
 
@@ -81,10 +84,13 @@ final class GridPhotoHolder extends DocumentHolder {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private void setUpdatableWorkProfileIcon(Context context) {
         DevicePolicyManager dpm = context.getSystemService(DevicePolicyManager.class);
-        Drawable drawable = dpm.getResources().getDrawable(
-                WORK_PROFILE_ICON, SOLID_NOT_COLORED, () ->
-                        context.getDrawable(R.drawable.ic_briefcase));
-        ImageView icon = (ImageView) mIconBadge.findViewById(R.id.icon_id);
+        Drawable drawable =
+                dpm.getResources()
+                        .getDrawable(
+                                WORK_PROFILE_ICON,
+                                SOLID_NOT_COLORED,
+                                () -> context.getDrawable(getRes(R.drawable.ic_briefcase)));
+        ImageView icon = (ImageView) mIconBadge.findViewById(getRes(R.id.icon_id));
 
         icon.setImageDrawable(drawable);
     }
@@ -143,7 +149,7 @@ final class GridPhotoHolder extends DocumentHolder {
         Map<UserId, Drawable> userIdToBadgeMap = DocumentsApplication.getUserManagerState(
                 mContext).getUserIdToBadgeMap();
         Drawable drawable = userIdToBadgeMap.get(UserId.of(userIdIdentifier));
-        ImageView icon = mIconBadge.findViewById(R.id.icon_id);
+        ImageView icon = mIconBadge.findViewById(getRes(R.id.icon_id));
         icon.setImageDrawable(drawable);
         mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
         mIconBadge.setContentDescription(mIconHelper.getProfileLabel(userIdIdentifier));
@@ -189,12 +195,7 @@ final class GridPhotoHolder extends DocumentHolder {
         mIconThumb.animate().cancel();
         mIconThumb.setAlpha(0f);
 
-        mIconHelper.load(
-                mDoc,
-                mIconThumb,
-                mIconMimeLg,
-                /* subIconMime= */ null,
-                /* thumbnailLoadedCallback= */ null);
+        mIconHelper.load(mDoc, mIconThumb, mIconMimeLg, /* subIconMime= */ null);
 
         final String docSize =
                 Formatter.formatFileSize(mContext, getCursorLong(cursor, Document.COLUMN_SIZE));

@@ -58,6 +58,7 @@ android_library {
         "androidx.test.espresso.core",
         "androidx.test.rules",
         "androidx.test.uiautomator_uiautomator",
+        "flag-junit",
         "mockito-target",
         "ub-janktesthelper",
     ],

@@ -26,7 +26,7 @@ class FlagUtils {
     companion object {
         @JvmStatic
         fun isUseMaterial3FlagEnabled(): Boolean {
-            return Flags.useMaterial3()
+            return Flags.useMaterial3() && Material3Config.getInstance().forceMaterial3 == true
         }
 
         @JvmStatic
@@ -40,6 +40,9 @@ class FlagUtils {
         }
 
         @JvmStatic
+        fun isSearchV2Enabled() = Flags.useSearchV2ReadOnly() && Flags.useMaterial3()
+
+        @JvmStatic
         fun isDesktopFileHandlingFlagEnabled(): Boolean {
             return Flags.desktopFileHandlingRo()
         }
@@ -50,13 +53,13 @@ class FlagUtils {
         }
 
         @JvmStatic
-        fun isHideRootsOnDesktopFlagEnabled(): Boolean {
-            return Flags.hideRootsOnDesktopRo()
+        fun isUsePeekPreviewFlagEnabled(): Boolean {
+            return Flags.usePeekPreviewRo() && isUseMaterial3FlagEnabled()
         }
 
         @JvmStatic
-        fun isUsePeekPreviewFlagEnabled(): Boolean {
-            return Flags.usePeekPreviewRo() && isUseMaterial3FlagEnabled()
+        fun isTrashFlowEnabled(): Boolean {
+            return Flags.enableTrashFlowRo()
         }
     }
 }

@@ -31,7 +31,6 @@ import androidx.recyclerview.selection.Selection;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
-import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
@@ -240,7 +239,13 @@ final class RuntimeDocumentClipper implements DocumentClipper {
             @Nullable ClipData clipData,
             FileOperations.Callback callback) {
 
-        DocumentStack dstStack = new DocumentStack(docStack, destination);
+        // In the case where a destination is actually a root, the docStack contains a single value
+        // of the root. We can avoid copying and recreating a new `DocumentStack` here as the
+        // `docStack` is sufficiently describing the destination.
+        DocumentStack dstStack =
+                (docStack != null && docStack.size() == 1 && docStack.get(0).equals(destination))
+                        ? docStack
+                        : new DocumentStack(docStack, destination);
         copyFromClipData(dstStack, clipData, callback);
     }
 

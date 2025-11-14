@@ -27,6 +27,7 @@ import androidx.recyclerview.selection.Selection;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -42,6 +43,8 @@ public final class DocsSelectionHelper extends SelectionTracker<String> {
     // See: b/69306667.
     private SelectionTracker<String> mDelegate = new StubSelectionTracker<>();
 
+    private Set<ResetObserver> mResetObservers = new HashSet<>();
+
     @VisibleForTesting
     DocsSelectionHelper(DelegateFactory factory) {
         mFactory = factory;
@@ -52,6 +55,40 @@ public final class DocsSelectionHelper extends SelectionTracker<String> {
             mDelegate.clearSelection();
         }
         mDelegate = mFactory.create(selectionTracker);
+        for (ResetObserver observer : mResetObservers) {
+            observer.onReset();
+        }
+    }
+
+    /**
+     * Observes when the DocsSelectionHelper gets reset (this happens on every initialization and
+     * re-initialization).
+     */
+    public abstract static class ResetObserver {
+        /**
+         * Called when the DocsSelectionHelper resets.
+         */
+        public void onReset() {
+        }
+    }
+
+    /**
+     * Adds a ResetObserver.
+     * @param observer
+     */
+    public void addResetObserver(ResetObserver observer) {
+        if (mResetObservers.contains(observer)) {
+            return;
+        }
+        mResetObservers.add(observer);
+    }
+
+    /**
+     * Removes a ResetObserver.
+     * @param observer
+     */
+    public void removeResetObserver(ResetObserver observer) {
+        mResetObservers.remove(observer);
     }
 
     @Override

@@ -119,6 +119,7 @@ public class TestEnv {
             if (!mockProviders.containsKey(root.authority)) {
                 Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
                 TestDocumentsProvider provider = new TestDocumentsProvider(context, root.authority);
+                provider.setSupportsSearchResultLimit(root.supportsSearchResultLimit());
                 contentResolver.addProvider(root.authority, provider);
                 mockProviders.put(root.authority, provider);
             }

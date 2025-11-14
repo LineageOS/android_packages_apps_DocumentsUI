@@ -15,11 +15,16 @@
  */
 package com.android.documentsui.ui;
 
-import androidx.annotation.PluralsRes;
+import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_CONVERTED;
+import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_FAILURE;
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
-import android.text.BidiFormatter;
 import android.net.Uri;
+import android.text.BidiFormatter;
 import android.text.Html;
+
+import androidx.annotation.PluralsRes;
 
 import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.R;
@@ -27,11 +32,8 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
-import com.android.documentsui.OperationDialogFragment.DialogType;
 
-import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_FAILURE;
-import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_CONVERTED;
-
+import java.io.File;
 import java.util.List;
 
 public class MessageBuilder {
@@ -58,53 +60,66 @@ public class MessageBuilder {
             // Address b/28772371, where including user strings in message can result in
             // broken bidirectional support.
             String displayName = BidiFormatter.getInstance().unicodeWrap(docs.get(0).displayName);
-            message = dirsCount == 0
-                    ? mContext.getString(R.string.delete_filename_confirmation_message,
-                            displayName)
-                    : mContext.getString(R.string.delete_foldername_confirmation_message,
-                            displayName);
+            message =
+                    dirsCount == 0
+                            ? mContext.getString(
+                                    getRes(R.string.delete_filename_confirmation_message),
+                                    displayName)
+                            : mContext.getString(
+                                    getRes(R.string.delete_foldername_confirmation_message),
+                                    displayName);
         } else if (dirsCount == 0) {
             // Deleting only files in cwd
-            message = Shared.getQuantityString(mContext,
-                    R.plurals.delete_files_confirmation_message, docs.size());
+            message =
+                    Shared.getQuantityString(
+                            mContext,
+                            getRes(R.plurals.delete_files_confirmation_message),
+                            docs.size());
         } else if (dirsCount == docs.size()) {
             // Deleting only folders in cwd
-            message = Shared.getQuantityString(mContext,
-                    R.plurals.delete_folders_confirmation_message, docs.size());
+            message =
+                    Shared.getQuantityString(
+                            mContext,
+                            getRes(R.plurals.delete_folders_confirmation_message),
+                            docs.size());
         } else {
             // Deleting mixed items (files and folders) in cwd
-            message = Shared.getQuantityString(mContext,
-                    R.plurals.delete_items_confirmation_message, docs.size());
+            message =
+                    Shared.getQuantityString(
+                            mContext,
+                            getRes(R.plurals.delete_items_confirmation_message),
+                            docs.size());
         }
         return message;
     }
 
     public String generateListMessage(
             @DialogType int dialogType, @OpType int operationType, List<DocumentInfo> docs,
-            List<Uri> uris) {
+            List<Uri> uris, List<String> paths) {
         int resourceId;
 
         switch (dialogType) {
             case DIALOG_TYPE_CONVERTED:
-                resourceId = R.plurals.copy_converted_warning_content;
+                resourceId = getRes(R.plurals.copy_converted_warning_content);
                 break;
 
             case DIALOG_TYPE_FAILURE:
                 switch (operationType) {
                     case FileOperationService.OPERATION_COPY:
-                        resourceId = R.plurals.copy_failure_alert_content;
+                        resourceId = getRes(R.plurals.copy_failure_alert_content);
                         break;
                     case FileOperationService.OPERATION_COMPRESS:
-                        resourceId = R.plurals.compress_failure_alert_content;
+                        resourceId = getRes(R.plurals.compress_failure_alert_content);
                         break;
                     case FileOperationService.OPERATION_EXTRACT:
-                        resourceId = R.plurals.extract_failure_alert_content;
+                    case FileOperationService.OPERATION_UNPACK:
+                        resourceId = getRes(R.plurals.extract_failure_alert_content);
                         break;
                     case FileOperationService.OPERATION_DELETE:
-                        resourceId = R.plurals.delete_failure_alert_content;
+                        resourceId = getRes(R.plurals.delete_failure_alert_content);
                         break;
                     case FileOperationService.OPERATION_MOVE:
-                        resourceId = R.plurals.move_failure_alert_content;
+                        resourceId = getRes(R.plurals.move_failure_alert_content);
                         break;
                     default:
                         throw new UnsupportedOperationException();
@@ -116,16 +131,32 @@ public class MessageBuilder {
         }
 
         final StringBuilder list = new StringBuilder("<p>");
-        for (DocumentInfo documentInfo : docs) {
-            list.append("&#8226; " + Html.escapeHtml(BidiFormatter.getInstance().unicodeWrap(
-                    documentInfo.displayName)) + "<br>");
-        }
-        if (uris != null) {
-            for (Uri uri : uris) {
-                list.append("&#8226; " + BidiFormatter.getInstance().unicodeWrap(uri.toSafeString()) +
-                        "<br>");
+        final BidiFormatter bdf = BidiFormatter.getInstance();
+
+        if (docs != null) {
+            for (DocumentInfo doc : docs) {
+                list.append("&#8226; ");
+                list.append(Html.escapeHtml(bdf.unicodeWrap(doc.displayName)));
+                list.append("<br>");
             }
         }
+
+        if (uris != null) {
+            for (Uri uri : uris) {
+                list.append("&#8226; ");
+                list.append(Html.escapeHtml(bdf.unicodeWrap(uri.toSafeString())));
+                list.append("<br>");
+            }
+        }
+
+        if (paths != null) {
+            for (String path : paths) {
+                list.append("&#8226; ");
+                list.append(Html.escapeHtml(bdf.unicodeWrap(new File(path).getName())));
+                list.append("<br>");
+            }
+        }
+
         list.append("</p>");
 
         final int totalItems = docs.size() + (uris != null ? uris.size() : 0);

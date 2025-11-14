@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2025 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/JobProgressItemCardStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/job_progress_list_margin">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/job_progress_item_title"
+            style="@style/JobProgressItemTitleStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/job_progress_item_padding"
+            android:layout_marginStart="@dimen/job_progress_item_padding"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/job_progress_item_expand"
+            app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/job_progress_item_expand"
+            style="@style/JobProgressItemExpandButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/job_progress_item_expand_margin_start"
+            android:layout_marginEnd="@dimen/job_progress_item_padding"
+            app:layout_constraintStart_toEndOf="@id/job_progress_item_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/job_progress_item_title" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/job_progress_item_header_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="job_progress_item_title,job_progress_item_expand" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/job_progress_item_progress"
+            style="@style/JobProgressItemProgressStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/job_progress_item_progress_margin_top"
+            app:layout_constraintStart_toStartOf="@id/job_progress_item_title"
+            app:layout_constraintEnd_toEndOf="@id/job_progress_item_expand"
+            app:layout_constraintTop_toBottomOf="@id/job_progress_item_header_barrier"
+            app:layout_constraintHorizontal_bias="0" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/job_progress_item_primary_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/JobProgressItemStatusText"
+            app:layout_constraintStart_toStartOf="@id/job_progress_item_progress"
+            app:layout_constraintTop_toBottomOf="@id/job_progress_item_progress" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/job_progress_item_status_separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/job_progress_item_status_separator_margin"
+            android:text="@string/bullet"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintStart_toEndOf="@id/job_progress_item_primary_status"
+            app:layout_constraintTop_toBottomOf="@id/job_progress_item_progress" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/job_progress_item_secondary_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/job_progress_item_status_separator_margin"
+            android:textAppearance="@style/JobProgressItemStatusText"
+            app:layout_constraintStart_toEndOf="@+id/job_progress_item_status_separator"
+            app:layout_constraintTop_toBottomOf="@+id/job_progress_item_progress" />
+
+        <!-- Used to provide a bottom margin when all buttons are hidden. -->
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/job_progress_item_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/job_progress_item_primary_status" />
+        <!-- Used to provide a consistent margin regardless of which button is displayed. -->
+        <Space
+            android:id="@+id/job_progress_item_button_margin"
+            android:layout_width="@dimen/job_progress_item_buttons_margin_start"
+            android:layout_height="@dimen/job_progress_item_buttons_margin_top"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/job_progress_item_primary_status" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/job_progress_item_cancel"
+            style="@style/JobProgressItemActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@android:string/cancel"
+            app:layout_constraintStart_toEndOf="@id/job_progress_item_button_margin"
+            app:layout_constraintTop_toBottomOf="@id/job_progress_item_button_margin" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/job_progress_item_show_in_folder"
+            style="@style/JobProgressItemActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_show_in_folder"
+            app:layout_constraintStart_toEndOf="@id/job_progress_item_cancel"
+            app:layout_constraintTop_toTopOf="@id/job_progress_item_cancel" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/job_progress_item_dismiss"
+            style="@style/JobProgressItemActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_dismiss"
+            app:layout_constraintStart_toEndOf="@id/job_progress_item_show_in_folder"
+            app:layout_constraintTop_toTopOf="@id/job_progress_item_show_in_folder" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -16,6 +16,7 @@
 package com.android.documentsui.files;
 
 import static com.android.documentsui.base.SharedMinimal.TAG;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -84,8 +85,10 @@ public class DeleteDocumentFragment extends DialogFragment {
         Context context = getActivity();
         Injector<?> injector = ((FilesActivity) getActivity()).getInjector();
         LayoutInflater dialogInflater = LayoutInflater.from(context);
-        TextView message = (TextView) dialogInflater.inflate(
-                R.layout.dialog_delete_confirmation, null, false);
+        TextView message =
+                (TextView)
+                        dialogInflater.inflate(
+                                getRes(R.layout.dialog_delete_confirmation), null, false);
         message.setText(injector.messages.generateDeleteMessage(mDocuments));
 
         final AlertDialog alertDialog = new MaterialAlertDialogBuilder(context)

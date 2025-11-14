@@ -17,6 +17,8 @@ package com.android.documentsui.inspector.actions;
 
 import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 
@@ -45,12 +47,12 @@ public final class ShowInProviderAction extends Action {
      */
     @Override
     public String getHeader() {
-        return mContext.getString(R.string.handler_app_belongs_to);
+        return mContext.getString(getRes(R.string.handler_app_belongs_to));
     }
 
     @Override
     public int getButtonIcon() {
-        return R.drawable.ic_action_open;
+        return getRes(R.drawable.ic_action_open);
     }
 
     /**
@@ -71,6 +73,6 @@ public final class ShowInProviderAction extends Action {
     }
 
     public @StringRes int getButtonLabel() {
-        return R.string.button_show_provider;
+        return getRes(R.string.button_show_provider);
     }
 }

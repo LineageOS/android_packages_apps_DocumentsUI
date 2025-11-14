@@ -84,6 +84,15 @@ public class TestRecyclerView extends RecyclerView {
         adapter.updateTestModelIds(modelIds);
     }
 
+    /**
+     * Set the measured width and height of the View.
+     * @param measuredWidth
+     * @param measuredHeight
+     */
+    public void setMeasuredWithAndHeight(int measuredWidth, int measuredHeight) {
+        setMeasuredDimension(measuredWidth, measuredHeight);
+    }
+
     public static TestRecyclerView create(List<String> modelIds) {
         final TestRecyclerView view =
                 new TestRecyclerView(InstrumentationRegistry.getTargetContext());

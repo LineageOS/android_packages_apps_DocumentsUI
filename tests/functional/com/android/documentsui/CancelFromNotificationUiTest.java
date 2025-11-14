@@ -159,7 +159,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         bots.main.clickToolbarOverflowItem(context.getResources().getString(R.string.menu_copy));
         device.waitForIdle();
 
-        bots.main.clickDialogCancelButton();
+        bots.main.clickDialogCancelButton(/* closeSoftKeyboard */ false);
         device.waitForIdle();
 
         bots.directory.waitForDocument(TARGET_FILE);
@@ -178,7 +178,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         device.waitForIdle();
 
         bots.roots.openRoot(ROOT_1_ID);
-        bots.main.clickDialogOkButton();
+        bots.main.clickDialogOkButton(/* closeSoftKeyboard */ false);
         device.waitForIdle();
 
         try {
@@ -211,7 +211,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         bots.main.clickToolbarOverflowItem(context.getResources().getString(R.string.menu_move));
         device.waitForIdle();
 
-        bots.main.clickDialogCancelButton();
+        bots.main.clickDialogCancelButton(/* closeSoftKeyboard */ false);
         device.waitForIdle();
 
         bots.directory.waitForDocument(TARGET_FILE);
@@ -233,7 +233,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         device.waitForIdle();
 
         bots.roots.openRoot(ROOT_1_ID);
-        bots.main.clickDialogOkButton();
+        bots.main.clickDialogOkButton(/* closeSoftKeyboard */ false);
         device.waitForIdle();
 
         try {

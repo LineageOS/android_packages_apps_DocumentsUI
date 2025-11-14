@@ -18,14 +18,19 @@ package com.android.documentsui.sidebar;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import android.platform.test.annotations.RequiresFlagsEnabled;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.MediumTest;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.UserId;
+import com.android.documentsui.flags.Flags;
+import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
 import com.android.documentsui.testing.TestProvidersAccess;
 
 import com.google.common.collect.Lists;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -62,6 +67,9 @@ public class RootItemListBuilderTest {
             new RootItem(TestProvidersAccess.OtherUser.PICKLES, null, false);
 
     private RootItemListBuilder mBuilder;
+
+    @Rule
+    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
 
     @Test
     public void testGetList_empty() {
@@ -179,5 +187,23 @@ public class RootItemListBuilderTest {
                 RootItem.createStubItem(HOME_DEFAULT_USER, TestProvidersAccess.OtherUser.USER_ID),
                 IMAGE_OTHER_USER,
                 PICKLES_DEFAULT_USER));
+    }
+
+    @Test
+    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    public void testGetList_twoUsers_secondUserFillsUpNonMatchingNavRailRoots() {
+        // NavRailRootItem can only be initialized when use_material3 flag is ON, because the
+        // underlying layout doesn't exist when the flag is OFF.
+        final NavRailRootItem videoRootForDefaultUser =
+                new NavRailRootItem(TestProvidersAccess.VIDEO, null, false);
+        mBuilder = new RootItemListBuilder(TestProvidersAccess.OtherUser.USER_ID,
+                Lists.newArrayList(UserId.DEFAULT_USER, TestProvidersAccess.OtherUser.USER_ID));
+
+        mBuilder.add(videoRootForDefaultUser); // support multi-profile
+
+        List<RootItem> result = mBuilder.getList();
+        assertThat(result).containsExactlyElementsIn(Lists.newArrayList(
+                NavRailRootItem.createStubItem(
+                        videoRootForDefaultUser, TestProvidersAccess.OtherUser.USER_ID)));
     }
 }

@@ -17,6 +17,7 @@
 package com.android.documentsui.prefs;
 
 import static com.android.documentsui.base.State.MODE_UNKNOWN;
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -36,10 +37,14 @@ import java.lang.annotation.RetentionPolicy;
  */
 public class LocalPreferences {
     private static final String ROOT_VIEW_MODE_PREFIX = "rootViewMode-";
+    private static final String VIEW_MODE_STATE = "viewModeState";
     private static final String SHOW_HIDDEN_FILES = "showHiddenFiles";
 
     public static @ViewMode int getViewMode(Context context, RootInfo root,
             @ViewMode int fallback) {
+        if (isUseMaterial3FlagEnabled()) {
+            return getPrefs(context).getInt(VIEW_MODE_STATE, fallback);
+        }
         return getPrefs(context).getInt(createKey(ROOT_VIEW_MODE_PREFIX, root), fallback);
     }
 
@@ -50,7 +55,13 @@ public class LocalPreferences {
 
     public static void setViewMode(Context context, RootInfo root, @ViewMode int viewMode) {
         assert(viewMode != MODE_UNKNOWN);
-        getPrefs(context).edit().putInt(createKey(ROOT_VIEW_MODE_PREFIX, root), viewMode).apply();
+        if (isUseMaterial3FlagEnabled()) {
+            getPrefs(context).edit().putInt(VIEW_MODE_STATE, viewMode).apply();
+        } else {
+            getPrefs(context).edit()
+                    .putInt(createKey(ROOT_VIEW_MODE_PREFIX, root), viewMode)
+                    .apply();
+        }
     }
 
     /** Sets if hidden files should be shown. */

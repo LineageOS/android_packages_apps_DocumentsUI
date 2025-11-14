@@ -73,7 +73,7 @@ public class SortBot extends Bots.BaseBot {
         final @StringRes int labelId = mSortModel.getDimensionById(id).getLabelId();
         final String label = mContext.getString(labelId);
         final boolean result;
-        if (isHeaderShow()) {
+        if (isSortHeaderShown(label)) {
             result = mColumnBot.sortBy(label, direction);
         } else {
             result = sortByMenu(id, direction);
@@ -82,8 +82,10 @@ public class SortBot extends Bots.BaseBot {
         assertTrue("Sorting by id: " + id + " in direction: " + direction + " failed.", result);
     }
 
-    public boolean isHeaderShow() {
-        return Matchers.present(ColumnSortBot.MATCHER);
+    /** Check if the appropriate sort header is shown */
+    public boolean isSortHeaderShown(String label) {
+        return Matchers.present(
+                allOf(withChild(withText(label)), isDescendantOfA(ColumnSortBot.MATCHER)));
     }
 
     public void assertHeaderHide() {

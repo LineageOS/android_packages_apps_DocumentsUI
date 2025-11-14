@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -36,8 +37,9 @@ final class TransparentDividerDocumentHolder extends MessageHolder {
     TransparentDividerDocumentHolder(Context context, ConfigStore configStore) {
         super(context, new Space(context), configStore);
 
-        mVisibleHeight = context.getResources().getDimensionPixelSize(
-                R.dimen.grid_section_separator_height);
+        mVisibleHeight =
+                context.getResources()
+                        .getDimensionPixelSize(getRes(R.dimen.grid_section_separator_height));
     }
 
     public void bind(State state) {

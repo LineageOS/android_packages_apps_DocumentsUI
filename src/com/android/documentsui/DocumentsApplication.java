@@ -43,6 +43,7 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.queries.SearchHistoryManager;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.theme.ThemeOverlayManager;
+import com.android.documentsui.util.Material3Config;
 import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
@@ -166,9 +167,20 @@ public class DocumentsApplication extends Application {
         Log.d(TAG, "OverlayManager.setEnabled() result: " + result);
     }
 
+    /**
+     * Initializes configurations for Material3.
+     *
+     * <p>NOTE: It initializes even when the flag is disabled.
+     */
+    private void initializeMaterial3Config() {
+        Material3Config.getInstance()
+                .setForceMaterial3(getResources().getBoolean(R.bool.force_material3));
+    }
+
     @SuppressLint("NewApi") // OverlayManager.class is @hide
     @Override
     public void onCreate() {
+        initializeMaterial3Config();
         super.onCreate();
         synchronized (DocumentsApplication.class) {
             if (sConfigStore == null) {

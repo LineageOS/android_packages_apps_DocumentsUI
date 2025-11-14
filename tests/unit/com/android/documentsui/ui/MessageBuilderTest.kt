@@ -213,6 +213,7 @@ open class MessageBuilderTest() {
                     testData.opType,
                     listOf(createFile("File 1")),
                     listOf(Uri.parse("content://random-uri")),
+                    listOf("/a/path")
                 ),
                 EXPECTED_MESSAGE
             )

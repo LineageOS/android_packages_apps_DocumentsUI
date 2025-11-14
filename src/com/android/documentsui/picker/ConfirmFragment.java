@@ -17,6 +17,7 @@
 package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.Shared.getCallingAppName;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -69,9 +70,10 @@ public class ConfirmFragment extends DialogFragment {
         final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         switch (mType) {
             case TYPE_OVERWRITE:
-                String message = String.format(
-                        getString(R.string.overwrite_file_confirmation_message),
-                        mTarget.displayName);
+                String message =
+                        String.format(
+                                getString(getRes(R.string.overwrite_file_confirmation_message)),
+                                mTarget.displayName);
                 builder.setMessage(message);
                 builder.setPositiveButton(
                         android.R.string.ok,
@@ -84,15 +86,21 @@ public class ConfirmFragment extends DialogFragment {
                 final Uri treeUri = mTarget.getTreeDocumentUri();
                 final BaseActivity activity = (BaseActivity) getActivity();
                 final String target = activity.getCurrentTitle();
-                final String text = getString(R.string.open_tree_dialog_title,
-                        getCallingAppName(getActivity()), target);
-                message = getString(R.string.open_tree_dialog_message,
-                        getCallingAppName(getActivity()), target);
+                final String text =
+                        getString(
+                                getRes(R.string.open_tree_dialog_title),
+                                getCallingAppName(getActivity()),
+                                target);
+                message =
+                        getString(
+                                getRes(R.string.open_tree_dialog_message),
+                                getCallingAppName(getActivity()),
+                                target);
 
                 builder.setTitle(text);
                 builder.setMessage(message);
                 builder.setPositiveButton(
-                        R.string.allow,
+                        getRes(R.string.allow),
                         (DialogInterface dialog, int id) -> {
                             pickResult.increaseActionCount();
                             mActions.finishPicking(treeUri);

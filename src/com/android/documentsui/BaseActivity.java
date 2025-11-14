@@ -19,8 +19,10 @@ package com.android.documentsui;
 import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.State.MODE_GRID;
+import static com.android.documentsui.util.FlagUtils.isSearchV2Enabled;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
-import static com.android.documentsui.util.FlagUtils.isUsePeekPreviewFlagEnabled;
+import static com.android.documentsui.util.FlagUtils.isVisualSignalsFlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +31,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.MessageQueue.IdleHandler;
 import android.preference.PreferenceManager;
@@ -50,6 +51,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ActionMenuView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
@@ -66,7 +68,6 @@ import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.peek.PeekViewManager;
 import com.android.documentsui.prefs.LocalPreferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.queries.CommandInterceptor;
@@ -98,7 +99,6 @@ public abstract class BaseActivity
 
     protected SearchViewManager mSearchManager;
     protected AppsRowManager mAppsRowManager;
-    protected @Nullable PeekViewManager mPeekViewManager;
     protected UserIdManager mUserIdManager;
     protected UserManagerState mUserManagerState;
     protected State mState;
@@ -202,7 +202,7 @@ public abstract class BaseActivity
         // ToDo Create tool to check resource version before applyStyle for the theme
         // If version code is not match, we should reset overlay package to default,
         // in case Activity continuously encounter resource not found exception.
-        getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
+        getTheme().applyStyle(getRes(R.style.DocumentsDefaultTheme), false);
 
         if (isUseMaterial3FlagEnabled() && SdkLevel.isAtLeastS()) {
             DynamicColors.applyToActivityIfAvailable(this);
@@ -226,10 +226,10 @@ public abstract class BaseActivity
         Metrics.logActivityLaunch(mState, intent);
 
         if (isUseMaterial3FlagEnabled()) {
-            View navRailRoots = findViewById(R.id.nav_rail_container_roots);
+            View navRailRoots = findViewById(getRes(R.id.nav_rail_container_roots));
             if (navRailRoots != null) {
                 // Bind event listener for the burger menu on nav rail.
-                MaterialButton burgerMenu = findViewById(R.id.nav_rail_burger_menu);
+                MaterialButton burgerMenu = findViewById(getRes(R.id.nav_rail_burger_menu));
                 burgerMenu.setOnClickListener(v -> mDrawer.setOpen(true));
                 burgerMenu.setOnFocusChangeListener(this::onBurgerMenuFocusChange);
             }
@@ -238,16 +238,16 @@ public abstract class BaseActivity
         mProviders = DocumentsApplication.getProvidersCache(this);
         mDocs = DocumentsAccess.create(this, mState);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(getRes(R.id.toolbar));
         setSupportActionBar(toolbar);
 
-        Breadcrumb breadcrumb = findViewById(R.id.horizontal_breadcrumb);
+        Breadcrumb breadcrumb = findViewById(getRes(R.id.horizontal_breadcrumb));
         assert (breadcrumb != null);
-        View profileTabsContainer = findViewById(R.id.tabs_container);
+        View profileTabsContainer = findViewById(getRes(R.id.tabs_container));
         assert (profileTabsContainer != null);
 
         mNavigator = getNavigationViewManager(breadcrumb, profileTabsContainer);
-        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        AppBarLayout appBarLayout = findViewById(getRes(R.id.app_bar));
         if (appBarLayout != null) {
             appBarLayout.addOnOffsetChangedListener(mNavigator);
         }
@@ -277,6 +277,13 @@ public abstract class BaseActivity
             }
 
             @Override
+            public void onSearchStarting() {
+                if (isSearchV2Enabled()) {
+                    mInjector.getModel().setLoading(true);
+                }
+            }
+
+            @Override
             public void onSearchFinished() {
                 // Restores menu icons state
                 invalidateOptionsMenu();
@@ -301,6 +308,11 @@ public abstract class BaseActivity
                 // We also need to update AppsRowManager because we may want to show/hide the
                 // appsRow in cross-profile search according to the searching conditions.
                 mAppsRowManager.updateView(BaseActivity.this);
+
+                if (isUseMaterial3FlagEnabled()) {
+                    // Whenever a search chip is clicked, close the navigation bar.
+                    mInjector.selectionBarController.closeSelectionBar();
+                }
             }
 
             @Override
@@ -342,7 +354,11 @@ public abstract class BaseActivity
                         mInjector.debugHelper::toggleDebugMode,
                         cmdInterceptor);
 
-        ViewGroup chipGroup = findViewById(R.id.search_chip_group);
+        ViewGroup chipGroup = findViewById(getRes(R.id.search_chip_group));
+        View searchOptionsView = null;
+        if (isUseMaterial3FlagEnabled()) {
+            searchOptionsView = findViewById(getRes(R.id.search_options_row));
+        }
 
         mUserIdManager = DocumentsApplication.getUserIdManager(this);
         mUserManagerState = DocumentsApplication.getUserManagerState(this);
@@ -353,7 +369,7 @@ public abstract class BaseActivity
             mUserManagerState.setCurrentStateIntent(intent);
         }
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
-                chipGroup, savedInstanceState);
+                chipGroup, searchOptionsView, savedInstanceState);
         // initialize the chip sets by accept mime types
         mSearchManager.initChipSets(mState.acceptMimes);
         // update the chip items by the mime types of the root
@@ -418,7 +434,7 @@ public abstract class BaseActivity
 
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
         if (isUseMaterial3FlagEnabled()) {
-            View previewIconPlaceholder = findViewById(R.id.preview_icon_placeholder);
+            View previewIconPlaceholder = findViewById(getRes(R.id.preview_icon_placeholder));
             if (previewIconPlaceholder != null) {
                 previewIconPlaceholder.setVisibility(
                         mState.shouldShowPreview() ? View.VISIBLE : View.GONE);
@@ -434,11 +450,6 @@ public abstract class BaseActivity
         // Base classes must update result in their onCreate.
         setResult(AppCompatActivity.RESULT_CANCELED);
         updateRecentsSetting();
-
-        if (isUsePeekPreviewFlagEnabled()) {
-            mPeekViewManager = new PeekViewManager(this);
-            mPeekViewManager.initFragment(getSupportFragmentManager());
-        }
     }
 
     private NavigationViewManager getNavigationViewManager(Breadcrumb breadcrumb,
@@ -452,8 +463,7 @@ public abstract class BaseActivity
                     breadcrumb,
                     profileTabsContainer,
                     DocumentsApplication.getUserManagerState(this),
-                    mConfigStore,
-                    mInjector);
+                    mConfigStore);
         }
         return new NavigationViewManager(
                 this,
@@ -463,8 +473,7 @@ public abstract class BaseActivity
                 breadcrumb,
                 profileTabsContainer,
                 DocumentsApplication.getUserIdManager(this),
-                mConfigStore,
-                mInjector);
+                mConfigStore);
     }
 
     public void onPreferenceChanged(String pref) {
@@ -480,7 +489,7 @@ public abstract class BaseActivity
 
         Runnable finishActionMode =
                 (isUseMaterial3FlagEnabled())
-                        ? mNavigator::closeSelectionBar
+                        ? mInjector.selectionBarController::closeSelectionBar
                         : mInjector.actionModeController::finishActionMode;
 
         mRootsMonitor =
@@ -504,27 +513,22 @@ public abstract class BaseActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (isUseMaterial3FlagEnabled()) {
-            // In Material3 the menu is now inflated in the `NavigationViewMenu`. This is currently
-            // to allow for us to inflate between the action_menu and the activity menu. Once the
-            // Material 3 flag is removed, the menus will be merged and we can rely on this single
-            // inflation point.
-            return super.onCreateOptionsMenu(menu);
-        }
         boolean showMenu = super.onCreateOptionsMenu(menu);
 
-        getMenuInflater().inflate(R.menu.activity, menu);
+        getMenuInflater().inflate(getRes(R.menu.activity), menu);
         mNavigator.update();
-        boolean fullBarSearch = getResources().getBoolean(R.bool.full_bar_search_view);
-        boolean showSearchBar = getResources().getBoolean(R.bool.show_search_bar);
-        mSearchManager.install(menu, fullBarSearch, showSearchBar);
+        boolean fullBarSearch = getResources().getBoolean(getRes(R.bool.full_bar_search_view));
+        boolean showSearchBar = isUseMaterial3FlagEnabled() ? false : getResources().getBoolean(
+                R.bool.show_search_bar);
+        boolean showDockedSearch = getResources().getBoolean(R.bool.show_docked_search);
+        mSearchManager.install(menu, fullBarSearch, showSearchBar, showDockedSearch);
 
         // Remove the subMenu when material3 is launched b/379776735.
-        final ActionMenuView subMenuView = findViewById(R.id.sub_menu);
+        final ActionMenuView subMenuView = findViewById(getRes(R.id.sub_menu));
         // If size is 0, it means the menu has not inflated and it should only do once.
         if (subMenuView != null && subMenuView.getMenu().size() == 0) {
             subMenuView.setOnMenuItemClickListener(this::onOptionsItemSelected);
-            getMenuInflater().inflate(R.menu.sub_menu, subMenuView.getMenu());
+            getMenuInflater().inflate(getRes(R.menu.sub_menu), subMenuView.getMenu());
         }
 
         return showMenu;
@@ -534,15 +538,18 @@ public abstract class BaseActivity
     @CallSuper
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        mSearchManager.showMenu(mState.stack);
+
         // Remove the subMenu when material3 is launched b/379776735.
         if (isUseMaterial3FlagEnabled()) {
-            if (mNavigator != null) {
-                mNavigator.updateActionMenu();
-            }
+            mInjector.menuManager.updateSubMenu(null);
         } else {
-            mSearchManager.showMenu(mState.stack);
-            final ActionMenuView subMenuView = findViewById(R.id.sub_menu);
+            final ActionMenuView subMenuView = findViewById(getRes(R.id.sub_menu));
             mInjector.menuManager.updateSubMenu(subMenuView.getMenu());
+        }
+
+        if (isVisualSignalsFlagEnabled()) {
+            mInjector.menuManager.instantiateJobProgress(menu);
         }
 
         return true;
@@ -593,7 +600,7 @@ public abstract class BaseActivity
     }
 
     private void setContainer() {
-        View root = findViewById(R.id.coordinator_layout);
+        View root = findViewById(getRes(R.id.coordinator_layout));
         root.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         root.setOnApplyWindowInsetsListener(
@@ -604,32 +611,28 @@ public abstract class BaseActivity
                             insets.getSystemWindowInsetRight(),
                             0);
 
-                    // When use_material3 flag is ON and FEATURE_FREEFORM_WINDOW_MANAGEMENT is
-                    // enabled, then there should not be any additional bottom gap in full screen
-                    // mode. Otherwise need to take into account the system window insets such as
-                    // the bottom swipe up navigation gesture.
-                    if (!isUseMaterial3FlagEnabled()
-                            || !getApplicationContext()
-                            .getPackageManager()
-                            .hasSystemFeature(
-                                    PackageManager.FEATURE_FREEFORM_WINDOW_MANAGEMENT)) {
-                        View saveContainer = findViewById(R.id.container_save);
+                    boolean isNavBarVisible =
+                            insets.isVisible(WindowInsetsCompat.Type.navigationBars());
+                    if (isNavBarVisible) {
+                        View saveContainer = findViewById(getRes(R.id.container_save));
                         saveContainer.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
 
-                        View rootsContainer = findViewById(R.id.container_roots);
+                        View rootsContainer = findViewById(getRes(R.id.container_roots));
                         rootsContainer.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
+
+                        View navRailContainer = findViewById(R.id.nav_rail_container_roots);
+                        if (navRailContainer != null) {
+                            navRailContainer.setPadding(
+                                    0, 0, 0, insets.getSystemWindowInsetBottom());
+                        }
                     }
 
                     return insets.consumeSystemWindowInsets();
                 });
 
         getWindow().setNavigationBarDividerColor(Color.TRANSPARENT);
-        if (Build.VERSION.SDK_INT >= 29) {
-            getWindow().setNavigationBarColor(Color.TRANSPARENT);
-            getWindow().setNavigationBarContrastEnforced(true);
-        } else {
-            getWindow().setNavigationBarColor(getColor(R.color.nav_bar_translucent));
-        }
+        getWindow().setNavigationBarColor(Color.TRANSPARENT);
+        getWindow().setNavigationBarContrastEnforced(true);
     }
 
     @Override
@@ -654,7 +657,7 @@ public abstract class BaseActivity
         }
 
         if (isUseMaterial3FlagEnabled()) {
-            mNavigator.closeSelectionBar();
+            mInjector.selectionBarController.closeSelectionBar();
         } else {
             mInjector.actionModeController.finishActionMode();
         }
@@ -696,31 +699,31 @@ public abstract class BaseActivity
         if (id == android.R.id.home) {
             onBackPressed();
             return true;
-        } else if (id == R.id.option_menu_create_dir) {
+        } else if (id == getRes(R.id.option_menu_create_dir)) {
             getInjector().actions.showCreateDirectoryDialog();
             return true;
-        } else if (id == R.id.option_menu_search) {
+        } else if (id == getRes(R.id.option_menu_search)) {
             // SearchViewManager listens for this directly.
             return false;
-        } else if (id == R.id.option_menu_select_all) {
+        } else if (id == getRes(R.id.option_menu_select_all)) {
             getInjector().actions.selectAllFiles();
             return true;
-        } else if (id == R.id.option_menu_debug) {
+        } else if (id == getRes(R.id.option_menu_debug)) {
             getInjector().actions.showDebugMessage();
             return true;
-        } else if (id == R.id.option_menu_sort) {
+        } else if (id == getRes(R.id.option_menu_sort)) {
             getInjector().actions.showSortDialog();
             return true;
-        } else if (id == R.id.option_menu_launcher) {
+        } else if (id == getRes(R.id.option_menu_launcher)) {
             getInjector().actions.switchLauncherIcon();
             return true;
-        } else if (id == R.id.option_menu_show_hidden_files) {
+        } else if (id == getRes(R.id.option_menu_show_hidden_files)) {
             onClickedShowHiddenFiles();
             return true;
-        } else if (id == R.id.sub_menu_grid) {
+        } else if (id == getRes(R.id.sub_menu_grid)) {
             setViewMode(MODE_GRID);
             return true;
-        } else if (id == R.id.sub_menu_list) {
+        } else if (id == getRes(R.id.sub_menu_list)) {
             setViewMode(State.MODE_LIST);
             return true;
         }
@@ -803,7 +806,7 @@ public abstract class BaseActivity
             }
         }
 
-        String appName = getString(R.string.files_label);
+        String appName = getString(getRes(R.string.files_label));
         String currentTitle = getTitle() != null ? getTitle().toString() : "";
         if (currentTitle.equals(appName)) {
             // First launch, TalkBack announces app name.
@@ -882,7 +885,7 @@ public abstract class BaseActivity
         if (isUseMaterial3FlagEnabled()) {
             mInjector.menuManager.updateSubMenu(null);
         } else {
-            final ActionMenuView subMenuView = findViewById(R.id.sub_menu);
+            final ActionMenuView subMenuView = findViewById(getRes(R.id.sub_menu));
             mInjector.menuManager.updateSubMenu(subMenuView.getMenu());
         }
 
@@ -905,7 +908,7 @@ public abstract class BaseActivity
     }
 
     public void expandAppBar() {
-        final AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        final AppBarLayout appBarLayout = findViewById(getRes(R.id.app_bar));
         if (appBarLayout != null) {
             appBarLayout.setExpanded(true);
         }
@@ -918,7 +921,7 @@ public abstract class BaseActivity
      */
     public void updateHeader(boolean shouldHideHeader) {
         // Remove headContainer when material3 is launched. b/379776735.
-        View headerContainer = findViewById(R.id.header_container);
+        View headerContainer = findViewById(getRes(R.id.header_container));
         if (headerContainer == null) {
             updateHeaderTitle();
             return;
@@ -966,7 +969,7 @@ public abstract class BaseActivity
         }
 
         // Remove the headerTitle when material3 is launched b/379776735.
-        TextView headerTitle = findViewById(R.id.header_title);
+        TextView headerTitle = findViewById(getRes(R.id.header_title));
         if (headerTitle != null) {
             headerTitle.setText(result);
         }
@@ -977,44 +980,55 @@ public abstract class BaseActivity
         // is not expanded on that time.
         boolean isGlobalSearch = mSearchManager.isSearching() || mState.stack.size() > 1;
         if (mState.isPhotoPicking()) {
-            final int resId = isGlobalSearch
-                    ? R.string.root_info_header_image_global_search
-                    : R.string.root_info_header_image_recent;
+            final int resId =
+                    isGlobalSearch
+                            ? getRes(R.string.root_info_header_image_global_search)
+                            : getRes(R.string.root_info_header_image_recent);
             return getString(resId);
         } else {
-            final int resId = isGlobalSearch
-                    ? R.string.root_info_header_global_search
-                    : R.string.root_info_header_recent;
+            final int resId =
+                    isGlobalSearch
+                            ? getRes(R.string.root_info_header_global_search)
+                            : getRes(R.string.root_info_header_recent);
             return getString(resId);
         }
     }
 
     private String getHeaderDownloadsTitle() {
-        return getString(mState.isPhotoPicking()
-                ? R.string.root_info_header_image_downloads : R.string.root_info_header_downloads);
+        return getString(
+                mState.isPhotoPicking()
+                        ? getRes(R.string.root_info_header_image_downloads)
+                        : getRes(R.string.root_info_header_downloads));
     }
 
     private String getHeaderStorageTitle(String rootTitle) {
         if (mState.stack.size() > 1) {
-            final int resId = mState.isPhotoPicking()
-                    ? R.string.root_info_header_image_folder : R.string.root_info_header_folder;
+            final int resId =
+                    mState.isPhotoPicking()
+                            ? getRes(R.string.root_info_header_image_folder)
+                            : getRes(R.string.root_info_header_folder);
             return getString(resId, getCurrentTitle());
         } else {
-            final int resId = mState.isPhotoPicking()
-                    ? R.string.root_info_header_image_storage : R.string.root_info_header_storage;
+            final int resId =
+                    mState.isPhotoPicking()
+                            ? getRes(R.string.root_info_header_image_storage)
+                            : getRes(R.string.root_info_header_storage);
             return getString(resId, rootTitle);
         }
     }
 
     private String getHeaderDefaultTitle(String rootTitle, String summary) {
         if (TextUtils.isEmpty(summary)) {
-            final int resId = mState.isPhotoPicking()
-                    ? R.string.root_info_header_image_app : R.string.root_info_header_app;
+            final int resId =
+                    mState.isPhotoPicking()
+                            ? getRes(R.string.root_info_header_image_app)
+                            : getRes(R.string.root_info_header_app);
             return getString(resId, rootTitle);
         } else {
-            final int resId = mState.isPhotoPicking()
-                    ? R.string.root_info_header_image_app_with_summary
-                    : R.string.root_info_header_app_with_summary;
+            final int resId =
+                    mState.isPhotoPicking()
+                            ? getRes(R.string.root_info_header_image_app_with_summary)
+                            : getRes(R.string.root_info_header_app_with_summary);
             return getString(resId, rootTitle, summary);
         }
     }
@@ -1217,8 +1231,8 @@ public abstract class BaseActivity
     private void onBurgerMenuFocusChange(View v, boolean hasFocus) {
         MaterialButton burgerMenu = (MaterialButton) v;
         if (hasFocus) {
-            final int focusRingWidth = getResources()
-                    .getDimensionPixelSize(R.dimen.focus_ring_width);
+            final int focusRingWidth =
+                    getResources().getDimensionPixelSize(getRes(R.dimen.focus_ring_width));
             burgerMenu.setStrokeWidth(focusRingWidth);
         } else {
             burgerMenu.setStrokeWidth(0);

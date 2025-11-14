@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2024 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+  <!-- This is the window background, but also the background for anything
+       else that needs to manually declare a background matching the "default"
+       app background (e.g. the drawer overlay). -->
+  <!-- ?attr/colorSurfaceContainer -->
+  <color name="app_background_color_m3">#F3EDF7</color>
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="background_floating_m3">@android:color/white</color>
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="nav_bar_translucent_m3">#99FFFFFF</color>
+
+  <!-- ?attr/colorPrimary -->
+  <color name="primary_m3">#6750A4</color>
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="secondary_m3">#E3F2FD</color> <!-- Blue 50 -->
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="hairline_m3">#E0E0E0</color> <!-- Gray 300 -->
+
+  <color name="success">#187231</color>
+  <color name="on_success">@android:color/white</color>
+
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="chip_background_disable_color_m3">#fff1f3f4</color>
+  <color name="menu_search_background_m3">@android:color/transparent</color>
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="item_breadcrumb_background_hovered_m3">#1affffff</color>
+
+  <!-- All the colors used inside the drag drop badge don't support Material color attributes
+       because the drag view and shadow are isolated views rendered without theme context, so
+       we need to use static colors for SDK <= 30, and use system color tokens for SDK >= 31.
+       Check the variables with the same name defined in the v31 version of colors.xml.
+  -->
+  <!-- static -->
+  <color name="item_drag_shadow_container_background_m3">@android:color/transparent</color>
+  <!-- ?attr/colorTertiary -->
+  <color name="drag_file_counter_background">#7D5260</color>
+  <!-- ?attr/colorOnTertiary -->
+  <color name="drag_file_counter_text_color">@android:color/white</color>
+  <!-- ?attr/colorSurfaceDim -->
+  <color name="item_drag_shadow_background_m3">#DED8E1</color>
+  <!-- ?attr/colorSurfaceContainerLowest -->
+  <color name="drag_mime_icon_wrapper_background">@android:color/white</color>
+  <!-- ?attr/colorOnSurface -->
+  <color name="drag_content_text_color">#1C1B1F</color>
+  <!-- ?attr/colorOnError -->
+  <color name="drop_icon_reject_symbol_color">@android:color/white</color>
+  <!-- ?attr/colorError -->
+  <color name="drop_icon_reject_container_background">#B3261E</color>
+
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="tool_bar_gradient_max_m3">#7f000000</color>
+
+  <!-- drag selection box colors -->
+  <color name="band_select_background_m3">?attr/colorPrimaryInverse</color>
+  <color name="band_select_border_m3">?attr/colorPrimaryContainer</color>
+
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched.
+       This is currently used in ic_launcher_downloads.xml (inside non flagged resource folder),
+       the XML file is not used anymore.
+   -->
+  <color name="downloads_icon_background_m3">#ff4688f2</color>
+  <!-- static color, the app icon background color in the launcher, window bar -->
+  <color name="app_icon_background_m3">#ff4688f2</color>
+  <!-- static color, used in the shortcut icons (triggered by long pressing the launcher icon) -->
+  <color name="shortcut_foreground_m3">#ff3367d6</color>
+  <color name="shortcut_background_m3">#fff5f5f5</color>
+
+  <color name="error_image_color_m3">?attr/colorPrimary</color>
+
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="list_divider_color_m3">#1f000000</color>
+
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="list_item_selected_background_color_m3">?attr/colorPrimaryContainer</color>
+
+  <!-- This is used when the app bar is in pinned mode inside the CollapsingToolbarLayout.
+       The code in NavigationViewManager assume the value should be a plain color value so we can't
+       use the theme attribute (which is a reference) here, hence using the mapped system color in
+       both here and dark mode.
+  -->
+  <!-- ?attr/colorSurfaceContainerHigh -->
+  <color name="color_surface_header_m3">#ECE6F0</color>
+
+  <!-- TODO(b/379776735): remove this after use_material3 flag is launched. -->
+  <color name="search_chip_text_selected_color_m3">@android:color/white</color>
+
+  <!-- Use this when we need to set alpha channel on top of a theme attribute color in the
+       color selector list, e.g. to set colorOnSecondaryContainer with a hover overlay alpha, use:
+
+       <shape android:tint="?attr/colorOnSecondaryContainer">
+          <solid android:color="@color/overlay_hover_color_percentage"/>
+       </shape>
+   -->
+  <color name="overlay_hover_color_percentage">#14000000</color> <!-- 8% -->
+
+  <!-- 20% black -->
+  <color name="selection_shadow_black">#33000000</color>
+
+  <!-- 5% black -->
+  <color name="selection_circle_black">#0D000000</color>
+
+  <!-- Peek -->
+  <!-- Scrim for the overlay. Static color, 80% opacity in black, defined specifically for Peek. -->
+  <color name="peek_overlay_scrim">#CC000000</color>
+  <!-- Scrim for the Top bar. Static color, 32% opacity in black. The same scrim is used in some
+  parts of Android SysUI, it can't be used directly here. -->
+  <color name="peek_topbar_scrim">#52000000</color>
+
+  <!-- 60% black -->
+  <color name="peek_circle_black">#99000000</color>
+</resources>

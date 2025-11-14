@@ -70,6 +70,7 @@
     <string name="button_clear" msgid="5412304437764369441">"മായ്‌ക്കുക"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"ദാതാവിൽ കാണിക്കുക"</string>
     <string name="button_back" msgid="1888621708934742182">"മടങ്ങുക"</string>
+    <string name="button_show_in_folder" msgid="6674673478637689386">"ഫോൾഡറിൽ കാണിക്കുക"</string>
     <string name="not_sorted" msgid="7813496644889115530">"അടുക്കിയിട്ടില്ല"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"പേര്"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"ചുരുക്കം"</string>
@@ -211,6 +212,12 @@
     <string name="rename_error" msgid="6700093173508118635">"ഡോക്യുമെന്റിന്റെ പേരുമാറ്റുന്നത് പരാജയപ്പെട്ടു"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ഒഴിവാക്കുക"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ചില ഫയലുകൾ പരിവർത്തനം ചെയ്യപ്പെട്ടു"</string>
+    <string name="job_progress_item_see_details" msgid="2069387639574541325">"വിശദാംശങ്ങൾ കാണുക"</string>
+    <string name="copy_completed" msgid="3749037014674785400">"പകർത്തി"</string>
+    <string name="move_completed" msgid="3981250605092729273">"നീക്കി"</string>
+    <string name="delete_completed" msgid="4149401155614626199">"ഇല്ലാതാക്കി"</string>
+    <string name="compress_completed" msgid="8808356399995313077">"കംപ്രസ് ചെയ്‌തു"</string>
+    <string name="extract_completed" msgid="8824595789915249972">"എക്‌സ്‌ട്രാക്‌റ്റ് ചെയ്തു"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="STORAGE"><i>^3</i></xliff:g> സ്റ്റോറേജിലെ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> എന്ന ഡയറക്റ്ററിയിലേക്ക് <xliff:g id="APPNAME"><b>^1</b></xliff:g> ആപ്പിന് ആക്സസ് അനുവദിക്കണോ?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> എന്ന ഡയറക്ടറിയിലേക്ക് <xliff:g id="APPNAME"><b>^1</b></xliff:g> ആപ്പിന് ആക്സസ് അനുവദിക്കണോ?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="STORAGE"><i>^2</i></xliff:g> സ്റ്റോറേജിലെ ഫോട്ടോകളും വീഡിയോകളും ഉൾപ്പെടെ, നിങ്ങളുടെ ഡാറ്റയിലേക്ക് <xliff:g id="APPNAME"><b>^1</b></xliff:g> ആപ്പിന് ആക്സസ്സ് അനുവദിക്കണോ?"</string>
@@ -220,6 +227,12 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> തിരഞ്ഞെടുത്തു</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> തിരഞ്ഞെടുത്തു</item>
     </plurals>
+    <string name="clear_selection" msgid="5965968983023105329">"തിരഞ്ഞെടുക്കൽ മായ്‌ക്കുക"</string>
+    <string name="document_click_action" msgid="8073338575301415356">"തുറക്കുക"</string>
+    <string name="selected_document_click_action" msgid="792826130200234885">"തിരഞ്ഞെടുത്തത് മാറ്റുക"</string>
+    <string name="document_long_click_action" msgid="3789836661597702666">"തിരഞ്ഞെടുക്കുക"</string>
+    <string name="selected_document_long_click_action" msgid="666372407184527109">"വലിച്ചിടുക"</string>
+    <string name="document_long_click_action_picker" msgid="943888101827856784">"ഒന്നിലധികം തിരഞ്ഞെടുക്കുക"</string>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ഇനങ്ങൾ</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ഇനം</item>
@@ -285,6 +298,17 @@
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"നിങ്ങളുടെ സ്വകാര്യത പരിരക്ഷിക്കാൻ മറ്റൊരു ഫോൾഡർ തിരഞ്ഞെടുക്കുക"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"പുതിയ ഫോൾഡർ സൃഷ്‌ടിക്കുക"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"ഈ ഉപകരണം തിരയുക"</string>
+    <string name="search_bar_clear" msgid="2072000748823434188">"ടെക്‌സ്‌റ്റ് മായ്‌ക്കുക"</string>
+    <string name="search_location_this_folder" msgid="6458835123175563013">"ഈ ഫോൾഡർ"</string>
+    <string name="search_location_root_folder" msgid="4280523560213522303">"റൂട്ട് ഫോൾഡർ"</string>
+    <string name="search_location_everywhere" msgid="747799487494833887">"എല്ലായിടത്തും"</string>
+    <string name="search_last_modified_any_time" msgid="6027501367865939696">"ഏത് സമയത്തും"</string>
+    <string name="search_last_modified_1_day" msgid="7775353928859139915">"ഇന്ന്"</string>
+    <string name="search_last_modified_2_days" msgid="7885735119033678756">"ഇന്നലെ"</string>
+    <string name="search_last_modified_7_days" msgid="7634290601544418836">"കഴിഞ്ഞ ആഴ്‌ച"</string>
+    <string name="search_last_modified_30_days" msgid="4936787546211708940">"കഴിഞ്ഞ മാസം"</string>
+    <string name="search_last_modified_365_days" msgid="7147134152974373466">"കഴിഞ്ഞ വർഷം"</string>
+    <string name="search_file_type_all" msgid="6613664493134355781">"എല്ലാ തരവും"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"തിരയൽ ചരിത്രം <xliff:g id="TEXT">%1$s</xliff:g> ഇല്ലാതാക്കുക"</string>
     <string name="personal_tab" msgid="3878576287868528503">"വ്യക്തിപരം"</string>
     <string name="work_tab" msgid="7265359366883747413">"ഔദ്യോഗികം"</string>
@@ -294,4 +318,7 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"ലിസ്‌റ്റ് മോഡിൽ കാണിക്കുന്നു."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"ഫയലിന്റെ പേര്"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"ഫയൽ പ്രിവ്യൂ മറയ്ക്കുക"</string>
+    <string name="peek_no_preview" msgid="8717084152736749464">"പ്രിവ്യൂ ലഭ്യമല്ല"</string>
+    <string name="a11y_peek_image_preview" msgid="3917148390186060263">"<xliff:g id="FILENAME">%s</xliff:g> എന്ന ചിത്രത്തിന്റെ പ്രിവ്യൂ"</string>
 </resources>

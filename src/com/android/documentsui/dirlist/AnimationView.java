@@ -17,6 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -122,7 +123,7 @@ public class AnimationView extends LinearLayout {
         setY((mSpan > 0) ? (mPosition * mSpan) : 0);
 
         if (mPosition != 0) {
-            setTranslationZ(getResources().getDimensionPixelSize(R.dimen.dir_elevation));
+            setTranslationZ(getResources().getDimensionPixelSize(getRes(R.dimen.dir_elevation)));
         } else {
             setTranslationZ(0);
         }

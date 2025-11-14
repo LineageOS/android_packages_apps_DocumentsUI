@@ -17,6 +17,7 @@
 package com.android.documentsui.queries;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -63,8 +64,8 @@ public class SearchHistoryManager {
 
     private SearchHistoryManager(Context context) {
         mHelper = new DatabaseHelper(context);
-        mLimitedHistoryCount = context.getResources().getInteger(
-            R.integer.config_maximum_search_history);
+        mLimitedHistoryCount =
+                context.getResources().getInteger(getRes(R.integer.config_maximum_search_history));
     }
 
     /**

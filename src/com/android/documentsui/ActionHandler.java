@@ -141,6 +141,11 @@ public interface ActionHandler {
      */
     void springOpenDirectory(DocumentInfo doc);
 
+    /**
+     * Replaces the existing stack with the given stack.
+     */
+    void jumpToDirectory(DocumentStack stack);
+
     void showChooserForDoc(DocumentInfo doc);
 
     void openRootDocument(@Nullable DocumentInfo rootDoc);

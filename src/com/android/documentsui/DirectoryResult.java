@@ -55,6 +55,16 @@ public class DirectoryResult implements AutoCloseable {
         setCursor(null);
     }
 
+    /**
+     * Sets the client on this result. Generally, this should be considered an ownership
+     * transfer. The caller should set its own reference to null, to prevent further interactions
+     * with the client.
+     * @param client The client whose ownership is transferred to this result.
+     */
+    public void setClient(ContentProviderClient client) {
+        this.client = client;
+    }
+
     public Cursor getCursor() {
         return mCursor;
     }

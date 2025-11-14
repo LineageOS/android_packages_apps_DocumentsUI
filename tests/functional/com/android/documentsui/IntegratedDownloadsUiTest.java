@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static org.junit.Assert.assertTrue;
+
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
 import android.content.Context;
@@ -23,23 +25,22 @@ import android.net.Uri;
 import android.view.MotionEvent;
 
 import androidx.test.filters.LargeTest;
-import androidx.test.filters.Suppress;
 import androidx.test.uiautomator.Configurator;
 import androidx.test.uiautomator.UiObject;
 
 import com.android.documentsui.files.FilesActivity;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 // TODO: As of this writing all tests in this class are disabled. Please fix.
 @LargeTest
-public class IntegratedDownloadsUiTest extends ActivityTest<FilesActivity> {
-
-    public IntegratedDownloadsUiTest() {
-        super(FilesActivity.class);
-    }
+public class IntegratedDownloadsUiTest extends ActivityTestJunit4<FilesActivity> {
 
     // We don't really need to test the entirety of download support
     // since downloads is (almost) just another provider.
-    @Suppress
+    @Ignore
+    @Test
     public void testDownload_Queued() throws Exception {
         DownloadManager dm = (DownloadManager) context.getSystemService(
                 Context.DOWNLOAD_SERVICE);
@@ -51,7 +52,8 @@ public class IntegratedDownloadsUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertDocumentsPresent("Queued");
     }
 
-    @Suppress
+    @Ignore
+    @Test
     public void testDownload_RetryUnsuccessful() throws Exception {
         DownloadManager dm = (DownloadManager) context.getSystemService(
                 Context.DOWNLOAD_SERVICE);

@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.ClipData;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -95,7 +97,7 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
         if (task == null) {
             return;
         }
-        v.setTag(R.id.drag_hovering_tag, task);
+        v.setTag(getRes(R.id.drag_hovering_tag), task);
         mHoverTimer.schedule(task, mSpringTimeout);
     }
 
@@ -108,7 +110,7 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
 
     private void handleExitedEndedEvent(View v, DragEvent event) {
         mDragHost.setDropTargetHighlight(v, false);
-        TimerTask task = (TimerTask) v.getTag(R.id.drag_hovering_tag);
+        TimerTask task = (TimerTask) v.getTag(getRes(R.id.drag_hovering_tag));
         if (task != null) {
             task.cancel();
         }

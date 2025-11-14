@@ -70,6 +70,7 @@
     <string name="button_clear" msgid="5412304437764369441">"Borrar"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Mostrar en el proveedor"</string>
     <string name="button_back" msgid="1888621708934742182">"Atrás"</string>
+    <string name="button_show_in_folder" msgid="6674673478637689386">"Mostrar en carpeta"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Sin ordenar"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nombre"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Resumen"</string>
@@ -227,6 +228,12 @@
     <string name="rename_error" msgid="6700093173508118635">"No se pudo cambiar el nombre del documento"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Expulsar"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Se convirtieron algunos archivos"</string>
+    <string name="job_progress_item_see_details" msgid="2069387639574541325">"Ver detalles"</string>
+    <string name="copy_completed" msgid="3749037014674785400">"Se copió"</string>
+    <string name="move_completed" msgid="3981250605092729273">"Se movió"</string>
+    <string name="delete_completed" msgid="4149401155614626199">"Se borró"</string>
+    <string name="compress_completed" msgid="8808356399995313077">"Se comprimió"</string>
+    <string name="extract_completed" msgid="8824595789915249972">"Se extrajo"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"¿Quieres otorgar a la app de <xliff:g id="APPNAME"><b>^1</b></xliff:g> acceso al directorio <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> en <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"¿Quieres otorgar acceso a la app de <xliff:g id="APPNAME"><b>^1</b></xliff:g> al directorio <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"¿Quieres otorgar acceso a la app de <xliff:g id="APPNAME"><b>^1</b></xliff:g> a tus datos, incluidas tus fotos y videos, en <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
@@ -237,6 +244,12 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementos seleccionados</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> elemento seleccionado</item>
     </plurals>
+    <string name="clear_selection" msgid="5965968983023105329">"Borrar selección"</string>
+    <string name="document_click_action" msgid="8073338575301415356">"abrir"</string>
+    <string name="selected_document_click_action" msgid="792826130200234885">"anular selección"</string>
+    <string name="document_long_click_action" msgid="3789836661597702666">"seleccionar"</string>
+    <string name="selected_document_long_click_action" msgid="666372407184527109">"arrastrar"</string>
+    <string name="document_long_click_action_picker" msgid="943888101827856784">"seleccionar varios"</string>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
@@ -307,6 +320,17 @@
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Para proteger tu privacidad, elige otra carpeta."</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crear carpeta"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Buscar este dispositivo"</string>
+    <string name="search_bar_clear" msgid="2072000748823434188">"Borrar texto"</string>
+    <string name="search_location_this_folder" msgid="6458835123175563013">"Esta carpeta"</string>
+    <string name="search_location_root_folder" msgid="4280523560213522303">"Carpeta raíz"</string>
+    <string name="search_location_everywhere" msgid="747799487494833887">"En todas partes"</string>
+    <string name="search_last_modified_any_time" msgid="6027501367865939696">"En cualquier momento"</string>
+    <string name="search_last_modified_1_day" msgid="7775353928859139915">"Hoy"</string>
+    <string name="search_last_modified_2_days" msgid="7885735119033678756">"Ayer"</string>
+    <string name="search_last_modified_7_days" msgid="7634290601544418836">"La semana pasada"</string>
+    <string name="search_last_modified_30_days" msgid="4936787546211708940">"El mes pasado"</string>
+    <string name="search_last_modified_365_days" msgid="7147134152974373466">"El año pasado"</string>
+    <string name="search_file_type_all" msgid="6613664493134355781">"Todos los tipos"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Borrar historial de búsqueda de <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personal"</string>
     <string name="work_tab" msgid="7265359366883747413">"Trabajo"</string>
@@ -316,4 +340,7 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"Se muestra en modo de lista."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"Nombre del archivo"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Ocultar vista previa del archivo"</string>
+    <string name="peek_no_preview" msgid="8717084152736749464">"Sin vista previa disponible"</string>
+    <string name="a11y_peek_image_preview" msgid="3917148390186060263">"Vista previa de la imagen de <xliff:g id="FILENAME">%s</xliff:g>"</string>
 </resources>

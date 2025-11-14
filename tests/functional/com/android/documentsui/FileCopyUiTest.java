@@ -276,7 +276,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         device.waitForIdle();
 
         bots.main.clickToolbarItem(R.id.action_menu_delete);
-        bots.main.clickDialogOkButton();
+        bots.main.clickDialogOkButton(/* closeSoftKeyboard */ false);
         device.waitForIdle();
 
         bots.directory.findDocument(targetFolder).waitUntilGone(WAIT_TIME_SECONDS);
@@ -393,7 +393,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         bots.main.clickToolbarOverflowItem(context.getResources().getString(R.string.menu_copy));
         device.waitForIdle();
         bots.roots.openRoot(targetRoot);
-        bots.main.clickDialogOkButton();
+        bots.main.clickDialogOkButton(/* closeSoftKeyboard */ false);
         device.waitForIdle();
 
         // Wait until copy operation finished
@@ -485,7 +485,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         assertFalse(bots.directory.findDocument(fileName1).isEnabled());
 
         // Back to FilesActivity to do tear down action if necessary
-        bots.main.clickDialogCancelButton();
+        bots.main.clickDialogCancelButton(/* closeSoftKeyboard */ false);
     }
 
     @HugeLongTest
@@ -520,7 +520,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         device.waitForIdle();
 
         // Select Download folder.
-        bots.directory.selectDocument("Download");
+        bots.directory.selectDocument("Download", 1);
         device.waitForIdle();
 
         // Click copy button.
@@ -533,7 +533,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         device.waitForIdle();
 
         // Initiate the copy operation.
-        bots.main.clickDialogOkButton();
+        bots.main.clickDialogOkButton(/* closeSoftKeyboard */ false);
         device.waitForIdle();
 
         try {

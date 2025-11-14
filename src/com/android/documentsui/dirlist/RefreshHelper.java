@@ -17,9 +17,10 @@ package com.android.documentsui.dirlist;
 
 import static androidx.core.util.Preconditions.checkState;
 
+import android.view.MotionEvent;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener;
-import android.view.MotionEvent;
 
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.Events;
@@ -38,7 +39,7 @@ final class RefreshHelper {
     }
 
     private boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        if (Events.isMouseEvent(e)) {
+        if (Events.isMousyEvent(e)) {
             if (Events.isActionDown(e)) {
                 mRefreshLayoutEnabler.accept(false);
             }

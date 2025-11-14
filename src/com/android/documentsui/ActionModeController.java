@@ -18,6 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Activity;
 import android.util.Log;
@@ -100,8 +101,9 @@ public class ActionModeController extends SelectionObserver<String>
 
         if (mActionMode != null) {
             assert(!mSelected.isEmpty());
-            final String title = mMessages.getQuantityString(
-                    R.plurals.elements_selected, mSelected.size());
+            final String title =
+                    mMessages.getQuantityString(
+                            getRes(R.plurals.elements_selected), mSelected.size());
             mActionMode.setTitle(title);
             mActivity.getWindow().setTitle(title);
         }
@@ -139,8 +141,8 @@ public class ActionModeController extends SelectionObserver<String>
         // Re-enable TalkBack for the toolbars, as they are no longer covered by action mode.
         int[] toolbarIds =
                 isUseMaterial3FlagEnabled()
-                        ? new int[] {R.id.toolbar}
-                        : new int[] {R.id.toolbar, R.id.roots_toolbar};
+                        ? new int[] {getRes(R.id.toolbar)}
+                        : new int[] {getRes(R.id.toolbar), getRes(R.id.roots_toolbar)};
         mScope.accessibilityImportanceSetter.setAccessibilityImportance(
                 View.IMPORTANT_FOR_ACCESSIBILITY_AUTO, toolbarIds);
 
@@ -150,7 +152,7 @@ public class ActionModeController extends SelectionObserver<String>
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         int size = mSelectionMgr.getSelection().size();
-        mode.getMenuInflater().inflate(R.menu.action_mode_menu, menu);
+        mode.getMenuInflater().inflate(getRes(R.menu.action_mode_menu), menu);
         mode.setTitle(mActivity.getResources().getQuantityString(R.plurals.selected_count, size));
 
         if (size > 0) {
@@ -160,8 +162,8 @@ public class ActionModeController extends SelectionObserver<String>
             // these controls when using linear navigation.
             int[] toolbarIds =
                     isUseMaterial3FlagEnabled()
-                            ? new int[] {R.id.toolbar}
-                            : new int[] {R.id.toolbar, R.id.roots_toolbar};
+                            ? new int[] {getRes(R.id.toolbar)}
+                            : new int[] {getRes(R.id.toolbar), getRes(R.id.roots_toolbar)};
             mScope.accessibilityImportanceSetter.setAccessibilityImportance(
                     View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS,
                     toolbarIds);

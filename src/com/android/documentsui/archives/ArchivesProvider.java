@@ -16,6 +16,8 @@
 
 package com.android.documentsui.archives;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.ContentProviderClient;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
@@ -116,8 +118,9 @@ public class ArchivesProvider extends DocumentsProvider {
                 // Return an empty cursor with EXTRA_LOADING, which shows spinner
                 // in DocumentsUI. Once the archive is loaded, the notification will
                 // be sent, and the directory reloaded.
-                bundle.putString(DocumentsContract.EXTRA_ERROR,
-                        getContext().getString(R.string.archive_loading_failed));
+                bundle.putString(
+                        DocumentsContract.EXTRA_ERROR,
+                        getContext().getString(getRes(R.string.archive_loading_failed)));
                 break;
         }
 

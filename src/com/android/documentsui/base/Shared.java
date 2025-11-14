@@ -19,8 +19,9 @@ package com.android.documentsui.base;
 import static android.text.TextUtils.SAFE_STRING_FLAG_SINGLE_LINE;
 import static android.text.TextUtils.SAFE_STRING_FLAG_TRIM;
 
-import static com.android.documentsui.base.SharedMinimal.TAG;
 import static com.android.documentsui.ChangeIds.RESTRICT_STORAGE_ACCESS_FRAMEWORK;
+import static com.android.documentsui.base.SharedMinimal.TAG;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Activity;
 import android.app.compat.CompatChanges;
@@ -269,7 +270,7 @@ public final class Shared {
      */
     @NonNull
     public static CharSequence getCallingAppName(Activity activity) {
-        final String anonymous = activity.getString(R.string.anonymous_application);
+        final String anonymous = activity.getString(getRes(R.string.anonymous_application));
         final String packageName = getCallingPackageName(activity);
         if (TextUtils.isEmpty(packageName)) {
             return anonymous;

@@ -15,6 +15,8 @@
  */
 package com.android.documentsui;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
@@ -86,14 +88,14 @@ public final class ShortcutsUpdater {
             // disambiguate for the user. So, we don't add them.
             // if (!Providers.isSystemProvider(root.authority)) {
             //    // add third party providers at the beginning of the list.
-            //    devices.add(createShortcut(root, R.drawable.ic_folder_shortcut));
+            //    devices.add(createShortcut(root, getRes(R.drawable.ic_folder_shortcut)));
             // } else
             if (root.isAdvanced() && root.authority.equals(Providers.AUTHORITY_STORAGE)) {
                 // internal storage
-                devices.add(0, createShortcut(root, R.drawable.ic_advanced_shortcut));
+                devices.add(0, createShortcut(root, getRes(R.drawable.ic_advanced_shortcut)));
             } else if (root.isAdvanced()) {
                 // probably just bugreports provider
-                devices.add(0, createShortcut(root, R.drawable.ic_folder_shortcut));
+                devices.add(0, createShortcut(root, getRes(R.drawable.ic_folder_shortcut)));
             }
             // TODO: Hook up USB and MTP devices. In order to do this we need
             // to fire up a broadcast to listen for ACTION_MEDIA_MOUNTED
@@ -101,7 +103,7 @@ public final class ShortcutsUpdater {
             // bit of refactoring, rendering out of scope for now. <sadface>.
             // else if (root.isUsb() || root.isMtp()) {
             //    // probably just bugreports provider
-            //    devices.add(0, createShortcut(root, R.drawable.ic_usb_shortcut));
+            //    devices.add(0, createShortcut(root, getRes(R.drawable.ic_usb_shortcut)));
             // }
         }
 

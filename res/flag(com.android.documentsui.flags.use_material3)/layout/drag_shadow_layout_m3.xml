@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2024 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- Transparent container so shadow layer can be drawn -->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/drag_shadow_width_m3"
+    android:layout_height="@dimen/drag_shadow_height_m3"
+    android:background="@color/item_drag_shadow_container_background_m3">
+
+    <LinearLayout
+        android:layout_width="@dimen/drag_content_width"
+        android:layout_height="@dimen/drag_content_height"
+        android:layout_marginTop="@dimen/drag_file_counter_offset"
+        android:layout_marginStart="@dimen/drag_content_margin_start"
+        android:paddingHorizontal="@dimen/space_extra_small_4"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/drag_shadow_background_m3">
+
+        <LinearLayout
+            android:layout_width="@dimen/drop_badge_container_size"
+            android:layout_height="@dimen/drop_badge_container_size"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:background="@drawable/drop_badge_container_background">
+
+            <include layout="@layout/drop_badge_m3"/>
+
+        </LinearLayout>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@android:id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_extra_small_4"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/DragBadgeText" />
+
+    </LinearLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/drag_file_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/drag_file_counter_height"
+        android:paddingHorizontal="@dimen/space_extra_small_4"
+        android:layout_gravity="top|end"
+        android:background="@drawable/drag_file_counter_background"
+        android:textAppearance="@style/DragCounterText"
+        android:visibility="gone" />
+</FrameLayout>

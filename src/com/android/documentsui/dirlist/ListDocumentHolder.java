@@ -21,6 +21,7 @@ import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFI
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
@@ -43,7 +44,6 @@ import androidx.annotation.RequiresApi;
 
 import com.android.documentsui.ConfigStore;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Lookup;
@@ -53,8 +53,6 @@ import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
 import com.android.modules.utils.build.SdkLevel;
-
-import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -71,16 +69,12 @@ final class ListDocumentHolder extends DocumentHolder {
     private final @Nullable LinearLayout mDetails;
     // TextView for date + size + summary, null only for tablets/sw720dp
     private final @Nullable TextView mMetadataView;
-    // Non-null only when use_material3 flag is ON.
-    private final @Nullable MaterialCardView mIconWrapper;
     private final ImageView mIconMime;
     private final ImageView mIconThumb;
     private final ImageView mIconCheck;
     private final ImageView mIconBadge;
     private final View mIconLayout;
     final View mPreviewIcon;
-    // It will be 0 when use_material flag is OFF.
-    private final int mThumbnailStrokeWidth;
 
     private final IconHelper mIconHelper;
     private final Lookup<String, String> mFileTypeLookup;
@@ -89,34 +83,21 @@ final class ListDocumentHolder extends DocumentHolder {
 
     public ListDocumentHolder(Context context, ViewGroup parent, IconHelper iconHelper,
             Lookup<String, String> fileTypeLookup, ConfigStore configStore) {
-        super(context, parent, R.layout.item_doc_list, configStore);
+        super(context, parent, getRes(R.layout.item_doc_list), configStore);
 
-        mIconLayout = itemView.findViewById(R.id.icon);
-        mIconWrapper =
-                isUseMaterial3FlagEnabled() ? itemView.findViewById(R.id.icon_wrapper) : null;
-        mIconMime = (ImageView) itemView.findViewById(R.id.icon_mime);
-        mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
-        mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
-        mIconBadge = (ImageView) itemView.findViewById(R.id.icon_profile_badge);
+        mIconLayout = itemView.findViewById(getRes(R.id.icon));
+        mIconMime = (ImageView) itemView.findViewById(getRes(R.id.icon_mime));
+        mIconThumb = (ImageView) itemView.findViewById(getRes(R.id.icon_thumb));
+        mIconCheck = (ImageView) itemView.findViewById(getRes(R.id.icon_check));
+        mIconBadge = (ImageView) itemView.findViewById(getRes(R.id.icon_profile_badge));
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
-        mSize = (TextView) itemView.findViewById(R.id.size);
-        mDate = (TextView) itemView.findViewById(R.id.date);
-        mType = (TextView) itemView.findViewById(R.id.file_type);
-        mMetadataView = (TextView) itemView.findViewById(R.id.metadata);
+        mSize = (TextView) itemView.findViewById(getRes(R.id.size));
+        mDate = (TextView) itemView.findViewById(getRes(R.id.date));
+        mType = (TextView) itemView.findViewById(getRes(R.id.file_type));
+        mMetadataView = (TextView) itemView.findViewById(getRes(R.id.metadata));
         // Warning: mDetails view doesn't exists in layout-sw720dp-land layout
-        mDetails = (LinearLayout) itemView.findViewById(R.id.line2);
-        mPreviewIcon = itemView.findViewById(R.id.preview_icon);
-        if (isUseMaterial3FlagEnabled()) {
-            mThumbnailStrokeWidth =
-                    context.getResources()
-                            .getDimensionPixelSize(R.dimen.thumbnail_border_width);
-            int clipCornerRadius = context.getResources()
-                    .getDimensionPixelSize(R.dimen.thumbnail_clip_corner_radius);
-            IconUtils.applyThumbnailClipOutline(
-                    mIconThumb, mThumbnailStrokeWidth, clipCornerRadius);
-        } else {
-            mThumbnailStrokeWidth = 0;
-        }
+        mDetails = (LinearLayout) itemView.findViewById(getRes(R.id.line2));
+        mPreviewIcon = itemView.findViewById(getRes(R.id.preview_icon));
 
         mIconHelper = iconHelper;
         mFileTypeLookup = fileTypeLookup;
@@ -130,8 +111,12 @@ final class ListDocumentHolder extends DocumentHolder {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private void setUpdatableWorkProfileIcon(Context context) {
         DevicePolicyManager dpm = context.getSystemService(DevicePolicyManager.class);
-        Drawable drawable = dpm.getResources().getDrawable(WORK_PROFILE_ICON, SOLID_COLORED, () ->
-                context.getDrawable(R.drawable.ic_briefcase));
+        Drawable drawable =
+                dpm.getResources()
+                        .getDrawable(
+                                WORK_PROFILE_ICON,
+                                SOLID_COLORED,
+                                () -> context.getDrawable(getRes(R.drawable.ic_briefcase)));
         mIconBadge.setImageDrawable(drawable);
     }
 
@@ -159,15 +144,6 @@ final class ListDocumentHolder extends DocumentHolder {
         } else {
             mIconMime.setAlpha(1f - checkAlpha);
             mIconThumb.setAlpha(1f - checkAlpha);
-        }
-
-        // Do not show stroke when selected, only show stroke when not selected if it has thumbnail.
-        if (isUseMaterial3FlagEnabled() && mIconWrapper != null) {
-            if (selected) {
-                mIconWrapper.setStrokeWidth(0);
-            } else if (mIconThumb.getDrawable() != null) {
-                mIconWrapper.setStrokeWidth(mThumbnailStrokeWidth);
-            }
         }
     }
 
@@ -277,20 +253,25 @@ final class ListDocumentHolder extends DocumentHolder {
         mIconThumb.animate().cancel();
         mIconThumb.setAlpha(0f);
 
-        mIconHelper.load(
-                mDoc,
-                mIconThumb,
-                mIconMime,
-                /* subIconMime= */ null,
-                thumbnailLoaded -> {
-                    // Show stroke when thumbnail is loaded.
-                    if (isUseMaterial3FlagEnabled() && mIconWrapper != null) {
-                        mIconWrapper.setStrokeWidth(
-                                thumbnailLoaded ? mThumbnailStrokeWidth : 0);
-                    }
-                });
+        mIconHelper.load(mDoc, mIconThumb, mIconMime, /* subIconMime= */ null);
 
-        mTitle.setText(mDoc.displayName, TextView.BufferType.SPANNABLE);
+        if (isUseMaterial3FlagEnabled()) {
+            // Only Normal type work with ellipsize=middle.
+            mTitle.setText(mDoc.displayName, TextView.BufferType.NORMAL);
+            // Doing this hacky way instead of just "mTitle.setTooltipText()" because calling
+            // "mTitle.setTooltipText()" directly will break the ripple effects on the title area.
+            itemView.setOnHoverListener(
+                    (v, event) -> {
+                        if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
+                            mTitle.setTooltipText(mDoc.displayName);
+                        } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
+                            mTitle.setTooltipText(null);
+                        }
+                        return false;
+                    });
+        } else {
+            mTitle.setText(mDoc.displayName, TextView.BufferType.SPANNABLE);
+        }
         mTitle.setVisibility(View.VISIBLE);
 
         if (mDoc.isDirectory()) {

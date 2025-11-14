@@ -16,30 +16,36 @@
 
 package com.android.documentsui;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import androidx.test.filters.LargeTest;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.rules.TestFilesRule;
 import com.android.documentsui.util.VersionUtils;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
 @LargeTest
-public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
+public class RenameDocumentUiTest extends ActivityTestJunit4<FilesActivity> {
 
     private final String newName = "kitties.log";
 
-    public RenameDocumentUiTest() {
-        super(FilesActivity.class);
-    }
+    @Rule
+    public final TestFilesRule mTestFilesRule = new TestFilesRule();
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        initTestFiles();
+    @Before
+    public void setUpTest() {
         bots.roots.closeDrawer();
     }
 
+    @Test
     public void testRenameEnabled_SingleSelection() throws Exception {
-        bots.directory.selectDocument(fileName1, 1);
+        bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1);
         bots.main.openOverflowMenu();
         bots.main.assertMenuEnabled(R.string.menu_rename, true);
 
@@ -47,9 +53,10 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         device.pressBack();
     }
 
+    @Test
     public void testNoRenameSupport_SingleSelection() throws Exception {
         if (VersionUtils.isAtLeastR()) {
-            bots.directory.selectDocument(fileNameNoRename, 1);
+            bots.directory.selectDocument(TestFilesRule.FILE_NAME_NO_RENAME, 1);
             bots.main.openOverflowMenu();
             bots.main.assertMenuEnabled(R.string.menu_rename, false);
 
@@ -58,10 +65,11 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         }
     }
 
+    @Test
     public void testOneHasRenameSupport_MultipleSelection() throws Exception {
         if (VersionUtils.isAtLeastR()) {
-            bots.directory.selectDocument(fileName1, 1);
-            bots.directory.selectDocument(fileNameNoRename, 2);
+            bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1);
+            bots.directory.selectDocument(TestFilesRule.FILE_NAME_NO_RENAME, 2);
             bots.main.openOverflowMenu();
             bots.main.assertMenuEnabled(R.string.menu_rename, false);
 
@@ -70,10 +78,11 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         }
     }
 
+    @Test
     public void testRenameDisabled_MultipleSelection() throws Exception {
         if (VersionUtils.isAtLeastR()) {
-            bots.directory.selectDocument(fileName1, 1);
-            bots.directory.selectDocument(fileName2, 2);
+            bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1);
+            bots.directory.selectDocument(TestFilesRule.FILE_NAME_2, 2);
             bots.main.openOverflowMenu();
             bots.main.assertMenuEnabled(R.string.menu_rename, false);
 
@@ -82,8 +91,9 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         }
     }
 
+    @Test
     public void testRenameFile_OkButton() throws Exception {
-        bots.directory.selectDocument(fileName1, 1);
+        bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1);
 
         clickRename();
 
@@ -91,15 +101,16 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         bots.main.setDialogText(newName);
 
         device.waitForIdle();
-        bots.main.clickDialogOkButton();
+        bots.main.clickDialogOkButton(/* closeSoftKeyboard */ true);
 
         bots.directory.waitForDocument(newName);
-        bots.directory.assertDocumentsAbsent(fileName1);
+        bots.directory.assertDocumentsAbsent(TestFilesRule.FILE_NAME_1);
         bots.directory.assertDocumentsCount(4);
     }
 
+    @Test
     public void testRenameFile_Enter() throws Exception {
-        bots.directory.selectDocument(fileName1, 1);
+        bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1);
 
         clickRename();
 
@@ -110,38 +121,41 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         bots.keyboard.pressEnter();
 
         bots.directory.waitForDocument(newName);
-        bots.directory.assertDocumentsAbsent(fileName1);
+        bots.directory.assertDocumentsAbsent(TestFilesRule.FILE_NAME_1);
         bots.directory.assertDocumentsCount(4);
     }
 
+    @Test
     public void testRenameWithoutChangeIsNoOp() throws Exception {
-        bots.directory.selectDocument(fileName1, 1);
+        bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1);
 
         clickRename();
 
         device.waitForIdle();
         bots.keyboard.pressEnter();
 
-        bots.directory.waitForDocument(fileName1);
+        bots.directory.waitForDocument(TestFilesRule.FILE_NAME_1);
         bots.directory.assertDocumentsCount(4);
     }
 
+    @Test
     public void testRenameFile_Cancel() throws Exception {
-        bots.directory.selectDocument(fileName1, 1);
+        bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1);
 
         clickRename();
 
         bots.main.setDialogText(newName);
 
-        bots.main.clickDialogCancelButton();
+        bots.main.clickDialogCancelButton(/* closeSoftKeyboard */ true);
 
-        bots.directory.assertDocumentsPresent(fileName1);
+        bots.directory.assertDocumentsPresent(TestFilesRule.FILE_NAME_1);
         bots.directory.assertDocumentsAbsent(newName);
         bots.directory.assertDocumentsCount(4);
 
         bots.directory.assertSelection(1);
     }
 
+    @Test
     public void testRenameDir() throws Exception {
         String oldName = "Dir1";
         String newName = "Dir123";
@@ -158,16 +172,18 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertDocumentsCount(4);
     }
 
+    @Test
     public void testRename_NameExists() throws Exception {
         renameWithConflict();
 
-        bots.main.clickDialogCancelButton();
+        bots.main.clickDialogCancelButton(/* closeSoftKeyboard */ true);
 
-        bots.directory.assertDocumentsPresent(fileName1);
-        bots.directory.assertDocumentsPresent(fileName2);
+        bots.directory.assertDocumentsPresent(TestFilesRule.FILE_NAME_1);
+        bots.directory.assertDocumentsPresent(TestFilesRule.FILE_NAME_2);
         bots.directory.assertDocumentsCount(4);
     }
 
+    @Test
     public void testRename_RecoverAfterConflict() throws Exception {
         renameWithConflict();
         device.waitForIdle();
@@ -175,23 +191,23 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         bots.main.setDialogText(newName);
 
         device.waitForIdle();
-        bots.main.clickDialogOkButton();
+        bots.main.clickDialogOkButton(/* closeSoftKeyboard */ true);
 
         bots.directory.waitForDocument(newName);
-        bots.directory.assertDocumentsAbsent(fileName1);
+        bots.directory.assertDocumentsAbsent(TestFilesRule.FILE_NAME_1);
         bots.directory.assertDocumentsCount(4);
     }
 
     private void renameWithConflict() throws Exception {
         // Check that document with the new name exists
-        bots.directory.assertDocumentsPresent(fileName2);
-        bots.directory.selectDocument(fileName1, 1);
+        bots.directory.assertDocumentsPresent(TestFilesRule.FILE_NAME_2);
+        bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1);
 
         clickRename();
 
-        bots.main.assertDialogText(fileName1);
+        bots.main.assertDialogText(TestFilesRule.FILE_NAME_1);
         assertFalse(bots.main.findRenameErrorMessage().exists());
-        bots.main.setDialogText(fileName2);
+        bots.main.setDialogText(TestFilesRule.FILE_NAME_2);
         bots.keyboard.pressEnter();
         assertTrue(bots.main.findRenameErrorMessage().exists());
     }

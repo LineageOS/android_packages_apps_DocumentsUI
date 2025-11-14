@@ -16,6 +16,8 @@
 
 package com.android.documentsui.queries;
 
+import static com.android.documentsui.testing.DrawableAsserts.assertDrawablesEqual;
+
 import static com.google.common.truth.Truth.assertThat;
 
 import static org.junit.Assert.assertEquals;
@@ -25,14 +27,9 @@ import static org.mockito.Mockito.spy;
 import static java.util.Objects.requireNonNull;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.platform.test.annotations.RequiresFlagsDisabled;
 import android.platform.test.annotations.RequiresFlagsEnabled;
-import android.platform.test.flag.junit.CheckFlagsRule;
-import android.platform.test.flag.junit.DeviceFlagsValueProvider;
 import android.provider.DocumentsContract;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +47,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.flags.Flags;
+import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
 import com.android.documentsui.util.VersionUtils;
 
 import com.google.android.material.chip.Chip;
@@ -82,7 +80,7 @@ public final class SearchChipViewManagerTest {
     private LinearLayout mChipGroup;
 
     @Rule
-    public final CheckFlagsRule mCheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule();
+    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
 
     @Before
     public void setUp() {
@@ -274,27 +272,5 @@ public final class SearchChipViewManagerTest {
         final Set<SearchChipData> chipDataList = new HashSet<>();
         chipDataList.add(new SearchChipData(CHIP_TYPE, 0 /* titleRes */, TEST_MIME_TYPES));
         return chipDataList;
-    }
-
-    private void assertDrawablesEqual(Drawable actual, Drawable expected) {
-        Bitmap bitmap1 =
-                Bitmap.createBitmap(
-                        actual.getIntrinsicWidth(),
-                        actual.getIntrinsicHeight(),
-                        Bitmap.Config.ARGB_8888);
-        Canvas canvas1 = new Canvas(bitmap1);
-        actual.setBounds(0, 0, actual.getIntrinsicWidth(), actual.getIntrinsicHeight());
-        actual.draw(canvas1);
-
-        Bitmap bitmap2 =
-                Bitmap.createBitmap(
-                        expected.getIntrinsicWidth(),
-                        expected.getIntrinsicHeight(),
-                        Bitmap.Config.ARGB_8888);
-        Canvas canvas2 = new Canvas(bitmap2);
-        expected.setBounds(0, 0, expected.getIntrinsicWidth(), expected.getIntrinsicHeight());
-        expected.draw(canvas2);
-
-        assertTrue("Drawables are not equal", bitmap1.sameAs(bitmap2));
     }
 }

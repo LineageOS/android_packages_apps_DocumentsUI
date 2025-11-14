@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.inspector;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -62,11 +64,13 @@ public final class HeaderView extends RelativeLayout implements HeaderDisplay {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
-        mHeader = inflater.inflate(R.layout.inspector_header, null);
-        mThumbnail = (ImageView) mHeader.findViewById(R.id.inspector_thumbnail);
+        mHeader = inflater.inflate(getRes(R.layout.inspector_header), null);
+        mThumbnail = (ImageView) mHeader.findViewById(getRes(R.id.inspector_thumbnail));
 
         int width = (int) Display.screenWidth((Activity)context);
-        int height = mContext.getResources().getDimensionPixelSize(R.dimen.inspector_header_height);
+        int height =
+                mContext.getResources()
+                        .getDimensionPixelSize(getRes(R.dimen.inspector_header_height));
         mImageDimensions = new Point(width, height);
         addView(mHeader);
     }

@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.inspector;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -70,29 +72,29 @@ public class DebugView extends TableView implements DebugDisplay {
 
     @Override
     public void accept(DocumentInfo info) {
-        setTitle(R.string.inspector_debug_section, true);
+        setTitle(getRes(R.string.inspector_debug_section), true);
 
-        put(R.string.debug_user_id, info.userId.toString());
-        put(R.string.debug_content_uri, info.derivedUri.toString());
-        put(R.string.debug_document_id, info.documentId);
-        put(R.string.debug_raw_mimetype, info.mimeType);
-        put(R.string.debug_stream_types, "-");
-        put(R.string.debug_raw_size, NumberFormat.getInstance().format(info.size));
-        put(R.string.debug_is_archive, info.isArchive());
-        put(R.string.debug_is_blocked_from_tree, info.isBlockedFromTree());
-        put(R.string.debug_is_container, info.isContainer());
-        put(R.string.debug_is_partial, info.isPartial());
-        put(R.string.debug_is_virtual, info.isVirtual());
-        put(R.string.debug_supports_create, info.isCreateSupported());
-        put(R.string.debug_supports_delete, info.isDeleteSupported());
-        put(R.string.debug_supports_metadata, info.isMetadataSupported());
-        put(R.string.debug_supports_move, info.isMoveSupported());
-        put(R.string.debug_supports_remove, info.isRemoveSupported());
-        put(R.string.debug_supports_rename, info.isRenameSupported());
-        put(R.string.debug_supports_settings, info.isSettingsSupported());
-        put(R.string.debug_supports_thumbnail, info.isThumbnailSupported());
-        put(R.string.debug_supports_weblink, info.isWeblinkSupported());
-        put(R.string.debug_supports_write, info.isWriteSupported());
+        put(getRes(R.string.debug_user_id), info.userId.toString());
+        put(getRes(R.string.debug_content_uri), info.derivedUri.toString());
+        put(getRes(R.string.debug_document_id), info.documentId);
+        put(getRes(R.string.debug_raw_mimetype), info.mimeType);
+        put(getRes(R.string.debug_stream_types), "-");
+        put(getRes(R.string.debug_raw_size), NumberFormat.getInstance().format(info.size));
+        put(getRes(R.string.debug_is_archive), info.isArchive());
+        put(getRes(R.string.debug_is_blocked_from_tree), info.isBlockedFromTree());
+        put(getRes(R.string.debug_is_container), info.isContainer());
+        put(getRes(R.string.debug_is_partial), info.isPartial());
+        put(getRes(R.string.debug_is_virtual), info.isVirtual());
+        put(getRes(R.string.debug_supports_create), info.isCreateSupported());
+        put(getRes(R.string.debug_supports_delete), info.isDeleteSupported());
+        put(getRes(R.string.debug_supports_metadata), info.isMetadataSupported());
+        put(getRes(R.string.debug_supports_move), info.isMoveSupported());
+        put(getRes(R.string.debug_supports_remove), info.isRemoveSupported());
+        put(getRes(R.string.debug_supports_rename), info.isRenameSupported());
+        put(getRes(R.string.debug_supports_settings), info.isSettingsSupported());
+        put(getRes(R.string.debug_supports_thumbnail), info.isThumbnailSupported());
+        put(getRes(R.string.debug_supports_weblink), info.isWeblinkSupported());
+        put(getRes(R.string.debug_supports_write), info.isWriteSupported());
 
         // Load Document stream types of the file. For virtual files, this should be
         // something other than the primary type of the file.
@@ -106,7 +108,8 @@ public class DebugView extends TableView implements DebugDisplay {
 
                 @Override
                 protected void onPostExecute(String[] streamTypes) {
-                    put(R.string.debug_stream_types,
+                    put(
+                            getRes(R.string.debug_stream_types),
                             streamTypes != null ? Arrays.toString(streamTypes) : "[]");
                 }
             }.executeOnExecutor(executor, (Void[]) null);
@@ -130,8 +133,9 @@ public class DebugView extends TableView implements DebugDisplay {
     }
 
     private void dumpMetadata(String type, Bundle bundle) {
-        String title = mContext.getResources().getString(
-                R.string.inspector_debug_metadata_section);
+        String title =
+                mContext.getResources()
+                        .getString(getRes(R.string.inspector_debug_metadata_section));
         putTitle(String.format(title, type), true);
         List<String> keys = new ArrayList<>(bundle.keySet());
         Collections.sort(keys);
@@ -142,7 +146,7 @@ public class DebugView extends TableView implements DebugDisplay {
 
     private void put(@StringRes int key, boolean value) {
         KeyValueRow row = put(mRes.getString(key), String.valueOf(value));
-        TextView valueView = ((TextView) row.findViewById(R.id.table_row_value));
+        TextView valueView = ((TextView) row.findViewById(getRes(R.id.table_row_value)));
         valueView.setTextColor(value ? 0xFF006400 : 0xFF9A2020);
     }
 }

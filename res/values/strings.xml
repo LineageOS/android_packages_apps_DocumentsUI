@@ -133,6 +133,8 @@
     <string name="button_show_provider">Show in provider</string>
     <!-- Button label that do back action [CHAR LIMIT=24] -->
     <string name="button_back">Back</string>
+    <!-- Button label that navigates to the destination folder of a copy/move. -->
+    <string name="button_show_in_folder">Show in folder</string>
 
     <!-- A string used to show user that currently documents are not sorted in any given order. [CHAR_LIMIT=30] -->
     <string name="not_sorted">Not sorted</string>
@@ -417,6 +419,10 @@
         =1 {Copying <xliff:g id="filename" example="foobar.txt">{filename}</xliff:g> to <xliff:g id="directory" example="example folder">{directory}</xliff:g>}
         other {Copying # files to <xliff:g id="directory" example="example folder">{directory}</xliff:g>}
     }</string>
+    <string name="extract_in_progress" translatable="false">{count, plural,
+        =1 {Extracting \u201C<xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>\u201D to \u201C<xliff:g id="directory" example="example folder">{directory}</xliff:g>\u201D}
+        other {Extracting # archives to \u201C<xliff:g id="directory" example="example folder">{directory}</xliff:g>\u201D}
+    }</string>
     <string name="move_in_progress" translatable="false">{count, plural,
         =1 {Moving <xliff:g id="filename" example="foobar.txt">{filename}</xliff:g> to <xliff:g id="directory" example="example folder">{directory}</xliff:g>}
         other {Moving # files to <xliff:g id="directory" example="example folder">{directory}</xliff:g>}
@@ -430,6 +436,23 @@
         other {Zipping # files}
     }</string>
     <string name="job_progress_panel_title" translatable="false">File Progress</string>
+    <string name="job_progress_item_completed" translatable="false">Completed</string>
+    <string name="job_progress_item_failed" translatable="false">Failed</string>
+    <!-- Label prompting the user to interact to view more details about errors/warnings encountered during a file operation. -->
+    <string name="job_progress_item_see_details">See details</string>
+    <string name="job_progress_item_byte_progress" translatable="false">
+        <xliff:g id="currentBytes" example="2.4 MB">%1$s</xliff:g> of <xliff:g id="totalBytes" example="50 MB">%2$s</xliff:g>
+    </string>
+    <!-- Status message shown when a copy is completed. -->
+    <string name="copy_completed">Copied</string>
+    <!-- Status message shown when a move is completed. -->
+    <string name="move_completed">Moved</string>
+    <!-- Status message shown when a delete is completed. -->
+    <string name="delete_completed">Deleted</string>
+    <!-- Status message shown when a compress file operation is completed. -->
+    <string name="compress_completed">Compressed</string>
+    <!-- Status message shown when an extract file operation is completed. -->
+    <string name="extract_completed">Extracted</string>
 
     <!-- Text in an alert dialog asking user to grant app access to a given directory in an external storage volume -->
     <string name="open_external_dialog_request">Grant <xliff:g id="appName" example="System Settings"><b>^1</b></xliff:g>
@@ -451,6 +474,24 @@
         <item quantity="one"><xliff:g id="count" example="1">%1$d</xliff:g> selected</item>
         <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> selected</item>
     </plurals>
+    <!-- Text used as the content description of the cancel button when files are selected. -->
+    <string name="clear_selection">Clear selection</string>
+    <!-- The voice announcement used as the description of the click action in the file
+         list/grid for normal document in browsing mode. For example: Double tap to open. -->
+    <string name="document_click_action">open</string>
+    <!-- The voice announcement used as the description of the click action in the file list/grid.
+         For example: Double tap to deselect. -->
+    <string name="selected_document_click_action">deselect</string>
+    <!-- The voice announcement used as the description of the long click action in the file
+         list/grid for normal document. For example: Double tap and hold to select. -->
+    <string name="document_long_click_action">select</string>
+    <!-- The voice announcement used as the description of the long click action in the file
+         list/grid for selected document. For example: Double tap and hold to drag. -->
+    <string name="selected_document_long_click_action">drag</string>
+    <!-- The voice announcement used as the description of the long click action in the file
+         list/grid for normal document in picking mode.
+         For example: Double tap and hold to select multiple. -->
+    <string name="document_long_click_action_picker">select multiple</string>
 
     <!-- Label text showing user how many items are being dragged. Can be one or more elements. -->
     <plurals name="elements_dragged">
@@ -587,6 +628,39 @@
     <!-- Search hint on search view. [CHAR LIMIT=48] -->
     <string name="search_bar_hint">Search this device</string>
 
+    <!-- Content description for the X button to clear text [CHAR_LIMIT=NONE] -->
+    <string name="search_bar_clear">Clear text</string>
+
+    <!-- Search location selector placeholder for this folder -->
+    <string name="search_location_this_folder">This folder</string>
+
+    <!-- Search location selector placeholder for root folder -->
+    <string name="search_location_root_folder">Root folder</string>
+
+    <!-- Search location selector placeholder for everywhere -->
+    <string name="search_location_everywhere">Everywhere</string>
+
+    <!-- Search last modified time selector any time-->
+    <string name="search_last_modified_any_time">Any time</string>
+
+    <!-- Search last modified time selector for today -->
+    <string name="search_last_modified_1_day">Today</string>
+
+    <!-- Search last modified time selector last two days -->
+    <string name="search_last_modified_2_days">Yesterday</string>
+
+    <!-- Search last modified time selector for last 7 day -->
+    <string name="search_last_modified_7_days">Last week</string>
+
+    <!-- Search last modified time selector for last 30 days -->
+    <string name="search_last_modified_30_days">Last month</string>
+
+    <!-- Search last modified time selector for last 365 days -->
+    <string name="search_last_modified_365_days">Last year</string>
+
+    <!-- Search file type selector for all types -->
+    <string name="search_file_type_all">All types</string>
+
     <!-- Content description for deleting search history. [CHAR_LIMIT=60] -->
     <string name="delete_search_history">Delete search history <xliff:g id="text" example="image">%1$s</xliff:g></string>
 
@@ -614,4 +688,13 @@
 
     <!-- Text used at the top of the text field when saving a document. [CHAR_LIMIT=100] -->
     <string name="file_name_hint">File name</string>
+
+    <!-- Accessibility label for the Peek navigation icon. -->
+    <string name="a11y_peek_navigation_icon">Hide file preview</string>
+
+    <!-- Text used in Peek to indicate that no preview is available. -->
+    <string name="peek_no_preview">No preview available</string>
+
+    <!-- Accessibility label for an image preview in Peek. -->
+    <string name="a11y_peek_image_preview">Image preview of <xliff:g id="filename" example="image.png">%s</xliff:g></string>
 </resources>

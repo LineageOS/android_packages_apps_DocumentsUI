@@ -16,6 +16,7 @@
 
 package com.android.documentsui.base;
 
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -24,8 +25,18 @@ import android.view.MotionEvent;
  */
 public final class Events {
 
-    public static boolean isMouseEvent(MotionEvent e) {
-        return e.getToolType(0) == MotionEvent.TOOL_TYPE_MOUSE;
+    public static boolean isMousyEvent(MotionEvent e) {
+        int toolType = e.getToolType(0);
+        if (toolType == MotionEvent.TOOL_TYPE_MOUSE) {
+            return true;
+        } else if (toolType == MotionEvent.TOOL_TYPE_FINGER) {
+            // For compatibility reasons, some touchpads (but not on ChromeOS
+            // ARC devices) fire SOURCE_MOUSE and TOOL_TYPE_FINGER events even
+            // though the source should be SOURCE_TOUCHPAD and the tool type
+            // could arguably be TOOL_TYPE_MOUSE.
+            return e.getSource() == InputDevice.SOURCE_MOUSE;
+        }
+        return false;
     }
 
     public static boolean isActionDown(MotionEvent e) {

@@ -17,6 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import android.content.Context;
 import android.os.UserHandle;
@@ -87,6 +88,10 @@ public final class IconHelperTest {
 
     @Test
     public void testShouldShowBadge_returnFalse_onSystemUser() {
+        // In HSUM setups the system user will not be a real user and thus DocumentsUI won't be used
+        // in this situation. Let's assume the current user is a system user (thus the test is
+        // running on a non-HSUM device).
+        assume().that(UserId.CURRENT_USER.isSystem()).isTrue();
         assertThat(mIconHelper.shouldShowBadge(mSystemUser.getIdentifier())).isFalse();
     }
 

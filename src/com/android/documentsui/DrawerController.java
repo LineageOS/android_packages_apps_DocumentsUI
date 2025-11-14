@@ -18,6 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Activity;
 import android.util.Log;
@@ -32,6 +33,7 @@ import androidx.legacy.app.ActionBarDrawerToggle;
 
 import com.android.documentsui.base.Display;
 import com.android.documentsui.base.Providers;
+import com.android.documentsui.util.ColorUtils;
 
 /**
  * A facade over the various pieces comprising "roots fragment in a Drawer".
@@ -53,24 +55,25 @@ public abstract class DrawerController implements DrawerListener {
      */
     public static DrawerController create(BaseActivity activity, ActivityConfig activityConfig) {
 
-        DrawerLayout layout = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
+        DrawerLayout layout = (DrawerLayout) activity.findViewById(getRes(R.id.drawer_layout));
 
         if (layout == null) {
             return new StubDrawerController();
         }
 
-        View drawer = activity.findViewById(R.id.drawer_roots);
+        View drawer = activity.findViewById(getRes(R.id.drawer_roots));
         // This will be null when use_material3 flag is ON, we will check the flag when it's used in
         // RuntimeDrawerController.
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.roots_toolbar);
+        Toolbar toolbar = (Toolbar) activity.findViewById(getRes(R.id.roots_toolbar));
         drawer.getLayoutParams().width = calculateDrawerWidth(activity);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                activity,
-                layout,
-                R.drawable.ic_hamburger,
-                R.string.drawer_open,
-                R.string.drawer_close);
+        ActionBarDrawerToggle toggle =
+                new ActionBarDrawerToggle(
+                        activity,
+                        layout,
+                        getRes(R.drawable.ic_hamburger),
+                        getRes(R.string.drawer_open),
+                        getRes(R.string.drawer_close));
 
         return new RuntimeDrawerController(layout, drawer, toggle, toolbar, activityConfig,
                 activity);
@@ -87,7 +90,7 @@ public abstract class DrawerController implements DrawerListener {
         // Material design specification for navigation drawer:
         // https://www.google.com/design/spec/patterns/navigation-drawer.html
         float width = Display.screenWidth(activity) - Display.actionBarHeight(activity);
-        float maxWidth = activity.getResources().getDimension(R.dimen.max_drawer_width);
+        float maxWidth = activity.getResources().getDimension(getRes(R.dimen.max_drawer_width));
         int finalWidth = (int) ((width > maxWidth ? maxWidth : width));
 
         if (DEBUG)
@@ -126,7 +129,7 @@ public abstract class DrawerController implements DrawerListener {
             mLayout.setDrawerListener(this);
 
             if (activityConfig.dragAndDropEnabled()) {
-                View edge = layout.findViewById(R.id.drawer_edge);
+                View edge = layout.findViewById(getRes(R.id.drawer_edge));
                 // nav_rail_layout also uses DrawerLayout, but it doesn't have drawer edge.
                 if (edge != null) {
                     edge.setOnDragListener(new ItemDragListener<>(this, SPRING_TIMEOUT));
@@ -141,11 +144,20 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void setDropTargetHighlight(View v, boolean highlight) {
-            assert (v.getId() == R.id.drawer_edge);
+            assert (v.getId() == getRes(R.id.drawer_edge));
 
-            @ColorRes int id = highlight ? R.color.secondary :
-                android.R.color.transparent;
-            v.setBackgroundColor(id);
+            if (isUseMaterial3FlagEnabled()) {
+                int highlightColor =
+                        ColorUtils.resolveMaterialColorAttribute(
+                                v.getContext(),
+                                com.google.android.material.R.attr.colorPrimaryContainer);
+                int normalColor = v.getResources().getColor(android.R.color.transparent, null);
+                v.setBackgroundColor(highlight ? highlightColor : normalColor);
+            } else {
+                @ColorRes
+                int id = highlight ? getRes(R.color.secondary) : android.R.color.transparent;
+                v.setBackgroundColor(id);
+            }
         }
 
         @Override
@@ -160,7 +172,7 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void onViewHovered(View v) {
-            assert (v.getId() == R.id.drawer_edge);
+            assert (v.getId() == getRes(R.id.drawer_edge));
 
             setOpen(true);
         }
@@ -172,7 +184,7 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void setOpen(boolean open) {
-            View list = mDrawer.findViewById(R.id.roots_list);
+            View list = mDrawer.findViewById(getRes(R.id.roots_list));
             if (open) {
                 mLayout.openDrawer(mDrawer);
                 if (list != null) {

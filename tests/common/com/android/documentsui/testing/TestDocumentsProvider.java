@@ -18,6 +18,7 @@ package com.android.documentsui.testing;
 
 import android.annotation.NonNull;
 import android.annotation.Nullable;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
@@ -53,6 +54,10 @@ public class TestDocumentsProvider extends DocumentsProvider {
 
     private Cursor mNextChildDocuments;
     private Cursor mNextRecentDocuments;
+
+    // Emulates FileSystemProvider's support for search result limiting.
+    private Boolean mSupportsSearchResultLimit = false;
+    private static final int DEFAULT_MAX_RESULTS = 23;  /* FileSystemProvider.DEFAULT_MAX_RESULTS */
 
     public TestDocumentsProvider(Context context, String authority) {
         ProviderInfo info = new ProviderInfo();
@@ -105,10 +110,23 @@ public class TestDocumentsProvider extends DocumentsProvider {
     public Cursor querySearchDocuments(@NonNull String rootId, @Nullable String[] projection,
             @NonNull Bundle queryArgs) {
         TestCursor cursor = new TestCursor(DOCUMENTS_PROJECTION);
+
+        int maxResults = -1;
+        if (mSupportsSearchResultLimit) {
+            // FileSystemProvider has no concept of "all search results" (the -1/ALL_RESULTS option
+            // used within parts of DocumentsUI); if no limit, or a negative limit is sent, it
+            // will always apply its default limit. We emulate that behaviour here for testing.
+            maxResults = queryArgs.getInt(ContentResolver.QUERY_ARG_LIMIT, DEFAULT_MAX_RESULTS);
+            if (maxResults < 0) {
+                maxResults = DEFAULT_MAX_RESULTS;
+            }
+        }
+
         if (mNextChildDocuments == null) {
             return cursor;
         }
-        for (boolean hasNext = mNextChildDocuments.moveToFirst(); hasNext;
+        for (boolean hasNext = mNextChildDocuments.moveToFirst();
+                hasNext && ((maxResults < 0) || (cursor.getCount() < maxResults));
                 hasNext = mNextChildDocuments.moveToNext()) {
             String displayName = getStringColumn(mNextChildDocuments, Document.COLUMN_DISPLAY_NAME);
             String mimeType = getStringColumn(mNextChildDocuments, Document.COLUMN_MIME_TYPE);
@@ -159,6 +177,15 @@ public class TestDocumentsProvider extends DocumentsProvider {
      */
     public void setNextChildDocumentsReturns(DocumentInfo... docs) {
         mNextChildDocuments = createDocumentsCursor(docs);
+    }
+
+    /**
+     * Allows TestDocumentsProvider to emulate search result limiting feature of FileSystemProvider.
+     * @param supportsLimit Whether {@link #querySearchDocuments(String, String[], Bundle)}
+     *                      should limit results.
+     */
+    public void setSupportsSearchResultLimit(Boolean supportsLimit) {
+        mSupportsSearchResultLimit = supportsLimit;
     }
 
     public void setNextRecentDocumentsReturns(DocumentInfo... docs) {

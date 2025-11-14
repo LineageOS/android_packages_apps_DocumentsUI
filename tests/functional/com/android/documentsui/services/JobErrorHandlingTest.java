@@ -25,6 +25,8 @@ import android.provider.DocumentsContract;
 
 import androidx.test.filters.MediumTest;
 
+import org.junit.Test;
+
 import java.util.List;
 
 /**
@@ -34,6 +36,7 @@ import java.util.List;
 @MediumTest
 public class JobErrorHandlingTest extends AbstractJobTest<DeleteJob> {
 
+    @Test
     public void testRecoversFromInvalidUri() throws Exception {
         Uri invalidUri1 = Uri.parse("content://poodles/chuckleberry/ham");
         Uri validUri = mDocs.createDocument(mSrcRoot, "text/plain", "test2.txt");
@@ -49,6 +52,7 @@ public class JobErrorHandlingTest extends AbstractJobTest<DeleteJob> {
         mDocs.assertChildCount(mSrcRoot, 0);
     }
 
+    @Test
     public void testRecordsInvalidUris() throws Exception {
         Uri invalidUri1 = Uri.parse("content://poodles/chuckleberry/ham");
         Uri validUri = mDocs.createDocument(mSrcRoot, "text/plain", "test2.txt");
@@ -63,6 +67,7 @@ public class JobErrorHandlingTest extends AbstractJobTest<DeleteJob> {
         mJobListener.assertUriFailed(invalidUri2);
     }
 
+    @Test
     public void testReportsCorrectFailureCount() throws Exception {
         Uri invalidUri1 = Uri.parse("content://poodles/chuckleberry/ham");
         Uri validUri = mDocs.createDocument(mSrcRoot, "text/plain", "test2.txt");

@@ -22,6 +22,9 @@ import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_
 import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_WORK_FILES_TITLE;
 import static com.android.documentsui.DevicePolicyResources.Strings.WORK_PROFILE_OFF_ENABLE_BUTTON;
 import static com.android.documentsui.DevicePolicyResources.Strings.WORK_PROFILE_OFF_ERROR_TITLE;
+import static com.android.documentsui.testing.DrawableAsserts.assertDrawablesEqual;
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
@@ -53,6 +56,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
+import com.android.documentsui.testing.TestModel;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.UserManagers;
 import com.android.modules.utils.build.SdkLevel;
@@ -83,6 +87,7 @@ public final class MessageTest {
     private DevicePolicyManager mDevicePolicyManager;
     private TestActionHandler mTestActionHandler;
     private final TestConfigStore mTestConfigStore = new TestConfigStore();
+    private DocumentsAdapter.Environment mEnv;
 
     @Parameter(0)
     public boolean isPrivateSpaceEnabled;
@@ -110,9 +115,8 @@ public final class MessageTest {
                 .thenReturn(mDevicePolicyManager);
         when(mContext.getResources()).thenReturn(
                 InstrumentationRegistry.getInstrumentation().getTargetContext().getResources());
-        DocumentsAdapter.Environment env =
-                new TestEnvironment(mContext, TestEnv.create(), mTestActionHandler);
-        env.getDisplayState().action = State.ACTION_GET_CONTENT;
+        mEnv = new TestEnvironment(mContext, TestEnv.create(), mTestActionHandler);
+        mEnv.getDisplayState().action = State.ACTION_GET_CONTENT;
 
         isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
         if (SdkLevel.isAtLeastV()) {
@@ -129,11 +133,11 @@ public final class MessageTest {
             Map<UserId, String> userIdToLabelMap = new HashMap<>();
             userIdToLabelMap.put(TestProvidersAccess.USER_ID, personalLabel);
             userIdToLabelMap.put(mUserId, workLabel);
-            mInflateMessage = new Message.InflateMessage(env, mDefaultCallback,
+            mInflateMessage = new Message.InflateMessage(mEnv, mDefaultCallback,
                     TestProvidersAccess.USER_ID, mUserId, userIdToLabelMap, mUserManager,
                     mTestConfigStore);
         } else {
-            mInflateMessage = new Message.InflateMessage(env, mDefaultCallback, mTestConfigStore);
+            mInflateMessage = new Message.InflateMessage(mEnv, mDefaultCallback, mTestConfigStore);
         }
     }
 
@@ -257,5 +261,40 @@ public final class MessageTest {
         mInflateMessage.mCallback.run();
 
         assertThat(mTestActionHandler.mRequestDisablingQuietModeHappened).isTrue();
+    }
+
+    @Test
+    public void testInflateMessage_updateToEmptyMessage() {
+        // Set model to empty.
+        ((TestModel) mEnv.getModel()).clearIds();
+        // Make sure we have a root doc for title access.
+        mEnv.getDisplayState().stack.changeRoot(TestProvidersAccess.HOME);
+        // Turn off search mode.
+        ((TestEnvironment) mEnv).setInSearchMode(false);
+
+        mInflateMessage.update(Model.Update.UPDATE);
+
+        Drawable expectedDrawable = mContext.getDrawable(getRes(R.drawable.empty));
+        assertDrawablesEqual(mInflateMessage.getIcon(), expectedDrawable);
+    }
+
+    @Test
+    public void testInflateMessage_updateToEmptyMessage_InSearch() {
+        // Set model to empty.
+        ((TestModel) mEnv.getModel()).clearIds();
+        // Make sure we have a root doc for title access.
+        mEnv.getDisplayState().stack.changeRoot(TestProvidersAccess.HOME);
+        // Turn on search mode.
+        ((TestEnvironment) mEnv).setInSearchMode(true);
+
+        mInflateMessage.update(Model.Update.UPDATE);
+
+        final Drawable expectedDrawable;
+        if (isUseMaterial3FlagEnabled()) {
+            expectedDrawable = mContext.getDrawable(R.drawable.empty_search);
+        } else {
+            expectedDrawable = mContext.getDrawable(R.drawable.empty);
+        }
+        assertDrawablesEqual(mInflateMessage.getIcon(), expectedDrawable);
     }
 }

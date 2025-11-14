@@ -20,6 +20,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.MAX_DOCS_IN_INTENT;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -159,7 +160,7 @@ public final class QuickViewIntentBuilder {
     }
 
     private String getQuickViewPackage() {
-        String resValue = mResources.getString(R.string.trusted_quick_viewer_package);
+        String resValue = mResources.getString(getRes(R.string.trusted_quick_viewer_package));
 
         // Allow automated tests to hard-disable quick viewing.
         if (IGNORE_DEBUG_PROP.equals(resValue)) {

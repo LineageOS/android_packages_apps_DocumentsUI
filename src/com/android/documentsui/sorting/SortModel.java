@@ -17,6 +17,7 @@
 package com.android.documentsui.sorting;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -50,9 +51,9 @@ public class SortModel implements Parcelable {
     public static final int SORT_DIMENSION_ID_UNKNOWN = 0;
     public static final int SORT_DIMENSION_ID_TITLE = android.R.id.title;
     public static final int SORT_DIMENSION_ID_SUMMARY = android.R.id.summary;
-    public static final int SORT_DIMENSION_ID_SIZE = R.id.size;
-    public static final int SORT_DIMENSION_ID_FILE_TYPE = R.id.file_type;
-    public static final int SORT_DIMENSION_ID_DATE = R.id.date;
+    public static final int SORT_DIMENSION_ID_SIZE = getRes(R.id.size);
+    public static final int SORT_DIMENSION_ID_FILE_TYPE = getRes(R.id.file_type);
+    public static final int SORT_DIMENSION_ID_DATE = getRes(R.id.date);
 
     @IntDef(flag = true, value = {
             UPDATE_TYPE_NONE,
@@ -235,15 +236,15 @@ public class SortModel implements Parcelable {
             queryArgs.putStringArray(
                     ContentResolver.QUERY_ARG_SORT_COLUMNS,
                     new String[]{Document.COLUMN_DISPLAY_NAME});
-        } else if (id == SortModel.SORT_DIMENSION_ID_DATE) {
+        } else if (id == getRes(SortModel.SORT_DIMENSION_ID_DATE)) {
             queryArgs.putStringArray(
                     ContentResolver.QUERY_ARG_SORT_COLUMNS,
                     new String[]{Document.COLUMN_LAST_MODIFIED});
-        } else if (id == SortModel.SORT_DIMENSION_ID_SIZE) {
+        } else if (id == getRes(SortModel.SORT_DIMENSION_ID_SIZE)) {
             queryArgs.putStringArray(
                     ContentResolver.QUERY_ARG_SORT_COLUMNS,
                     new String[]{Document.COLUMN_SIZE});
-        } else if (id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
+        } else if (id == getRes(SortModel.SORT_DIMENSION_ID_FILE_TYPE)) {
             // Unfortunately sorting by mime type is pretty much guaranteed different from
             // sorting by user-friendly type, so there is no point to guide the provider to sort
             // in a particular order.
@@ -286,11 +287,11 @@ public class SortModel implements Parcelable {
             return null;
         } else if (id == SortModel.SORT_DIMENSION_ID_TITLE) {
             columnName = Document.COLUMN_DISPLAY_NAME;
-        } else if (id == SortModel.SORT_DIMENSION_ID_DATE) {
+        } else if (id == getRes(SortModel.SORT_DIMENSION_ID_DATE)) {
             columnName = Document.COLUMN_LAST_MODIFIED;
-        } else if (id == SortModel.SORT_DIMENSION_ID_SIZE) {
+        } else if (id == getRes(SortModel.SORT_DIMENSION_ID_SIZE)) {
             columnName = Document.COLUMN_SIZE;
-        } else if (id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
+        } else if (id == getRes(SortModel.SORT_DIMENSION_ID_FILE_TYPE)) {
             // Unfortunately sorting by mime type is pretty much guaranteed different from
             // sorting by user-friendly type, so there is no point to guide the provider to sort
             // in a particular order.
@@ -437,58 +438,54 @@ public class SortModel implements Parcelable {
         SortDimension.Builder builder = new SortDimension.Builder();
 
         // Name column
-        dimensions.add(builder
-                .withId(SORT_DIMENSION_ID_TITLE)
-                .withLabelId(R.string.sort_dimension_name)
-                .withDataType(SortDimension.DATA_TYPE_STRING)
-                .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
-                .withDefaultSortDirection(SortDimension.SORT_DIRECTION_ASCENDING)
-                .withVisibility(View.VISIBLE)
-                .build()
-        );
+        dimensions.add(
+                builder.withId(SORT_DIMENSION_ID_TITLE)
+                        .withLabelId(getRes(R.string.sort_dimension_name))
+                        .withDataType(SortDimension.DATA_TYPE_STRING)
+                        .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
+                        .withDefaultSortDirection(SortDimension.SORT_DIRECTION_ASCENDING)
+                        .withVisibility(View.VISIBLE)
+                        .build());
 
         // Summary column
         // Summary is only visible in Downloads and Recents root.
-        dimensions.add(builder
-                .withId(SORT_DIMENSION_ID_SUMMARY)
-                .withLabelId(R.string.sort_dimension_summary)
-                .withDataType(SortDimension.DATA_TYPE_STRING)
-                .withSortCapability(SortDimension.SORT_CAPABILITY_NONE)
-                .withVisibility(View.INVISIBLE)
-                .build()
-        );
+        dimensions.add(
+                builder.withId(SORT_DIMENSION_ID_SUMMARY)
+                        .withLabelId(getRes(R.string.sort_dimension_summary))
+                        .withDataType(SortDimension.DATA_TYPE_STRING)
+                        .withSortCapability(SortDimension.SORT_CAPABILITY_NONE)
+                        .withVisibility(View.INVISIBLE)
+                        .build());
 
         // Size column
-        dimensions.add(builder
-                .withId(SORT_DIMENSION_ID_SIZE)
-                .withLabelId(R.string.sort_dimension_size)
-                .withDataType(SortDimension.DATA_TYPE_NUMBER)
-                .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
-                .withDefaultSortDirection(SortDimension.SORT_DIRECTION_ASCENDING)
-                .withVisibility(View.VISIBLE)
-                .build()
-        );
+        dimensions.add(
+                builder.withId(getRes(SORT_DIMENSION_ID_SIZE))
+                        .withLabelId(getRes(R.string.sort_dimension_size))
+                        .withDataType(SortDimension.DATA_TYPE_NUMBER)
+                        .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
+                        .withDefaultSortDirection(SortDimension.SORT_DIRECTION_ASCENDING)
+                        .withVisibility(View.VISIBLE)
+                        .build());
 
         // Type column
-        dimensions.add(builder
-            .withId(SORT_DIMENSION_ID_FILE_TYPE)
-            .withLabelId(R.string.sort_dimension_file_type)
-            .withDataType(SortDimension.DATA_TYPE_STRING)
-            .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
-            .withDefaultSortDirection(SortDimension.SORT_DIRECTION_ASCENDING)
-            .withVisibility(View.VISIBLE)
-            .build());
+        dimensions.add(
+                builder.withId(getRes(SORT_DIMENSION_ID_FILE_TYPE))
+                        .withLabelId(getRes(R.string.sort_dimension_file_type))
+                        .withDataType(SortDimension.DATA_TYPE_STRING)
+                        .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
+                        .withDefaultSortDirection(SortDimension.SORT_DIRECTION_ASCENDING)
+                        .withVisibility(View.VISIBLE)
+                        .build());
 
         // Date column
-        dimensions.add(builder
-                .withId(SORT_DIMENSION_ID_DATE)
-                .withLabelId(R.string.sort_dimension_date)
-                .withDataType(SortDimension.DATA_TYPE_NUMBER)
-                .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
-                .withDefaultSortDirection(SortDimension.SORT_DIRECTION_DESCENDING)
-                .withVisibility(View.VISIBLE)
-                .build()
-        );
+        dimensions.add(
+                builder.withId(getRes(SORT_DIMENSION_ID_DATE))
+                        .withLabelId(getRes(R.string.sort_dimension_date))
+                        .withDataType(SortDimension.DATA_TYPE_NUMBER)
+                        .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
+                        .withDefaultSortDirection(SortDimension.SORT_DIRECTION_DESCENDING)
+                        .withVisibility(View.VISIBLE)
+                        .build());
 
         return new SortModel(dimensions);
     }

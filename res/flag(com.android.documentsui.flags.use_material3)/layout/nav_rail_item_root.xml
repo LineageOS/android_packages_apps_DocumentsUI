@@ -35,14 +35,14 @@
 
         <ImageView
             android:id="@android:id/icon"
-            android:layout_width="@dimen/root_icon_size"
-            android:layout_height="@dimen/root_icon_size"
+            android:layout_width="@dimen/root_icon_size_m3"
+            android:layout_height="@dimen/root_icon_size_m3"
             android:scaleType="centerInside"
             android:contentDescription="@null" />
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@android:id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

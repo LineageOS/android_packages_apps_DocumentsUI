@@ -17,6 +17,7 @@
 package com.android.documentsui.sidebar;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -65,7 +66,7 @@ public class RootItem extends Item {
 
     public RootItem(RootInfo root, ActionHandler actionHandler, String packageName,
             boolean maybeShowBadge) {
-        this(R.layout.item_root, root, actionHandler, packageName, maybeShowBadge);
+        this(getRes(R.layout.item_root), root, actionHandler, packageName, maybeShowBadge);
     }
 
     public RootItem(
@@ -93,7 +94,10 @@ public class RootItem extends Item {
     public void bindView(View convertView) {
         final Context context = convertView.getContext();
         if (root.supportsEject()) {
-            bindAction(convertView, View.VISIBLE, R.drawable.ic_eject,
+            bindAction(
+                    convertView,
+                    View.VISIBLE,
+                    getRes(R.drawable.ic_eject),
                     context.getResources().getString(R.string.menu_eject_root));
         } else {
             bindAction(convertView, View.GONE, -1 /* iconResource */, null /* description */);
@@ -101,8 +105,10 @@ public class RootItem extends Item {
         // Show available space if no summary
         String summaryText = root.summary;
         if (TextUtils.isEmpty(summaryText) && root.availableBytes >= 0) {
-            summaryText = context.getString(R.string.root_available_bytes,
-                    Formatter.formatFileSize(context, root.availableBytes));
+            summaryText =
+                    context.getString(
+                            getRes(R.string.root_available_bytes),
+                            Formatter.formatFileSize(context, root.availableBytes));
         }
 
         bindIconAndTitle(convertView);
@@ -111,7 +117,7 @@ public class RootItem extends Item {
 
     protected final void bindAction(View view, int visibility, int iconId, String description) {
         if (isUseMaterial3FlagEnabled()) {
-            final MaterialButton actionIcon = view.findViewById(R.id.action_icon);
+            final MaterialButton actionIcon = view.findViewById(getRes(R.id.action_icon));
 
             actionIcon.setVisibility(visibility);
             actionIcon.setOnClickListener(visibility == View.VISIBLE ? this::onActionClick : null);
@@ -124,9 +130,9 @@ public class RootItem extends Item {
                 actionIcon.setIconResource(iconId);
             }
         } else {
-            final ImageView actionIcon = (ImageView) view.findViewById(R.id.action_icon);
-            final View verticalDivider = view.findViewById(R.id.vertical_divider);
-            final View actionIconArea = view.findViewById(R.id.action_icon_area);
+            final ImageView actionIcon = (ImageView) view.findViewById(getRes(R.id.action_icon));
+            final View verticalDivider = view.findViewById(getRes(R.id.vertical_divider));
+            final View actionIconArea = view.findViewById(getRes(R.id.action_icon_area));
 
             verticalDivider.setVisibility(visibility);
             actionIconArea.setVisibility(visibility);
@@ -138,7 +144,7 @@ public class RootItem extends Item {
             if (iconId > 0) {
                 actionIcon.setImageDrawable(
                         IconUtils.applyTintColor(
-                                view.getContext(), iconId, R.color.item_action_icon));
+                                view.getContext(), iconId, getRes(R.color.item_action_icon)));
             }
         }
     }
@@ -155,7 +161,9 @@ public class RootItem extends Item {
         MaterialButton actionIcon = (MaterialButton) view;
         if (hasFocus) {
             final int focusRingWidth =
-                    actionIcon.getResources().getDimensionPixelSize(R.dimen.focus_ring_width);
+                    actionIcon
+                            .getResources()
+                            .getDimensionPixelSize(getRes(R.dimen.focus_ring_width));
             actionIcon.setStrokeWidth(focusRingWidth);
         } else {
             actionIcon.setStrokeWidth(0);
@@ -215,7 +223,7 @@ public class RootItem extends Item {
 
     @Override
     void createContextMenu(Menu menu, MenuInflater inflater, MenuManager menuManager) {
-        inflater.inflate(R.menu.root_context_menu, menu);
+        inflater.inflate(getRes(R.menu.root_context_menu), menu);
         menuManager.updateRootContextMenu(menu, root, docInfo);
     }
 

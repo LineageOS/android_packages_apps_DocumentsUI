@@ -18,6 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
+import static com.android.documentsui.util.FlagUtils.isSearchV2Enabled;
 
 import android.app.AuthenticationRequiredException;
 import android.database.Cursor;
@@ -140,13 +141,30 @@ public class Model {
         }
 
         final Bundle extras = mCursor.getExtras();
-        if (extras != null) {
+        if (extras == null) {
+            if (isSearchV2Enabled()) {
+                mIsLoading = false;
+            }
+        } else {
             info = extras.getString(DocumentsContract.EXTRA_INFO);
             error = extras.getString(DocumentsContract.EXTRA_ERROR);
             mIsLoading = extras.getBoolean(DocumentsContract.EXTRA_LOADING, false);
         }
 
         notifyUpdateListeners();
+    }
+
+    /**
+     * Explicitly sets whether this model is in the loading state or not.
+     * @param loading If this model is considered to be loading new content.
+     */
+    public void setLoading(boolean loading) {
+        if (isSearchV2Enabled()) {
+            if (mIsLoading != loading) {
+                mIsLoading = loading;
+                notifyUpdateListeners();
+            }
+        }
     }
 
     @VisibleForTesting

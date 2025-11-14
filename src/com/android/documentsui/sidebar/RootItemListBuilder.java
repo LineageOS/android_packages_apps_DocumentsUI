@@ -18,6 +18,8 @@ package com.android.documentsui.sidebar;
 
 import static androidx.core.util.Preconditions.checkNotNull;
 
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+
 import com.android.documentsui.base.UserId;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -96,6 +98,16 @@ class RootItemListBuilder {
             }
         }
 
-        return Collections.singletonList(RootItem.createStubItem(testRootItem, mSelectedUser));
+        final RootItem stubItem;
+        // When use_material3 flag is ON, a sub class of RootItem is introduced: NavRailRootItem,
+        // which has different underlying layout, so for NavRailRootItem we need to call its own
+        // static method to create stub item.
+        if (isUseMaterial3FlagEnabled() && testRootItem instanceof NavRailRootItem) {
+            stubItem =
+                    NavRailRootItem.createStubItem((NavRailRootItem) testRootItem, mSelectedUser);
+        } else {
+            stubItem = RootItem.createStubItem(testRootItem, mSelectedUser);
+        }
+        return Collections.singletonList(stubItem);
     }
 }

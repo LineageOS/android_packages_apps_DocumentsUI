@@ -81,7 +81,7 @@ public class ActionCreateDocumentUiTest extends DocumentsUiTestBase {
 
         bots.main.setDialogText(fileName);
         device.waitForIdle();
-        bots.main.clickSaveButton();
+        bots.picker.clickSaveButton();
 
         final Instrumentation.ActivityResult activityResult = mRule.getActivityResult();
         assertThat(activityResult.getResultCode()).isEqualTo(RESULT_OK);

@@ -17,6 +17,7 @@ package com.android.documentsui.loaders
 
 import android.os.Bundle
 import java.time.Duration
+import java.util.Objects
 
 /**
  * The constant to be used for the maxResults parameter, if we wish to get all (unlimited) results.
@@ -25,7 +26,11 @@ const val ALL_RESULTS: Int = -1
 
 /**
  * Common query options. These are:
- *  - maximum number to return; pass ALL_RESULTS to impose no limits.
+ *  - maximum number of results to return across all queried providers; pass ALL_RESULTS to impose
+ *    no limits.
+ *  - maximum number of results to return *per root*; pass ALL_RESULTS to impose no limits,
+ *    and note that this only works for DocumentsProviders that support QUERY_ARG_LIMIT for queries
+ *    on their Roots.
  *  - maximum lastModified delta in milliseconds: the delta from now used to reject files that were
  *    not modified in the specified milliseconds; pass null for no limits.
  *  - maximum time the query should return, including empty, results; pass null for no limits.
@@ -40,6 +45,7 @@ const val ALL_RESULTS: Int = -1
  */
 data class QueryOptions(
     val maxResults: Int,
+    val maxResultsPerRoot: Int,
     val maxLastModifiedDelta: Duration?,
     val maxQueryTime: Duration?,
     val showHidden: Boolean,
@@ -54,6 +60,7 @@ data class QueryOptions(
         other as QueryOptions
 
         return maxResults == other.maxResults &&
+                maxResultsPerRoot == other.maxResultsPerRoot &&
                 maxLastModifiedDelta == other.maxLastModifiedDelta &&
                 maxQueryTime == other.maxQueryTime &&
                 showHidden == other.showHidden &&
@@ -80,11 +87,13 @@ data class QueryOptions(
     fun isQueryTimeUnlimited() = maxQueryTime == null
 
     override fun hashCode(): Int {
-        var result = maxResults
-        result = 31 * result + maxLastModifiedDelta.hashCode()
-        result = 31 * result + maxQueryTime.hashCode()
-        result = 31 * result + showHidden.hashCode()
-        result = 31 * result + acceptableMimeTypes.contentHashCode()
-        return result
+        return Objects.hash(
+            maxResults,
+            maxResultsPerRoot,
+            maxLastModifiedDelta,
+            maxQueryTime,
+            showHidden,
+            acceptableMimeTypes.contentHashCode()
+        )
     }
 }

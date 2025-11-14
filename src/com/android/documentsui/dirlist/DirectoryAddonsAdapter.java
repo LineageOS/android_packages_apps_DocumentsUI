@@ -103,7 +103,8 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
                         || getItemViewType(position) == ITEM_TYPE_HEADER_MESSAGE
                         || getItemViewType(position) == ITEM_TYPE_INFLATED_MESSAGE) {
                     return columnCount;
-                } else if (mEnv.getDisplayState().isPhotoPicking()
+                } else if (!isUseMaterial3FlagEnabled()
+                        && mEnv.getDisplayState().isPhotoPicking()
                         && mEnv.getDisplayState().derivedMode == State.MODE_GRID) {
                     // If on photo picking state and grid mode,
                     // the UI should show 3 images a row or 2 folders a row.

@@ -9,8 +9,7 @@
     }
   ],
   "desktop-postsubmit": [    {
-      "name": "DocumentsUIGoogleTests",
-      "keywords": ["primary-device"]
+      "name": "DocumentsUIGoogleTests"
     },
     {
       "name": "DocumentsUIUnitTests"

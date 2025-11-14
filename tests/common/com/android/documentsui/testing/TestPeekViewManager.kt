@@ -15,18 +15,23 @@
  */
 package com.android.documentsui.testing
 
-import android.app.Activity
+import android.widget.FrameLayout
 import androidx.fragment.app.FragmentManager
 import com.android.documentsui.base.DocumentInfo
 import com.android.documentsui.peek.PeekViewManager
+import com.android.documentsui.peek.PeekViewModel
+import org.mockito.Mockito.mock
 
-class TestPeekViewManager(mActivity: Activity) : PeekViewManager(mActivity) {
+class TestPeekViewManager() :
+    PeekViewManager(
+        PeekViewModel(),
+        mock(FrameLayout::class.java),
+        mock(FragmentManager::class.java)
+    ) {
 
     val peekDocument = TestEventListener<DocumentInfo>()
 
-    override fun initFragment(fm: FragmentManager) {
-        throw UnsupportedOperationException()
-    }
+    override fun initialize() {}
 
     override fun peekDocument(doc: DocumentInfo) {
         peekDocument.accept(doc)

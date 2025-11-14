@@ -16,6 +16,7 @@
 
 package com.android.documentsui.base;
 
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
@@ -35,5 +36,21 @@ public final class SharedMinimal {
 
     private SharedMinimal() {
         throw new UnsupportedOperationException("provides static fields only");
+    }
+
+    /**
+     * Gets a redacted string representation of the given object. Can be used to redact file names,
+     * file paths or URIs in log messages.
+     */
+    public static String redact(Object o) {
+        if (o == null) return "(null)";
+
+        if (DEBUG) {
+            if (o instanceof Uri) return o.toString();
+            return "'" + o.toString() + "'";
+        }
+
+        if (o instanceof Uri) return ((Uri) o).toSafeString();
+        return "(redacted)";
     }
 }

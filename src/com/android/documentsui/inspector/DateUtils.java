@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.inspector;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.format.DateFormat;
@@ -35,9 +37,10 @@ final class DateUtils {
      */
     static String formatDate(Context context, long date) {
         Resources res = context.getResources();
-        int formatRes = DateFormat.is24HourFormat(context)
-                ? R.string.datetime_format_24
-                : R.string.datetime_format_12;
+        int formatRes =
+                DateFormat.is24HourFormat(context)
+                        ? getRes(R.string.datetime_format_24)
+                        : getRes(R.string.datetime_format_12);
         String format = DateFormat.getBestDateTimePattern(
                 Locale.getDefault(),
                 res.getString(formatRes));

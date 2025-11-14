@@ -20,18 +20,18 @@ import static com.android.documentsui.flags.Flags.FLAG_USE_MATERIAL3;
 
 import android.net.Uri;
 import android.platform.test.annotations.RequiresFlagsEnabled;
-import android.platform.test.flag.junit.CheckFlagsRule;
-import android.platform.test.flag.junit.DeviceFlagsValueProvider;
 import android.view.KeyEvent;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.TestFilesRule;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -66,6 +66,12 @@ public class SortDocumentUiTest extends ActivityTestJunit4<FilesActivity> {
     private static final String[] FILES_IN_TYPE_ASC = {FILE_2, FILE_3, FILE_1};
     private static final String[] FILES_IN_TYPE_DESC = reverse(FILES_IN_TYPE_ASC);
 
+    @Rule
+    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+
+    @Rule
+    public final TestFilesRule mTestFilesRule = new TestFilesRule(/* skipCreation */ true);
+
     private static String[] reverse(String[] array) {
         String[] ret = new String[array.length];
 
@@ -76,18 +82,9 @@ public class SortDocumentUiTest extends ActivityTestJunit4<FilesActivity> {
         return ret;
     }
 
-    @Rule
-    public final CheckFlagsRule mCheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule();
-
     @Before
-    public void setUp() throws Exception {
-        super.setUp();
+    public void setUpTest() {
         bots.roots.closeDrawer();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 
     private void initFiles() throws Exception {
@@ -101,15 +98,17 @@ public class SortDocumentUiTest extends ActivityTestJunit4<FilesActivity> {
      * @param sleep time to sleep in ms
      */
     private void initFiles(long sleep) throws Exception {
+        RootInfo root = mTestFilesRule.docsHelper.getRoot(StubProvider.ROOT_0_ID);
         for (int i = 0; i < FILES.length; ++i) {
-            Uri uri = mDocsHelper.createDocument(getInitialRoot(), MIMES[i], FILES[i]);
-            mDocsHelper.writeDocument(uri, FILES[i].getBytes());
+            Uri uri =
+                    mTestFilesRule.docsHelper.createDocument(root, MIMES[i], FILES[i]);
+            mTestFilesRule.docsHelper.writeDocument(uri, FILES[i].getBytes());
 
             Thread.sleep(sleep);
         }
 
         for (String dir : DIRS) {
-            mDocsHelper.createFolder(getInitialRoot(), dir);
+            mTestFilesRule.docsHelper.createFolder(root, dir);
 
             Thread.sleep(sleep);
         }

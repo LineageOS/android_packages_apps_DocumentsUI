@@ -19,6 +19,7 @@ package com.android.documentsui;
 import static android.content.ContentResolver.wrap;
 
 import static com.android.documentsui.DocumentsApplication.acquireUnstableProviderOrThrow;
+import static com.android.documentsui.base.SharedMinimal.redact;
 
 import android.content.ContentProviderClient;
 import android.content.Context;
@@ -640,7 +641,7 @@ public final class Metrics {
         try {
             return DocumentsContract.getRootId(uri);
         } catch (IllegalArgumentException iae) {
-            Log.w(TAG, "Invalid root Uri " + uri.toSafeString());
+            Log.w(TAG, "Invalid root Uri " + redact(uri));
         }
         return null;
     }

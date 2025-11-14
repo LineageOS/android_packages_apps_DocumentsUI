@@ -17,17 +17,17 @@
 package com.android.documentsui.services;
 
 import static android.os.SystemClock.elapsedRealtime;
+
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.services.FileOperationService.EXTRA_CANCEL;
 import static com.android.documentsui.services.FileOperationService.EXTRA_JOB_ID;
 import static com.android.documentsui.services.FileOperationService.EXTRA_OPERATION;
 
-import androidx.annotation.IntDef;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
+
+import androidx.annotation.IntDef;
 
 import com.android.documentsui.services.FileOperationService.OpType;
 
@@ -74,17 +74,21 @@ public final class FileOperations {
         return newJobId;
     }
 
-    @VisibleForTesting
-    public static void cancel(Activity activity, String jobId) {
+    /**
+     * Tries to cancel a given operation by its job id.
+     * @param context
+     * @param jobId The job to cancel.
+     */
+    public static void cancel(Context context, String jobId) {
         if (DEBUG) {
             Log.d(TAG, "Attempting to canceling operation: " + jobId);
         }
 
-        Intent intent = new Intent(activity, FileOperationService.class);
+        Intent intent = new Intent(context, FileOperationService.class);
         intent.putExtra(EXTRA_CANCEL, true);
         intent.putExtra(EXTRA_JOB_ID, jobId);
 
-        activity.startService(intent);
+        context.startService(intent);
     }
 
     /**

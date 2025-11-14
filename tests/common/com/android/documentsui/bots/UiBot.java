@@ -21,7 +21,9 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasFocus;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -30,7 +32,6 @@ import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
-import static junit.framework.Assert.assertTrue;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -117,10 +118,40 @@ public class UiBot extends Bots.BaseBot {
                 .check(matches(withToolbarTitle(is(expected))));
     }
 
+    /**
+     * Checks that the search bar is visible.
+     */
     public void assertSearchBarShow() {
-        UiSelector selector = new UiSelector().text(mContext.getString(R.string.search_bar_hint));
-        UiObject searchHint = mDevice.findObject(selector);
-        assertTrue(searchHint.exists());
+        onView(withId(R.id.searchbar_title)).check(matches(isDisplayed()));
+    }
+
+    /**
+     * Checks that the search bar is not visible.
+     */
+    public void assertSearchBarGone() {
+        onView(withId(R.id.searchbar_title)).check(
+                matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+    }
+
+    /**
+     * Checks that the UI chip that toggles location search menu is visible.
+     */
+    public void assertLocationTriggerShows() {
+        onView(withId(R.id.search_location_trigger)).check(matches(isDisplayed()));
+    }
+
+    /**
+     * Checks that the UI chip that toggles last modified menu is visible.
+     */
+    public void assertLastModifiedTriggerShows() {
+        onView(withId(R.id.search_last_modified_trigger)).check(matches(isDisplayed()));
+    }
+
+    /**
+     * Checks that the UI chip that toggles file type menu is visible.
+     */
+    public void assertFileTypeTriggerShows() {
+        onView(withId(R.id.search_file_type_trigger)).check(matches(isDisplayed()));
     }
 
     public void assertMenuEnabled(int id, boolean enabled) {
@@ -152,6 +183,24 @@ public class UiBot extends Bots.BaseBot {
     public void assertDialogText(String expected) throws UiObjectNotFoundException {
         onView(TEXT_ENTRY)
                 .check(matches(withText(is(expected))));
+    }
+
+    /**
+     * Checks that the current view state is in list mode.
+     */
+    public void assertInListMode() {
+        // In list mode, there should be the grid mode button that is visible.
+        final UiObject2 gridModeBtn = menuGridMode();
+        assertNotNull(gridModeBtn);
+    }
+
+    /**
+     * Checks that the current view state is in grid mode.
+     */
+    public void assertInGridMode() {
+        // In grid mode, there should be the list mode button that is visible.
+        final UiObject2 listModeBtn = menuListMode();
+        assertNotNull(listModeBtn);
     }
 
     public boolean inFixedLayout() {
@@ -216,6 +265,7 @@ public class UiBot extends Bots.BaseBot {
         } else {
             onView(ACTIONBAR_OVERFLOW).perform(click());
         }
+        mDevice.waitForIdle();
         // Click the item by label, since Espresso doesn't support lookup by id on overflow.
         onView(withText(label)).perform(click());
     }
@@ -224,10 +274,6 @@ public class UiBot extends Bots.BaseBot {
         onView(TOOLBAR_OVERFLOW).perform(click());
         // Click the item by label, since Espresso doesn't support lookup by id on overflow.
         onView(withText(label)).perform(click());
-    }
-
-    public void clickSaveButton() {
-        onView(withId(android.R.id.button1)).perform(click());
     }
 
     public boolean waitForActionModeBarToAppear() {
@@ -280,18 +326,30 @@ public class UiBot extends Bots.BaseBot {
         onView(withId(android.R.id.button1)).check(matches(hasFocus()));
     }
 
-    public void clickDialogOkButton() {
-        // Espresso has flaky results when keyboard shows up, so hiding it for now
-        // before trying to click on any dialog button
-        Espresso.closeSoftKeyboard();
+    /** Clicks the OK button on a dialog. */
+    public void clickDialogOkButton(boolean closeSoftKeyboard) {
+        // On dialogs with no text input, a soft keyboard doesn't show up at all and attempting to
+        // close it causes failures. Let's be intentional about the closure only on dialogs which
+        // have text input.
+        if (closeSoftKeyboard) {
+            // Espresso has flaky results when keyboard shows up, so hiding it for now
+            // before trying to click on any dialog button
+            Espresso.closeSoftKeyboard();
+        }
         UiObject2 okButton = mDevice.findObject(By.res("android:id/button1"));
         okButton.click();
     }
 
-    public void clickDialogCancelButton() throws UiObjectNotFoundException {
-        // Espresso has flaky results when keyboard shows up, so hiding it for now
-        // before trying to click on any dialog button
-        Espresso.closeSoftKeyboard();
+    /** Clicks the Cancel button on a dialog. */
+    public void clickDialogCancelButton(boolean closeSoftKeyboard) {
+        // On dialogs with no text input, a soft keyboard doesn't show up at all and attempting to
+        // close it causes failures. Let's be intentional about the closure only on dialogs which
+        // have text input.
+        if (closeSoftKeyboard) {
+            // Espresso has flaky results when keyboard shows up, so hiding it for now
+            // before trying to click on any dialog button
+            Espresso.closeSoftKeyboard();
+        }
         UiObject2 okButton = mDevice.findObject(By.res("android:id/button2"));
         okButton.click();
     }

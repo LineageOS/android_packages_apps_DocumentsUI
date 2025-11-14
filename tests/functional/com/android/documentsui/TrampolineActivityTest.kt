@@ -19,8 +19,6 @@ import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.os.Build.VERSION_CODES
 import android.platform.test.annotations.RequiresFlagsEnabled
-import android.platform.test.flag.junit.CheckFlagsRule
-import android.platform.test.flag.junit.DeviceFlagsValueProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SdkSuppress
 import androidx.test.filters.SmallTest
@@ -30,8 +28,15 @@ import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import com.android.documentsui.flags.Flags.FLAG_REDIRECT_GET_CONTENT_RO
 import com.android.documentsui.picker.TrampolineActivity
+import com.android.documentsui.rules.CheckAndForceMaterial3Flag
+import com.android.documentsui.util.getPhotopickerGetContentComponentNameForType
+import com.google.common.truth.TruthJUnit.assume
 import java.util.Optional
 import java.util.regex.Pattern
+import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.BeforeClass
@@ -60,15 +65,36 @@ class TrampolineActivityTest() {
 
         private lateinit var device: UiDevice
 
-        fun removePhotopickerAndDocumentsUITasks() {
+        suspend fun removePhotopickerAndDocumentsUITasks() {
+            var taskIds = findPhotopickerAndDocumentsUITasks()
+
+            for (taskId in taskIds) {
+                device.executeShellCommand("am stack remove $taskId")
+            }
+
+            withTimeoutOrNull(5.seconds) {
+                while (taskIds.isNotEmpty()) {
+                    delay(100)
+                    taskIds = findPhotopickerAndDocumentsUITasks()
+                }
+                true
+            }
+        }
+
+        private fun findPhotopickerAndDocumentsUITasks(): Set<String> {
             // Get the current list of tasks that are visible.
             val result = device.executeShellCommand("am stack list")
 
             // Identify any that are from DocumentsUI or Photopicker and close them.
             val matcher = STACK_LIST_REGEX.matcher(result)
+
+            val taskIds = mutableSetOf<String>()
             while (matcher.find()) {
-                device.executeShellCommand("am stack remove ${matcher.group("taskId")}")
+                val taskId = matcher.group("taskId")
+                taskIds.add(taskId)
             }
+
+            return taskIds
         }
 
         @BeforeClass
@@ -153,12 +179,17 @@ class TrampolineActivityTest() {
         lateinit var testData: GetContentIntentData
 
         @get:Rule
-        val checkFlagsRule: CheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule()
+        val checkFlags = CheckAndForceMaterial3Flag()
 
         @Before
         fun setUp() {
-            removePhotopickerAndDocumentsUITasks()
+            runBlocking {
+                removePhotopickerAndDocumentsUITasks()
+            }
+        }
 
+        @Test
+        fun testCorrectAppIsLaunched() {
             val context = InstrumentationRegistry.getInstrumentation().targetContext
             val intent = Intent(ACTION_GET_CONTENT)
             intent.setClass(context, TrampolineActivity::class.java)
@@ -169,27 +200,43 @@ class TrampolineActivityTest() {
             }
 
             context.startActivity(intent)
-        }
 
-        @Test
-        fun testCorrectAppIsLaunched() {
-            val bySelector = when (testData.expectedApp) {
-                AppType.PHOTOPICKER -> By.pkg(PHOTOPICKER_PACKAGE_REGEX)
+            val isPhotopickerGetContentComponentAvailable =
+                getPhotopickerGetContentComponentNameForType(
+                    context.packageManager, testData.mimeType) != null
+            val bySelector = when {
+                testData.expectedApp == AppType.PHOTOPICKER &&
+                        isPhotopickerGetContentComponentAvailable -> By.pkg(
+                    PHOTOPICKER_PACKAGE_REGEX
+                )
                 else -> By.pkg(DOCUMENTSUI_PACKAGE_REGEX)
             }
 
             val builder = StringBuilder()
             builder.append("Intent with mimetype ${testData.mimeType}")
             if (testData.extraMimeTypes.isPresent) {
-                builder.append(
-                    " and EXTRA_MIME_TYPES of ${
+                val extraMimeTypes = when {
+                    testData.extraMimeTypes.get().isNotEmpty() -> {
                         testData.extraMimeTypes.get().joinToString(", ")
-                    }"
+                    }
+                    else -> "empty array"
+                }
+                builder.append(
+                    " and EXTRA_MIME_TYPES of ($extraMimeTypes)"
                 )
             }
-            builder.append(
-                " didn't cause ${testData.expectedApp.name} to appear after ${UI_TIMEOUT}ms"
-            )
+            if (testData.expectedApp == AppType.PHOTOPICKER &&
+                !isPhotopickerGetContentComponentAvailable) {
+                builder.append(
+                    " didn't cause ${AppType.DOCUMENTSUI} to appear " +
+                        "(${AppType.PHOTOPICKER} is expected, but is not available in this " +
+                        "environment) after ${UI_TIMEOUT}ms"
+                )
+            } else {
+                builder.append(
+                    " didn't cause ${testData.expectedApp.name} to appear after ${UI_TIMEOUT}ms"
+                )
+            }
 
             assertNotNull(
                 builder.toString(),
@@ -202,16 +249,22 @@ class TrampolineActivityTest() {
     @RequiresFlagsEnabled(FLAG_REDIRECT_GET_CONTENT_RO)
     class RedirectTest {
         @get:Rule
-        val checkFlagsRule: CheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule()
+        val checkFlags = CheckAndForceMaterial3Flag()
 
         @Before
         fun setUp() {
-            removePhotopickerAndDocumentsUITasks()
+            runBlocking {
+                removePhotopickerAndDocumentsUITasks()
+            }
         }
 
         @Test
         fun testReferredGetContentFromPhotopickerShouldNotRedirectBack() {
             val context = InstrumentationRegistry.getInstrumentation().targetContext
+            assume().that(
+                getPhotopickerGetContentComponentNameForType(context.packageManager, "image/*")
+            ).isNotNull()
+
             val intent = Intent(ACTION_GET_CONTENT)
             intent.setClass(context, TrampolineActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

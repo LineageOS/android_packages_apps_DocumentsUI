@@ -2,5 +2,9 @@
 
 include platform/frameworks/base:/core/java/android/os/storage/OWNERS
 
-benreich@google.com
+# For one of the below, please use android-files+reviews@google.com as the
+# reviewer.
 alexbn@google.com
+benreich@google.com
+lucmult@google.com
+wenbojie@google.com

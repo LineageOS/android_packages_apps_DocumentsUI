@@ -21,10 +21,12 @@ import static androidx.core.util.Preconditions.checkNotNull;
 
 import static com.android.documentsui.DevicePolicyResources.Strings.PERSONAL_TAB;
 import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.UserManager;
 
 import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
@@ -46,14 +48,17 @@ class UserItemsCombiner {
 
     private UserId mCurrentUser;
     private final Resources mResources;
+    private final UserManager mUserManager;
     private final DevicePolicyManager mDpm;
     private final State mState;
     private List<Item> mRootList;
     private List<Item> mRootListOtherUser;
     private List<List<Item>> mRootListAllUsers;
 
-    UserItemsCombiner(Resources resources, DevicePolicyManager dpm, State state) {
+    UserItemsCombiner(
+            Resources resources, UserManager userManager, DevicePolicyManager dpm, State state) {
         mCurrentUser = UserId.CURRENT_USER;
+        mUserManager = userManager;
         mResources = checkNotNull(resources);
         mDpm = dpm;
         mState = checkNotNull(state);
@@ -94,17 +99,20 @@ class UserItemsCombiner {
                 // Identify personal and work root list.
                 final List<Item> personalRootList;
                 final List<Item> workRootList;
-                if (mCurrentUser.isSystem()) {
-                    personalRootList = mRootList;
-                    workRootList = mRootListOtherUser;
-                } else {
+
+                if (mCurrentUser.isManagedProfile(mUserManager)) {
                     personalRootList = mRootListOtherUser;
                     workRootList = mRootList;
+                } else {
+                    personalRootList = mRootList;
+                    workRootList = mRootListOtherUser;
                 }
-                result.add(new HeaderItem(getEnterpriseString(
-                        PERSONAL_TAB, R.string.personal_tab)));
+                result.add(
+                        new HeaderItem(
+                                getEnterpriseString(PERSONAL_TAB, getRes(R.string.personal_tab))));
                 result.addAll(personalRootList);
-                result.add(new HeaderItem(getEnterpriseString(WORK_TAB, R.string.work_tab)));
+                result.add(
+                        new HeaderItem(getEnterpriseString(WORK_TAB, getRes(R.string.work_tab))));
                 result.addAll(workRootList);
             } else {
                 result.addAll(mRootList);

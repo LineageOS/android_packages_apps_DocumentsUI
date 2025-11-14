@@ -59,8 +59,17 @@ public class TestModel extends Model {
 
     @Override
     public void reset() {
+        // Intentionally not calling super.reset() because of AbstractActionHandlerTest relies
+        // on the model to keep `mIds`.gs
         mLastId = 0;
         mCursor = new MatrixCursor(COLUMNS);
+    }
+
+    /**
+     * Clear the model ids to make it become an empty model.
+     */
+    public void clearIds() {
+        super.reset();
     }
 
     public void update() {

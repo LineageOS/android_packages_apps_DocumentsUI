@@ -16,7 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -47,7 +47,6 @@ import java.util.Map;
 
 /**
  * A manager class stored apps row chip data list. Data will be synced by RootsFragment.
- * TODO(b/379776735): Remove this after use_material3 flag is launched.
  */
 public class AppsRowManager {
 
@@ -57,25 +56,36 @@ public class AppsRowManager {
     private final UserIdManager mUserIdManager;
     private final UserManagerState mUserManagerState;
     private final ConfigStore mConfigStore;
+    private final boolean mShouldShowByDefault;
 
-    public AppsRowManager(ActionHandler handler, boolean maybeShowBadge,
-            UserIdManager userIdManager, ConfigStore configStore) {
+    public AppsRowManager(
+            ActionHandler handler,
+            boolean maybeShowBadge,
+            UserIdManager userIdManager,
+            ConfigStore configStore,
+            boolean shouldShowByDefault) {
         mDataList = new ArrayList<>();
         mActionHandler = handler;
         mMaybeShowBadge = maybeShowBadge;
         mUserIdManager = userIdManager;
         mUserManagerState = null;
         mConfigStore = configStore;
+        mShouldShowByDefault = shouldShowByDefault;
     }
 
-    public AppsRowManager(ActionHandler handler, boolean maybeShowBadge,
-            UserManagerState userManagerState, ConfigStore configStore) {
+    public AppsRowManager(
+            ActionHandler handler,
+            boolean maybeShowBadge,
+            UserManagerState userManagerState,
+            ConfigStore configStore,
+            boolean shouldShowByDefault) {
         mDataList = new ArrayList<>();
         mActionHandler = handler;
         mMaybeShowBadge = maybeShowBadge;
         mUserIdManager = null;
         mUserManagerState = userManagerState;
         mConfigStore = configStore;
+        mShouldShowByDefault = shouldShowByDefault;
     }
 
     public List<AppsRowItemData> updateList(List<Item> itemList) {
@@ -105,7 +115,7 @@ public class AppsRowManager {
     }
 
     private boolean shouldShow(State state, boolean isSearchExpanded) {
-        if (isUseMaterial3FlagEnabled()) {
+        if (!mShouldShowByDefault) {
             return false;
         }
 
@@ -121,21 +131,21 @@ public class AppsRowManager {
     }
 
     public void updateView(BaseActivity activity) {
-        final View appsRowLayout = activity.findViewById(R.id.apps_row);
+        final View appsRowLayout = activity.findViewById(getRes(R.id.apps_row));
 
         if (!shouldShow(activity.getDisplayState(), activity.isSearchExpanded())) {
             appsRowLayout.setVisibility(View.GONE);
             return;
         }
 
-        final LinearLayout appsGroup = activity.findViewById(R.id.apps_group);
+        final LinearLayout appsGroup = activity.findViewById(getRes(R.id.apps_group));
         appsGroup.removeAllViews();
 
         final LayoutInflater inflater = activity.getLayoutInflater();
         final UserId selectedUser = activity.getSelectedUser();
         for (AppsRowItemData data : mDataList) {
             if (selectedUser.equals(data.getUserId())) {
-                View item = inflater.inflate(R.layout.apps_item, appsGroup, false);
+                View item = inflater.inflate(getRes(R.layout.apps_item), appsGroup, false);
                 bindView(item, data);
                 appsGroup.addView(item);
             }
@@ -145,9 +155,9 @@ public class AppsRowManager {
     }
 
     private void bindView(View view, AppsRowItemData data) {
-        final ImageView app_icon = view.findViewById(R.id.app_icon);
+        final ImageView app_icon = view.findViewById(getRes(R.id.app_icon));
         final TextView title = view.findViewById(android.R.id.title);
-        final TextView summary = view.findViewById(R.id.summary);
+        final TextView summary = view.findViewById(getRes(R.id.summary));
 
         app_icon.setImageDrawable(data.getIconDrawable(view.getContext()));
         title.setText(data.getTitle());

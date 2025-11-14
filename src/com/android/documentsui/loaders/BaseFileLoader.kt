@@ -28,6 +28,7 @@ import android.util.Log
 import androidx.loader.content.AsyncTaskLoader
 import com.android.documentsui.DirectoryResult
 import com.android.documentsui.base.Lookup
+import com.android.documentsui.base.SharedMinimal.DEBUG
 import com.android.documentsui.base.UserId
 import com.android.documentsui.roots.RootCursorWrapper
 
@@ -69,30 +70,34 @@ fun toSingleCursor(cursorList: List<Cursor>): Cursor {
  */
 abstract class BaseFileLoader(
     context: Context,
-    private val mUserIdList: List<UserId>,
-    protected val mMimeTypeLookup: Lookup<String, String>,
+    private val userIdList: List<UserId>,
+    protected val mimeTypeLookup: Lookup<String, String>,
 ) : AsyncTaskLoader<DirectoryResult>(context) {
 
-    private var mSignal: CancellationSignal? = null
-    private var mResult: DirectoryResult? = null
+    private var signal: CancellationSignal? = null
+    private var storedResult: DirectoryResult? = null
 
     override fun cancelLoadInBackground() {
-        Log.d(TAG, "${this::class.simpleName}.cancelLoadInBackground")
+        if (DEBUG) {
+            Log.d(TAG, "${this::class.simpleName}.cancelLoadInBackground")
+        }
         super.cancelLoadInBackground()
 
         synchronized(this) {
-            mSignal?.cancel()
+            signal?.cancel()
         }
     }
 
     override fun deliverResult(result: DirectoryResult?) {
-        Log.d(TAG, "${this::class.simpleName}.deliverResult")
+        if (DEBUG) {
+            Log.d(TAG, "${this::class.simpleName}.deliverResult")
+        }
         if (isReset) {
             closeResult(result)
             return
         }
-        val oldResult: DirectoryResult? = mResult
-        mResult = result
+        val oldResult: DirectoryResult? = storedResult
+        storedResult = result
 
         if (isStarted) {
             super.deliverResult(result)
@@ -104,35 +109,43 @@ abstract class BaseFileLoader(
     }
 
     override fun onStartLoading() {
-        Log.d(TAG, "${this::class.simpleName}.onStartLoading")
-        val isCursorStale: Boolean = checkIfCursorStale(mResult)
-        if (mResult != null && !isCursorStale) {
-            deliverResult(mResult)
+        if (DEBUG) {
+            Log.d(TAG, "${this::class.simpleName}.onStartLoading")
         }
-        if (takeContentChanged() || mResult == null || isCursorStale) {
+        val isCursorStale: Boolean = checkIfCursorStale(storedResult)
+        if (storedResult != null && !isCursorStale) {
+            deliverResult(storedResult)
+        }
+        if (takeContentChanged() || storedResult == null || isCursorStale) {
             forceLoad()
         }
     }
 
     override fun onStopLoading() {
-        Log.d(TAG, "${this::class.simpleName}.onStopLoading")
+        if (DEBUG) {
+            Log.d(TAG, "${this::class.simpleName}.onStopLoading")
+        }
         cancelLoad()
     }
 
     override fun onCanceled(result: DirectoryResult?) {
-        Log.d(TAG, "${this::class.simpleName}.onCanceled")
+        if (DEBUG) {
+            Log.d(TAG, "${this::class.simpleName}.onCanceled")
+        }
         closeResult(result)
     }
 
     override fun onReset() {
-        Log.d(TAG, "${this::class.simpleName}.onReset")
+        if (DEBUG) {
+            Log.d(TAG, "${this::class.simpleName}.onReset")
+        }
         super.onReset()
 
         // Ensure the loader is stopped
         onStopLoading()
 
-        closeResult(mResult)
-        mResult = null
+        closeResult(storedResult)
+        storedResult = null
     }
 
     /**
@@ -142,7 +155,9 @@ abstract class BaseFileLoader(
         try {
             result?.close()
         } catch (e: Exception) {
-            Log.d(TAG, "Failed to close result", e)
+            if (DEBUG) {
+                Log.d(TAG, "Failed to close result", e)
+            }
         }
     }
 
@@ -154,7 +169,9 @@ abstract class BaseFileLoader(
         if (cursor.isClosed) {
             return true
         }
-        Log.d(TAG, "Long check of cursor staleness")
+        if (DEBUG) {
+            Log.d(TAG, "Long check of cursor staleness")
+        }
         val count = cursor.count
         if (!cursor.moveToPosition(-1)) {
             return true
@@ -180,8 +197,10 @@ abstract class BaseFileLoader(
         maxResults: Int,
     ): Cursor? {
         val authority = locationUri.authority ?: return null
-        for (userId in mUserIdList) {
-            Log.d(TAG, "BaseFileLoader.queryLocation for $userId at $locationUri")
+        for (userId in userIdList) {
+            if (DEBUG) {
+                Log.d(TAG, "BaseFileLoader.queryLocation for $userId at $locationUri")
+            }
             val resolver = userId.getContentResolver(context)
             try {
                 resolver.acquireUnstableContentProviderClient(
@@ -192,14 +211,18 @@ abstract class BaseFileLoader(
                     }
                     try {
                         val cursor =
-                            client.query(locationUri, null, queryArgs, mSignal) ?: return null
+                            client.query(locationUri, null, queryArgs, signal) ?: return null
                         return RootCursorWrapper(userId, authority, rootId, cursor, maxResults)
                     } catch (e: RemoteException) {
-                        Log.d(TAG, "Failed to get cursor for $locationUri", e)
+                        if (DEBUG) {
+                            Log.d(TAG, "Failed to get cursor for $locationUri", e)
+                        }
                     }
                 }
             } catch (e: Exception) {
-                Log.d(TAG, "Failed to get a content provider client for $locationUri", e)
+                if (DEBUG) {
+                    Log.d(TAG, "Failed to get a content provider client for $locationUri", e)
+                }
             }
         }
 

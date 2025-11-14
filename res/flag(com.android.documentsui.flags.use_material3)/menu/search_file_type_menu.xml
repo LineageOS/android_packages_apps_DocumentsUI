@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+  -->
+
+<!-- Dropdown menu showing possible file type options (any type, documents, audio, etc.) -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/file_type_all_option"
+        android:icon="@drawable/ic_done_m3"
+        android:title="@string/search_file_type_all" />
+    <item android:id="@+id/file_type_audio_option"
+        android:icon="@drawable/ic_done_m3"
+        android:title="@string/chip_title_audio" />
+    <item android:id="@+id/file_type_documents_option"
+        android:icon="@drawable/ic_done_m3"
+        android:title="@string/chip_title_documents" />
+    <item android:id="@+id/file_type_images_option"
+        android:icon="@drawable/ic_done_m3"
+        android:title="@string/chip_title_images" />
+    <item android:id="@+id/file_type_videos_option"
+        android:icon="@drawable/ic_done_m3"
+        android:title="@string/chip_title_videos" />
+</menu>

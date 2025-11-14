@@ -46,7 +46,9 @@
   int feature_notification_channel;
   int full_bar_search_view;
   int is_launcher_enabled;
+  int show_media_roots;
   int show_search_bar;
+  int show_apps_row;
 }
 -keep class com.android.documentsui.R$color {
   int app_background_color;
@@ -118,6 +120,8 @@
   int option_menu_settings;
   int option_menu_show_hidden_files;
   int option_menu_sort;
+  int peek_container;
+  int peek_preview_container;
   int root_menu_eject_root;
   int root_menu_open_in_new_window;
   int root_menu_paste_into_folder;
@@ -148,6 +152,7 @@
 -keep class com.android.documentsui.R$string {
   int cant_select_work_files_error_message;
   int cant_select_work_files_error_title;
+  int clear_selection;
   int copy_notification_title;
   int copy_preparing;
   int copy_remaining;
@@ -191,6 +196,8 @@
   int rename_error;
   int search_bar_hint;
   int share_via;
+  int search_last_modified_30_days;
+  int search_location_everywhere;
   int sort_dimension_date;
   int sort_dimension_file_type;
   int sort_dimension_name;
@@ -211,4 +218,15 @@
 # This is used in the unit test
 -keep class com.google.android.material.chip.Chip {
   public android.graphics.drawable.Drawable getChipIcon();
+}
+
+-keep class com.android.documentsui.util.Material3Config {
+  static int getRes(int);
+  static void overrideMappingForTest(java.util.Map);
+  static void setEnabledForTest(boolean);
+}
+
+# The SideSheetBehavior state is not directly accessed from DocumentsUI, but is used in tests
+-keep class com.google.android.material.sidesheet.SideSheetBehavior {
+  public int getState();
 }

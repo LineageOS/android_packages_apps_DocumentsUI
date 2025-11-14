@@ -17,6 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -59,7 +60,7 @@ public class DocumentsSwipeRefreshLayout extends SwipeRefreshLayout {
             @ColorRes int colorId = a.getResourceId(0, -1);
             if (colorId == -1) {
                 Log.w(TAG, "Retrieve colorAccent colorId from theme fail, assign R.color.primary");
-                colorId = R.color.primary;
+                colorId = getRes(R.color.primary);
             }
             a.recycle();
             setColorSchemeResources(colorId);

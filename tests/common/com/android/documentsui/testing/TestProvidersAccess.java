@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.testing;
 
+import android.content.ContentResolver;
 import android.os.Process;
 import android.os.UserHandle;
 import android.provider.DocumentsContract.Root;
@@ -67,6 +68,8 @@ public class TestProvidersAccess implements ProvidersAccess {
         DOWNLOADS.flags = Root.FLAG_LOCAL_ONLY
                 | Root.FLAG_SUPPORTS_CREATE
                 | Root.FLAG_SUPPORTS_RECENTS;
+        // This DocumentsProvider supports limiting the results returned
+        DOWNLOADS.queryArgs = ContentResolver.QUERY_ARG_LIMIT;
 
         HOME = new RootInfo();
         HOME.userId = userId;

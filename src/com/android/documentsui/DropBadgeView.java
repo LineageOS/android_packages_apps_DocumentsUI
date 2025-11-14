@@ -16,8 +16,7 @@
 
 package com.android.documentsui;
 
-import com.android.documentsui.DragAndDropManager.State;
-import com.android.documentsui.base.MimeTypes;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -26,26 +25,33 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;
 
+import com.android.documentsui.DragAndDropManager.State;
+import com.android.documentsui.base.MimeTypes;
+
 /**
  * Provides a way to encapsulate droppable badge toggling logic into a single class.
  */
 public final class DropBadgeView extends ImageView {
-    private static final int[] STATE_REJECT_DROP = { R.attr.state_reject_drop };
-    private static final int[] STATE_COPY = { R.attr.state_copy };
+    private final int[] mStateRejectDrop;
+    private final int[] mStateCopy;
 
     private @State int mState;
     private LayerDrawable mBackground;
 
     public DropBadgeView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mStateRejectDrop = new int[] {getRes(R.attr.state_reject_drop)};
+        mStateCopy = new int[] {getRes(R.attr.state_copy)};
 
-        final int badgeHeight = context.getResources()
-                .getDimensionPixelSize(R.dimen.drop_icon_height);
-        final int badgeWidth = context.getResources()
-                .getDimensionPixelSize(R.dimen.drop_icon_width);
-        final int iconSize = context.getResources().getDimensionPixelSize(R.dimen.root_icon_size);
+        final int badgeHeight =
+                context.getResources().getDimensionPixelSize(getRes(R.dimen.drop_icon_height));
+        final int badgeWidth =
+                context.getResources().getDimensionPixelSize(getRes(R.dimen.drop_icon_width));
+        final int iconSize =
+                context.getResources().getDimensionPixelSize(getRes(R.dimen.root_icon_size));
 
-        Drawable okBadge = context.getResources().getDrawable(R.drawable.drop_badge_states, null);
+        Drawable okBadge =
+                context.getResources().getDrawable(getRes(R.drawable.drop_badge_states), null);
         Drawable defaultIcon = IconUtils.loadMimeIcon(context, MimeTypes.GENERIC_TYPE);
 
         Drawable[] list = {defaultIcon, okBadge};
@@ -66,10 +72,10 @@ public final class DropBadgeView extends ImageView {
 
         switch (mState) {
             case DragAndDropManager.STATE_NOT_ALLOWED:
-                mergeDrawableStates(drawableState, STATE_REJECT_DROP);
+                mergeDrawableStates(drawableState, mStateRejectDrop);
                 break;
             case DragAndDropManager.STATE_COPY:
-                mergeDrawableStates(drawableState, STATE_COPY);
+                mergeDrawableStates(drawableState, mStateCopy);
                 break;
         }
 

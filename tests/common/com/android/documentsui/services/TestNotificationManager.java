@@ -18,7 +18,6 @@ package com.android.documentsui.services;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 import android.app.Notification;
@@ -74,7 +73,7 @@ class TestNotificationManager {
         return null;
     }
 
-    private boolean hasNotification(int id, String jobId) {
+    boolean hasNotification(int id, String jobId) {
         if (mNotifications.get(id) == null) {
             return false;
         }

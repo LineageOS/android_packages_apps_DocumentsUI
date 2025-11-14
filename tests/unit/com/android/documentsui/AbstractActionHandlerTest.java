@@ -485,4 +485,18 @@ public class AbstractActionHandlerTest {
         } catch (UnsupportedOperationException expected) {
         }
     }
+
+    @Test
+    public void testJumpToDirectory() {
+        mEnv.populateStack();
+
+        DocumentStack stack = new DocumentStack(
+                TestProvidersAccess.HOME, TestEnv.FOLDER_1, TestEnv.FOLDER_2);
+        mHandler.jumpToDirectory(stack);
+
+        stack.pop();
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
+        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestProvidersAccess.HOME,
+                Arrays.asList(TestEnv.FOLDER_1, TestEnv.FOLDER_2));
+    }
 }

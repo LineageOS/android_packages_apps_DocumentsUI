@@ -281,6 +281,14 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     @Override
+    public void jumpToDirectory(DocumentStack stack) {
+        // reset() takes ownership of the passed in stack's document list, so we need to make a copy
+        // first.
+        mState.stack.reset(new DocumentStack(stack));
+        mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+    }
+
+    @Override
     public void openSettings(RootInfo root) {
         throw new UnsupportedOperationException("Can't open settings.");
     }
@@ -1030,18 +1038,19 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                 mExecutorService = Executors.newFixedThreadPool(
                         GlobalSearchLoader.MAX_OUTSTANDING_TASK);
             }
-            DocumentStack stack = mState.stack;
-            RootInfo root = stack.getRoot();
             List<UserId> userIdList = DocumentsApplication.getUserIdManager(mActivity).getUserIds();
 
+            DocumentStack stack = mState.stack;
             Duration lastModifiedDelta = stack.isRecents()
                     ? Duration.ofMillis(RecentsLoader.REJECT_OLDER_THAN)
                     : null;
+            RootInfo root = stack.getRoot();
             int maxResults = (root == null || root.isRecents())
                     ? RecentsLoader.MAX_DOCS_FROM_ROOT : MAX_RESULTS;
             QueryOptions options = new QueryOptions(
-                    maxResults, lastModifiedDelta, Duration.ofMillis(MAX_SEARCH_TIME_MS),
-                    mState.showHiddenFiles, mState.acceptMimes, mSearchMgr.buildQueryArgs());
+                    maxResults, maxResults, lastModifiedDelta,
+                    Duration.ofMillis(MAX_SEARCH_TIME_MS), mState.showHiddenFiles,
+                    mState.acceptMimes, mSearchMgr.buildQueryArgs());
 
             if (stack.isRecents() || mSearchMgr.isSearching()) {
                 Log.d(TAG, "Creating search loader V2");
@@ -1049,21 +1058,13 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                 // one of the searched content providers reports a change.
                 final LockingContentObserver observer = new LockingContentObserver(
                         mContentLock, AbstractActionHandler.this::loadDocumentsForCurrentStack);
-                Collection<RootInfo> rootList = new ArrayList<>();
-                if (stack.isRecents()) {
-                    // TODO(b:381346575): Pass roots based on user selection.
-                    rootList.addAll(mProviders.getMatchingRootsBlocking(mState).stream().filter(
-                            r -> r.supportsSearch() && r.authority != null
-                                    && r.rootId != null).toList());
-                } else {
-                    rootList.add(root);
-                }
+                Collection<RootInfo> roots = mProviders.getMatchingRootsBlocking(mState);
                 return new SearchLoader(
                         mActivity,
                         userIdList,
                         mInjector.fileTypeLookup,
                         observer,
-                        rootList,
+                        mSearchMgr.getSearchFolders(roots, stack),
                         mSearchMgr.getCurrentSearch(),
                         options,
                         mState.sortModel,
@@ -1084,7 +1085,6 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                     options,
                     mState.sortModel
             );
-
         }
 
         @Override

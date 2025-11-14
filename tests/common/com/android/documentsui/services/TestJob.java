@@ -70,13 +70,14 @@ public class TestJob extends Job {
     }
 
     @Override
-    Notification getSetupNotification() {
+    public Notification getSetupNotification() {
         ++mNumOfNotifications;
         return getSetupNotification(service.getString(R.string.copy_preparing));
     }
 
     @Override
-    Notification getProgressNotification() {
+    public Notification getProgressNotification() {
+        assertStarted();
         ++mNumOfNotifications;
         double completed = mStarted ? 1F : 0F;
         return mProgressBuilder
@@ -86,19 +87,14 @@ public class TestJob extends Job {
     }
 
     @Override
-    Notification getFailureNotification() {
+    public Notification getFailureNotification() {
         // the "copy" stuff was just convenient and available :)
         return getFailureNotification(
                 R.plurals.copy_error_notification_title, R.drawable.ic_menu_copy);
     }
 
-    @Override
-    Notification getWarningNotification() {
-        throw new UnsupportedOperationException();
-    }
-
     JobProgress getJobProgress() {
-        return new JobProgress(id, getState(), "test job", false);
+        return new JobProgress(id, operationType, getState(), "test job", false);
     }
 
     @Override

@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+
 import static org.mockito.Mockito.when;
 
 import android.content.Context;
@@ -98,7 +100,8 @@ public class DirectoryAddonsAdapterPrivateSpaceTest extends AndroidTestCase {
     public void testItemCount_mixed() {
         mEnv.reset();  // creates a mix of folders and files for us.
 
-        assertEquals(mEnv.model.getItemCount() + 1, mAdapter.getItemCount());
+        int expectedItemCount = mEnv.model.getItemCount() + (isUseMaterial3FlagEnabled() ? 0 : 1);
+        assertEquals(expectedItemCount, mAdapter.getItemCount());
     }
 
     public void testGetPosition() {
@@ -107,9 +110,12 @@ public class DirectoryAddonsAdapterPrivateSpaceTest extends AndroidTestCase {
         mEnv.model.update();
 
         assertEquals(0, mAdapter.getPosition(ModelId.build(mEnv.model.mUserId, AUTHORITY, "1")));
-        // adapter inserts a view between item 0 and 1 to force layout
-        // break between folders and files. This is reflected by an offset position.
-        assertEquals(2, mAdapter.getPosition(ModelId.build(mEnv.model.mUserId, AUTHORITY, "2")));
+        // adapter inserts a view between item 0 and 1 (this doesn't happen when use_material3 flag
+        // is enabled) to force a layout break between folders and files. This is reflected by an
+        // offset position.
+        int position = isUseMaterial3FlagEnabled() ? 1 : 2;
+        assertEquals(
+                position, mAdapter.getPosition(ModelId.build(mEnv.model.mUserId, AUTHORITY, "2")));
     }
 
     // Tests that the item count is correct for a directory containing only subdirs.

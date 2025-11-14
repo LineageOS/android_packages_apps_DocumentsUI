@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2024 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- CoordinatorLayout is necessary for various components (e.g. Snackbars, and
+     floating action buttons) to operate correctly. -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/coordinator_layout"
+    android:background="?attr/colorSurfaceContainer"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:background="?attr/colorSurfaceContainer"
+        android:paddingTop="@dimen/layout_padding_top"
+        android:paddingBottom="@dimen/layout_padding_bottom"
+        android:paddingEnd="@dimen/layout_padding_end">
+        <!-- Navigation: left hand side. -->
+        <FrameLayout
+            android:id="@+id/container_roots"
+            android:layout_width="256dp"
+            android:layout_height="match_parent"
+            />
+
+        <!-- Main container for the right hand side. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Top section: toolbar, search chips, profile tab -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/main_container_padding_top"
+                android:background="@drawable/main_container_top_section_background">
+
+                <FrameLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent">
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_marginTop="@dimen/action_bar_margin_m3"
+                        android:touchscreenBlocksFocus="false">
+
+                        <TextView
+                            android:id="@+id/searchbar_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="?android:attr/actionBarSize"
+                            android:gravity="center_vertical"
+                            android:text="@string/search_bar_hint"
+                            android:textAppearance="@style/SearchBarTitle" />
+
+                    </com.google.android.material.appbar.MaterialToolbar>
+
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/selection_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:touchscreenBlocksFocus="false"
+                        android:background="?attr/colorSurfaceBright"
+                        android:visibility="gone"/>
+
+                </FrameLayout>
+
+                <include layout="@layout/directory_header_m3" />
+
+            </LinearLayout>
+
+            <!-- Main list area (file list/grid or search results). -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/main_container_section_gap"
+                android:background="@drawable/main_container_middle_section_background">
+
+                <include layout="@layout/column_headers_m3"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <FrameLayout
+                        android:id="@+id/container_directory"
+                        android:clipToPadding="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <FrameLayout
+                        android:id="@+id/container_search_fragment"
+                        android:clipToPadding="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- Footer of right hand side: Breadcrumbs and Picker footer. -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/main_container_section_gap"
+                android:background="@drawable/main_container_bottom_section_background">
+
+                <com.android.documentsui.HorizontalBreadcrumb
+                    android:id="@+id/horizontal_breadcrumb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/breadcrumb_padding_horizontal" />
+
+            </LinearLayout>
+
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/container_save"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorSurfaceContainer"
+                android:elevation="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Peek overlay -->
+    <FrameLayout
+        android:id="@+id/peek_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

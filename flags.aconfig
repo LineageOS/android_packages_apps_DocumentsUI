@@ -5,7 +5,7 @@ flag {
     name: "use_material3"
     namespace: "documentsui"
     description: "Use Material 3 theme and styles."
-    bug: "373720657"
+    bug: "401974530"
     is_fixed_read_only: true
 }
 
@@ -13,7 +13,7 @@ flag {
     name: "use_search_v2_read_only"
     namespace: "documentsui"
     description: "Enables the next generation search functionality."
-    bug: "383412640"
+    bug: "408892602"
     is_fixed_read_only: true
 }
 
@@ -21,7 +21,7 @@ flag {
     name: "zip_ng_ro"
     namespace: "documentsui"
     description: "Enables the next generation ZIP functionality."
-    bug: "382550591"
+    bug: "411269957"
     is_fixed_read_only: true
 }
 
@@ -29,7 +29,7 @@ flag {
     name: "desktop_file_handling_ro"
     namespace: "documentsui"
     description: "Enables desktop file handling."
-    bug: "381778967"
+    bug: "406599215"
     is_fixed_read_only: true
 }
 
@@ -37,15 +37,7 @@ flag {
     name: "visual_signals_ro"
     namespace: "documentsui"
     description: "Enables in-app progress display of file operations"
-    bug: "378011512"
-    is_fixed_read_only: true
-}
-
-flag {
-    name: "hide_roots_on_desktop_ro"
-    namespace: "documentsui"
-    description: "Enables the hiding of the Images/Videos/Audio/Documents roots on desktop."
-    bug: "381959330"
+    bug: "401974530"
     is_fixed_read_only: true
 }
 
@@ -61,6 +53,14 @@ flag {
     name: "use_peek_preview_ro"
     namespace: "documentsui"
     description: "Enables the Peek previewing capability as a substitute for the Inspector."
-    bug: "373242058"
+    bug: "411269618"
+    is_fixed_read_only: true
+}
+
+flag {
+    name: "enable_trash_flow_ro"
+    namespace: "documentsui"
+    description: "Enables the documents trash flow"
+    bug: "409265240"
     is_fixed_read_only: true
 }

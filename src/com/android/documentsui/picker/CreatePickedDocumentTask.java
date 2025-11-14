@@ -16,23 +16,20 @@
 
 package com.android.documentsui.picker;
 
-import android.app.Activity;
-import android.content.ContentProviderClient;
-import android.content.ContentResolver;
-import android.net.Uri;
-import android.provider.DocumentsContract;
-import android.util.Log;
+import static com.android.documentsui.util.Material3Config.getRes;
 
-import com.google.android.material.snackbar.Snackbar;
+import android.app.Activity;
+import android.net.Uri;
 
 import com.android.documentsui.DocumentsAccess;
-import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.ui.Snackbars;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.function.Consumer;
 
@@ -90,8 +87,8 @@ class CreatePickedDocumentTask extends PairedTask<Activity, Void, Uri> {
         if (result != null) {
             mCallback.accept(result);
         } else {
-            Snackbars.makeSnackbar(
-                    mOwner, R.string.save_error, Snackbar.LENGTH_LONG).show();
+            Snackbars.makeSnackbar(mOwner, getRes(R.string.save_error), Snackbar.LENGTH_LONG)
+                    .show();
         }
 
         mInProgressStateListener.accept(false);

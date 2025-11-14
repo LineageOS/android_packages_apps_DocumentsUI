@@ -17,6 +17,8 @@ package com.android.documentsui.inspector;
 
 import static androidx.core.util.Preconditions.checkArgument;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -45,6 +47,7 @@ import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.ui.Snackbars;
 
 import java.util.function.Consumer;
+
 /**
  * A controller that coordinates retrieving document information and sending it to the view.
  */
@@ -121,26 +124,26 @@ public final class InspectorController {
      */
     public InspectorController(Activity activity, DataSupplier loader, View layout,
             String title, boolean showDebug) {
-        this(activity,
-            loader,
-            activity.getPackageManager(),
-            DocumentsApplication.getProvidersCache (activity),
-            (HeaderView) layout.findViewById(R.id.inspector_header_view),
-            (DetailsView) layout.findViewById(R.id.inspector_details_view),
-            (MediaView) layout.findViewById(R.id.inspector_media_view),
-            (ActionDisplay) layout.findViewById(R.id.inspector_show_in_provider_view),
-            (ActionDisplay) layout.findViewById(R.id.inspector_app_defaults_view),
-            (DebugView) layout.findViewById(R.id.inspector_debug_view),
-            title,
-            showDebug,
-            () -> {
-                // using a runnable to support unit testing this feature.
-                Snackbars.showInspectorError(activity);
-            }
-        );
+        this(
+                activity,
+                loader,
+                activity.getPackageManager(),
+                DocumentsApplication.getProvidersCache(activity),
+                (HeaderView) layout.findViewById(getRes(R.id.inspector_header_view)),
+                (DetailsView) layout.findViewById(getRes(R.id.inspector_details_view)),
+                (MediaView) layout.findViewById(getRes(R.id.inspector_media_view)),
+                (ActionDisplay) layout.findViewById(getRes(R.id.inspector_show_in_provider_view)),
+                (ActionDisplay) layout.findViewById(getRes(R.id.inspector_app_defaults_view)),
+                (DebugView) layout.findViewById(getRes(R.id.inspector_debug_view)),
+                title,
+                showDebug,
+                () -> {
+                    // using a runnable to support unit testing this feature.
+                    Snackbars.showInspectorError(activity);
+                });
 
         if (showDebug) {
-            DebugView view = (DebugView) layout.findViewById(R.id.inspector_debug_view);
+            DebugView view = (DebugView) layout.findViewById(getRes(R.id.inspector_debug_view));
             view.init(ProviderExecutor::forAuthority);
         }
     }

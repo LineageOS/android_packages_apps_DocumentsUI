@@ -70,6 +70,7 @@
     <string name="button_clear" msgid="5412304437764369441">"삭제"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"제공업체 앱에서 보기"</string>
     <string name="button_back" msgid="1888621708934742182">"뒤로"</string>
+    <string name="button_show_in_folder" msgid="6674673478637689386">"폴더에서 보기"</string>
     <string name="not_sorted" msgid="7813496644889115530">"정렬되지 않음"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"이름"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"요약"</string>
@@ -102,7 +103,7 @@
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"직장 파일을 선택할 수 없음"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT 관리자가 개인 앱에서 직장 파일에 액세스하도록 허용하지 않습니다."</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"개인 파일을 선택할 수 없음"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT 관리자가 직장 앱에서 개인 파일에 액세스하도록 허용하지 않습니다."</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT 관리자가 업무용 앱에서 개인 파일에 액세스하도록 허용하지 않습니다."</string>
     <string name="cant_select_cross_profile_files_error_title" msgid="17010948874969413">"<xliff:g id="PROFILE">%1$s</xliff:g> 파일을 선택할 수 없음"</string>
     <string name="cant_select_cross_profile_files_error_message" msgid="3815829574883844944">"IT 관리자가 <xliff:g id="PROFILE_1">%2$s</xliff:g> 앱에서 <xliff:g id="PROFILE_0">%1$s</xliff:g> 파일에 액세스하도록 허용하지 않습니다."</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"직장 프로필에 저장할 수 없음"</string>
@@ -211,6 +212,12 @@
     <string name="rename_error" msgid="6700093173508118635">"문서 이름을 변경하지 못했습니다."</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"꺼내기"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"일부 파일이 변환되었습니다."</string>
+    <string name="job_progress_item_see_details" msgid="2069387639574541325">"세부정보 보기"</string>
+    <string name="copy_completed" msgid="3749037014674785400">"복사됨"</string>
+    <string name="move_completed" msgid="3981250605092729273">"이동됨"</string>
+    <string name="delete_completed" msgid="4149401155614626199">"삭제됨"</string>
+    <string name="compress_completed" msgid="8808356399995313077">"압축"</string>
+    <string name="extract_completed" msgid="8824595789915249972">"추출됨"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g>이(가) <xliff:g id="STORAGE"><i>^3</i></xliff:g>에서 <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> 디렉터리에 액세스하도록 허용하시겠습니까?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g>에서 <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> 디렉터리에 액세스하도록 허용하시겠습니까?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g>에서 사진, 동영상 등 <xliff:g id="STORAGE"><i>^2</i></xliff:g>의 내 데이터에 액세스하도록 허용하시겠습니까?"</string>
@@ -220,6 +227,12 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개 선택됨</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개 선택됨</item>
     </plurals>
+    <string name="clear_selection" msgid="5965968983023105329">"선택 항목 지우기"</string>
+    <string name="document_click_action" msgid="8073338575301415356">"열기"</string>
+    <string name="selected_document_click_action" msgid="792826130200234885">"선택 해제"</string>
+    <string name="document_long_click_action" msgid="3789836661597702666">"선택"</string>
+    <string name="selected_document_long_click_action" msgid="666372407184527109">"드래그"</string>
+    <string name="document_long_click_action_picker" msgid="943888101827856784">"여러 항목 선택"</string>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="other">항목 <xliff:g id="COUNT_1">%1$d</xliff:g>개</item>
       <item quantity="one">항목 <xliff:g id="COUNT_0">%1$d</xliff:g>개</item>
@@ -285,6 +298,17 @@
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"개인정보 보호를 위해 다른 폴더를 선택하세요."</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"새 폴더 만들기"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"이 기기 검색"</string>
+    <string name="search_bar_clear" msgid="2072000748823434188">"텍스트 삭제"</string>
+    <string name="search_location_this_folder" msgid="6458835123175563013">"이 폴더"</string>
+    <string name="search_location_root_folder" msgid="4280523560213522303">"루트 폴더"</string>
+    <string name="search_location_everywhere" msgid="747799487494833887">"모든 지역"</string>
+    <string name="search_last_modified_any_time" msgid="6027501367865939696">"전체 기간"</string>
+    <string name="search_last_modified_1_day" msgid="7775353928859139915">"오늘"</string>
+    <string name="search_last_modified_2_days" msgid="7885735119033678756">"어제"</string>
+    <string name="search_last_modified_7_days" msgid="7634290601544418836">"지난주"</string>
+    <string name="search_last_modified_30_days" msgid="4936787546211708940">"지난달"</string>
+    <string name="search_last_modified_365_days" msgid="7147134152974373466">"작년"</string>
+    <string name="search_file_type_all" msgid="6613664493134355781">"모든 유형"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"검색 기록 삭제 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"개인"</string>
     <string name="work_tab" msgid="7265359366883747413">"직장"</string>
@@ -294,4 +318,7 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"목록 모드로 표시 중입니다."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"파일 이름"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"파일 미리보기 숨기기"</string>
+    <string name="peek_no_preview" msgid="8717084152736749464">"사용 가능한 미리보기 없음"</string>
+    <string name="a11y_peek_image_preview" msgid="3917148390186060263">"<xliff:g id="FILENAME">%s</xliff:g> 이미지 미리보기"</string>
 </resources>

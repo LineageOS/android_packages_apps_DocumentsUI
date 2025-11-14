@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sidebar;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import android.content.Context;
 import android.content.pm.ResolveInfo;
 import android.provider.DocumentsProvider;
@@ -38,7 +40,7 @@ class RootAndAppItem extends RootItem {
 
     RootAndAppItem(
             RootInfo root, ResolveInfo info, ActionHandler actionHandler, boolean maybeShowBadge) {
-        this(R.layout.item_root, root, info, actionHandler, maybeShowBadge);
+        this(getRes(R.layout.item_root), root, info, actionHandler, maybeShowBadge);
     }
 
     RootAndAppItem(
@@ -62,10 +64,13 @@ class RootAndAppItem extends RootItem {
         final Context context = convertView.getContext();
 
         String contentDescription =
-                context.getResources().getString(
-                        R.string.open_external_app, userId.getUserBadgedLabel(context, root.title));
+                context.getResources()
+                        .getString(
+                                getRes(R.string.open_external_app),
+                                userId.getUserBadgedLabel(context, root.title));
 
-        bindAction(convertView, View.VISIBLE, R.drawable.ic_exit_to_app, contentDescription);
+        bindAction(
+                convertView, View.VISIBLE, getRes(R.drawable.ic_exit_to_app), contentDescription);
         bindIconAndTitle(convertView);
         bindSummary(convertView, root.summary);
     }

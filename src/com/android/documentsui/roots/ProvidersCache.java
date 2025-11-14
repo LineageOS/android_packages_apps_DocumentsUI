@@ -22,6 +22,7 @@ import static androidx.core.util.Preconditions.checkNotNull;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.BroadcastReceiver.PendingResult;
 import android.content.ContentProviderClient;
@@ -130,16 +131,21 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
      * Generates recent root for the provided user id
      */
     private RootInfo generateRecentsRoot(UserId rootUserId) {
-        return new RootInfo() {{
-            // Special root for recents
-            userId = rootUserId;
-            derivedIcon = R.drawable.ic_root_recent;
-            derivedType = RootInfo.TYPE_RECENTS;
-            flags = Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_IS_CHILD | Root.FLAG_SUPPORTS_SEARCH;
-            queryArgs = QUERY_ARG_MIME_TYPES;
-            title = mContext.getString(R.string.root_recent);
-            availableBytes = -1;
-        }};
+        return new RootInfo() {
+            {
+                // Special root for recents
+                userId = rootUserId;
+                derivedIcon = getRes(R.drawable.ic_root_recent);
+                derivedType = RootInfo.TYPE_RECENTS;
+                flags =
+                        Root.FLAG_LOCAL_ONLY
+                                | Root.FLAG_SUPPORTS_IS_CHILD
+                                | Root.FLAG_SUPPORTS_SEARCH;
+                queryArgs = QUERY_ARG_MIME_TYPES;
+                title = mContext.getString(getRes(R.string.root_recent));
+                availableBytes = -1;
+            }
+        };
     }
 
     private RootInfo createOrGetRecentsRoot(UserId userId) {
@@ -199,7 +205,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         // NOTE: This method is called when the UI language changes.
         // For that reason we update our RecentsRoot to reflect
         // the current language.
-        final String title = mContext.getString(R.string.root_recent);
+        final String title = mContext.getString(getRes(R.string.root_recent));
         List<UserId> userIds = new ArrayList<>(getUserIds());
         for (UserId userId : userIds) {
             RootInfo recentRoot = createOrGetRecentsRoot(userId);
@@ -207,7 +213,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
             // Nothing else about the root should ever change.
             assert (recentRoot.authority == null);
             assert (recentRoot.rootId == null);
-            assert (recentRoot.derivedIcon == R.drawable.ic_root_recent);
+            assert (recentRoot.derivedIcon == getRes(R.drawable.ic_root_recent));
             assert (recentRoot.derivedType == RootInfo.TYPE_RECENTS);
             assert (recentRoot.flags == (Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_IS_CHILD));
             assert (recentRoot.availableBytes == -1);

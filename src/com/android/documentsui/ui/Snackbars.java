@@ -17,6 +17,7 @@
 package com.android.documentsui.ui;
 
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Activity;
 import android.view.Gravity;
@@ -37,52 +38,60 @@ public final class Snackbars {
     private Snackbars() {}
 
     public static final void showDocumentsClipped(Activity activity, int docCount) {
-        String msg = Shared.getQuantityString(
-                activity, R.plurals.clipboard_files_clipped, docCount);
+        String msg =
+                Shared.getQuantityString(
+                        activity, getRes(R.plurals.clipboard_files_clipped), docCount);
         Snackbars.makeSnackbar(activity, msg, Snackbar.LENGTH_LONG).show();
     }
 
     public static final void showMove(Activity activity, int docCount) {
-        CharSequence message = Shared.getQuantityString(activity, R.plurals.move_begin, docCount);
+        CharSequence message =
+                Shared.getQuantityString(activity, getRes(R.plurals.move_begin), docCount);
         makeSnackbar(activity, message, Snackbar.LENGTH_LONG).show();
     }
 
     public static final void showCopy(Activity activity, int docCount) {
-        CharSequence message = Shared.getQuantityString(activity, R.plurals.copy_begin, docCount);
+        CharSequence message =
+                Shared.getQuantityString(activity, getRes(R.plurals.copy_begin), docCount);
         makeSnackbar(activity, message, Snackbar.LENGTH_LONG).show();
     }
 
     public static final void showCompress(Activity activity, int docCount) {
-        CharSequence message = Shared.getQuantityString(activity, R.plurals.compress_begin, docCount);
+        CharSequence message =
+                Shared.getQuantityString(activity, getRes(R.plurals.compress_begin), docCount);
         makeSnackbar(activity, message, Snackbar.LENGTH_LONG).show();
     }
 
     public static final void showExtract(Activity activity, int docCount) {
-        CharSequence message = Shared.getQuantityString(activity, R.plurals.extract_begin, docCount);
+        CharSequence message =
+                Shared.getQuantityString(activity, getRes(R.plurals.extract_begin), docCount);
         makeSnackbar(activity, message, Snackbar.LENGTH_LONG).show();
     }
 
     public static final void showDelete(Activity activity, int docCount) {
-        CharSequence message = Shared.getQuantityString(activity, R.plurals.deleting, docCount);
+        CharSequence message =
+                Shared.getQuantityString(activity, getRes(R.plurals.deleting), docCount);
         makeSnackbar(activity, message, Snackbar.LENGTH_LONG).show();
     }
 
     public static final void showOperationRejected(Activity activity) {
-        makeSnackbar(activity, R.string.file_operation_rejected, Snackbar.LENGTH_LONG).show();
+        makeSnackbar(activity, getRes(R.string.file_operation_rejected), Snackbar.LENGTH_LONG)
+                .show();
     }
 
     public static final void showOperationFailed(Activity activity) {
-        makeSnackbar(activity, R.string.file_operation_error, Snackbar.LENGTH_LONG).show();
+        makeSnackbar(activity, getRes(R.string.file_operation_error), Snackbar.LENGTH_LONG).show();
     }
 
     public static final void showRenameFailed(Activity activity) {
-        makeSnackbar(activity, R.string.rename_error, Snackbar.LENGTH_LONG).show();
+        makeSnackbar(activity, getRes(R.string.rename_error), Snackbar.LENGTH_LONG).show();
     }
 
     public static final void showInspectorError(Activity activity) {
-        //Document Inspector uses a different view from other files app activities.
-        final View view = activity.findViewById(R.id.inspector_root);
-        Snackbar.make(view, R.string.inspector_load_error, Snackbar.LENGTH_INDEFINITE).show();
+        // Document Inspector uses a different view from other files app activities.
+        final View view = activity.findViewById(getRes(R.id.inspector_root));
+        Snackbar.make(view, getRes(R.string.inspector_load_error), Snackbar.LENGTH_INDEFINITE)
+                .show();
     }
 
     public static final void showCustomTextWithImage(Activity activity, String text, int imageRes) {
@@ -112,10 +121,11 @@ public final class Snackbars {
 
     public static final Snackbar makeSnackbar(
             Activity activity, CharSequence message, int duration) {
-        final View view = activity.findViewById(isUseMaterial3FlagEnabled()
-                ? R.id.coordinator_layout
-                : R.id.container_save
-        );
+        final View view =
+                activity.findViewById(
+                        isUseMaterial3FlagEnabled()
+                                ? getRes(R.id.coordinator_layout)
+                                : getRes(R.id.container_save));
         return Snackbar.make(view, message, duration);
     }
 }
