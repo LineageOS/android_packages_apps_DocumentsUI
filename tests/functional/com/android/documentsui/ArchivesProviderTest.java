@@ -77,14 +77,16 @@ public class ArchivesProviderTest {
     }
 
     @Test
-    public void testQueryRoots() throws InterruptedException, RemoteException {
+    public void testQueryRoots() throws RemoteException {
         final ContentResolver resolver = mContext.getContentResolver();
         final Uri rootsUri = DocumentsContract.buildRootsUri(ArchivesProvider.AUTHORITY);
         try (ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
                 rootsUri)) {
-            Cursor cursor = client.query(rootsUri, null, null, null, null, null);
-            assertNotNull("Cursor must not be null.", cursor);
-            assertEquals(0, cursor.getCount());
+            assertNotNull(client);
+            try (Cursor cursor = client.query(rootsUri, null, null, null, null, null)) {
+                assertNotNull("Cursor must not be null.", cursor);
+                assertEquals(0, cursor.getCount());
+            }
         }
     }
 
@@ -101,43 +103,42 @@ public class ArchivesProviderTest {
         final ContentResolver resolver = mContext.getContentResolver();
         final CountDownLatch latch = new CountDownLatch(1);
 
-        final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
-                archiveUri);
-        ArchivesProvider.acquireArchive(client, archiveUri);
+        try (ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                archiveUri)) {
+            assertNotNull(client);
+            ArchivesProvider.acquireArchive(client, archiveUri);
+            try {
+                try (Cursor cursor = resolver.query(childrenUri, null, null, null, null, null)) {
+                    assertNotNull("Cursor must not be null. File not found?", cursor);
+                    assertEquals(0, cursor.getCount());
+                    final Bundle extras = cursor.getExtras();
+                    assertTrue(extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
+                    assertNull(extras.getString(DocumentsContract.EXTRA_ERROR));
 
-        {
-            final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
-            assertNotNull("Cursor must not be null. File not found?", cursor);
+                    final Uri notificationUri = cursor.getNotificationUri();
+                    assertNotNull(notificationUri);
 
-            assertEquals(0, cursor.getCount());
-            final Bundle extras = cursor.getExtras();
-            assertEquals(true, extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
-            assertNull(extras.getString(DocumentsContract.EXTRA_ERROR));
-
-            final Uri notificationUri = cursor.getNotificationUri();
-            assertNotNull(notificationUri);
-
-            resolver.registerContentObserver(notificationUri, false, new ContentObserver(null) {
-                @Override
-                public void onChange(boolean selfChange, Uri uri) {
-                    latch.countDown();
+                    resolver.registerContentObserver(notificationUri, false,
+                            new ContentObserver(null) {
+                                @Override
+                                public void onChange(boolean selfChange, Uri uri) {
+                                    latch.countDown();
+                                }
+                            });
                 }
-            });
+
+                latch.await(3, TimeUnit.SECONDS);
+                try (Cursor cursor = resolver.query(childrenUri, null, null, null, null, null)) {
+                    assertNotNull("Cursor must not be null. File not found?", cursor);
+                    assertEquals(3, cursor.getCount());
+                    final Bundle extras = cursor.getExtras();
+                    assertFalse(extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
+                    assertNull(extras.getString(DocumentsContract.EXTRA_ERROR));
+                }
+            } finally {
+                ArchivesProvider.releaseArchive(client, archiveUri);
+            }
         }
-
-        latch.await(3, TimeUnit.SECONDS);
-        {
-            final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
-            assertNotNull("Cursor must not be null. File not found?", cursor);
-
-            assertEquals(3, cursor.getCount());
-            final Bundle extras = cursor.getExtras();
-            assertEquals(false, extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
-            assertNull(extras.getString(DocumentsContract.EXTRA_ERROR));
-        }
-
-        ArchivesProvider.releaseArchive(client, archiveUri);
-        client.release();
     }
 
     @Test
@@ -153,48 +154,46 @@ public class ArchivesProviderTest {
         final ContentResolver resolver = mContext.getContentResolver();
         final CountDownLatch latch = new CountDownLatch(1);
 
-        final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
-                archiveUri);
-        ArchivesProvider.acquireArchive(client, archiveUri);
+        try (ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                archiveUri)) {
+            assertNotNull(client);
+            ArchivesProvider.acquireArchive(client, archiveUri);
+            try {
+                try (Cursor cursor = resolver.query(childrenUri, null, null, null, null, null)) {
+                    assertNotNull("Cursor must not be null. File not found?", cursor);
+                    assertEquals(0, cursor.getCount());
+                    final Bundle extras = cursor.getExtras();
+                    assertTrue(extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
+                    assertNull(extras.getString(DocumentsContract.EXTRA_ERROR));
 
-        {
-            // TODO: Close this and any other cursor in this file.
-            final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
-            assertNotNull("Cursor must not be null. File not found?", cursor);
+                    final Uri notificationUri = cursor.getNotificationUri();
+                    assertNotNull(notificationUri);
 
-            assertEquals(0, cursor.getCount());
-            final Bundle extras = cursor.getExtras();
-            assertEquals(true, extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
-            assertNull(extras.getString(DocumentsContract.EXTRA_ERROR));
-
-            final Uri notificationUri = cursor.getNotificationUri();
-            assertNotNull(notificationUri);
-
-            resolver.registerContentObserver(notificationUri, false, new ContentObserver(null) {
-                @Override
-                public void onChange(boolean selfChange, Uri uri) {
-                    latch.countDown();
+                    resolver.registerContentObserver(notificationUri, false,
+                            new ContentObserver(null) {
+                                @Override
+                                public void onChange(boolean selfChange, Uri uri) {
+                                    latch.countDown();
+                                }
+                            });
                 }
-            });
+
+                latch.await(3, TimeUnit.SECONDS);
+                try (Cursor cursor = resolver.query(childrenUri, null, null, null, null, null)) {
+                    assertNotNull("Cursor must not be null. File not found?", cursor);
+                    assertEquals(0, cursor.getCount());
+                    final Bundle extras = cursor.getExtras();
+                    assertFalse(extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
+                    assertFalse(TextUtils.isEmpty(extras.getString(DocumentsContract.EXTRA_ERROR)));
+                }
+            } finally {
+                ArchivesProvider.releaseArchive(client, archiveUri);
+            }
         }
-
-        latch.await(3, TimeUnit.SECONDS);
-        {
-            final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
-            assertNotNull("Cursor must not be null. File not found?", cursor);
-
-            assertEquals(0, cursor.getCount());
-            final Bundle extras = cursor.getExtras();
-            assertEquals(false, extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
-            assertFalse(TextUtils.isEmpty(extras.getString(DocumentsContract.EXTRA_ERROR)));
-        }
-
-        ArchivesProvider.releaseArchive(client, archiveUri);
-        client.release();
     }
 
     @Test
-    public void testOpen_ClosesOnRelease() throws InterruptedException {
+    public void testOpen_ClosesOnRelease() {
         final Uri sourceUri = DocumentsContract.buildDocumentUri(
                 ResourcesProvider.AUTHORITY, "archive.zip");
         final Uri archiveUri = ArchivesProvider.buildUriForArchive(sourceUri,
@@ -205,35 +204,34 @@ public class ArchivesProviderTest {
 
         final ContentResolver resolver = mContext.getContentResolver();
 
-        final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
-                archiveUri);
+        try (ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                archiveUri)) {
+            assertNotNull(client);
 
-        // Acquire twice to ensure that the refcount works correctly.
-        ArchivesProvider.acquireArchive(client, archiveUri);
-        ArchivesProvider.acquireArchive(client, archiveUri);
+            // Acquire twice to ensure that the refcount works correctly.
+            ArchivesProvider.acquireArchive(client, archiveUri);
+            try {
+                ArchivesProvider.acquireArchive(client, archiveUri);
+                try (Cursor cursor = resolver.query(childrenUri, null, null, null, null, null)) {
+                    assertNotNull("Cursor must not be null. File not found?", cursor);
+                } finally {
+                    ArchivesProvider.releaseArchive(client, archiveUri);
+                }
 
-        {
-            final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
-            assertNotNull("Cursor must not be null. File not found?", cursor);
+                try (Cursor cursor = resolver.query(childrenUri, null, null, null, null, null)) {
+                    assertNotNull("Cursor must not be null. File not found?", cursor);
+                }
+            } finally {
+                ArchivesProvider.releaseArchive(client, archiveUri);
+            }
+
+            try (Cursor cursor = resolver.query(childrenUri, null, null, null, null, null)) {
+                assertNotNull(cursor);
+                fail("The archive was expected to be invalid on the last release call.");
+            } catch (IllegalStateException e) {
+                // Expected.
+            }
         }
-
-        ArchivesProvider.releaseArchive(client, archiveUri);
-
-        {
-            final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
-            assertNotNull("Cursor must not be null. File not found?", cursor);
-        }
-
-        ArchivesProvider.releaseArchive(client, archiveUri);
-
-        try {
-            resolver.query(childrenUri, null, null, null, null, null);
-            fail("The archive was expected to be invalid on the last release call.");
-        } catch (IllegalStateException e) {
-            // Expected.
-        }
-
-        client.release();
     }
 
     @Test
@@ -248,29 +246,31 @@ public class ArchivesProviderTest {
 
         final ContentResolver resolver = mContext.getContentResolver();
 
-        final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
-                archiveUri);
-
-        ArchivesProvider.acquireArchive(client, archiveUri);
-        final Cursor cursor = client.query(childrenUri, null, null, null, null, null);
-        final Bundle extra = cursor.getExtras();
-        assertTrue(extra.getBoolean(DocumentsContract.EXTRA_LOADING, false));
-        final Uri notificationUri = cursor.getNotificationUri();
-
-        ArchivesProvider.releaseArchive(client, archiveUri);
-        final CountDownLatch latch = new CountDownLatch(1);
-        resolver.registerContentObserver(notificationUri, false, new ContentObserver(null) {
-            @Override
-            public void onChange(boolean selfChange, Uri uri) {
-                latch.countDown();
+        try (ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                archiveUri)) {
+            assertNotNull(client);
+            final Uri notificationUri;
+            ArchivesProvider.acquireArchive(client, archiveUri);
+            try (Cursor cursor = client.query(childrenUri, null, null, null, null, null)) {
+                assertNotNull(cursor);
+                final Bundle extra = cursor.getExtras();
+                assertTrue(extra.getBoolean(DocumentsContract.EXTRA_LOADING, false));
+                notificationUri = cursor.getNotificationUri();
+            } finally {
+                ArchivesProvider.releaseArchive(client, archiveUri);
             }
-        });
+            final CountDownLatch latch = new CountDownLatch(1);
+            resolver.registerContentObserver(notificationUri, false, new ContentObserver(null) {
+                @Override
+                public void onChange(boolean selfChange, Uri uri) {
+                    latch.countDown();
+                }
+            });
 
-        // Assert that there is no notification if no one has acquired this archive and this wait
-        // times out.
-        assertFalse(latch.await(1, TimeUnit.SECONDS));
-
-        client.release();
+            // Assert that there is no notification if no one has acquired this archive and this
+            // wait times out.
+            assertFalse(latch.await(1, TimeUnit.SECONDS));
+        }
     }
 
     private void getDocumentMetadata_byDocumentId_shouldMatchSize(String documentId)
@@ -281,27 +281,30 @@ public class ArchivesProviderTest {
                 ParcelFileDescriptor.MODE_READ_ONLY);
 
         final ContentResolver resolver = mContext.getContentResolver();
-        final ContentProviderClient client =
-                resolver.acquireUnstableContentProviderClient(archiveUri);
+        try (ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                archiveUri)) {
+            assertNotNull(client);
 
-        ArchivesProvider.acquireArchive(client, archiveUri);
+            ArchivesProvider.acquireArchive(client, archiveUri);
+            try {
+                Uri archivedImageUri = Uri.parse(
+                        "content://com.android.documentsui.archives/document/content%3A%2F%2F"
+                                + "com.android.documentsui.archives.resourcesprovider%2F"
+                                + "document%2F" + documentId + "%23268435456%23%2Ffreddy.jpg");
 
-        Uri archivedImageUri = Uri.parse(
-                "content://com.android.documentsui.archives/document/content%3A%2F%2F"
-                        + "com.android.documentsui.archives.resourcesprovider%2F"
-                        + "document%2F" + documentId + "%23268435456%23%2Ffreddy.jpg");
+                Bundle metadata = DocumentsContract.getDocumentMetadata(wrap(client),
+                        archivedImageUri);
+                assertNotNull(metadata);
+                Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
+                assertNotNull(exif);
 
-        Bundle metadata = DocumentsContract.getDocumentMetadata(wrap(client), archivedImageUri);
-        assertNotNull(metadata);
-        Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
-        assertNotNull(exif);
-
-        assertThat(exif.getInt(ExifInterface.TAG_IMAGE_WIDTH)).isEqualTo(3036);
-        assertThat(exif.getInt(ExifInterface.TAG_IMAGE_LENGTH)).isEqualTo(4048);
-        assertThat(exif.getString(ExifInterface.TAG_MODEL)).isEqualTo("Pixel");
-
-        ArchivesProvider.releaseArchive(client, archiveUri);
-        client.close();
+                assertThat(exif.getInt(ExifInterface.TAG_IMAGE_WIDTH)).isEqualTo(3036);
+                assertThat(exif.getInt(ExifInterface.TAG_IMAGE_LENGTH)).isEqualTo(4048);
+                assertThat(exif.getString(ExifInterface.TAG_MODEL)).isEqualTo("Pixel");
+            } finally {
+                ArchivesProvider.releaseArchive(client, archiveUri);
+            }
+        }
     }
 
     @Test

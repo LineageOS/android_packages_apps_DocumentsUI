@@ -15,22 +15,22 @@
  */
 package com.android.documentsui.queries
 
-import android.platform.test.annotations.RequiresFlagsEnabled
+import android.platform.test.annotations.EnableFlags
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.android.documentsui.flags.Flags.FLAG_USE_SEARCH_V2_READ_ONLY
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag
+import com.android.documentsui.rules.OverrideFlagsRule
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RequiresFlagsEnabled(FLAG_USE_SEARCH_V2_READ_ONLY)
+@EnableFlags(FLAG_USE_SEARCH_V2_READ_ONLY)
 @RunWith(AndroidJUnit4::class)
 @SmallTest
 class SearchLocationOptionTest {
     @get:Rule
-    val checkFlags = CheckAndForceMaterial3Flag()
+    val setFlags = OverrideFlagsRule()
 
     @Test
     fun testEnumValueMapping() {

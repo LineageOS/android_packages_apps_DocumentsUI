@@ -129,6 +129,7 @@ public class MetricConsts {
     static final int FILEOP_EXTRACT_EXTERNAL_PROVIDER = 24; // Extract to a 3rd-party provider.
     static final int FILEOP_COMPRESS_ERROR = 25;
     static final int FILEOP_EXTRACT_ERROR = 26;
+    static final int FILEOP_UNPACK_ERROR = 27;
 
     @IntDef(flag = true, value = {
             FILEOP_UNKNOWN,
@@ -157,7 +158,8 @@ public class MetricConsts {
             FILEOP_EXTRACT_SYSTEM_PROVIDER,
             FILEOP_EXTRACT_EXTERNAL_PROVIDER,
             FILEOP_COMPRESS_ERROR,
-            FILEOP_EXTRACT_ERROR
+            FILEOP_EXTRACT_ERROR,
+            FILEOP_UNPACK_ERROR,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface FileOp {
@@ -189,6 +191,8 @@ public class MetricConsts {
     public static final int SUBFILEOP_OBTAIN_STREAM_TYPE = 8;
     public static final int SUBFILEOP_QUICK_MOVE = 9;
     public static final int SUBFILEOP_QUICK_COPY = 10;
+    public static final int SUBFILEOP_TRASH_DOCUMENT = 11;
+    public static final int SUBFILEOP_RESTORE_DOCUMENT = 11;
 
     @IntDef(flag = false, value = {
             SUBFILEOP_UNKNOWN,
@@ -201,7 +205,9 @@ public class MetricConsts {
             SUBFILEOP_DELETE_DOCUMENT,
             SUBFILEOP_OBTAIN_STREAM_TYPE,
             SUBFILEOP_QUICK_MOVE,
-            SUBFILEOP_QUICK_COPY
+            SUBFILEOP_QUICK_COPY,
+            SUBFILEOP_TRASH_DOCUMENT,
+            SUBFILEOP_RESTORE_DOCUMENT
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface SubFileOp {
@@ -244,6 +250,7 @@ public class MetricConsts {
     public static final int USER_ACTION_SEARCH_HISTORY = 33;
     public static final int USER_ACTION_SHOW_HIDDEN_FILES = 34;
     public static final int USER_ACTION_HIDE_HIDDEN_FILES = 35;
+    public static final int USER_ACTION_UNPACK = 36;
 
     @IntDef(flag = false, value = {
             USER_ACTION_UNKNOWN,
@@ -281,7 +288,8 @@ public class MetricConsts {
             USER_ACTION_SEARCH_CHIP,
             USER_ACTION_SEARCH_HISTORY,
             USER_ACTION_SHOW_HIDDEN_FILES,
-            USER_ACTION_HIDE_HIDDEN_FILES
+            USER_ACTION_HIDE_HIDDEN_FILES,
+            USER_ACTION_UNPACK,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface UserAction {

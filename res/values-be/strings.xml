@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"Захаваць"</string>
     <string name="menu_share" msgid="4307140947108068356">"Абагуліць"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Выдаліць"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"Выдаліць назаўсёды"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"Перамясціць у сметніцу"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"Аднавіць"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Выбраць усе"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Адмяніць выбар усіх"</string>
     <string name="menu_select" msgid="1366061076507142387">"Выбраць"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"Капіраваць у…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Перамясціць у…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Сціснуць"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"Індэкс"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Выняць у…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"Выняць усе…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"Выняць сюды"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"Выняць"</string>
     <string name="menu_browse" msgid="6007716414766674967">"Прагледзець"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Перайменаваць"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Атрымаць інфармацыю"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Недапушчальнае дзеянне"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Каб даведацца больш, звярніцеся да ІT-адміністратара"</string>
     <string name="root_recent" msgid="1080156975424341623">"Апошнія"</string>
+    <string name="root_trash" msgid="1869929519939073178">"Сметніца"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> свабодна"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Службы захоўвання"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Ярлыкі"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Немагчыма выдаліць некаторыя дакументы"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Не ўдалося абагуліць, таму што файлаў больш за <xliff:g id="COUNT">%1$d</xliff:g>"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"Дзеянне забаронена"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"Адкрыць з дапамогай…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"Праграмы, якія падтрымліваюцца, не ўсталяваны. Усталюйце такую праграму з Крамы Play."</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"Шукаць у Краме Play"</string>
     <string name="share_via" msgid="8725082736005677161">"Абагуліць праз"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Капіраванне файлаў"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Ідзе сцісканне файлаў"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"Файлы вымаюцца"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Перамяшчэнне файлаў"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Выдаленне файлаў"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"Перамяшчаем у сметніцу"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"Аднаўляюцца файлы"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Засталося <xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="one">Ідзе капіраванне <xliff:g id="COUNT_1">%1$d</xliff:g> элемента.</item>
@@ -164,37 +174,26 @@
       <item quantity="many">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў.</item>
       <item quantity="other">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> элемента.</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> элемент перамяшчаецца ў сметніцу}one{<xliff:g id="COUNT_1">{count}</xliff:g> элемент перамяшчаецца ў сметніцу}few{<xliff:g id="COUNT_1">{count}</xliff:g> элементы перамяшчаюцца ў сметніцу}many{<xliff:g id="COUNT_1">{count}</xliff:g> элементаў перамяшчаюцца ў сметніцу}other{<xliff:g id="COUNT_1">{count}</xliff:g> элемента перамяшчаюцца ў сметніцу}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{Аднаўляецца <xliff:g id="COUNT_0">{count}</xliff:g> элемент}one{Аднаўляецца <xliff:g id="COUNT_1">{count}</xliff:g> элемент}few{Аднаўляюцца <xliff:g id="COUNT_1">{count}</xliff:g> элементы}many{Аднаўляюцца <xliff:g id="COUNT_1">{count}</xliff:g> элементаў}other{Аднаўляюцца <xliff:g id="COUNT_1">{count}</xliff:g> элемента}}"</string>
     <string name="undo" msgid="2902438994196400565">"Адрабіць"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"Падрыхтоўка…"</string>
     <string name="compress_preparing" msgid="7401605598969019696">"Падрыхтоўка…"</string>
     <string name="extract_preparing" msgid="4796626960061745796">"Падрыхтоўка…"</string>
     <string name="move_preparing" msgid="6504239656430530761">"Падрыхтоўка…"</string>
     <string name="delete_preparing" msgid="7339349837842802508">"Падрыхтоўка…"</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"Ідзе падрыхтоўка…"</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"Ідзе падрыхтоўка…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="one">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> элемент</item>
-      <item quantity="few">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> элементы</item>
-      <item quantity="many">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў</item>
-      <item quantity="other">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> элемента</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
-      <item quantity="few">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файлы</item>
-      <item quantity="many">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў</item>
-      <item quantity="other">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="one">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> элемент</item>
-      <item quantity="few">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> элементы</item>
-      <item quantity="many">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў</item>
-      <item quantity="other">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> элемента</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="one">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> элемент</item>
-      <item quantity="few">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> элементы</item>
-      <item quantity="many">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў</item>
-      <item quantity="other">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> элемента</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g> з <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g> з <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{Не ўдалося скапіраваць <xliff:g id="COUNT_0">{count}</xliff:g> элемент}one{Не ўдалося скапіраваць <xliff:g id="COUNT_1">{count}</xliff:g> элемент}few{Не ўдалося скапіраваць <xliff:g id="COUNT_1">{count}</xliff:g> элементы}many{Не ўдалося скапіраваць <xliff:g id="COUNT_1">{count}</xliff:g> элементаў}other{Не ўдалося скапіраваць <xliff:g id="COUNT_1">{count}</xliff:g> элемента}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{Не ўдалося сціснуць <xliff:g id="COUNT_0">{count}</xliff:g> элемент}one{Не ўдалося сціснуць <xliff:g id="COUNT_1">{count}</xliff:g> элемент}few{Не ўдалося сціснуць <xliff:g id="COUNT_1">{count}</xliff:g> элементы}many{Не ўдалося сціснуць <xliff:g id="COUNT_1">{count}</xliff:g> элементаў}other{Не ўдалося сціснуць <xliff:g id="COUNT_1">{count}</xliff:g> элемента}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{Не ўдалося выняць <xliff:g id="COUNT_0">{count}</xliff:g> элемент}one{Не ўдалося выняць <xliff:g id="COUNT_1">{count}</xliff:g> элемент}few{Не ўдалося выняць <xliff:g id="COUNT_1">{count}</xliff:g> элементы}many{Не ўдалося выняць <xliff:g id="COUNT_1">{count}</xliff:g> элементаў}other{Не ўдалося выняць <xliff:g id="COUNT_1">{count}</xliff:g> элемента}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{Не ўдалося перамясціць <xliff:g id="COUNT_0">{count}</xliff:g> элемент}one{Не ўдалося перамясціць <xliff:g id="COUNT_1">{count}</xliff:g> элемент}few{Не ўдалося перамясціць <xliff:g id="COUNT_1">{count}</xliff:g> элементы}many{Не ўдалося перамясціць <xliff:g id="COUNT_1">{count}</xliff:g> элементаў}other{Не ўдалося перамясціць <xliff:g id="COUNT_1">{count}</xliff:g> элемента}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{Не ўдалося выдаліць <xliff:g id="COUNT_0">{count}</xliff:g> элемент}one{Не ўдалося выдаліць <xliff:g id="COUNT_1">{count}</xliff:g> элемент}few{Не ўдалося выдаліць <xliff:g id="COUNT_1">{count}</xliff:g> элементы}many{Не ўдалося выдаліць <xliff:g id="COUNT_1">{count}</xliff:g> элементаў}other{Не ўдалося выдаліць <xliff:g id="COUNT_1">{count}</xliff:g> элемента}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{Не ўдалося перамясціць у сметніцу <xliff:g id="COUNT_0">{count}</xliff:g> элемент}one{Не ўдалося перамясціць у сметніцу <xliff:g id="COUNT_1">{count}</xliff:g> элемент}few{Не ўдалося перамясціць у сметніцу <xliff:g id="COUNT_1">{count}</xliff:g> элементы}many{Не ўдалося перамясціць у сметніцу <xliff:g id="COUNT_1">{count}</xliff:g> элементаў}other{Не ўдалося перамясціць у сметніцу <xliff:g id="COUNT_1">{count}</xliff:g> элемента}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{Не ўдалося аднавіць <xliff:g id="COUNT_0">{count}</xliff:g> элемент}one{Не ўдалося аднавіць <xliff:g id="COUNT_1">{count}</xliff:g> элемент}few{Не ўдалося аднавіць <xliff:g id="COUNT_1">{count}</xliff:g> элементы}many{Не ўдалося аднавіць <xliff:g id="COUNT_1">{count}</xliff:g> элементаў}other{Не ўдалося аднавіць <xliff:g id="COUNT_1">{count}</xliff:g> элемента}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Дакраніцеся, каб праглядзець больш падрабязна"</string>
     <string name="close" msgid="905969391788869975">"Закрыць"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -239,17 +238,39 @@
       <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> элементаў скапіраваны ў буфер абмену.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> элемента скапіраваны ў буфер абмену.</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"Толькі чытанне"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"Вы можаце праглядаць гэтыя файлы, але некаторыя дзеянні не падтрымліваюцца"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"Архіў знаходзіцца ў папцы толькі для чытання, таму файл немагчыма выняць тут."</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"Аперацыя з файлам не падтрымліваецца."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Не атрымалася выканаць аперацыю з файлам."</string>
     <string name="rename_error" msgid="6700093173508118635">"Не атрымалася перайменаваць дакумент"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Выняць"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Некаторыя файлы былі пераўтвораны"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{Файл \"<xliff:g id="FILENAME">{filename}</xliff:g>\" капіруецца ў каталог \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}one{# файл капіруецца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}few{# файлы капіруюцца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}many{# файлаў капіруюцца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}other{# файла капіруюцца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{Файл \"<xliff:g id="FILENAME">{filename}</xliff:g>\" вымаецца ў каталог \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}one{# архіў вымаецца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}few{# архівы вымаюцца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}many{# архіваў вымаюцца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}other{# архіва вымаюцца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{Файл \"<xliff:g id="FILENAME">{filename}</xliff:g>\" перамяшчаецца ў каталог \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}one{# файл перамяшчаецца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}few{# файлы перамяшчаюцца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}many{# файлаў перамяшчаюцца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}other{# файла перамяшчаюцца ў каталог \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{Выдаляецца файл \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}one{Выдаляецца # файл}few{Выдаляюцца # файлы}many{Выдаляюцца # файлаў}other{Выдаляюцца # файла}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{Файл \"<xliff:g id="FILENAME">{filename}</xliff:g>\" перамяшчаецца ў сметніцу}one{# файл перамяшчаецца ў сметніцу}few{# файлы перамяшчаюцца ў сметніцу}many{# файлаў перамяшчаюцца ў сметніцу}other{# файла перамяшчаюцца ў сметніцу}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{Аднаўляецца файл \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}one{Аднаўляецца # файл}few{Аднаўляюцца # файлы}many{Аднаўляюцца # файлаў}other{Аднаўляюцца # файла}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{Файл \"<xliff:g id="FILENAME">{filename}</xliff:g>\" сціскаецца ў архіў}one{# файл сціскаецца ў архіў}few{# файлы сціскаюцца ў архіў}many{# файлаў сціскаюцца ў архіў}other{# файла сціскаюцца ў архіў}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"Паказаць ход выканання дзеяння з файлам"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"Ход дзеянняў з файламі"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"Завершана"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"Скасавана"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"Праглядзець падрабязнасці"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="CURRENTBYTES">%1$s</xliff:g> з <xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"Скапіравана"</string>
     <string name="move_completed" msgid="3981250605092729273">"Перамешчана"</string>
     <string name="delete_completed" msgid="4149401155614626199">"Выдалена"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"Сціснута"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"Сціснута ў архіў"</string>
     <string name="extract_completed" msgid="8824595789915249972">"Вынята"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"Не ўдалося скапіраваць"</string>
+    <string name="move_failed" msgid="7692364307225994220">"Не ўдалося перамясціць"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"Выдаліць не ўдалося"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"Не ўдалося сціснуць у архіў"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"Не ўдалося выняць"</string>
+    <string name="expand_label" msgid="5683357671239615207">"Разгарнуць"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"Згарнуць"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Даць праграме <xliff:g id="APPNAME"><b>^1</b></xliff:g> доступ да каталога <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> у <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Даць праграме <xliff:g id="APPNAME"><b>^1</b></xliff:g> доступ да каталога <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Даць праграме <xliff:g id="APPNAME"><b>^1</b></xliff:g> доступ да вашых даных, у тым ліку фатаграфій і відэа, у <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
@@ -300,6 +321,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"Немагчыма паказаць змесціва"</string>
     <string name="sign_in" msgid="6253762676723505592">"Увайсці"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"архіў<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"Архіваваць"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Перазапісаць <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Працягнуць у фонавым рэжыме"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -343,7 +365,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Стварыць новую папку"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Пошук на гэтай прыладзе"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"Ачысціць"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"Гэта папка"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"Каранёвая папка"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"Усюды"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"За любы час"</string>
@@ -362,7 +383,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"Паказ у рэжыме спіса."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"Назва файла"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Схаваць перадпрагляд файла"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"Перадпрагляд недаступны"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"Падрабязныя звесткі"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"Агульная інфармацыя"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"Памер"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"Тып"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"Дата змянення"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Схаваць перадпрагляд файла"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"Перадпрагляд відарыса <xliff:g id="FILENAME">%s</xliff:g>"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"Схаваць інфармацыйную панэль"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"Паказаць інфармацыйную панэль"</string>
 </resources>

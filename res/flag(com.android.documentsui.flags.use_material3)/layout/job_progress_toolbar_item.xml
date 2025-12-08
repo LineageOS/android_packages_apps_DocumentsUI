@@ -25,6 +25,7 @@
         style="@style/JobProgressToolbarIndicatorStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/job_progress_icon_label"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintStart_toStartOf="parent"

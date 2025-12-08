@@ -15,10 +15,12 @@
  */
 package com.android.documentsui.loaders
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Parcel
 import android.provider.DocumentsContract
 import com.android.documentsui.DirectoryResult
+import com.android.documentsui.Model
 import com.android.documentsui.TestActivity
 import com.android.documentsui.TestConfigStore
 import com.android.documentsui.base.DocumentInfo
@@ -26,6 +28,7 @@ import com.android.documentsui.base.UserId
 import com.android.documentsui.sorting.SortModel
 import com.android.documentsui.testing.ActivityManagers
 import com.android.documentsui.testing.TestEnv
+import com.android.documentsui.testing.TestFeatures
 import com.android.documentsui.testing.TestModel
 import com.android.documentsui.testing.UserManagers
 import java.time.Duration
@@ -70,25 +73,44 @@ data class LoaderTestParams(
 }
 
 /**
- * Common base class for search and folder loaders.
+ * Helper function that given `DirectoryResult` returns a list of `DocumentInfo` objects
+ * representing then.
  */
+@SuppressLint("VisibleForTests")
+fun getDocuments(result: DirectoryResult?): List<DocumentInfo> {
+    if (result == null) {
+        return listOf()
+    }
+    val model = Model(TestFeatures())
+    model.update(result)
+    val documents = mutableListOf<DocumentInfo>()
+    for (modelId in result.modelIds) {
+        val documentInfo = model.getDocument(modelId)
+        if (documentInfo != null) {
+            documents.add(documentInfo)
+        }
+    }
+    return documents
+}
+
+/** Common base class for search and folder loaders. */
 open class BaseLoaderTest {
-    lateinit var mEnv: TestEnv
-    lateinit var mActivity: TestActivity
-    lateinit var mTestConfigStore: TestConfigStore
+    lateinit var environment: TestEnv
+    lateinit var activity: TestActivity
+    lateinit var testConfigStore: TestConfigStore
 
     @Before
     fun setUp() {
-        mEnv = TestEnv.create()
-        mTestConfigStore = TestConfigStore()
-        mEnv.state.configStore = mTestConfigStore
-        mEnv.state.showHiddenFiles = false
+        environment = TestEnv.create()
+        testConfigStore = TestConfigStore()
+        environment.state.configStore = testConfigStore
+        environment.state.showHiddenFiles = false
         val parcel = Parcel.obtain()
-        mEnv.state.sortModel = SortModel.CREATOR.createFromParcel(parcel)
+        environment.state.sortModel = SortModel.CREATOR.createFromParcel(parcel)
 
-        mActivity = TestActivity.create(mEnv)
-        mActivity.activityManager = ActivityManagers.create(false)
-        mActivity.userManager = UserManagers.create()
+        activity = TestActivity.create(environment)
+        activity.activityManager = ActivityManagers.create(false)
+        activity.userManager = UserManagers.create()
     }
 
     /**
@@ -101,10 +123,10 @@ open class BaseLoaderTest {
         val flags = (DocumentsContract.Document.FLAG_SUPPORTS_WRITE
                 or DocumentsContract.Document.FLAG_SUPPORTS_DELETE
                 or DocumentsContract.Document.FLAG_SUPPORTS_RENAME)
-        return Array<DocumentInfo>(count) { i ->
+        return Array(count) { i ->
             val id = String.format(Locale.US, "%05d", i)
             val name = "sample-$id.${extensionList[i % extensionList.size]}"
-            mEnv.model.createDocumentForUser(
+            environment.model.createDocumentForUser(
                 name,
                 TestModel.guessMimeType(name),
                 flags,

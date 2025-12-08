@@ -23,7 +23,6 @@ import com.android.documentsui.util.Material3Config.Companion.getRes
  * to the values of hte search_last_modified_menu.
  */
 enum class SearchLocationOption(val value: Int) {
-    CURRENT_FOLDER(getRes(R.id.this_folder_option)),
     ROOT_FOLDER(getRes(R.id.root_folder_option)),
     EVERYWHERE(getRes(R.id.everywhere_options)),
 }

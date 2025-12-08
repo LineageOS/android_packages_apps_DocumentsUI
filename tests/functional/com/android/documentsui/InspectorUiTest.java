@@ -19,23 +19,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.inspector.InspectorActivity;
 
+import org.junit.Test;
+
 @LargeTest
-public class InspectorUiTest extends ActivityTest<InspectorActivity> {
+public class InspectorUiTest extends ActivityTestJunit4<InspectorActivity> {
 
     private static final String TEST_DOC_NAME = "test.txt";
 
-    public InspectorUiTest() {
-        super(InspectorActivity.class);
-    }
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-    }
 
     @Override
     public void launchActivity() {
@@ -45,10 +40,10 @@ public class InspectorUiTest extends ActivityTest<InspectorActivity> {
         Uri uri = DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY, TEST_DOC_NAME);
         final Intent intent = InspectorActivity.createIntent(context, uri, userId);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        setActivityIntent(intent);
-        getActivity();
+        mActivityScenario = ActivityScenario.launch(intent);
     }
 
+    @Test
     public void testDisplayFileName() throws Exception {
         if (!features.isInspectorEnabled()) {
             return;
@@ -56,17 +51,21 @@ public class InspectorUiTest extends ActivityTest<InspectorActivity> {
         bots.inspector.assertTitle("test.txt");
     }
 
+    @Test
     public void testFolderDetails() throws Exception {
         if (!features.isInspectorEnabled()) {
             return;
         }
-        bots.inspector.assertRowEquals(
-                getActivity().getString(R.string.sort_dimension_file_type),
-                "Folder",
-                getActivity());
-        bots.inspector.assertRowEquals(
-                getActivity().getString(R.string.directory_items),
-                InspectorProvider.NUMBER_OF_ITEMS,
-                getActivity());
+        mActivityScenario.onActivity(
+                activity -> {
+                    bots.inspector.assertRowEquals(
+                            activity.getString(R.string.sort_dimension_file_type),
+                            "Folder",
+                            activity);
+                    bots.inspector.assertRowEquals(
+                            activity.getString(R.string.directory_items),
+                            InspectorProvider.NUMBER_OF_ITEMS,
+                            activity);
+                });
     }
 }

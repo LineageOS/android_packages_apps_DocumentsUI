@@ -50,6 +50,9 @@
     <style name="TextAppearance.DocumentsUI.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
         <item name="fontFamily">@string/config_fontFamily</item>
     </style>
+    <style name="TextAppearance.DocumentsUI.BodyMedium.Emphasized" parent="TextAppearance.Material3.BodyMedium.Emphasized">
+        <item name="fontFamily">@string/config_fontFamily</item>
+    </style>
     <style name="TextAppearance.DocumentsUI.BodySmall" parent="TextAppearance.Material3.BodySmall">
         <item name="fontFamily">@string/config_fontFamily</item>
     </style>
@@ -189,6 +192,10 @@
         <item name="android:textColor">?attr/colorError</item>
     </style>
 
+    <style name="JobProgressItemStatusText.Warning">
+        <item name="android:textColor">@color/warning</item>
+    </style>
+
     <style name="JobProgressItemActionButtonText" parent="@style/TextAppearance.DocumentsUI.LabelLarge" />
 
     <!-- Headline Small -->
@@ -221,4 +228,7 @@
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
+    <style name="SnackbarTextViewStyle" parent="Widget.Material3.Snackbar.TextView">
+        <item name="android:maxLines">2</item>
+    </style>
 </resources>

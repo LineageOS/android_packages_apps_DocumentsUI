@@ -22,19 +22,20 @@ import static org.mockito.Mockito.mock;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.R;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.shape.MaterialShapeDrawable;
 
 import org.junit.Before;
 import org.junit.Test;
 
-
+@SmallTest
 public class SearchBarScrollingViewBehaviorTest {
     private SearchBarScrollingViewBehavior mScrollingViewBehavior;
     private Context mContext;
@@ -61,7 +62,9 @@ public class SearchBarScrollingViewBehaviorTest {
         appBarLayout.setLayoutParams(lp);
         appBarLayout.setBackgroundColor(Color.WHITE);
         mScrollingViewBehavior.onDependentViewChanged(coordinatorLayout, null, appBarLayout);
+        MaterialShapeDrawable appBarLayoutBackground =
+                (MaterialShapeDrawable) appBarLayout.getBackground();
 
-        assertEquals(Color.TRANSPARENT, ((ColorDrawable) appBarLayout.getBackground()).getColor());
+        assertEquals(Color.TRANSPARENT, appBarLayoutBackground.getFillColor().getDefaultColor());
     }
 }

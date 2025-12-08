@@ -17,13 +17,14 @@ package com.android.documentsui.services
 
 import android.app.Notification
 import android.content.Context
-import android.icu.text.MessageFormat
 import android.net.Uri
 import android.os.FileUtils.copy
 import android.os.OperationCanceledException
 import android.os.ParcelFileDescriptor
 import android.os.SystemClock
+import android.os.Trace
 import android.provider.DocumentsContract
+import android.provider.DocumentsContract.Document.MIME_TYPE_DIR
 import android.text.BidiFormatter
 import android.text.TextUtils
 import android.util.Log
@@ -43,9 +44,9 @@ import com.google.common.io.Files
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
+import java.io.OutputStream
 import java.text.NumberFormat
 import java.util.LinkedList
-import java.util.Locale
 import org.apache.commons.compress.archivers.ArchiveEntry
 
 /**
@@ -103,7 +104,7 @@ class UnpackJob(
         val absoluteTarget: Double
         val remainingTime: Long
 
-        synchronized(this) {
+        synchronized(tracker) {
             absoluteProgress = tracker.absoluteProgress
             absoluteTarget = tracker.absoluteTarget
             remainingTime = tracker.getRemainingTimeEstimate(absoluteProgress, absoluteTarget)
@@ -134,37 +135,40 @@ class UnpackJob(
     }
 
     override fun finish() {
-        if (DEBUG) Log.d(TAG, "Finished with $tracker")
-        archive?.close()
-        super.finish()
+        try {
+            Trace.beginSection("UnpackJob#finish")
+            if (DEBUG) Log.d(TAG, "Finished with $tracker")
+            archive?.close()
+            super.finish()
+        } finally {
+            Trace.endSection()
+        }
     }
 
     override fun getFailureNotification(): Notification {
         return getFailureNotification(
-            getRes(R.plurals.copy_error_notification_title),
+            getFailureContentTitle(getRes(R.string.extract_error_notification_title)),
             getRes(R.drawable.ic_menu_extract)
         )
     }
 
     /** This method is called on a different thread than the thread running the extraction. */
-    @Synchronized
     public override fun getJobProgress(): JobProgress {
         val args: MutableMap<String, Any> = mutableMapOf(
-            "directory" to BidiFormatter.getInstance().unicodeWrap(dstInfo.displayName),
-            "count" to mResolvedDocs.size,
+            "directory" to BidiFormatter.getInstance().unicodeWrap(dstInfo.displayName)
         )
 
-        if (mResolvedDocs.size == 1) {
-            args.put(
-                "filename",
-                BidiFormatter.getInstance().unicodeWrap(archiveInfo.displayName)
-            )
-        }
+        val message = getProgressMessage(R.string.extract_in_progress, args)
 
-        val message = MessageFormat(
-            service.getString(getRes(R.string.extract_in_progress)),
-            Locale.getDefault()
-        ).format(args)
+        val bytesCopied: Long
+        val bytesRequired: Long
+        val timeEstimate: Long
+
+        synchronized(tracker) {
+            bytesCopied = tracker.bytesCopied
+            bytesRequired = tracker.bytesRequired
+            timeEstimate = tracker.remainingTimeEstimate
+        }
 
         return JobProgress(
             id,
@@ -173,9 +177,9 @@ class UnpackJob(
             message,
             hasFailures(),
             stack,
-            tracker.bytesCopied,
-            tracker.bytesRequired,
-            tracker.remainingTimeEstimate
+            bytesCopied,
+            bytesRequired,
+            timeEstimate
         )
     }
 
@@ -183,55 +187,66 @@ class UnpackJob(
 
     private val archiveInfo: DocumentInfo
         get() {
-            assert(mResolvedDocs.size == 1)
             return mResolvedDocs.first()
         }
 
     override fun setUp(): Boolean {
-        synchronized(this) {
-            if (!super.setUp()) return false
-        }
-
-        if (DEBUG) Log.d(TAG, "Unpacking ${archiveInfo.derivedUri}")
-
         try {
-            openArchive()
-            checkFreeSpace()
-            createExtractionDirectory()
-            return true
-        } catch (_: OperationCanceledException) {
-            if (DEBUG) Log.d(TAG, "Canceled unpacking of ${archiveInfo.derivedUri}")
-        } catch (t: Throwable) {
-            Log.e(TAG, "Cannot unpack ${redact(archiveInfo.derivedUri)}", t)
-            onFileFailed(archiveInfo)
-        }
+            Trace.beginSection("UnpackJob#setUp")
+            if (!super.setUp()) return false
+            if (DEBUG) Log.d(TAG, "Unpacking ${archiveInfo.derivedUri}")
 
-        return false
+            try {
+                openArchive()
+                checkFreeSpace()
+                createExtractionDirectory()
+                return true
+            } catch (_: OperationCanceledException) {
+                if (DEBUG) Log.d(TAG, "Canceled unpacking of ${archiveInfo.derivedUri}")
+            } catch (t: Throwable) {
+                Log.e(TAG, "Cannot unpack ${redact(archiveInfo.derivedUri)}", t)
+                onFileFailed(archiveInfo)
+            }
+
+            return false
+        } finally {
+            Trace.endSection()
+        }
     }
 
     private fun createExtractionDirectory() {
-        mSignal.throwIfCanceled()
+        try {
+            Trace.beginSection("UnpackJob#createExtractionDirectory")
+            mSignal.throwIfCanceled()
 
-        // Create the extraction directory with the same base name as the archive.
-        // This lets the destination document provider deal with name collisions, if necessary.
-        val dirName = Files.getNameWithoutExtension(archiveInfo.displayName)
-        val dirUri = DocumentsContract.createDocument(
-            resolver,
-            dstInfo.derivedUri,
-            DocumentsContract.Document.MIME_TYPE_DIR,
-            dirName
-        )
-
-        if (dirUri == null) {
-            throw IOException(
-                "Cannot create extraction dir ${redact(dirName)} in ${redact(dstInfo.derivedUri)}"
+            // Create the extraction directory with the same base name as the archive.
+            // This lets the destination document provider deal with name collisions, if necessary.
+            val dirName = Files.getNameWithoutExtension(archiveInfo.displayName)
+            val dirUri = DocumentsContract.createDocument(
+                resolver,
+                dstInfo.derivedUri,
+                MIME_TYPE_DIR,
+                dirName
             )
-        }
 
-        dirPathToUri.put("/", dirUri)
-        val dirInfo = DocumentInfo.fromUri(resolver, dirUri, dstInfo.userId)
-        if (VERBOSE) Log.v(TAG, "Created extraction dir ${redact(dirInfo)}")
-        stack.push(dirInfo)
+            if (dirUri == null) {
+                throw IOException(
+                    "Cannot create extraction dir ${redact(dirName)}" +
+                            " in ${redact(dstInfo.derivedUri)}"
+                )
+            }
+
+            dirPathToUri.put("/", dirUri)
+            val dirInfo = DocumentInfo.fromUri(resolver, dirUri, dstInfo.userId)
+            if (VERBOSE) Log.v(TAG, "Created extraction dir ${redact(dirInfo)}")
+            // Create a new DocumentStack object instead of modifying the existing DocumentStack
+            // object in place. Since the stack is asynchronously read by the progress-reporting
+            // thread, this ensures that the referenced DocumentStack object is immutable and
+            // prevents any data race condition.
+            stack = DocumentStack(stack, dirInfo)
+        } finally {
+            Trace.endSection()
+        }
     }
 
     private fun openArchive() {
@@ -258,7 +273,7 @@ class UnpackJob(
             if (!entry.isDirectory()) {
                 // The entry represents a file. Get the path of its containing directory.
                 path = path.getParentFile()!!
-                synchronized(this) {
+                synchronized(tracker) {
                     tracker.bytesRequired += entry.getSize()
                     tracker.filesRequired++
                 }
@@ -266,7 +281,7 @@ class UnpackJob(
 
             while (dirs.add(path.toString())) {
                 path = path.getParentFile()!!
-                synchronized(this) {
+                synchronized(tracker) {
                     tracker.dirsRequired++
                 }
             }
@@ -274,59 +289,76 @@ class UnpackJob(
     }
 
     override fun start() {
-        synchronized(this) {
-            tracker.addPoint()
-        }
-
         try {
-            // Create all the directories first, to ensure that no directory will be renamed
-            // because of a collision with a file name.
-            createAllDirectories()
-            extractAllFiles()
-        } catch (_: OperationCanceledException) {
-            if (DEBUG) Log.d(TAG, "Canceled unpacking of ${redact(archiveInfo.derivedUri)}")
-        } catch (t: Throwable) {
-            Log.e(TAG, "Cannot unpack ${redact(archiveInfo.derivedUri)}", t)
-            onFileFailed(archiveInfo)
+            Trace.beginSection("UnpackJob#start")
+
+            synchronized(tracker) {
+                tracker.addPoint()
+            }
+
+            try {
+                // Create all the directories first, to ensure that no directory will be renamed
+                // because of a collision with a file name.
+                createAllDirectories()
+                extractAllFiles()
+            } catch (_: OperationCanceledException) {
+                if (DEBUG) Log.d(TAG, "Canceled unpacking of ${redact(archiveInfo.derivedUri)}")
+            } catch (t: Throwable) {
+                Log.e(TAG, "Cannot unpack ${redact(archiveInfo.derivedUri)}", t)
+                onFileFailed(archiveInfo)
+            }
+        } finally {
+            Trace.endSection()
         }
     }
 
     private fun extractAllFiles() {
-        for (entry in archive!!.entries) {
-            mSignal.throwIfCanceled()
-            if (!entry.isDirectory()) processFileEntry(entry)
+        try {
+            Trace.beginSection("UnpackJob#extractAllFiles")
+
+            for (entry in archive!!.entries) {
+                mSignal.throwIfCanceled()
+                if (!entry.isDirectory()) processFileEntry(entry)
+            }
+        } finally {
+            Trace.endSection()
         }
     }
 
     private fun createAllDirectories() {
-        for (entry in archive!!.entries) {
-            mSignal.throwIfCanceled()
-            var path = File(ReadableArchive.getEntryPath(entry))
-            if (!entry.isDirectory()) path = path.getParentFile()!!
-            ensureDirectoryExists(path)
+        try {
+            Trace.beginSection("UnpackJob#createAllDirectories")
+
+            for (entry in archive!!.entries) {
+                mSignal.throwIfCanceled()
+                var path = File(ReadableArchive.getEntryPath(entry))
+                if (!entry.isDirectory()) path = path.getParentFile()!!
+                ensureDirectoryExists(path)
+            }
+        } finally {
+            Trace.endSection()
         }
     }
 
     private fun processFileEntry(entry: ArchiveEntry) {
         val path = File(ReadableArchive.getEntryPath(entry))
         val dirUri = ensureDirectoryExists(path.getParentFile()!!)
-        val fileName = path.getName()
 
         try {
-            extractFile(entry, dirUri, fileName)
+            extractFile(entry, dirUri, path.getName())
         } catch (e: OperationCanceledException) {
             // Propagate cancellation request.
             throw e
         } catch (t: Throwable) {
             Log.e(TAG, "Cannot extract ${redact(path)} from ${redact(archiveInfo.derivedUri)}", t)
-            synchronized(this) {
+            synchronized(tracker) {
                 tracker.filesRequired--
             }
             onPathFailed(path.toString())
         }
 
         // Adjust progress expectations after extracting a file.
-        synchronized(this) {
+        synchronized(tracker) {
             tracker.bytesRequired -= entry.getSize() - tracker.bytesCopiedInCurrentFile
             tracker.bytesCopiedInPreviousFiles += tracker.bytesCopiedInCurrentFile
             tracker.bytesCopiedInCurrentFile = 0
@@ -335,52 +367,72 @@ class UnpackJob(
     }
 
     private fun extractFile(entry: ArchiveEntry, dirUri: Uri, fileName: String) {
-        // Open input stream serving the archive entry's contents.
-        archive!!.getInputStream(entry).use { inputStream ->
-            mSignal.throwIfCanceled()
-            // Create output file.
-            val fileUri = DocumentsContract.createDocument(resolver, dirUri, "", fileName)!!
-            if (VERBOSE) Log.v(TAG, "Created file $fileUri")
-            try {
-                copyFile(inputStream, fileUri)
-            } catch (t: Throwable) {
-                // Error or cancellation while copying a file.
-                deletePartialFile(fileUri)
-                throw t
+        try {
+            Trace.beginSection("UnpackJob#extractFile")
+
+            // Open input stream serving the archive entry's contents.
+            archive!!.getInputStream(entry).use { inputStream ->
+                mSignal.throwIfCanceled()
+                // Create output file.
+                val mimeType = ReadableArchive.getMimeTypeForEntry(entry)
+                val fileUri = createFile(dirUri, fileName, mimeType)
+                try {
+                    copyFile(inputStream, fileUri)
+                } catch (t: Throwable) {
+                    // Error or cancellation while copying a file.
+                    deletePartialFile(fileUri)
+                    throw t
+                }
             }
+        } finally {
+            Trace.endSection()
         }
     }
 
-    @Synchronized
+    private fun createFile(parent: Uri, name: String, mimeType: String): Uri {
+        try {
+            Trace.beginSection("UnpackJob#createFile")
+            val uri = DocumentsContract.createDocument(resolver, parent, mimeType, name)!!
+            if (VERBOSE) Log.v(TAG, "Created file $uri")
+            return uri
+        } finally {
+            Trace.endSection()
+        }
+    }
+
     private fun trackBytesInCurrentFile(bytes: Long) {
-        tracker.bytesCopiedInCurrentFile = bytes
-        tracker.addPoint()
+        synchronized(tracker) {
+            tracker.bytesCopiedInCurrentFile = bytes
+            tracker.addPoint()
+        }
     }
 
     private fun copyFile(inputStream: InputStream, outputFile: Uri) {
         val client = getClient(outputFile)
-        // Open output file for writing.
         try {
+            // Open output file for writing.
             client.openFile(outputFile, "w", mSignal).use { fd ->
                 ParcelFileDescriptor.AutoCloseOutputStream(fd).use { outputStream ->
-                    // Copy bytes.
-                    val bytes = copy(
-                        inputStream,
-                        outputStream,
-                        mSignal,
-                        Runnable::run,
-                        ::trackBytesInCurrentFile
-                    )
-                    trackBytesInCurrentFile(bytes)
+                    copyBytes(inputStream, outputStream)
                 }
             }
         } finally {
             releaseClient(outputFile)
         }
 
-        synchronized(this) {
+        synchronized(tracker) {
             tracker.filesCopied++
             tracker.addPoint()
+        }
+    }
+
+    private fun copyBytes(from: InputStream, to: OutputStream) {
+        try {
+            Trace.beginSection("UnpackJob#copyBytes")
+            val bytes = copy(from, to, mSignal, Runnable::run, ::trackBytesInCurrentFile)
+            trackBytesInCurrentFile(bytes)
+        } finally {
+            Trace.endSection()
         }
     }
 
@@ -396,7 +448,6 @@ class UnpackJob(
         }
     }
 
-    @Throws(IOException::class)
     private fun ensureDirectoryExists(path: File): Uri {
         val uri = dirPathToUri[path.toString()]
         if (uri != null) return uri
@@ -405,59 +456,68 @@ class UnpackJob(
         val name = path.getName()
         if (TextUtils.isEmpty(name)) return parentUri
 
-        mSignal.throwIfCanceled()
-        val newDirUri = DocumentsContract.createDocument(
-            resolver,
-            parentUri,
-            DocumentsContract.Document.MIME_TYPE_DIR,
-            name
-        )
+        return createDirectory(parentUri, name, path)
+    }
 
-        if (newDirUri == null) {
-            throw IOException("Cannot create dir ${redact(name)} in ${redact(parentUri)}")
+    private fun createDirectory(parent: Uri, name: String, path: File): Uri {
+        try {
+            Trace.beginSection("UnpackJob#createDirectory")
+            mSignal.throwIfCanceled()
+            val uri = DocumentsContract.createDocument(resolver, parent, MIME_TYPE_DIR, name)
+
+            if (uri == null) {
+                throw IOException("Cannot create dir ${redact(name)} in ${redact(parent)}")
+            }
+
+            if (VERBOSE) Log.v(TAG, "Created dir ${redact(uri)}")
+            dirPathToUri.put(path.toString(), uri)
+
+            synchronized(tracker) {
+                tracker.dirsCreated++
+                tracker.addPoint()
+            }
+
+            return uri
+        } finally {
+            Trace.endSection()
         }
-
-        if (VERBOSE) Log.v(TAG, "Created dir ${redact(newDirUri)}")
-        dirPathToUri.put(path.toString(), newDirUri)
-
-        synchronized(this) {
-            tracker.dirsCreated++
-            tracker.addPoint()
-        }
-
-        return newDirUri
     }
 
     /** Checks whether the destination directory has enough free space.  */
     private fun checkFreeSpace() {
-        mSignal.throwIfCanceled()
-        val bytesRequired = tracker.bytesRequired
-        if (DEBUG) Log.d(TAG, "Need at least $bytesRequired bytes of free space")
+        try {
+            Trace.beginSection("UnpackJob#checkFreeSpace")
+            mSignal.throwIfCanceled()
+            val bytesRequired = tracker.bytesRequired
+            if (DEBUG) Log.d(TAG, "Need at least $bytesRequired bytes of free space")
 
-        var root = stack.root
-        if (root == null) {
-            Log.w(TAG, "No root info for destination dir ${redact(dstInfo.derivedUri)}")
-            return
-        }
+            var root = stack.root
+            if (root == null) {
+                Log.w(TAG, "No root info for destination dir ${redact(dstInfo.derivedUri)}")
+                return
+            }
 
-        // Query root info again instead of using stack.root because the numbers may be stale.
-        root = DocumentsApplication.getProvidersCache(appContext).getRootOneshot(
-            root.userId, root.authority, root.rootId, true
-        )
-
-        if (root == null || root.availableBytes < 0) {
-            Log.w(TAG, "Root $root does not provide its free space amount")
-            return
-        }
-
-        if (DEBUG) Log.d(TAG, "Root $root has ${root.availableBytes} bytes of free space")
-
-        if (bytesRequired > root.availableBytes) {
-            throw IOException(
-                "Not enough free space in ${redact(dstInfo.derivedUri)}: " +
-                        "Need $bytesRequired bytes, " +
-                        "but only got ${root.availableBytes} bytes of free space"
+            // Query root info again instead of using stack.root because the numbers may be stale.
+            root = DocumentsApplication.getProvidersCache(appContext).getRootOneshot(
+                root.userId, root.authority, root.rootId, true
             )
+
+            if (root == null || root.availableBytes < 0) {
+                Log.w(TAG, "Root $root does not provide its free space amount")
+                return
+            }
+
+            if (DEBUG) Log.d(TAG, "Root $root has ${root.availableBytes} bytes of free space")
+
+            if (bytesRequired > root.availableBytes) {
+                throw IOException(
+                    "Not enough free space in ${redact(dstInfo.derivedUri)}: " +
+                            "Need $bytesRequired bytes, " +
+                            "but only got ${root.availableBytes} bytes of free space"
+                )
+            }
+        } finally {
+            Trace.endSection()
         }
     }
 

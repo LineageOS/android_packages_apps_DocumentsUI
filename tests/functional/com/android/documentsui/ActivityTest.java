@@ -31,11 +31,14 @@ import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Configurator;
 import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 
 import com.android.documentsui.base.Features;
@@ -45,6 +48,8 @@ import com.android.documentsui.bots.Bots;
 import com.android.documentsui.files.FilesActivity;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
@@ -82,6 +87,8 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
     protected ContentProviderClient mClient;
     protected UiModeManager mUiModeManager;
 
+    private static final String TAG = "ActivityTest";
+
     private String initialScreenOffTimeoutValue = null;
     private String initialSleepTimeoutValue = null;
 
@@ -116,6 +123,27 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         rootDir1 = mDocsHelper.getRoot(StubProvider.ROOT_1_ID);
     }
 
+    /**
+     * Close any open windows that don't belong to DocsUI.
+     *
+     * Under some circumstances, existing SysUI windows (eg. wallpaper picker) can be open and draw
+     * over DocsUI, obscuring its UI from UiAutomator. Try to close them before starting.
+     */
+    public static void closeNonDocsUiWindows(Context context, UiDevice device) {
+        // Look for any window that is not from the application under test
+        final String appPackageName = context.getPackageName();
+        final List<UiObject2> otherAppViews = device.findObjects(
+                By.pkg(Pattern.compile("^(?!" + appPackageName + "$).*"))
+        );
+        if (otherAppViews != null && !otherAppViews.isEmpty()) {
+            Log.w(TAG, "Attempting to close open windows from other application");
+            for (int i = 0; i < otherAppViews.size(); i++) {
+                device.pressKeyCode(KeyEvent.KEYCODE_ESCAPE);
+                device.waitForIdle();
+            }
+        }
+    }
+
     @Override
     public void setUp() throws Exception {
         device = UiDevice.getInstance(getInstrumentation());
@@ -140,6 +168,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         disableScreenOffAndSleepTimeouts();
 
         setupTestingRoots();
+        closeNonDocsUiWindows(context, device);
 
         launchActivity();
         resetStorage();
@@ -178,7 +207,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         device.waitForIdle();
     }
 
-    protected void initTestFiles() throws RemoteException {
+    protected void initTestFiles() throws IOException, RemoteException {
         mDocsHelper.createFolder(rootDir0, dirName1);
         mDocsHelper.createDocument(rootDir0, "text/plain", fileName1);
         mDocsHelper.createDocument(rootDir0, "image/png", fileName2);

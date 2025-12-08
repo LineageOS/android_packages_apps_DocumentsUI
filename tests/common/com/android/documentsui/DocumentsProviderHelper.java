@@ -44,6 +44,7 @@ import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.test.MoreAsserts;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -68,6 +69,7 @@ import java.util.List;
  * Provides support for creation of documents in a test settings.
  */
 public class DocumentsProviderHelper {
+    private static final String TAG = "DocumentsProviderHelper";
 
     private final UserId mUserId;
     private final String mAuthority;
@@ -309,10 +311,14 @@ public class DocumentsProviderHelper {
         Uri uri = buildChildDocumentsUri(mAuthority, documentId);
         List<DocumentInfo> children = new ArrayList<>();
         try (Cursor cursor = mClient.query(uri, null, null, null, null, null)) {
-            Cursor wrapper = new RootCursorWrapper(mUserId, mAuthority, "totally-fake", cursor,
-                    maxCount);
-            while (wrapper.moveToNext()) {
-                children.add(DocumentInfo.fromDirectoryCursor(wrapper));
+            if (cursor == null) {
+                Log.w(TAG, "query() returned null cursor");
+            } else {
+                Cursor wrapper = new RootCursorWrapper(mUserId, mAuthority, "totally-fake", cursor,
+                        maxCount);
+                while (wrapper.moveToNext()) {
+                    children.add(DocumentInfo.fromDirectoryCursor(wrapper));
+                }
             }
         }
         return children;

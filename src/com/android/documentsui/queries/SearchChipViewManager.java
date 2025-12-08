@@ -16,6 +16,7 @@
 
 package com.android.documentsui.queries;
 
+import static com.android.documentsui.util.FlagUtils.isSearchV2Enabled;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
@@ -64,11 +65,6 @@ public class SearchChipViewManager {
     private static final int CHIP_MOVE_ANIMATION_DURATION = 250;
     // Defined large file as the size is larger than 10 MB.
     private static final long LARGE_FILE_SIZE_BYTES = 10000000L;
-    // Defined a week ago as now in millis.
-    private static final long A_WEEK_AGO_MILLIS =
-            LocalDate.now().minusDays(7).atStartOfDay(ZoneId.systemDefault())
-                    .toInstant()
-                    .toEpochMilli();
 
     private static final int TYPE_IMAGES = MetricConsts.TYPE_CHIP_IMAGES;
     private static final int TYPE_DOCUMENTS = MetricConsts.TYPE_CHIP_DOCS;
@@ -95,6 +91,7 @@ public class SearchChipViewManager {
     private SearchChipViewManagerListener mListener;
     private String[] mCurrentUpdateMimeTypes;
     private boolean mIsFirstUpdateChipsReady;
+    private final List<SearchChipData> mMimeDataStack = new ArrayList<>(4);
 
     @VisibleForTesting
     Set<SearchChipData> mCheckedChipItems = new HashSet<>();
@@ -197,12 +194,15 @@ public class SearchChipViewManager {
                 queryArgs.putLong(DocumentsContract.QUERY_ARG_FILE_SIZE_OVER,
                         LARGE_FILE_SIZE_BYTES);
             } else if (data.getChipType() == MetricConsts.TYPE_CHIP_FROM_THIS_WEEK) {
+                // Calculate a week ago from now.
+                long aWeekAgoFromNowInMillis =
+                        LocalDate.now().minusDays(7).atStartOfDay(ZoneId.systemDefault())
+                                .toInstant()
+                                .toEpochMilli();
                 queryArgs.putLong(DocumentsContract.QUERY_ARG_LAST_MODIFIED_AFTER,
-                        A_WEEK_AGO_MILLIS);
+                        aWeekAgoFromNowInMillis);
             } else {
-                for (String mimeType : data.getMimeTypes()) {
-                    checkedMimeTypes.add(mimeType);
-                }
+                Collections.addAll(checkedMimeTypes, data.getMimeTypes());
             }
         }
 
@@ -339,6 +339,15 @@ public class SearchChipViewManager {
         mListener = listener;
     }
 
+    /**
+     * Returns the ID of the leading checked chip or null, if no chips are checked.
+     */
+    public Integer getLeadingMimeChipType() {
+        int stackSize = mMimeDataStack.size();
+        return !isSearchV2Enabled() || stackSize == 0 ? null
+                : mMimeDataStack.get(stackSize - 1).getChipType();
+    }
+
     private static void setChipChecked(Chip chip, boolean isChecked) {
         chip.setChecked(isChecked);
         chip.setChipIconVisible(!isChecked);
@@ -356,6 +365,21 @@ public class SearchChipViewManager {
         }
     }
 
+    /**
+     * Checks if the given integer corresponds to constants representing one of the four
+     * generic file types: audio, docs, images or videos. MetricConst collects all sort of
+     * constants, so this method is added as a check that we are handing one of MIME type
+     * chips and not, for example, file size chip.
+     * @param chipType An integer that may or may not be a type constant.
+     * @return Whether the given integer corresponds to one of the generic file types.
+     */
+    private boolean isMimeChip(@MetricConsts.SearchType int chipType) {
+        return chipType == MetricConsts.TYPE_CHIP_AUDIOS
+                || chipType == MetricConsts.TYPE_CHIP_DOCS
+                || chipType == MetricConsts.TYPE_CHIP_IMAGES
+                || chipType == MetricConsts.TYPE_CHIP_VIDEOS;
+    }
+
     private void onChipClick(View v) {
         final Chip chip = (Chip) v;
 
@@ -366,10 +390,15 @@ public class SearchChipViewManager {
         chip.getBackground().setVisible(false /* visible */, false /* restart */);
 
         final SearchChipData item = (SearchChipData) chip.getTag();
+        int chipType = item.getChipType();
         if (chip.isChecked()) {
-            mCheckedChipItems.add(item);
+            if (mCheckedChipItems.add(item) && isMimeChip(chipType)) {
+                mMimeDataStack.add(item);
+            }
         } else {
-            mCheckedChipItems.remove(item);
+            if (mCheckedChipItems.remove(item) && isMimeChip(chipType)) {
+                mMimeDataStack.remove(item);
+            }
         }
 
         setChipChecked(chip, chip.isChecked());
@@ -432,13 +461,18 @@ public class SearchChipViewManager {
         // When use_material3 flag is ON, we don't want to use MIME type icons for
         // image/audio/video/document from the system.
         if (isUseMaterial3FlagEnabled()) {
-            return switch (chipType) {
-                case TYPE_IMAGES -> context.getDrawable(getRes(R.drawable.ic_chip_image));
-                case TYPE_AUDIO -> context.getDrawable(getRes(R.drawable.ic_chip_audio));
-                case TYPE_VIDEOS -> context.getDrawable(getRes(R.drawable.ic_chip_video));
-                case TYPE_DOCUMENTS -> context.getDrawable(getRes(R.drawable.ic_chip_document));
-                default -> null;
-            };
+            switch (chipType) {
+                case TYPE_IMAGES:
+                    return context.getDrawable(getRes(R.drawable.ic_chip_image));
+                case TYPE_AUDIO:
+                    return context.getDrawable(getRes(R.drawable.ic_chip_audio));
+                case TYPE_VIDEOS:
+                    return context.getDrawable(getRes(R.drawable.ic_chip_video));
+                case TYPE_DOCUMENTS:
+                    return context.getDrawable(getRes(R.drawable.ic_chip_document));
+                default:
+                    return null;
+            }
         }
 
         if (chipType == TYPE_DOCUMENTS) {
@@ -455,6 +489,12 @@ public class SearchChipViewManager {
      * @param hasAnim     if true, play move animation. Otherwise, not.
      */
     private void reorderCheckedChips(@Nullable Chip clickedChip, boolean hasAnim) {
+        boolean supportChipMove = mChipGroup.getResources().getBoolean(
+                getRes(R.bool.move_search_chip_when_selected));
+        if (!supportChipMove) {
+            return;
+        }
+
         final ArrayList<Chip> chipList = new ArrayList<>();
         final int count = mChipGroup.getChildCount();
 

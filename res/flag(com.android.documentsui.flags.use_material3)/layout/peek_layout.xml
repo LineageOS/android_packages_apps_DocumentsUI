@@ -42,6 +42,7 @@
             android:background="@color/peek_topbar_scrim"
             android:paddingEnd="@dimen/space_extra_small_4"
             android:paddingStart="@dimen/space_extra_small_4"
+            app:menu="@menu/peek_top_bar_menu"
             app:navigationContentDescription="@string/a11y_peek_navigation_icon"
             app:navigationIcon="@drawable/ic_arrow_back_m3"
             app:navigationIconTint="@android:color/white"
@@ -49,11 +50,30 @@
             app:titleTextAppearance="@style/PeekTopBarTitleText" />
     </FrameLayout>
 
+    <!--
+    The half expanded state of the bottom sheet is the intermediary state between the collapsed
+    state, when only the very top of the bottom sheet is visible, and the expanded state. The bottom
+    sheet can also be completely hidden.
+
+    Behavior attributes: the peek height is the height of the collapsed bottom sheet, the half
+    expanded ration is a ratio relative to the height of the parent, and the expanded offset is
+    the gap between the top of the bottom sheet and the top of its parent, when the bottom sheet
+    is fully expanded. `fitToContents` is false so that those attributes aren't set automatically.
+    -->
     <FrameLayout
-        android:id="@+id/peek_metadata_container"
-        android:layout_width="wrap_content"
+        android:id="@+id/peek_bottom_metadata_sheet_container"
+        style="@style/Widget.Material3.BottomSheet"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
-        app:coplanarSiblingViewId="@id/peek_preview_container"
-        app:layout_behavior="com.google.android.material.sidesheet.SideSheetBehavior" />
+        app:behavior_halfExpandedRatio="@dimen/peek_metadata_bottom_sheet_half_expanded_ratio"
+        app:behavior_expandedOffset="@dimen/peek_metadata_bottom_sheet_expanded_offset"
+        app:behavior_peekHeight="@dimen/peek_metadata_bottom_sheet_collapsed_height"
+        app:behavior_fitToContents="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        <!-- Drag handle for accessibility -->
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/drag_handle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

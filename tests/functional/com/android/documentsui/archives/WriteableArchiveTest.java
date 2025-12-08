@@ -22,6 +22,7 @@ import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract.Document;
 import android.test.AndroidTestCase;
 
+import androidx.annotation.NonNull;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.MediumTest;
 
@@ -76,7 +77,7 @@ public class WriteableArchiveTest extends AndroidTestCase {
         super.tearDown();
     }
 
-    public static ArchiveId createArchiveId(String path) {
+    public static ArchiveId createArchiveId(@NonNull String path) {
         return new ArchiveId(ARCHIVE_URI, ParcelFileDescriptor.MODE_WRITE_ONLY, path);
     }
 

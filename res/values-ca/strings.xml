@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"Desa"</string>
     <string name="menu_share" msgid="4307140947108068356">"Comparteix"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Suprimeix"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"Suprimeix permanentment"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"Mou a la paperera"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"Restaura"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Selecciona-ho tot"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Desselecciona-ho tot"</string>
     <string name="menu_select" msgid="1366061076507142387">"Selecciona"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"Copia a…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Mou a…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Comprimeix"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"Comprimeix"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Extreu a…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"Extreu-ho tot…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"Extreu aquí"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"Extreu"</string>
     <string name="menu_browse" msgid="6007716414766674967">"Navega"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Canvia el nom"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Obtén informació"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Aquesta acció no està permesa"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Per obtenir més informació, contacta amb l\'administrador de TI"</string>
     <string name="root_recent" msgid="1080156975424341623">"Recents"</string>
+    <string name="root_trash" msgid="1869929519939073178">"Paperera"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> d\'espai lliure"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Serveis d\'emmagatzematge"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Dreceres"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"No es poden suprimir alguns documents"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Es poden compartir com a màxim <xliff:g id="COUNT">%1$d</xliff:g> fitxers"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"Acció no permesa"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"Obre amb…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"No hi ha cap aplicació admesa instal·lada. Prova d\'instal·lar-ne una des de Play Store."</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"Cerca a Play Store"</string>
     <string name="share_via" msgid="8725082736005677161">"Comparteix mitjançant"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"S\'estan copiant fitxers"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Comprimint els fitxers"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"Extraient els fitxers"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"S\'estan movent fitxers"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Suprimint els fitxers"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"S\'estan enviant fitxers a la paperera"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"Restaurant els fitxers"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Temps restant: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="many">S\'estan copiant <xliff:g id="COUNT_1">%1$d</xliff:g> elements.</item>
@@ -159,33 +169,26 @@
       <item quantity="other">S\'estan suprimint <xliff:g id="COUNT_1">%1$d</xliff:g> elements.</item>
       <item quantity="one">S\'està suprimint <xliff:g id="COUNT_0">%1$d</xliff:g> element.</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{S\'està enviant <xliff:g id="COUNT_0">{count}</xliff:g> element a la paperera}many{S\'estan enviant <xliff:g id="COUNT_1">{count}</xliff:g> d\'elements a la paperera}other{S\'estan enviant <xliff:g id="COUNT_1">{count}</xliff:g> elements a la paperera}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{S\'està restaurant <xliff:g id="COUNT_0">{count}</xliff:g> element}many{S\'estan restaurant <xliff:g id="COUNT_1">{count}</xliff:g> d\'elements}other{S\'estan restaurant <xliff:g id="COUNT_1">{count}</xliff:g> elements}}"</string>
     <string name="undo" msgid="2902438994196400565">"Desfés"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"S\'està preparant..."</string>
     <string name="compress_preparing" msgid="7401605598969019696">"S\'està preparant..."</string>
     <string name="extract_preparing" msgid="4796626960061745796">"S\'està preparant..."</string>
     <string name="move_preparing" msgid="6504239656430530761">"S\'està preparant..."</string>
     <string name="delete_preparing" msgid="7339349837842802508">"S\'està preparant..."</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"S\'està preparant..."</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"S\'està preparant..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="many">No s\'han pogut copiar <xliff:g id="COUNT_1">%1$d</xliff:g> elements</item>
-      <item quantity="other">No s\'han pogut copiar <xliff:g id="COUNT_1">%1$d</xliff:g> elements</item>
-      <item quantity="one">No s\'ha pogut copiar <xliff:g id="COUNT_0">%1$d</xliff:g> element</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="many">No s\'han pogut comprimir <xliff:g id="COUNT_1">%1$d</xliff:g> fitxers</item>
-      <item quantity="other">No s\'han pogut comprimir <xliff:g id="COUNT_1">%1$d</xliff:g> fitxers</item>
-      <item quantity="one">No s\'ha pogut comprimir <xliff:g id="COUNT_0">%1$d</xliff:g> fitxer</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="many">No s\'han pogut moure <xliff:g id="COUNT_1">%1$d</xliff:g> elements</item>
-      <item quantity="other">No s\'han pogut moure <xliff:g id="COUNT_1">%1$d</xliff:g> elements</item>
-      <item quantity="one">No s\'ha pogut moure <xliff:g id="COUNT_0">%1$d</xliff:g> element</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="many">No s\'han pogut suprimir <xliff:g id="COUNT_1">%1$d</xliff:g> elements</item>
-      <item quantity="other">No s\'han pogut suprimir <xliff:g id="COUNT_1">%1$d</xliff:g> elements</item>
-      <item quantity="one">No s\'ha pogut suprimir <xliff:g id="COUNT_0">%1$d</xliff:g> element</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{No s\'ha pogut copiar <xliff:g id="COUNT_0">{count}</xliff:g> element}many{No s\'han pogut copiar <xliff:g id="COUNT_1">{count}</xliff:g> d\'elements}other{No s\'han pogut copiar <xliff:g id="COUNT_1">{count}</xliff:g> elements}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{No s\'ha pogut comprimir <xliff:g id="COUNT_0">{count}</xliff:g> element}many{No s\'han pogut comprimir <xliff:g id="COUNT_1">{count}</xliff:g> d\'elements}other{No s\'han pogut comprimir <xliff:g id="COUNT_1">{count}</xliff:g> elements}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{No s\'ha pogut extreure <xliff:g id="COUNT_0">{count}</xliff:g> element}many{No s\'han pogut extreure <xliff:g id="COUNT_1">{count}</xliff:g> d\'elements}other{No s\'han pogut extreure <xliff:g id="COUNT_1">{count}</xliff:g> elements}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{No s\'ha pogut moure <xliff:g id="COUNT_0">{count}</xliff:g> element}many{No s\'han pogut moure <xliff:g id="COUNT_1">{count}</xliff:g> d\'elements}other{No s\'han pogut moure <xliff:g id="COUNT_1">{count}</xliff:g> elements}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{No s\'ha pogut suprimir <xliff:g id="COUNT_0">{count}</xliff:g> element}many{No s\'han pogut suprimir <xliff:g id="COUNT_1">{count}</xliff:g> d\'elements}other{No s\'han pogut suprimir <xliff:g id="COUNT_1">{count}</xliff:g> elements}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{No s\'ha pogut moure <xliff:g id="COUNT_0">{count}</xliff:g> element a la paperera}many{No s\'han pogut moure <xliff:g id="COUNT_1">{count}</xliff:g> d\'elements a la paperera}other{No s\'han pogut moure <xliff:g id="COUNT_1">{count}</xliff:g> elements a la paperera}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{No s\'ha pogut restaurar <xliff:g id="COUNT_0">{count}</xliff:g> element}many{No s\'han pogut restaurar <xliff:g id="COUNT_1">{count}</xliff:g> d\'elements}other{No s\'han pogut restaurar <xliff:g id="COUNT_1">{count}</xliff:g> elements}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Toca per veure\'n els detalls"</string>
     <string name="close" msgid="905969391788869975">"Tanca"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -223,17 +226,39 @@
       <item quantity="other">S\'han copiat <xliff:g id="COUNT_1">%1$d</xliff:g> elements al porta-retalls.</item>
       <item quantity="one">S\'ha copiat <xliff:g id="COUNT_0">%1$d</xliff:g> element al porta-retalls.</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"Només de lectura"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"Pots veure aquests fitxers, però algunes accions no s\'admeten"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"Aquest arxiu es troba en una ubicació només de lectura i no es pot extreure aquí."</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"L\'operació del fitxer no s\'admet."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Hi ha hagut un error en l\'operació del fitxer."</string>
     <string name="rename_error" msgid="6700093173508118635">"No s\'ha pogut canviar el nom del document"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Expulsa"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"S\'han convertit alguns fitxers"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{S\'està copiant <xliff:g id="FILENAME">{filename}</xliff:g> a <xliff:g id="DIRECTORY_0">{directory}</xliff:g>}many{S\'estan copiant # de fitxers a <xliff:g id="DIRECTORY_1">{directory}</xliff:g>}other{S\'estan copiant # fitxers a <xliff:g id="DIRECTORY_1">{directory}</xliff:g>}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{S\'està extraient <xliff:g id="FILENAME">{filename}</xliff:g> a <xliff:g id="DIRECTORY_0">{directory}</xliff:g>}many{S\'estan extraient # d\'arxius a <xliff:g id="DIRECTORY_1">{directory}</xliff:g>}other{S\'estan extraient # arxius a <xliff:g id="DIRECTORY_1">{directory}</xliff:g>}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{S\'està movent <xliff:g id="FILENAME">{filename}</xliff:g> a <xliff:g id="DIRECTORY_0">{directory}</xliff:g>}many{S\'estan movent # de fitxers a <xliff:g id="DIRECTORY_1">{directory}</xliff:g>}other{S\'estan movent # fitxers a <xliff:g id="DIRECTORY_1">{directory}</xliff:g>}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{S\'està suprimint <xliff:g id="FILENAME">{filename}</xliff:g>}many{S\'estan suprimint # de fitxers}other{S\'estan suprimint # fitxers}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{S\'està enviant <xliff:g id="FILENAME">{filename}</xliff:g> a la paperera}many{S\'estan enviant # de fitxers a la paperera}other{S\'estan enviant # fitxers a la paperera}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{S\'està restaurant <xliff:g id="FILENAME">{filename}</xliff:g>}many{S\'estan restaurant # de fitxers}other{S\'estan restaurant # fitxers}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{S\'està comprimint <xliff:g id="FILENAME">{filename}</xliff:g>}many{S\'estan comprimint # de fitxers}other{S\'estan comprimint # fitxers}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"Mostra el progrés del fitxer"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"Progrés del fitxer"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"Completat"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"Cancel·lada"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"Mostra els detalls"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="CURRENTBYTES">%1$s</xliff:g> de <xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"S\'ha copiat"</string>
     <string name="move_completed" msgid="3981250605092729273">"S\'ha mogut"</string>
     <string name="delete_completed" msgid="4149401155614626199">"S\'ha suprimit"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"S\'ha comprimit"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"S\'ha comprimit"</string>
     <string name="extract_completed" msgid="8824595789915249972">"S\'ha extret"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"No s\'ha pogut copiar"</string>
+    <string name="move_failed" msgid="7692364307225994220">"No s\'ha pogut moure"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"No s\'ha pogut suprimir"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"No s\'ha pogut comprimir"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"No s\'ha pogut extreure"</string>
+    <string name="expand_label" msgid="5683357671239615207">"Desplega"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"Replega"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Vols que l\'aplicació <xliff:g id="APPNAME"><b>^1</b></xliff:g> tingui accés al directori <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> de <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Vols que l\'aplicació <xliff:g id="APPNAME"><b>^1</b></xliff:g> tingui accés al directori <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Vols que l\'aplicació <xliff:g id="APPNAME"><b>^1</b></xliff:g> tingui accés a les dades de <xliff:g id="STORAGE"><i>^2</i></xliff:g>, incloses les fotos i els vídeos?"</string>
@@ -279,6 +304,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"No es pot mostrar el contingut"</string>
     <string name="sign_in" msgid="6253762676723505592">"Inicia la sessió"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"fitxer<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"Arxiva"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Vols sobreescriure <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Continua en segon pla"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -321,7 +347,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crea una carpeta"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Cerca en aquest dispositiu"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"Esborra el text"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"Aquesta carpeta"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"Carpeta arrel"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"A tot arreu"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"Qualsevol data"</string>
@@ -340,7 +365,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"Es mostra en mode de llista."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"Nom del fitxer"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Amaga la previsualització del fitxer"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"No hi ha cap previsualització disponible"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"Detalls"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"Informació general"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"Mida"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"Tipus"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"Data de modificació"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Amaga la previsualització del fitxer"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"Previsualització de la imatge <xliff:g id="FILENAME">%s</xliff:g>"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"Amaga el tauler d\'informació"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"Mostra el tauler d\'informació"</string>
 </resources>

@@ -20,7 +20,8 @@ import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.util.FlagUtils.isDesktopFileHandlingFlagEnabled;
-import static com.android.documentsui.util.FlagUtils.isUseSearchV2FlagEnabled;
+import static com.android.documentsui.util.FlagUtils.isMovingContentIntoPrivateSpaceEnabled;
+import static com.android.documentsui.util.FlagUtils.isSearchV2Enabled;
 import static com.android.documentsui.util.FlagUtils.isZipNgFlagEnabled;
 
 import android.app.PendingIntent;
@@ -73,6 +74,7 @@ import com.android.documentsui.files.QuickViewIntentBuilder;
 import com.android.documentsui.loaders.FolderLoader;
 import com.android.documentsui.loaders.QueryOptions;
 import com.android.documentsui.loaders.SearchLoader;
+import com.android.documentsui.loaders.TrashFileLoader;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.LoadFirstRootTask;
@@ -85,6 +87,7 @@ import com.android.documentsui.ui.Snackbars;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -188,7 +191,9 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             mActivity.startIntentSenderForResult(intent.getIntentSender(), CODE_AUTHENTICATION,
                     null, 0, 0, 0);
         } catch (IntentSender.SendIntentException cancelled) {
-            Log.d(TAG, "Authentication Pending Intent either canceled or ignored.");
+            if (DEBUG) {
+                Log.d(TAG, "Authentication Pending Intent either canceled or ignored.");
+            }
         }
     }
 
@@ -494,7 +499,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             doc.userId.startActivityAsUser(mActivity, intent);
             return true;
         } catch (ActivityNotFoundException e) {
-            mDialogs.showNoApplicationFound();
+            if (isDesktopFileHandlingFlagEnabled()) {
+                mDialogs.showNoApplicationFoundDialog(mActivity.getSupportFragmentManager(), doc);
+            } else {
+                mDialogs.showNoApplicationFoundToast();
+            }
         }
         return false;
     }
@@ -764,6 +773,16 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         throw new UnsupportedOperationException("Share not supported!");
     }
 
+    @Override
+    public void trashSelectedDocuments(List<DocumentInfo> docs) {
+        throw new UnsupportedOperationException("Trash document not supported!");
+    }
+
+    @Override
+    public void restoreSelectedDocumentsFromTrash(List<DocumentInfo> docs) {
+        throw new UnsupportedOperationException("Restore document not supported!");
+    }
+
     protected final void loadDocument(Uri uri, UserId userId, LoadDocStackCallback callback) {
         new LoadDocStackTask(
                 mActivity,
@@ -895,6 +914,31 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         }
     }
 
+    /**
+     * Creates a new {@link TrashFileLoader} for a specific user.
+     *
+     * <p>The returned loader is configured with a {@link LockingContentObserver} to automatically
+     * reload the document list when the underlying content changes.
+     *
+     * @param context The {@link Context} to use.
+     * @param userId User whose trashed documents to load.
+     * @return A new instance of {@link TrashFileLoader}.
+     */
+    private TrashFileLoader createTrashFileLoader(Context context, UserId userId) {
+        final LockingContentObserver observer = new LockingContentObserver(
+                mContentLock, AbstractActionHandler.this::loadDocumentsForCurrentStack);
+        TrashFileLoader loader = new TrashFileLoader(
+                context,
+                mProviders,
+                mState,
+                mExecutors,
+                mInjector.fileTypeLookup,
+                userId);
+        loader.setObserver(observer);
+        return loader;
+    }
+
+
     protected abstract void launchToDefaultLocation();
 
     protected void restoreRootAndDirectory() {
@@ -947,7 +991,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                 mState.stack.changeRoot(mActivity.getCurrentRoot());
             }
 
-            if (isUseSearchV2FlagEnabled()) {
+            if (isSearchV2Enabled()) {
                 return onCreateLoaderV2(id, args);
             }
             return onCreateLoaderV1(id, args);
@@ -955,6 +999,26 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
         private Loader<DirectoryResult> onCreateLoaderV1(int id, Bundle args) {
             Context context = mActivity;
+            UserId initialUser = mState.stack.getRoot().userId;
+
+            if (isMovingContentIntoPrivateSpaceEnabled()) {
+                List<UserId> allowedUsers = UserId.nonExcludedUsers(mState,
+                        mInjector.userManagerProvider.getUserIds(mActivity));
+
+                if (initialUser.isExcluded(mState) && !Objects.isNull(allowedUsers)
+                        && !allowedUsers.isEmpty()) {
+                    // start with the next available user. This could be any user.
+                    initialUser = allowedUsers.get(0);
+
+                    RootInfo newRoot = RootInfo.copyRootInfo(mState.stack.getRoot());
+                    newRoot.userId = initialUser;
+                    mState.stack.changeRoot(newRoot);
+                }
+            }
+
+            if (mState.stack.isTrash()) {
+                return createTrashFileLoader(context, initialUser);
+            }
 
             if (mState.stack.isRecents()) {
                 final LockingContentObserver observer = new LockingContentObserver(
@@ -972,7 +1036,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                             mExecutors,
                             mInjector.fileTypeLookup,
                             mSearchMgr.buildQueryArgs(),
-                            mState.stack.getRoot().userId);
+                            initialUser);
                 } else {
                     if (DEBUG) {
                         Log.d(TAG, "Creating new loader recents.");
@@ -983,7 +1047,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                             mState,
                             mExecutors,
                             mInjector.fileTypeLookup,
-                            mState.stack.getRoot().userId);
+                            initialUser);
                 }
                 loader.setObserver(observer);
                 return loader;
@@ -1038,46 +1102,93 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                 mExecutorService = Executors.newFixedThreadPool(
                         GlobalSearchLoader.MAX_OUTSTANDING_TASK);
             }
-            List<UserId> userIdList = DocumentsApplication.getUserIdManager(mActivity).getUserIds();
 
             DocumentStack stack = mState.stack;
+
+            RootInfo root = stack.getRoot();
+
+            UserId initialUser = root.userId;
+
+            if (isMovingContentIntoPrivateSpaceEnabled()) {
+                List<UserId> allowedUsers = UserId.nonExcludedUsers(mState,
+                        mInjector.userManagerProvider.getUserIds(mActivity));
+
+                // If the current root's user is excluded and there are other users available
+                if (root.userId.isExcluded(mState) && !allowedUsers.isEmpty()) {
+                    initialUser = allowedUsers.get(0);
+
+                    RootInfo newRoot = RootInfo.copyRootInfo(root);
+                    newRoot.userId = initialUser;
+
+                    stack.changeRoot(newRoot);
+
+                    root = newRoot;
+                }
+            }
+
+            // SearchV2 needs to know the root, as it fine-tunes it behavior based on where
+            // search is performed. Thus before creating a loader we update the search view
+            // manager with the current root. Search view manager then is ready to act
+            // appropriately, once it gets notified about search starting.
+            mSearchMgr.setCurrentRoot(root);
+
+            if (mState.stack.isTrash()) {
+                return createTrashFileLoader(mActivity, initialUser);
+            }
+
             Duration lastModifiedDelta = stack.isRecents()
                     ? Duration.ofMillis(RecentsLoader.REJECT_OLDER_THAN)
                     : null;
-            RootInfo root = stack.getRoot();
             int maxResults = (root == null || root.isRecents())
                     ? RecentsLoader.MAX_DOCS_FROM_ROOT : MAX_RESULTS;
-            QueryOptions options = new QueryOptions(
-                    maxResults, maxResults, lastModifiedDelta,
-                    Duration.ofMillis(MAX_SEARCH_TIME_MS), mState.showHiddenFiles,
-                    mState.acceptMimes, mSearchMgr.buildQueryArgs());
+            // acceptMimes, if not null, represents restrictions on types of files loader should
+            // return. However, when listing directories, we must include the directory MIME type
+            // itself, as otherwise directories containing only directories appear empty.
+            String[] acceptMimes = null;
+            if (stack.isRecents() || mSearchMgr.isSearching()) {
+                acceptMimes = mState.acceptMimes;
+            } else if (mState.isPhotoPicking()) {
+                acceptMimes = new String[]{
+                        DocumentsContract.Document.MIME_TYPE_DIR, MimeTypes.IMAGE_MIME,
+                };
+            } else if (mState.acceptMimes != null) {
+                int mimeCount = mState.acceptMimes.length;
+                acceptMimes = Arrays.copyOf(mState.acceptMimes, mimeCount + 1);
+                acceptMimes[mimeCount - 1] = DocumentsContract.Document.MIME_TYPE_DIR;
+            }
+            QueryOptions options = new QueryOptions(maxResults, maxResults, lastModifiedDelta,
+                    Duration.ofMillis(MAX_SEARCH_TIME_MS), mState.showHiddenFiles, acceptMimes,
+                    mSearchMgr.buildQueryArgs());
 
             if (stack.isRecents() || mSearchMgr.isSearching()) {
-                Log.d(TAG, "Creating search loader V2");
+                if (DEBUG) {
+                    Log.d(TAG, "Creating search loader V2");
+                }
                 // For search and recent we create an observer that restart the loader every time
                 // one of the searched content providers reports a change.
                 final LockingContentObserver observer = new LockingContentObserver(
                         mContentLock, AbstractActionHandler.this::loadDocumentsForCurrentStack);
                 Collection<RootInfo> roots = mProviders.getMatchingRootsBlocking(mState);
+                Collection<RootInfo> searchableRoots = mSearchMgr.getSearchRoots(roots, stack);
                 return new SearchLoader(
                         mActivity,
-                        userIdList,
+                        searchableRoots,
                         mInjector.fileTypeLookup,
                         observer,
-                        mSearchMgr.getSearchFolders(roots, stack),
                         mSearchMgr.getCurrentSearch(),
                         options,
                         mState.sortModel,
                         mExecutorService
                 );
             }
-            Log.d(TAG, "Creating folder loader V2");
+            if (DEBUG) {
+                Log.d(TAG, "Creating folder loader V2");
+            }
             // For folder scan we pass the content lock to the loader so that it can register
             // an a callback to its internal method that forces a reload of the folder, every
             // time the content provider reports a change.
             return new FolderLoader(
                     mActivity,
-                    userIdList,
                     mInjector.fileTypeLookup,
                     mContentLock,
                     root,

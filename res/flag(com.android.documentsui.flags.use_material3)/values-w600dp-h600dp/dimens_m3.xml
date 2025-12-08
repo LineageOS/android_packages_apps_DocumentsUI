@@ -35,5 +35,7 @@
     <dimen name="breadcrumb_padding_horizontal">@dimen/space_small_3</dimen>
 
     <dimen name="picker_saver_padding_bottom">0dp</dimen>
+
+    <dimen name="snackbar_max_width">840dp</dimen>
 </resources>
 

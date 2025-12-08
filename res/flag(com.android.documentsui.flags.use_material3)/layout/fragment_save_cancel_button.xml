@@ -13,8 +13,8 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<!-- The "Cancel" button is default invisible. On form factors with FEATURE_PC set, it is
-     updated to be shown always. -->
+<!-- The "Cancel" button is default invisible. On devices with the `show_picker_cancel_button`
+     config value set to true, it will appear. -->
 <com.google.android.material.button.MaterialButton
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

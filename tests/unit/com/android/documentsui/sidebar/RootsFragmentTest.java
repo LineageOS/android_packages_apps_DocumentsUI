@@ -26,8 +26,8 @@ import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.platform.test.annotations.RequiresFlagsDisabled;
-import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.annotations.DisableFlags;
+import android.platform.test.annotations.EnableFlags;
 
 import androidx.test.filters.MediumTest;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -38,7 +38,7 @@ import com.android.documentsui.TestUserManagerState;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.flags.Flags;
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.OverrideFlagsRule;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
@@ -100,7 +100,7 @@ public class RootsFragmentTest {
     };
 
     @Rule
-    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     @Parameter(0)
     public boolean isPrivateSpaceEnabled;
@@ -140,7 +140,7 @@ public class RootsFragmentTest {
     }
 
     @Test
-    @RequiresFlagsDisabled({Flags.FLAG_USE_MATERIAL3})
+    @DisableFlags({Flags.FLAG_USE_MATERIAL3})
     public void testSortLoadResult_WithCorrectOrder_useMaterial3FlagDisabled() {
         List<Item> items = mRootsFragment.sortLoadResult(
                 mContext,
@@ -154,7 +154,7 @@ public class RootsFragmentTest {
     }
 
     @Test
-    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    @EnableFlags({Flags.FLAG_USE_MATERIAL3})
     public void testSortLoadResult_WithCorrectOrder_showMediaRoots() {
         List<Item> items = mRootsFragment.sortLoadResult(
                 mContext,

@@ -20,9 +20,9 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import static com.android.documentsui.base.State.MODE_GRID;
 import static com.android.documentsui.base.State.MODE_LIST;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.FlagUtils.isSupportVisibleBackgroundUserFlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -304,9 +304,18 @@ public class IconHelper {
      */
     public boolean shouldShowBadge(int userIdIdentifier) {
         if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
-            return mMaybeShowBadge
-                    && mUserManagerState.getUserIds().size() > 1
-                    && ActivityManager.getCurrentUser() != userIdIdentifier;
+            if (isSupportVisibleBackgroundUserFlagEnabled()) {
+                // Visible background users are the profile users.
+                // Therefore, we should not show badge for them.
+                return mMaybeShowBadge
+                        && mUserManagerState.getUserIds().size() > 1
+                        && !UserId.of(userIdIdentifier).isUserForeground(mContext)
+                        && !UserId.of(userIdIdentifier).isVisibleBackgroundFullUser(mContext);
+            } else {
+                return mMaybeShowBadge
+                        && mUserManagerState.getUserIds().size() > 1
+                        && !UserId.of(userIdIdentifier).isUserForeground(mContext);
+            }
         }
         return mMaybeShowBadge && mManagedUser != null
                 && mManagedUser.getIdentifier() == userIdIdentifier;

@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.queries
 
+import androidx.annotation.StringRes
 import com.android.documentsui.R
 import com.android.documentsui.util.Material3Config.Companion.getRes
 
@@ -22,12 +23,30 @@ import com.android.documentsui.util.Material3Config.Companion.getRes
  * Enumerates possible file types used for restricting file search. These values correspond directly
  * to the values of the search_file_type_menu.
  */
-enum class FileTypeOption(val value: Int) {
-    ANY_TYPE(getRes(R.id.file_type_all_option)),
-    AUDIO(getRes(R.id.file_type_audio_option)),
-    DOCUMENTS(getRes(R.id.file_type_documents_option)),
-    IMAGES(getRes(R.id.file_type_images_option)),
-    VIDEO(getRes(R.id.file_type_videos_option)),
+enum class FileTypeOption(
+    private val rawValueId: Int,
+    @StringRes private val rawTextId: Int
+) {
+    ANY_TYPE(R.id.file_type_all_option, R.string.search_file_type_all),
+    AUDIO(R.id.file_type_audio_option, R.string.chip_title_audio),
+    DOCUMENTS(R.id.file_type_documents_option, R.string.chip_title_documents),
+    IMAGES(R.id.file_type_images_option, R.string.chip_title_images),
+    VIDEO(R.id.file_type_videos_option, R.string.chip_title_videos);
+
+    /**
+     * Returns the resource ID assigned to this FileTypeOption. The ID may be a resource ID
+     * converted from non-Material3 to Material3 version.
+     */
+    val value: Int
+        get() = getRes(rawValueId)
+
+    /**
+     * Returns the string ID for the text associated with this file type. The ID may be a resource
+     * ID converted from non-Material3 to Material3 version.
+     */
+    @get:StringRes
+    val textId: Int
+        get() = getRes(rawTextId)
 }
 
 /**

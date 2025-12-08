@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"Gardar"</string>
     <string name="menu_share" msgid="4307140947108068356">"Compartir"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Eliminar"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"Eliminar definitivamente"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"Mover á papeleira"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"Restaurar"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Seleccionar todo"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Anular toda a selección"</string>
     <string name="menu_select" msgid="1366061076507142387">"Seleccionar"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"Copiar en…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Mover a…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Comprimir"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"Comprimir"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Extraer en..."</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"Extraer todo…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"Extraer aquí"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"Extraer"</string>
     <string name="menu_browse" msgid="6007716414766674967">"Explorar"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Cambiar nome"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Obter información"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Esta acción non está permitida"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Para obter máis información, ponte en contacto co teu administrador de TI"</string>
     <string name="root_recent" msgid="1080156975424341623">"Recentes"</string>
+    <string name="root_trash" msgid="1869929519939073178">"Papeleira"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"Espazo libre: <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Servizos almacenamento"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Atallos"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Non se poden eliminar algúns documentos"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Non se poden compartir máis de <xliff:g id="COUNT">%1$d</xliff:g> ficheiros"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"Acción non permitida"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"Abrir con…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"Non hai instalada ningunha aplicación compatible. Proba a instalar unha desde Play Store."</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"Buscar en Play Store"</string>
     <string name="share_via" msgid="8725082736005677161">"Compartir a través de"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Copiando ficheiros"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Comprimindo ficheiros"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"Extraendo ficheiros"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Mover ficheiros"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Eliminando ficheiros"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"Movendo ficheiros á papeleira"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"Restaurando ficheiros"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Tempo restante: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other">Copiando <xliff:g id="COUNT_1">%1$d</xliff:g> elementos.</item>
@@ -154,29 +164,26 @@
       <item quantity="other">Eliminando <xliff:g id="COUNT_1">%1$d</xliff:g> elementos.</item>
       <item quantity="one">Eliminando <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{Movendo <xliff:g id="COUNT_0">{count}</xliff:g> elemento á papeleira}other{Movendo <xliff:g id="COUNT_1">{count}</xliff:g> elementos á papeleira}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{Restaurando <xliff:g id="COUNT_0">{count}</xliff:g> elemento}other{Restaurando <xliff:g id="COUNT_1">{count}</xliff:g> elementos}}"</string>
     <string name="undo" msgid="2902438994196400565">"Desfacer"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"Preparando…"</string>
     <string name="compress_preparing" msgid="7401605598969019696">"Preparando…"</string>
     <string name="extract_preparing" msgid="4796626960061745796">"Preparando…"</string>
     <string name="move_preparing" msgid="6504239656430530761">"Preparando…"</string>
     <string name="delete_preparing" msgid="7339349837842802508">"Preparando…"</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"Preparando..."</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"Preparando..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="other">Non se puideron copiar <xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
-      <item quantity="one">Non se puido copiar <xliff:g id="COUNT_0">%1$d</xliff:g> elemento</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">Non se puideron comprimir <xliff:g id="COUNT_1">%1$d</xliff:g> ficheiros</item>
-      <item quantity="one">Non se puido comprimir <xliff:g id="COUNT_0">%1$d</xliff:g> ficheiro</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="other">Non se puideron mover <xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
-      <item quantity="one">Non se puido mover <xliff:g id="COUNT_0">%1$d</xliff:g> elemento</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="other">Non se puideron eliminar <xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
-      <item quantity="one">Non se puido eliminar <xliff:g id="COUNT_0">%1$d</xliff:g> elemento</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{Non se puido copiar <xliff:g id="COUNT_0">{count}</xliff:g> elemento}other{Non se puideron copiar <xliff:g id="COUNT_1">{count}</xliff:g> elementos}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{Non se puido comprimir <xliff:g id="COUNT_0">{count}</xliff:g> elemento}other{Non se puideron comprimir <xliff:g id="COUNT_1">{count}</xliff:g> elementos}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{Non se puido extraer <xliff:g id="COUNT_0">{count}</xliff:g> elemento}other{Non se puideron extraer <xliff:g id="COUNT_1">{count}</xliff:g> elementos}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{Non se puido mover <xliff:g id="COUNT_0">{count}</xliff:g> elemento}other{Non se puideron mover <xliff:g id="COUNT_1">{count}</xliff:g> elementos}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{Non se puido eliminar <xliff:g id="COUNT_0">{count}</xliff:g> elemento}other{Non se puideron eliminar <xliff:g id="COUNT_1">{count}</xliff:g> elementos}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{Non se puido mover <xliff:g id="COUNT_0">{count}</xliff:g> elemento á papeleira}other{Non se puideron mover <xliff:g id="COUNT_1">{count}</xliff:g> elementos á papeleira}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{Non se puido restaurar <xliff:g id="COUNT_0">{count}</xliff:g> elemento}other{Non se puideron restaurar <xliff:g id="COUNT_1">{count}</xliff:g> elementos}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Toca para ver detalles"</string>
     <string name="close" msgid="905969391788869975">"Pechar"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -207,17 +214,39 @@
       <item quantity="other">Copiáronse <xliff:g id="COUNT_1">%1$d</xliff:g> elementos no portapapeis.</item>
       <item quantity="one">Copiouse <xliff:g id="COUNT_0">%1$d</xliff:g> elemento no portapapeis.</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"Só lectura"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"Podes consultar estes ficheiros, pero certas accións non se admiten"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"Este arquivo está nunha localización de só lectura e non se pode extraer aquí."</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"A operación do ficheiro non é compatible."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Produciuse un erro na operación do ficheiro."</string>
     <string name="rename_error" msgid="6700093173508118635">"Non se puido cambiar o nome do documento"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Expulsar"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Convertéronse algúns ficheiros"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{Copiando \"<xliff:g id="FILENAME">{filename}</xliff:g>\" en \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}other{Copiando # ficheiros en \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{Extraendo \"<xliff:g id="FILENAME">{filename}</xliff:g>\" en \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}other{Extraendo # arquivos en \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{Movendo \"<xliff:g id="FILENAME">{filename}</xliff:g>\" a \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}other{Movendo # ficheiros a \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{Eliminando \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}other{Eliminando # ficheiros}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{Movendo <xliff:g id="FILENAME">{filename}</xliff:g> á papeleira}other{Movendo # ficheiros á papeleira}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{Restaurando <xliff:g id="FILENAME">{filename}</xliff:g>}other{Restaurando # ficheiros}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{Comprimindo \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}other{Comprimindo # ficheiros}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"Mostrar o progreso do ficheiro"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"Progreso dos ficheiros"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"Completouse a operación"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"Cancelada"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"Ver detalles"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="CURRENTBYTES">%1$s</xliff:g> de <xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"Copia completada"</string>
     <string name="move_completed" msgid="3981250605092729273">"Traslado completado"</string>
     <string name="delete_completed" msgid="4149401155614626199">"Eliminación completada"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"Compresión completada"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"Comprimiuse o contido"</string>
     <string name="extract_completed" msgid="8824595789915249972">"Extracción completada"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"Non se puido copiar o contido"</string>
+    <string name="move_failed" msgid="7692364307225994220">"Non se puido mover o contido"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"Non se puido eliminar o contido"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"Non se puido comprimir o contido"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"Non se puido extraer o contido"</string>
+    <string name="expand_label" msgid="5683357671239615207">"Despregar"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"Contraer"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Queres outorgar acceso a <xliff:g id="APPNAME"><b>^1</b></xliff:g> ao directorio <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> no almacenamento de <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Queres outorgar acceso a <xliff:g id="APPNAME"><b>^1</b></xliff:g> ao directorio <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Queres outorgar acceso a <xliff:g id="APPNAME"><b>^1</b></xliff:g> aos teus datos almacenados en <xliff:g id="STORAGE"><i>^2</i></xliff:g>, incluídos vídeos e fotos?"</string>
@@ -258,6 +287,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"Non se pode mostrar o contido"</string>
     <string name="sign_in" msgid="6253762676723505592">"Iniciar sesión"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arquivo<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"Arquivar"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Queres sobrescribir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Continuar coa operación en segundo plano"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -299,7 +329,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crear novo cartafol"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Busca contido neste dispositivo"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"Borrar o texto"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"Este cartafol"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"Cartafol raíz"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"En calquera lugar"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"En calquera momento"</string>
@@ -318,7 +347,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"Mostrando modo de lista."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"Nome do ficheiro"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Ocultar a vista previa do ficheiro"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"Non hai ningunha vista previa dispoñible"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"Detalles"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"Información xeral"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"Tamaño"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"Tipo"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"Data de modificación"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Ocultar a vista previa do ficheiro"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"Imaxe de vista previa de <xliff:g id="FILENAME">%s</xliff:g>"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"Ocultar o panel de información"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"Mostrar o panel de información"</string>
 </resources>

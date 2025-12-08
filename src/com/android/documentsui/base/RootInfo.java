@@ -23,6 +23,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
+import static com.android.documentsui.util.FlagUtils.isTrashFlowEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.ContentResolver;
@@ -74,7 +75,8 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
             TYPE_MTP,
             TYPE_SD,
             TYPE_USB,
-            TYPE_OTHER
+            TYPE_OTHER,
+            TYPE_TRASH
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface RootType {}
@@ -89,6 +91,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     public static final int TYPE_SD = 9;
     public static final int TYPE_USB = 10;
     public static final int TYPE_OTHER = 11;
+    public static final int TYPE_TRASH = 12;
 
     public UserId userId;
     public String authority;
@@ -278,6 +281,8 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
             derivedMimeTypes = MimeTypes.getDocumentMimeTypeArray();
         } else if (isRecents()) {
             derivedType = TYPE_RECENTS;
+        } else if (isTrash()) {
+            derivedType = TYPE_TRASH;
         } else if (isBugReport()) {
             derivedType = TYPE_OTHER;
             derivedIcon = getRes(R.drawable.ic_root_bugreport);
@@ -298,6 +303,18 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     public boolean isRecents() {
         return authority == null && rootId == null;
+    }
+
+    /**
+     * Checks if this root represents the Trash.
+     *
+     * @return {@code true} if the root is Trash, {@code false} otherwise.
+     */
+    public boolean isTrash() {
+        if (!isTrashFlowEnabled()) {
+            return false;
+        }
+        return authority == null && Providers.TRASH_ROOT_ID.equals(rootId);
     }
 
     /**
@@ -350,7 +367,8 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
                 || derivedType == TYPE_VIDEO
                 || derivedType == TYPE_AUDIO
                 || derivedType == TYPE_RECENTS
-                || derivedType == TYPE_DOCUMENTS;
+                || derivedType == TYPE_DOCUMENTS
+                || derivedType == TYPE_TRASH;
     }
 
     /*

@@ -16,25 +16,25 @@
 
 package com.android.documentsui;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import android.content.Intent;
 import android.provider.DocumentsContract;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.picker.PickActivity;
+import com.android.documentsui.rules.TestFilesRule;
+
+import org.junit.Rule;
+import org.junit.Test;
 
 @LargeTest
-public class PickerPreviewTextUiTest extends ActivityTest<PickActivity>{
+public class PickerPreviewTextUiTest extends ActivityTestJunit4<PickActivity> {
 
-    public PickerPreviewTextUiTest() {
-        super(PickActivity.class);
-    }
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        initTestFiles();
-    }
+    @Rule public final TestFilesRule mTestFilesRule = new TestFilesRule();
 
     @Override
     protected void launchActivity() {
@@ -45,25 +45,27 @@ public class PickerPreviewTextUiTest extends ActivityTest<PickActivity>{
             intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, getInitialRoot().getUri());
         }
         intent.setType("text/*");
-        setActivityIntent(intent);
-        getActivity();  // Launch the activity.
+        mActivityScenario = ActivityScenario.launch(intent);
     }
 
+    @Test
     public void testPreviewInvisible_directory_listMode() throws Exception {
         bots.main.switchToListMode();
-        assertTrue(bots.directory.findDocument(dirName1).isEnabled());
-        assertFalse(bots.directory.hasDocumentPreview(dirName1));
+        assertTrue(bots.directory.findDocument(TestFilesRule.DIR_NAME_1).isEnabled());
+        assertFalse(bots.directory.hasDocumentPreview(TestFilesRule.DIR_NAME_1));
     }
 
+    @Test
     public void testPreviewVisible_enabled_gridMode() throws Exception {
         bots.main.switchToGridMode();
-        assertTrue(bots.directory.findDocument(fileName1).isEnabled());
-        assertTrue(bots.directory.hasDocumentPreview(fileName1));
+        assertTrue(bots.directory.findDocument(TestFilesRule.FILE_NAME_1).isEnabled());
+        assertTrue(bots.directory.hasDocumentPreview(TestFilesRule.FILE_NAME_1));
     }
 
+    @Test
     public void testPreviewVisible_enabled_listMode() throws Exception {
         bots.main.switchToListMode();
-        assertTrue(bots.directory.findDocument(fileName1).isEnabled());
-        assertTrue(bots.directory.hasDocumentPreview(fileName1));
+        assertTrue(bots.directory.findDocument(TestFilesRule.FILE_NAME_1).isEnabled());
+        assertTrue(bots.directory.hasDocumentPreview(TestFilesRule.FILE_NAME_1));
     }
 }

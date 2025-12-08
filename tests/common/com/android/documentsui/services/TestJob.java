@@ -90,7 +90,8 @@ public class TestJob extends Job {
     public Notification getFailureNotification() {
         // the "copy" stuff was just convenient and available :)
         return getFailureNotification(
-                R.plurals.copy_error_notification_title, R.drawable.ic_menu_copy);
+                getFailureContentTitle(R.string.copy_error_notification_title),
+                R.drawable.ic_menu_copy);
     }
 
     JobProgress getJobProgress() {

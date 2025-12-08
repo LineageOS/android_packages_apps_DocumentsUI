@@ -18,6 +18,8 @@ package com.android.documentsui;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -54,6 +56,8 @@ public class UserIdManagerTest {
     @Before
     public void setUp() throws Exception {
         when(mockContext.getApplicationContext()).thenReturn(mockContext);
+        when(mockContext.createPackageContextAsUser(any(), anyInt(), any(UserHandle.class)))
+                .thenReturn(mockContext);
 
         when(mockUserManager.isManagedProfile(managedUser1.getIdentifier())).thenReturn(true);
         when(mockUserManager.isManagedProfile(systemUser.getIdentifier())).thenReturn(false);
@@ -61,6 +65,8 @@ public class UserIdManagerTest {
         when(mockUserManager.isManagedProfile(nonManagedUser2.getIdentifier())).thenReturn(false);
 
         when(mockContext.getSystemService(Context.USER_SERVICE)).thenReturn(mockUserManager);
+        when(mockContext.getSystemServiceName(UserManager.class)).thenReturn(Context.USER_SERVICE);
+        when(mockContext.getSystemService(UserManager.class)).thenReturn(mockUserManager);
     }
 
     // common cases for getUserIds

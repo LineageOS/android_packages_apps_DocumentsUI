@@ -16,8 +16,12 @@
 
 package com.android.documentsui;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
+import static com.android.documentsui.util.FlagUtils.isZipNgFlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.res.Resources;
@@ -29,6 +33,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.view.ViewParent;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -37,6 +42,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
@@ -71,6 +77,10 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
     private final ConfigStore mConfigStore;
     private boolean mIsActionModeActivated = false;
     @ColorRes private int mDefaultStatusBarColorResId;
+
+    // The offset of the app bar layout, it can only be 0 or negative, 0 means it's fully expanded,
+    // negative value means it's collapsed.
+    private int mCurrentVerticalOffset = 0;
 
     public NavigationViewManager(
             BaseActivity activity,
@@ -179,6 +189,46 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
                         view.getWidth() - marginEnd, view.getHeight(), radius);
             }
         };
+
+        // In CollapsingToolbarLayout, when the file list is scrolled up, the content inside
+        // CollapsingToolbarLayout will be collapsed (i.e. to be pushed up out of the screen
+        // boundary). Now if we use Shift + Tab to move the focus from the top app bar, the
+        // content inside CollapsingToolbarLayout will be focused but not visible because the
+        // layout is collapsed, in this case we need to expand the AppBarLayout (which is the
+        // parent of CollapsingToolbarLayout because the collapse/expand happens on this level)
+        // to make the focused view visible.
+        if (isUseMaterial3FlagEnabled() && mCollapsingBarLayout != null) {
+            View collapsingContent = mCollapsingBarLayout.findViewById(R.id.collapsing_content);
+            collapsingContent.getViewTreeObserver()
+                    .addOnGlobalFocusChangeListener(
+                            (oldFocus, newFocus) -> {
+                                onChildViewFocused(collapsingContent, newFocus);
+                            });
+        }
+    }
+
+    /** Called when a child view of the parent view is focused. */
+    public void onChildViewFocused(View parentView, View childView) {
+        // Only expand when the child view get focused and the layout is in collapsed
+        // state (offset < 0).
+        if (mCurrentVerticalOffset < 0 && childView != null
+                && isDescendantOf(parentView, childView)) {
+            // app_bar is the parent of CollapsingToolbarLayout, expand happens on this level.
+            AppBarLayout appBarLayout = mActivity.findViewById(R.id.app_bar);
+            appBarLayout.setExpanded(true, true);
+        }
+    }
+
+    /** Returns true if the child view is a descendant of the parent view. */
+    private boolean isDescendantOf(View parent, View child) {
+        ViewParent current = child.getParent();
+        while (current != null) {
+            if (current == parent) {
+                return true;
+            }
+            current = current.getParent();
+        }
+        return false;
     }
 
     private ProfileTabs getProfileTabs(View tabLayoutContainer, UserIdManager userIdManager,
@@ -192,6 +242,7 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
+        mCurrentVerticalOffset = offset;
         if (!VersionUtils.isAtLeastS()) {
             return;
         }
@@ -282,7 +333,8 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
 
         // When the search view is expanded, most of the toolbar is hidden. Except when docked
         // search is enabled, in which case the toolbar is shown as normal.
-        boolean showDockedSearch = mActivity.getResources().getBoolean(R.bool.show_docked_search);
+        boolean showDockedSearch =
+                mActivity.getResources().getBoolean(getRes(R.bool.show_docked_search));
         if (mEnv.isSearchExpanded() && !(isUseMaterial3FlagEnabled() && showDockedSearch)) {
             mToolbar.setTitle(null);
             mBreadcrumb.show(false);
@@ -307,11 +359,11 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
         if (shouldShowSearchBar()) {
             mBreadcrumb.show(false);
             mToolbar.setTitle(null);
-            mSearchBarView.setVisibility(View.VISIBLE);
+            mSearchBarView.setVisibility(VISIBLE);
             return;
         }
 
-        mSearchBarView.setVisibility(View.GONE);
+        mSearchBarView.setVisibility(GONE);
         String title =
                 mState.stack.size() <= 1 ? mEnv.getCurrentRoot().title : mState.stack.getTitle();
         if (VERBOSE) Log.v(TAG, "New toolbar title is: " + title);
@@ -333,6 +385,15 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
     }
 
     private void updateToolbar() {
+        // Hide or show the "Read-only" label.
+        if (isZipNgFlagEnabled()) {
+            final View label = mToolbar.findViewById(getRes(R.id.read_only_label));
+            if (label != null) {
+                final DocumentInfo dir = mActivity.getCurrentDirectory();
+                label.setVisibility(dir != null && dir.isInArchive() ? VISIBLE : GONE);
+            }
+        }
+
         if (mCollapsingBarLayout == null) {
             // Tablet mode does not use CollapsingBarLayout
             // (res/layout-sw720dp/directory_app_bar.xml or res/layout/fixed_layout.xml)

@@ -55,7 +55,9 @@
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyleM3</item>
         <item name="materialAlertDialogTheme">@style/MaterialAlertDialogThemeM3</item>
         <item name="queryBackground">@color/menu_search_background_m3</item>
+        <item name="snackbarStyle">@style/SnackbarStyle</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyleM3</item>
+        <item name="snackbarTextViewStyle">@style/SnackbarTextViewStyle</item>
 
         <!-- Menus -->
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyleM3</item>
@@ -67,5 +69,25 @@
         <!-- System bar colors. -->
         <item name="android:statusBarColor">?attr/colorSurfaceContainer</item>
         <item name="android:navigationBarColor">?attr/colorSurfaceContainer</item>
+    </style>
+
+    <!-- Similar to Widget.Material3.SideSheet.Modal.Detached, but with a different width. Manually
+     set the background and the margin size, for consistency with the coplanar side sheet which
+     relies on same attributes. -->
+    <style name="PeekMetadataModalSheetTheme" parent="Widget.Material3.SideSheet.Modal">
+        <item name="android:layout_margin">@dimen/space_small_1</item>
+        <item name="android:layout_width">
+            @dimen/peek_metadata_sheet_width
+        </item>
+        <item name="android:backgroundTint">
+            ?attr/colorSurfaceContainerHigh
+        </item>
+        <item name="android:background">
+            @drawable/peek_metadata_sheet_background
+        </item>
+    </style>
+
+    <style name="PeekMetadataSheetDialogTheme" parent="Theme.Material3.DayNight.SideSheetDialog">
+        <item name="sideSheetModalStyle">@style/PeekMetadataModalSheetTheme</item>
     </style>
 </resources>

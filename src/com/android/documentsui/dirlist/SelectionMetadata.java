@@ -18,7 +18,9 @@ package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.util.FlagUtils.isDesktopFileHandlingFlagEnabled;
 import static com.android.documentsui.util.FlagUtils.isZipNgFlagEnabled;
+import static com.android.documentsui.util.FlagUtils.isTrashFlowEnabled;
 
 import android.database.Cursor;
 import android.provider.DocumentsContract.Document;
@@ -31,6 +33,7 @@ import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.roots.RootCursorWrapper;
 
+import java.util.HashMap;
 import java.util.function.Function;
 
 /**
@@ -48,6 +51,7 @@ public class SelectionMetadata extends SelectionObserver<String>
             Document.FLAG_SUPPORTS_REMOVE | Document.FLAG_SUPPORTS_DELETE;
 
     private final Function<String, Cursor> mDocFinder;
+    private final Function<String, Integer> mCountOpeningApps;
 
     private int mDirectoryCount = 0;
     private int mFileCount = 0;
@@ -64,10 +68,30 @@ public class SelectionMetadata extends SelectionObserver<String>
     /** Number of archives. */
     private int mArchiveCount = 0;
 
+    /** Number of files that do not support trash. */
+    private int mUnsupportedTrashCount = 0;
+
+    /** Number of files that do not support restore from trash. */
+    private int mUnsupportedRestoreCount = 0;
+
     private boolean mSupportsSettings = false;
 
-    public SelectionMetadata(Function<String, Cursor> docFinder) {
+    // For each selected file, remember the number of installed apps that support opening it. We
+    // need this information to respond to hasMultipleOpeningApps.
+    HashMap<String, Integer> mOpeningAppCountForFile = new HashMap<>();
+
+    /**
+     * Keeps track of different properties about the current selection.
+     *
+     * @param docFinder A function that returns a cursor for the given document ID.
+     * @param countOpeningApps A function that returns the number of installed apps that support
+     *                         opening a file given its document ID.
+     */
+    public SelectionMetadata(
+            Function<String, Cursor> docFinder,
+            Function<String, Integer> countOpeningApps) {
         mDocFinder = docFinder;
+        mCountOpeningApps = countOpeningApps;
     }
 
     @Override
@@ -89,6 +113,15 @@ public class SelectionMetadata extends SelectionObserver<String>
             if (ArchivesProvider.isSupportedArchiveType(mimeType)) {
                 mArchiveCount += delta;
             }
+            if (isDesktopFileHandlingFlagEnabled()) {
+                if (selected) {
+                    mOpeningAppCountForFile.put(
+                            modelId,
+                            mCountOpeningApps.apply(modelId));
+                } else {
+                    mOpeningAppCountForFile.remove(modelId);
+                }
+            }
         }
 
         final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
@@ -100,6 +133,12 @@ public class SelectionMetadata extends SelectionObserver<String>
         }
         if ((docFlags & FLAG_CAN_DELETE) == 0) {
             mNoDeleteCount += delta;
+        }
+        if (isTrashFlowEnabled() && (docFlags & Document.FLAG_SUPPORTS_TRASH) == 0) {
+            mUnsupportedTrashCount += delta;
+        }
+        if (isTrashFlowEnabled() && (docFlags & Document.FLAG_SUPPORTS_RESTORE) == 0) {
+            mUnsupportedRestoreCount += delta;
         }
         if ((docFlags & Document.FLAG_SUPPORTS_RENAME) == 0) {
             mNoRenameCount += delta;
@@ -123,9 +162,11 @@ public class SelectionMetadata extends SelectionObserver<String>
         mPartialCount = 0;
         mWritableDirectoryCount = 0;
         mNoDeleteCount = 0;
+        mUnsupportedTrashCount = 0;
         mNoRenameCount = 0;
         mInArchiveCount = 0;
         mArchiveCount = 0;
+        mUnsupportedRestoreCount = 0;
     }
 
     @Override
@@ -159,8 +200,36 @@ public class SelectionMetadata extends SelectionObserver<String>
     }
 
     @Override
+    public boolean hasMultipleOpeningApps() {
+        if (isDesktopFileHandlingFlagEnabled()) {
+            if (mOpeningAppCountForFile.size() == 1) {
+                int openingAppCount = mOpeningAppCountForFile.values().iterator().next();
+                return openingAppCount > 1;
+            }
+        }
+        // When the flag is disabled, this method is not used anywhere.
+        return false;
+    }
+
+    @Override
     public boolean canDelete() {
         return size() > 0 && mNoDeleteCount == 0;
+    }
+
+    @Override
+    public boolean canTrash() {
+        if (!isTrashFlowEnabled()) {
+            return false;
+        }
+        return size() > 0 && mUnsupportedTrashCount == 0;
+    }
+
+    @Override
+    public boolean canRestore() {
+        if (!isTrashFlowEnabled()) {
+            return false;
+        }
+        return size() > 0 && mUnsupportedRestoreCount == 0;
     }
 
     @Override
@@ -185,7 +254,8 @@ public class SelectionMetadata extends SelectionObserver<String>
 
     @Override
     public boolean canOpen() {
-        return mFileCount == 1 && mDirectoryCount == 0 && mPartialCount == 0 && (
-                mInArchiveCount == 0 || (isZipNgFlagEnabled() && mArchiveCount == 0));
+        return mFileCount == 1 && mDirectoryCount == 0 && mPartialCount == 0
+                && (mArchiveCount == 0 || !isZipNgFlagEnabled())
+                && (mInArchiveCount == 0 || isZipNgFlagEnabled()) && mUnsupportedRestoreCount == 0;
     }
 }

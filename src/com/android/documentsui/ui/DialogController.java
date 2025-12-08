@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.ui;
 
+import static com.android.documentsui.util.FlagUtils.isDesktopUxPhase2FlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Activity;
@@ -24,6 +25,7 @@ import androidx.fragment.app.FragmentManager;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
+import com.android.documentsui.files.NoApplicationFragment;
 import com.android.documentsui.picker.ConfirmFragment;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
@@ -44,7 +46,8 @@ public interface DialogController {
      */
     void showProgressDialog(String jobId, FileOperation operation);
 
-    void showNoApplicationFound();
+    void showNoApplicationFoundToast();
+    void showNoApplicationFoundDialog(FragmentManager fm, DocumentInfo doc);
     void showOperationUnsupported();
     void showViewInArchivesUnsupported();
     void showDocumentsClipped(int size);
@@ -86,7 +89,7 @@ public interface DialogController {
                 return;
             }
 
-            if (shouldShowProgressDialogForOperation(opType)) {
+            if (isDesktopUxPhase2FlagEnabled() || shouldShowProgressDialogForOperation(opType)) {
                 // The operation has a progress dialog created, so do not show a snackbar
                 // for operation start, as it would duplicate the UI.
                 return;
@@ -108,6 +111,12 @@ public interface DialogController {
                     break;
                 case FileOperationService.OPERATION_DELETE:
                     Snackbars.showDelete(mActivity, docCount);
+                    break;
+                case FileOperationService.OPERATION_TRASH:
+                    Snackbars.showTrash(mActivity, docCount);
+                    break;
+                case FileOperationService.OPERATION_RESTORE:
+                    Snackbars.showRestore(mActivity, docCount);
                     break;
                 default:
                     throw new UnsupportedOperationException("Unsupported Operation: " + opType);
@@ -150,10 +159,15 @@ public interface DialogController {
         }
 
         @Override
-        public void showNoApplicationFound() {
+        public void showNoApplicationFoundToast() {
             Snackbars.makeSnackbar(
                             mActivity, getRes(R.string.toast_no_application), Snackbar.LENGTH_LONG)
                     .show();
+        }
+
+        @Override
+        public void showNoApplicationFoundDialog(FragmentManager fm, DocumentInfo doc) {
+            NoApplicationFragment.show(fm, doc);
         }
 
         @Override

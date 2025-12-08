@@ -26,9 +26,11 @@ import static com.android.documentsui.util.FlagUtils.isZipNgFlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.ActivityManager.TaskDescription;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,6 +40,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -61,10 +64,12 @@ import com.android.documentsui.SelectionBarController;
 import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.ShortcutsUpdater;
 import com.android.documentsui.StubProfileTabsAddons;
+import com.android.documentsui.UserManagerProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.AppsRowManager;
@@ -123,7 +128,14 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
                 messages,
                 DialogController.create(features, this),
                 DocumentsApplication.getFileTypeLookup(this),
-                new ShortcutsUpdater(this)::update);
+                new ShortcutsUpdater(this)::update,
+                new UserManagerProvider() {
+                    @Override
+                    @RequiresApi(Build.VERSION_CODES.S)
+                    public List<UserId> getUserIds(Context context) {
+                        return DocumentsApplication.getUserManagerState(context).getUserIds();
+                    }
+                });
 
         super.onCreate(icicle);
 
@@ -158,6 +170,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         if (isUseMaterial3FlagEnabled()) {
             mInjector.selectionBarController =
                     new SelectionBarController(
+                            findViewById(getRes(R.id.toolbar)),
                             findViewById(getRes(R.id.selection_bar)),
                             mInjector.menuManager,
                             mInjector.selectionMgr);
@@ -494,28 +507,30 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
 
     @Override
     public boolean onKeyShortcut(int keyCode, KeyEvent event) {
-        DirectoryFragment dir;
         // TODO: All key events should be statically bound using alphabeticShortcut.
         // But not working.
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_A:
-                mInjector.actions.selectAllFiles();
-                return true;
-            case KeyEvent.KEYCODE_X:
-                mInjector.actions.cutToClipboard();
-                return true;
-            case KeyEvent.KEYCODE_C:
-                mInjector.actions.copyToClipboard();
-                return true;
-            case KeyEvent.KEYCODE_V:
-                dir = getDirectoryFragment();
-                if (dir != null) {
-                    dir.pasteFromClipboard();
-                }
-                return true;
-            default:
-                return super.onKeyShortcut(keyCode, event);
+
+        if (event.hasModifiers(KeyEvent.META_CTRL_ON)) {
+            switch (keyCode) {
+                case KeyEvent.KEYCODE_A:
+                    mInjector.actions.selectAllFiles();
+                    return true;
+                case KeyEvent.KEYCODE_X:
+                    mInjector.actions.cutToClipboard();
+                    return true;
+                case KeyEvent.KEYCODE_C:
+                    mInjector.actions.copyToClipboard();
+                    return true;
+                case KeyEvent.KEYCODE_V:
+                    DirectoryFragment dir = getDirectoryFragment();
+                    if (dir != null) {
+                        dir.pasteFromClipboard();
+                    }
+                    return true;
+            }
         }
+
+        return super.onKeyShortcut(keyCode, event);
     }
 
     @Override

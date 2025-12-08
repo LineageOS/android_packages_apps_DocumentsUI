@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"บันทึก"</string>
     <string name="menu_share" msgid="4307140947108068356">"แชร์"</string>
     <string name="menu_delete" msgid="1022254131543256626">"ลบ"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"ลบถาวร"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"ย้ายไปที่ถังขยะ"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"กู้คืน"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"เลือกทั้งหมด"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"ยกเลิกการเลือกทั้งหมด"</string>
     <string name="menu_select" msgid="1366061076507142387">"เลือก"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"คัดลอกไปยัง…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ย้ายไปที่…"</string>
     <string name="menu_compress" msgid="37539111904724188">"บีบอัด"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"สร้างไฟล์ Zip"</string>
     <string name="menu_extract" msgid="8171946945982532262">"แตกข้อมูลไปยัง…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"แตกเอกสารทั้งหมด…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"แตกไฟล์ที่นี่"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"แตกไฟล์"</string>
     <string name="menu_browse" msgid="6007716414766674967">"เรียกดู"</string>
     <string name="menu_rename" msgid="1883113442688817554">"เปลี่ยนชื่อ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"รับข้อมูล"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"ไม่อนุญาตการทำงานนี้"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"โปรดติดต่อผู้ดูแลระบบไอทีเพื่อสอบถามข้อมูลเพิ่มเติม"</string>
     <string name="root_recent" msgid="1080156975424341623">"ล่าสุด"</string>
+    <string name="root_trash" msgid="1869929519939073178">"ถังขยะ"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"ว่าง <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"บริการที่เก็บข้อมูล"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"ทางลัด"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"ไม่สามารถลบเอกสารบางรายการ"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"แชร์มากกว่า <xliff:g id="COUNT">%1$d</xliff:g> ไฟล์ไม่ได้"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"ไม่อนุญาตให้ดำเนินการนี้"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"เปิดด้วย…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"ไม่มีการติดตั้งแอปที่รองรับ ลองติดตั้งแอปจาก Google Play Store"</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"ค้นหาใน Google Play Store"</string>
     <string name="share_via" msgid="8725082736005677161">"แชร์ผ่าน"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"กำลังคัดลอกไฟล์"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"กำลังบีบอัดไฟล์"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"กำลังแตกไฟล์"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"กำลังย้ายไฟล์"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"กำลังลบไฟล์"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"กำลังย้ายไฟล์ไปที่ถังขยะ"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"การกู้คืนไฟล์"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"เหลือ <xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other">กำลังคัดลอก <xliff:g id="COUNT_1">%1$d</xliff:g> รายการ</item>
@@ -154,29 +164,26 @@
       <item quantity="other">กำลังลบ <xliff:g id="COUNT_1">%1$d</xliff:g> รายการ</item>
       <item quantity="one">กำลังลบ <xliff:g id="COUNT_0">%1$d</xliff:g> รายการ</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{กำลังย้าย <xliff:g id="COUNT_0">{count}</xliff:g> รายการไปที่ถังขยะ}other{กำลังย้าย <xliff:g id="COUNT_1">{count}</xliff:g> รายการไปที่ถังขยะ}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{กำลังกู้คืน <xliff:g id="COUNT_0">{count}</xliff:g> รายการ}other{กำลังกู้คืน <xliff:g id="COUNT_1">{count}</xliff:g> รายการ}}"</string>
     <string name="undo" msgid="2902438994196400565">"เลิกทำ"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"กำลังเตรียม..."</string>
     <string name="compress_preparing" msgid="7401605598969019696">"กำลังเตรียม..."</string>
     <string name="extract_preparing" msgid="4796626960061745796">"กำลังเตรียม..."</string>
     <string name="move_preparing" msgid="6504239656430530761">"กำลังเตรียม..."</string>
     <string name="delete_preparing" msgid="7339349837842802508">"กำลังเตรียม..."</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"กำลังเตรียม..."</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"กำลังเตรียม..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="other">ไม่สามารถคัดลอก <xliff:g id="COUNT_1">%1$d</xliff:g> รายการ</item>
-      <item quantity="one">ไม่สามารถคัดลอก <xliff:g id="COUNT_0">%1$d</xliff:g> รายการ</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">ไม่สามารถบีบอัด <xliff:g id="COUNT_1">%1$d</xliff:g> ไฟล์</item>
-      <item quantity="one">ไม่สามารถบีบอัด <xliff:g id="COUNT_0">%1$d</xliff:g> ไฟล์</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="other">ไม่สามารถย้าย <xliff:g id="COUNT_1">%1$d</xliff:g> รายการ</item>
-      <item quantity="one">ไม่สามารถย้าย <xliff:g id="COUNT_0">%1$d</xliff:g> รายการ</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="other">ไม่สามารถลบ <xliff:g id="COUNT_1">%1$d</xliff:g> รายการ</item>
-      <item quantity="one">ไม่สามารถลบ <xliff:g id="COUNT_0">%1$d</xliff:g> รายการ</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{คัดลอกไม่ได้ <xliff:g id="COUNT_0">{count}</xliff:g> รายการ}other{คัดลอกไม่ได้ <xliff:g id="COUNT_1">{count}</xliff:g> รายการ}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{บีบอัดไม่ได้ <xliff:g id="COUNT_0">{count}</xliff:g> รายการ}other{บีบอัดไม่ได้ <xliff:g id="COUNT_1">{count}</xliff:g> รายการ}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{แยกไม่ได้ <xliff:g id="COUNT_0">{count}</xliff:g> รายการ}other{แยกไม่ได้ <xliff:g id="COUNT_1">{count}</xliff:g> รายการ}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{ย้ายไม่ได้ <xliff:g id="COUNT_0">{count}</xliff:g> รายการ}other{ย้ายไม่ได้ <xliff:g id="COUNT_1">{count}</xliff:g> รายการ}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{ลบไม่ได้ <xliff:g id="COUNT_0">{count}</xliff:g> รายการ}other{ลบไม่ได้ <xliff:g id="COUNT_1">{count}</xliff:g> รายการ}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{ย้าย <xliff:g id="COUNT_0">{count}</xliff:g> รายการไปที่ถังขยะไม่ได้}other{ย้าย <xliff:g id="COUNT_1">{count}</xliff:g> รายการไปที่ถังขยะไม่ได้}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{กู้คืนไม่ได้ <xliff:g id="COUNT_0">{count}</xliff:g> รายการ}other{กู้คืนไม่ได้ <xliff:g id="COUNT_1">{count}</xliff:g> รายการ}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"แตะเพื่อดูรายละเอียด"</string>
     <string name="close" msgid="905969391788869975">"ปิด"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -207,17 +214,39 @@
       <item quantity="other">คัดลอกไปยังคลิปบอร์ดแล้ว <xliff:g id="COUNT_1">%1$d</xliff:g> รายการ</item>
       <item quantity="one">คัดลอกไปยังคลิปบอร์ดแล้ว <xliff:g id="COUNT_0">%1$d</xliff:g> รายการ</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"อ่านอย่างเดียว"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"คุณจะดูไฟล์เหล่านี้ได้ แต่ระบบไม่รองรับการดำเนินการบางอย่าง"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"ไฟล์เก็บถาวรนี้อยู่ในตำแหน่งแบบอ่านอย่างเดียวและจะแตกไฟล์ที่นี่ไม่ได้"</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"ไม่รองรับการดำเนินการกับไฟล์"</string>
     <string name="file_operation_error" msgid="2234357335716533795">"การดำเนินการกับไฟล์ล้มเหลว"</string>
     <string name="rename_error" msgid="6700093173508118635">"ไม่สามารถเปลี่ยนชื่อเอกสาร"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"นำอุปกรณ์ออก"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"แปลงบางไฟล์แล้ว"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{กำลังคัดลอกไฟล์ \"<xliff:g id="FILENAME">{filename}</xliff:g>\" ไปยัง \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}other{กำลังคัดลอก # ไฟล์ไปยัง \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{กำลังแตกไฟล์ \"<xliff:g id="FILENAME">{filename}</xliff:g>\" ไปยัง \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}other{กำลังแตกไฟล์เก็บถาวร # รายการไปยัง \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{กำลังย้ายไฟล์ \"<xliff:g id="FILENAME">{filename}</xliff:g>\" ไปยัง \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}other{กำลังย้าย # ไฟล์ไปยัง \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{กำลังลบไฟล์ \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}other{กำลังลบ # ไฟล์}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{กำลังย้าย <xliff:g id="FILENAME">{filename}</xliff:g> ไปที่ถังขยะ}other{กำลังย้าย # ไฟล์ไปที่ถังขยะ}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{กำลังกู้คืน <xliff:g id="FILENAME">{filename}</xliff:g>}other{กำลังกู้คืน # ไฟล์}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{กำลังบีบอัดไฟล์ \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}other{กำลังบีบอัด # ไฟล์}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"แสดงความคืบหน้าของไฟล์"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"ความคืบหน้าของไฟล์"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"เสร็จสมบูรณ์"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"ยกเลิกแล้ว"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"ดูรายละเอียด"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="CURRENTBYTES">%1$s</xliff:g> จาก <xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"คัดลอกแล้ว"</string>
     <string name="move_completed" msgid="3981250605092729273">"ย้ายแล้ว"</string>
     <string name="delete_completed" msgid="4149401155614626199">"ลบแล้ว"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"บีบอัดแล้ว"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"บีบอัดแล้ว"</string>
     <string name="extract_completed" msgid="8824595789915249972">"แตกไฟล์แล้ว"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"คัดลอกไม่สำเร็จ"</string>
+    <string name="move_failed" msgid="7692364307225994220">"ย้ายไม่สำเร็จ"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"ลบไม่สำเร็จ"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"บีบอัดไม่สำเร็จ"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"แตกไฟล์ไม่สำเร็จ"</string>
+    <string name="expand_label" msgid="5683357671239615207">"ขยาย"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"ยุบ"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"ให้สิทธิ์ <xliff:g id="APPNAME"><b>^1</b></xliff:g> ในการเข้าถึงไดเรกทอรี <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ใน <xliff:g id="STORAGE"><i>^3</i></xliff:g> ไหม"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"ให้สิทธิ์ <xliff:g id="APPNAME"><b>^1</b></xliff:g> เข้าถึงไดเรกทอรี <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ไหม"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"ให้สิทธิ์ <xliff:g id="APPNAME"><b>^1</b></xliff:g> เข้าถึงข้อมูลของคุณ รวมถึงรูปภาพและวิดีโอใน <xliff:g id="STORAGE"><i>^2</i></xliff:g> ไหม"</string>
@@ -258,6 +287,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"ไม่สามารถแสดงเนื้อหา"</string>
     <string name="sign_in" msgid="6253762676723505592">"ลงชื่อเข้าใช้"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"ที่เก็บถาวร<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"ที่เก็บถาวร"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"เขียนทับ <xliff:g id="NAME">%1$s</xliff:g> ไหม"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"ดำเนินการต่อในพื้นหลัง"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -299,7 +329,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"สร้างโฟลเดอร์ใหม่"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"ค้นหาอุปกรณ์นี้"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"ล้างข้อความ"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"โฟลเดอร์นี้"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"โฟลเดอร์รูท"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"ทุกที่"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"ตลอดเวลา"</string>
@@ -318,7 +347,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"กำลังแสดงในโหมดรายการ"</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"ชื่อไฟล์"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"ซ่อนตัวอย่างไฟล์"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"ไม่มีตัวอย่าง"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"รายละเอียด"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"ข้อมูลทั่วไป"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"ขนาด"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"ประเภท"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"วันที่ที่แก้ไข"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"ซ่อนตัวอย่างไฟล์"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"ตัวอย่างรูปภาพของ <xliff:g id="FILENAME">%s</xliff:g>"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"ซ่อนแผงข้อมูล"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"แสดงแผงข้อมูล"</string>
 </resources>

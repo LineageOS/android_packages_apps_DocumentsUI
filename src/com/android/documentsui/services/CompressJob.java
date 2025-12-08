@@ -16,21 +16,25 @@
 
 package com.android.documentsui.services;
 
-import static android.content.ContentResolver.wrap;
-
-import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.redact;
+import static com.android.documentsui.services.FileOperationService.OPERATION_COMPRESS;
+import static com.android.documentsui.util.FlagUtils.isZipNgFlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Notification;
 import android.app.Notification.Builder;
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Messenger;
 import android.os.ParcelFileDescriptor;
-import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.android.documentsui.R;
 import com.android.documentsui.archives.ArchivesProvider;
@@ -40,26 +44,27 @@ import com.android.documentsui.base.Features;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.clipping.UrisSupplier;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
-// TODO: Stop extending CopyJob.
+/**
+ * CompressJob creates a new ZIP archive and zips the selected items into this archive.
+ * It performs most of its work by delegating it to its base CopyJob class.
+ */
 final class CompressJob extends CopyJob {
 
     private static final String TAG = "CompressJob";
-    private static final String NEW_ARCHIVE_EXTENSION = ".zip";
+    private static final String ZIP_EXTENSION = ".zip";
 
-    private Uri mArchiveUri;
+    private @Nullable Uri mArchiveUri;
+    private @Nullable ContentProviderClient mClient;
 
     /**
-     * Moves files to a destination identified by {@code destination}.
-     * Performs most work by delegating to CopyJob, then deleting
-     * a file after it has been copied.
-     *
-     * @see @link {@link Job} constructor for most param descriptions.
+     * Zips items to a new ZIP archive which will be created in the folder identified by
+     * {@code destination}.
      */
     CompressJob(Context service, Listener listener, String id, DocumentStack destination,
             UrisSupplier srcs, Messenger messenger, Features features) {
-        super(service, listener, id, OPERATION_MOVE, destination, srcs, messenger, features);
+        super(service, listener, id, OPERATION_COMPRESS, destination, srcs, messenger, features);
     }
 
     @Override
@@ -77,14 +82,9 @@ final class CompressJob extends CopyJob {
     }
 
     @Override
-    public Notification getProgressNotification() {
-        return getProgressNotification(getRes(R.string.copy_remaining));
-    }
-
-    @Override
     public Notification getFailureNotification() {
         return getFailureNotification(
-                getRes(R.plurals.compress_error_notification_title),
+                getFailureContentTitle(getRes(R.string.compress_error_notification_title)),
                 getRes(R.drawable.ic_menu_compress));
     }
 
@@ -99,92 +99,96 @@ final class CompressJob extends CopyJob {
             return false;
         }
 
-        final ContentResolver resolver = appContext.getContentResolver();
-
-        // TODO: Move this to DocumentsProvider.
-
-        String displayName;
+        final String displayName;
         if (mResolvedDocs.size() == 1) {
-            displayName = mResolvedDocs.get(0).displayName + NEW_ARCHIVE_EXTENSION;
+            final DocumentInfo doc = mResolvedDocs.get(0);
+            displayName = getArchiveName(doc.displayName, doc.isDirectory());
         } else {
-            displayName =
-                    service.getString(
-                            getRes(R.string.new_archive_file_name), NEW_ARCHIVE_EXTENSION);
+            displayName = getGenericArchiveName();
         }
 
         try {
-            mArchiveUri = DocumentsContract.createDocument(
-                    resolver, mDstInfo.derivedUri, "application/zip", displayName);
+            final ContentResolver resolver = appContext.getContentResolver();
+            mArchiveUri = DocumentsContract.createDocument(resolver, mDstInfo.derivedUri,
+                    "application/zip", displayName);
+            if (mArchiveUri == null) throw new IOException();
+            if (DEBUG) Log.d(TAG, "Created archive " + redact(mArchiveUri));
+
+            mDstInfo = DocumentInfo.fromUri(resolver,
+                    ArchivesProvider.buildUriForArchive(mArchiveUri,
+                            ParcelFileDescriptor.MODE_WRITE_ONLY), UserId.DEFAULT_USER);
+            final ContentProviderClient client = getClient(mDstInfo);
+            ArchivesProvider.acquireArchive(client, mDstInfo.derivedUri);
+            mClient = client;
+            return true;
         } catch (Exception e) {
-            mArchiveUri = null;
-        }
-
-        try {
-            mDstInfo = DocumentInfo.fromUri(resolver, ArchivesProvider.buildUriForArchive(
-                    mArchiveUri, ParcelFileDescriptor.MODE_WRITE_ONLY), UserId.DEFAULT_USER);
-            ArchivesProvider.acquireArchive(getClient(mDstInfo), mDstInfo.derivedUri);
-        } catch (FileNotFoundException e) {
-            Log.e(TAG, "Cannot create document info", e);
-            failureCount = mResourceUris.getItemCount();
-            return false;
-        } catch (RemoteException e) {
-            Log.e(TAG, "Cannot acquire archive", e);
-            failureCount = mResourceUris.getItemCount();
+            Log.e(TAG, "Cannot create archive '" + redact(displayName) + "' in " + redact(mDstInfo),
+                    e);
+            onFileFailed(mResolvedDocs);
             return false;
         }
+    }
 
-        return true;
+    /** Generates a suitable archive name when zipping several items together. */
+    public @NonNull String getGenericArchiveName() {
+        if (isZipNgFlagEnabled()) {
+            return service.getString(getRes(R.string.new_archive_file_name_2)) + ZIP_EXTENSION;
+        } else {
+            return service.getString(getRes(R.string.new_archive_file_name), ZIP_EXTENSION);
+        }
+    }
+
+    /** Generates a suitable archive name when zipping a single item with the given name. */
+    public static @NonNull String getArchiveName(@NonNull String name, boolean isDir) {
+        if (!isDir && isZipNgFlagEnabled()) {
+            // Find the last dot in `name`.
+            final int i = name.lastIndexOf('.');
+            if (i > 0) {
+                // There is a last dot, and it is not the first character of `name`.
+                // Compute the candidate extension length (excluding its leading dot).
+                final int n = name.length() - i - 1;
+                // Consider an extension as valid if it is between 1 and 10 characters long.
+                if (1 <= n && n <= 10) {
+                    // Found a valid filename extension. Drop this extension.
+                    name = name.substring(0, i);
+                }
+            }
+        }
+
+        return name + ZIP_EXTENSION;
     }
 
     @Override
     void finish() {
-        try {
-            ArchivesProvider.releaseArchive(getClient(mDstInfo), mDstInfo.derivedUri);
-        } catch (RemoteException e) {
-            Log.e(TAG, "Cannot release archive", e);
+        if (mClient != null) {
+            try {
+                ArchivesProvider.releaseArchive(mClient, mDstInfo.derivedUri);
+            } catch (Exception e) {
+                Log.e(TAG, "Cannot release archive " + redact(mDstInfo), e);
+            }
         }
 
         // Remove the archive file in case of an error.
-        try {
-            if (!isFinished() || isCanceled()) {
-                DocumentsContract.deleteDocument(wrap(getClient(mArchiveUri)), mArchiveUri);
+        if ((!isFinished() || isCanceled()) && mArchiveUri != null) {
+            try {
+                DocumentsContract.deleteDocument(appContext.getContentResolver(), mArchiveUri);
+            } catch (Exception e) {
+                Log.e(TAG, "Cannot remove partial archive " + redact(mArchiveUri), e);
             }
-        } catch (RemoteException | FileNotFoundException e) {
-            Log.w(TAG, "Cannot clean up after compress error: " + mDstInfo.toString(), e);
         }
 
         super.finish();
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * Only check space for moves across authorities. For now we don't know if the doc in
-     * {@link #mSrcs} is in the same root of destination, and if it's optimized move in the same
-     * root it should succeed regardless of free space, but it's for sure a failure if there is no
-     * enough free space if docs are moved from another authority.
-     */
     @Override
     boolean checkSpace() {
-        // We're unable to say how much space the archive will take, so assume
-        // it will fit.
+        // We're unable to determine how much space the archive will take, so we assume it will fit.
         return true;
-    }
-
-    void processDocument(DocumentInfo src, DocumentInfo dest) throws ResourceException {
-        byteCopyDocument(src, dest);
     }
 
     @Override
     public String toString() {
-        return new StringBuilder()
-                .append("CompressJob")
-                .append("{")
-                .append("id=" + id)
-                .append(", uris=" + mResourceUris)
-                .append(", docs=" + mResolvedDocs)
-                .append(", destination=" + stack)
-                .append("}")
-                .toString();
+        return "CompressJob {id=" + id + ", uris=" + mResourceUris + ", docs=" + mResolvedDocs
+                + ", destination=" + stack + "}";
     }
 }

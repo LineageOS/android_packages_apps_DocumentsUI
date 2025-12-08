@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"Saqlash"</string>
     <string name="menu_share" msgid="4307140947108068356">"Yuborish"</string>
     <string name="menu_delete" msgid="1022254131543256626">"O‘chirish"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"Butunlay oʻchirib tashlash"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"Chiqitdonga tashlash"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"Tiklash"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Hammasini belgilash"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Bekor qilish (*)"</string>
     <string name="menu_select" msgid="1366061076507142387">"Tanlash"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"Nusxalash…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Boshqa joyga olish…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Arxivlash"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"Pochta indeksi"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Arxivdan chiqarish"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"Barchasini ajratish…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"Shu yerga chiqarish"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"Arxivdan chiqarish"</string>
     <string name="menu_browse" msgid="6007716414766674967">"Kezish"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Qayta nomlash"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Axborot olish"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Bu amalga ruxsat berilmagan"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Batafsil axborot olish uchun AT administratoringizga murojaat qiling"</string>
     <string name="root_recent" msgid="1080156975424341623">"Yaqinda"</string>
+    <string name="root_trash" msgid="1869929519939073178">"Chiqitdon"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> bo‘sh"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Xotira xizmatlari"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Tezkor tugmalar"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Ba’zi hujjatlarni o‘chirib bo‘lmadi"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> tadan ortiq fayllarni ulashish imkonsiz"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"Bu amalga ruxsat berilmagan"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"Bu orqali ochish…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"Hech qanday mos ilova oʻrnatilmagan. Play Marketdan birortasini oʻrnating."</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"Play Marketdan qidirish"</string>
     <string name="share_via" msgid="8725082736005677161">"Ulashish"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Fayllar nusxalanmoqda"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Fayllar arxivlanmoqda"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"Arxivdan chiqarilmoqda"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Ko‘chirib o‘tkazilmoqda"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Fayllar o‘chirilmoqda"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"Fayllar chiqitdonda"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"Fayllar tiklanmoqda"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> qoldi"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ta elementdan nusxa olinmoqda.</item>
@@ -154,29 +164,26 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ta element o‘chirib tashlanmoqda.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ta element o‘chirib tashlanmoqda.</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ta element chiqitdonga tashlanmoqda}other{<xliff:g id="COUNT_1">{count}</xliff:g> ta element chiqitdonga tashlanmoqda}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ta obyekt tiklanmoqda}other{<xliff:g id="COUNT_1">{count}</xliff:g> ta obyekt tiklanmoqda}}"</string>
     <string name="undo" msgid="2902438994196400565">"Bekor qilish"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"Tayyorlanmoqda…"</string>
     <string name="compress_preparing" msgid="7401605598969019696">"Tayyorlanmoqda…"</string>
     <string name="extract_preparing" msgid="4796626960061745796">"Tayyorlanmoqda…"</string>
     <string name="move_preparing" msgid="6504239656430530761">"Tayyorlanmoqda…"</string>
     <string name="delete_preparing" msgid="7339349837842802508">"Tayyorlanmoqda…"</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"Tayyorlanmoqda…"</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"Tayyorlanmoqda…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ta elementdan nusxa olib bo‘lmadi</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ta elementdan nusxa olib bo‘lmadi</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ta faylni arxivlab bo‘lmadi</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ta faylni arxivlab bo‘lmadi</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ta elementni ko‘chirib bo‘lmadi</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ta elementni ko‘chirib bo‘lmadi</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ta elementni o‘chirib bo‘lmadi</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ta elementni o‘chirib bo‘lmadi</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ta obyekt nusxalanmadi}other{<xliff:g id="COUNT_1">{count}</xliff:g> ta obyekt nusxalanmadi}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ta obyekt arxivlanmadi}other{<xliff:g id="COUNT_1">{count}</xliff:g> ta obyekt arxivlanmadi}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ta obyekt arxivdan chiqarilmadi}other{<xliff:g id="COUNT_1">{count}</xliff:g> ta obyekt arxivdan chiqarilmadi}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ta obyekt boshqa joyga olinmadi}other{<xliff:g id="COUNT_1">{count}</xliff:g> ta obyekt boshqa joyga olinmadi}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ta obyekt oʻchirilmadi}other{<xliff:g id="COUNT_1">{count}</xliff:g> ta obyekt oʻchirilmadi}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ta element chiqitdonga tashalmadi}other{<xliff:g id="COUNT_1">{count}</xliff:g> ta element chiqitdonga tashlanmadi}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ta obyekt tiklanmadi}other{<xliff:g id="COUNT_1">{count}</xliff:g> ta obyekt tiklanmadi}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Batafsil axborot olish uchun bosing"</string>
     <string name="close" msgid="905969391788869975">"Yopish"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -207,17 +214,39 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ta elementdan vaqtinchalik xotiraga nusxa olindi.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ta elementdan vaqtinchalik xotiraga nusxa olindi.</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"Faqat oʻqish"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"Bu fayllarni koʻrishingiz mumkin, lekin ayrim amallar ishlamaydi"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"Bu arxiv faqat oʻqish mumkin jildda joylashgani sababli uni shu yerga chiqarish imkonsiz."</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"Fayl amallari ishlamayapti."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Fayl amallarini bajarib bo‘lmadi."</string>
     <string name="rename_error" msgid="6700093173508118635">"Hujjatni qayta nomlab bo‘lmadi"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Chiqarish"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Bir nechta fayllar o‘girildi"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g> fayli <xliff:g id="DIRECTORY_0">{directory}</xliff:g> jildiga nusxalanmoqda}other{# ta fayl <xliff:g id="DIRECTORY_1">{directory}</xliff:g> jildiga nusxalanmoqda}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g> arxivi <xliff:g id="DIRECTORY_0">{directory}</xliff:g> jildiga chiqarilmoqda}other{# ta arxiv “<xliff:g id="DIRECTORY_1">{directory}</xliff:g>” jildiga chiqarilmoqda}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g> fayli <xliff:g id="DIRECTORY_0">{directory}</xliff:g> jildiga olinmoqda}other{# ta fayl <xliff:g id="DIRECTORY_1">{directory}</xliff:g> jildiga olinmoqda}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{“<xliff:g id="FILENAME">{filename}</xliff:g>” fayli oʻchirilmoqda}other{# ta fayl oʻchirilmoqda}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g> fayli chiqitdonga tashlanmoqda}other{# ta fayl chiqitdonga tashlanmoqda}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g> fayli tiklanmoqda}other{# ta fayl tiklanmoqda}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{“<xliff:g id="FILENAME">{filename}</xliff:g>” fayli arxivlanmoqda}other{# ta fayl arxivlanmoqda}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"Fayl rivojini chiqarish"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"Fayl qayta ishlanmoqda"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"Bajarildi"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"Bekor qilindi"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"Tafsilotlar"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="CURRENTBYTES">%1$s</xliff:g> / <xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"Nusxalandi"</string>
     <string name="move_completed" msgid="3981250605092729273">"Koʻchirildi"</string>
     <string name="delete_completed" msgid="4149401155614626199">"Oʻchirib tashlandi"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"Siqildi"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"Arxivlandi"</string>
     <string name="extract_completed" msgid="8824595789915249972">"Arxivdan chiqarildi"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"Nusxalanmadi"</string>
+    <string name="move_failed" msgid="7692364307225994220">"Boshqa joyga olinmadi"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"Oʻchirilmadi"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"Arxivlanmadi"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"Arxivdan chiqarilmadi"</string>
+    <string name="expand_label" msgid="5683357671239615207">"Yoyish"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"Yopish"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> ilovasining <xliff:g id="STORAGE"><i>^3</i></xliff:g> xotirasidagi “<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>” jildiga kirishiga ruxsat berilsinmi?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> ilovasiga “<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>” jildidan foydalanishiga ruxsat berilsinmi?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> ilovasiga <xliff:g id="STORAGE"><i>^2</i></xliff:g> xotirasidagi ma’lumotlardan, jumladan, rasmlar va videolardan foydalanishiga ruxsat berilsinmi?"</string>
@@ -258,6 +287,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"Kontentni ko‘rsatib bo‘lmayapti"</string>
     <string name="sign_in" msgid="6253762676723505592">"Kirish"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arxiv<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"Arxivlash"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> fayli almashtirilsinmi?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Fonda davom ettirish"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -299,7 +329,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Yangi jild yaratish"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Shu qurilmadan qidirish"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"Matnni tozalash"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"Shu jild"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"Root jild"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"Hamma yerda"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"Har qanday vaqt"</string>
@@ -318,7 +347,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"Roʻyxat shaklida chiqarilmoqda."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"Fayl nomi"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Faylga razm solishni yopish"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"Razm solish imkonsiz"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"Tafsilotlar"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"Umumiy axborot"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"Hajmi"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"Turi"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"Tahrirlangan sanasi"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Faylga razm solishni yopish"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"<xliff:g id="FILENAME">%s</xliff:g> rasmi eskizi"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"Axborot panelini berkitish"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"Axborot panelini chiqarish"</string>
 </resources>

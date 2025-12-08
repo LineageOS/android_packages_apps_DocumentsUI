@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
@@ -47,6 +48,7 @@ import org.junit.runners.Parameterized.Parameters;
 import java.util.List;
 import java.util.Map;
 
+@SmallTest
 @RunWith(Parameterized.class)
 public class ProfileTabsTest {
 
@@ -454,4 +456,3 @@ public class ProfileTabsTest {
         }
     }
 }
-

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import android.database.Cursor;
-import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.annotations.EnableFlags;
 import android.view.View;
 import android.widget.Space;
 
@@ -39,7 +39,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.State;
 import com.android.documentsui.flags.Flags;
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.OverrideFlagsRule;
 import com.android.documentsui.testing.TestRecyclerView;
 import com.android.documentsui.testing.Views;
 
@@ -56,7 +56,7 @@ import java.util.List;
 public class AccessibilityTest {
 
     @Rule
-    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     private static final List<String> ITEMS = TestData.create(10);
 
@@ -168,7 +168,7 @@ public class AccessibilityTest {
     }
 
     @Test
-    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    @EnableFlags({Flags.FLAG_USE_MATERIAL3})
     public void test_accessibilityActionDescription_DocumentHolder() throws Exception {
         View item = Views.createTestView(/* activated= */ false);
 
@@ -184,7 +184,7 @@ public class AccessibilityTest {
     }
 
     @Test
-    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    @EnableFlags({Flags.FLAG_USE_MATERIAL3})
     public void test_accessibilityActionDescription_DocumentHolder_Selected() throws Exception {
         View item = Views.createTestView(/* activated= */ true);
 
@@ -201,7 +201,7 @@ public class AccessibilityTest {
     }
 
     @Test
-    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    @EnableFlags({Flags.FLAG_USE_MATERIAL3})
     public void test_accessibilityActionDescription_DocumentHolder_Picker() throws Exception {
         initAccessibilityDelegate(State.ACTION_GET_CONTENT);
         View item = Views.createTestView(/* activated= */ false);
@@ -218,7 +218,7 @@ public class AccessibilityTest {
     }
 
     @Test
-    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    @EnableFlags({Flags.FLAG_USE_MATERIAL3})
     public void test_accessibilityActionDescription_DocumentHolder_Selected_Picker()
             throws Exception {
         initAccessibilityDelegate(State.ACTION_GET_CONTENT);

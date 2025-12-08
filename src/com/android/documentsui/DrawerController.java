@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.ColorRes;
 import androidx.appcompat.widget.Toolbar;
@@ -185,13 +186,23 @@ public abstract class DrawerController implements DrawerListener {
         @Override
         public void setOpen(boolean open) {
             View list = mDrawer.findViewById(getRes(R.id.roots_list));
+            ViewGroup mainContainer = mLayout.findViewById(getRes(R.id.main_container));
             if (open) {
                 mLayout.openDrawer(mDrawer);
+                // When the drawer is open, block the main container section (which contains app
+                // bar, file list/grid, etc...) and its children to get focus, so tab cycle will
+                // be restricted inside the drawer.
+                if (isUseMaterial3FlagEnabled() && mainContainer != null) {
+                    mainContainer.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+                }
                 if (list != null) {
                     mDrawer.requestFocus();
                 }
             } else {
                 mLayout.closeDrawer(mDrawer);
+                if (isUseMaterial3FlagEnabled() && mainContainer != null) {
+                    mainContainer.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+                }
                 if (list != null) {
                     mDrawer.clearFocus();
                 }

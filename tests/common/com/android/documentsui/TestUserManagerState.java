@@ -23,6 +23,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 
 import java.util.ArrayList;
@@ -59,6 +60,12 @@ public class TestUserManagerState implements UserManagerState {
 
     @Override
     public Map<UserId, Boolean> getCanForwardToProfileIdMap(Intent intent) {
+        return canFrowardToProfileIdMap;
+    }
+
+    @Override
+    public Map<UserId, Boolean> getCanForwardToProfileIdMapForAllowedUsers(Intent intent,
+            State state) {
         return canFrowardToProfileIdMap;
     }
 

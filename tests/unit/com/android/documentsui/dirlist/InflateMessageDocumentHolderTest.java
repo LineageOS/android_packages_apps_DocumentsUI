@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.util.Material3Config.getRes;
+
 import static com.google.common.truth.Truth.assertThat;
 
 import static org.mockito.Mockito.when;
@@ -26,7 +28,6 @@ import android.os.UserManager;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.test.annotation.UiThreadTest;
 import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -85,8 +86,8 @@ public final class InflateMessageDocumentHolderTest {
         env.getDisplayState().action = State.ACTION_GET_CONTENT;
         env.getDisplayState().supportsCrossProfile = true;
 
-        mContext.setTheme(R.style.DocumentsTheme);
-        mContext.getTheme().applyStyle(R.style.DocumentsDefaultTheme,  /* force= */false);
+        mContext.setTheme(getRes(R.style.DocumentsTheme));
+        mContext.getTheme().applyStyle(getRes(R.style.DocumentsDefaultTheme), /* force= */ false);
 
         isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
         if (isPrivateSpaceEnabled) {
@@ -125,10 +126,14 @@ public final class InflateMessageDocumentHolderTest {
     }
 
     @Test
-    @UiThreadTest
     public void testClickingButtonShouldShowProgressBar() {
         if (SdkLevel.isAtLeastV()) return;
-        mHolder = new InflateMessageDocumentHolder(mContext, /* parent= */null, mTestConfigStore);
+
+        // Decorating this test as @UiThreadTest doesn't seem to work because this uses the
+        // Parameterized test runner rather than the AndroidJUnit4 test runner.
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(() ->
+                mHolder = new InflateMessageDocumentHolder(mContext, /* parent= */null,
+                        mTestConfigStore));
 
         Model.Update error = new Model.Update(
                 new CrossProfileQuietModeException(TestProvidersAccess.OtherUser.USER_ID),

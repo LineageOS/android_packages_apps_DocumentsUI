@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2025 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/peek_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/peek_overlay_scrim"
+    android:clickable="true"
+    android:focusable="false">
+
+    <FrameLayout
+        android:id="@+id/peek_preview_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/peek_preview_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!-- Text and icons using android:white because the underlying black scrim doesn't
+        dynamically change colour. -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/peek_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/peek_topbar_scrim"
+            android:paddingEnd="@dimen/space_extra_small_4"
+            android:paddingStart="@dimen/space_extra_small_4"
+            app:menu="@menu/peek_top_bar_menu"
+            app:navigationContentDescription="@string/a11y_peek_navigation_icon"
+            app:navigationIcon="@drawable/ic_arrow_back_m3"
+            app:navigationIconTint="@android:color/white"
+            app:titleMarginStart="@dimen/space_extra_small_2"
+            app:titleTextAppearance="@style/PeekTopBarTitleText" />
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

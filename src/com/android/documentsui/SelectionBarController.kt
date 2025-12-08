@@ -30,6 +30,7 @@ import com.google.android.material.appbar.MaterialToolbar
  * enabled.
  */
 class SelectionBarController(
+    private val appBar: MaterialToolbar,
     private val selectionBar: MaterialToolbar,
     private val menuManager: MenuManager,
     private val selectionManager: DocsSelectionHelper
@@ -71,10 +72,13 @@ class SelectionBarController(
 
     private fun updateSelectionBar() {
         if (selectedItems.isEmpty) {
+            appBar.visibility = View.VISIBLE
             selectionBar.visibility = View.GONE
             return
         }
         selectionBar.visibility = View.VISIBLE
+        appBar.visibility = View.GONE
+
         val quantity: Int = selectedItems.size()
         val title: String =
             selectionBar.context
@@ -98,7 +102,6 @@ class SelectionBarController(
         if (!isMenuInflated) {
             selectionBar.inflateMenu(getRes(R.menu.action_mode_menu))
         }
-        selectionBar.visibility = View.VISIBLE
         menuManager.updateActionMenu(selectionBar.menu, selectionDetails)
     }
 }

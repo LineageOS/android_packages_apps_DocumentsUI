@@ -61,6 +61,7 @@ public class Injector<T extends ActionHandler> {
     public AppsRowManager appsRowManager;
 
     public PickResult pickResult;
+    public UserManagerProvider userManagerProvider;
 
     public final DebugHelper debugHelper;
 
@@ -92,9 +93,11 @@ public class Injector<T extends ActionHandler> {
             MessageBuilder messages,
             DialogController dialogs,
             Lookup<String, String> fileTypeLookup,
-            Consumer<Collection<RootInfo>> shortcutsUpdater) {
+            Consumer<Collection<RootInfo>> shortcutsUpdater,
+            UserManagerProvider userManagerProvider
+    ) {
         this(features, config, messages, dialogs, fileTypeLookup,
-                shortcutsUpdater, new Model(features));
+                shortcutsUpdater, new Model(features), userManagerProvider);
     }
 
     @VisibleForTesting
@@ -105,7 +108,8 @@ public class Injector<T extends ActionHandler> {
             DialogController dialogs,
             Lookup<String, String> fileTypeLookup,
             Consumer<Collection<RootInfo>> shortcutsUpdater,
-            Model model) {
+            Model model,
+            UserManagerProvider userManagerProvider) {
 
         this.features = features;
         this.config = config;
@@ -115,6 +119,7 @@ public class Injector<T extends ActionHandler> {
         this.shortcutsUpdater = shortcutsUpdater;
         this.mModel = model;
         this.debugHelper = new DebugHelper(this);
+        this.userManagerProvider = userManagerProvider;
     }
 
     public Model getModel() {

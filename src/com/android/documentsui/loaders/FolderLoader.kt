@@ -17,10 +17,14 @@ package com.android.documentsui.loaders
 
 import android.content.ContentProviderClient
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
+import android.os.CancellationSignal
+import android.os.OperationCanceledException
 import android.os.RemoteException
 import android.provider.DocumentsContract
 import android.util.Log
+import androidx.tracing.Trace
 import com.android.documentsui.ContentLock
 import com.android.documentsui.DirectoryResult
 import com.android.documentsui.LockingContentObserver
@@ -29,7 +33,6 @@ import com.android.documentsui.base.DocumentInfo
 import com.android.documentsui.base.FilteringCursorWrapper
 import com.android.documentsui.base.Lookup
 import com.android.documentsui.base.RootInfo
-import com.android.documentsui.base.UserId
 import com.android.documentsui.sorting.SortModel
 
 /**
@@ -51,20 +54,34 @@ import com.android.documentsui.sorting.SortModel
  */
 class FolderLoader(
     context: Context,
-    userIdList: List<UserId>,
     mimeTypeLookup: Lookup<String, String>,
     contentLock: ContentLock,
     private val mRoot: RootInfo,
     private val mListedDir: DocumentInfo?,
     private val mOptions: QueryOptions,
     private val mSortModel: SortModel,
-) : BaseFileLoader(context, userIdList, mimeTypeLookup) {
+) : BaseFileLoader(context, mimeTypeLookup) {
 
     // An observer registered on the cursor to force a reload if the cursor reports a change.
     private val mObserver = LockingContentObserver(contentLock, this::onContentChanged)
 
     // Creates a directory result object corresponding to the current parameters of the loader.
     override fun loadInBackground(): DirectoryResult? {
+        try {
+            Trace.beginSection("documentsui.searchv2.FolderLoader#loadInBackground")
+            return loadInBackgroundInternal()
+        } finally {
+            Trace.endSection()
+        }
+    }
+
+    fun loadInBackgroundInternal(): DirectoryResult? {
+        synchronized(this) {
+            if (isLoadInBackgroundCanceled) {
+                throw OperationCanceledException()
+            }
+            cancelNotifier = CancellationSignal()
+        }
         val rejectBeforeTimestamp = mOptions.getRejectBeforeTimestamp()
         val folderChildrenUri =
             if (mListedDir == null) {
@@ -84,8 +101,19 @@ class FolderLoader(
         if (mListedDir != null && mListedDir.isInArchive) {
             result.setClient(openArchive(folderChildrenUri))
         }
-        var cursor =
-            queryLocation(mRoot.rootId, folderChildrenUri, mOptions.otherQueryArgs, ALL_RESULTS)
+        var cursor: Cursor? = null
+        try {
+            cursor = queryLocation(
+                mRoot,
+                folderChildrenUri,
+                mOptions.otherQueryArgs,
+                ALL_RESULTS
+            )
+        } catch (e: Exception) {
+            result.exception = e
+        } finally {
+            synchronized(this) { cancelNotifier = null }
+        }
         if (cursor == null) {
             cursor = emptyCursor()
             result.setClient(null)

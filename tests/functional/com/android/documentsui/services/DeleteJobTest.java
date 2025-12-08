@@ -26,12 +26,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import android.net.Uri;
-import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.annotations.EnableFlags;
 import android.provider.DocumentsContract;
 
 import androidx.test.filters.MediumTest;
 
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.OverrideFlagsRule;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,7 +42,7 @@ import java.util.List;
 public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
 
     @Rule
-    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     @Test
     public void testDeleteFiles() throws Exception {
@@ -61,7 +61,7 @@ public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testDeleteFilesWithProgress() throws Exception {
         Uri testFile1 = mDocs.createDocument(mSrcRoot, "text/plain", "test1.txt");
         mDocs.writeDocument(testFile1, HAM_BYTES);
@@ -105,7 +105,7 @@ public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testDeleteFilesWithProgress_NoSrcParent() throws Exception {
         Uri testFile1 = mDocs.createDocument(mSrcRoot, "text/plain", "test1.txt");
         mDocs.writeDocument(testFile1, HAM_BYTES);
@@ -126,7 +126,7 @@ public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testDeleteSingleFile_ProgressMessage() throws Exception {
         Uri testFile = mDocs.createDocument(mSrcRoot, "text/plain", "test1.txt");
         mDocs.writeDocument(testFile, HAM_BYTES);
@@ -137,7 +137,7 @@ public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
         assertEquals(Job.STATE_CREATED, progress.state);
         assertEquals(OPERATION_DELETE, progress.operationType);
         assertFalse(progress.hasFailures);
-        assertEquals("Deleting test1.txt", progress.msg);
+        assertEquals("Deleting “test1.txt”", progress.msg);
 
         job.run();
         mJobListener.waitForFinished();
@@ -146,7 +146,7 @@ public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
         assertEquals(Job.STATE_COMPLETED, progress.state);
         assertEquals(OPERATION_DELETE, progress.operationType);
         assertFalse(progress.hasFailures);
-        assertEquals("Deleting test1.txt", progress.msg);
+        assertEquals("Deleting “test1.txt”", progress.msg);
     }
 
     /**

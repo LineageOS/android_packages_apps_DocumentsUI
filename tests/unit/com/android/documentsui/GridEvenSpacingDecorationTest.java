@@ -23,15 +23,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import android.graphics.Rect;
-import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.annotations.DesktopTest;
+import android.platform.test.annotations.EnableFlags;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.dirlist.GridEvenSpacingDecoration;
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.OverrideFlagsRule;
 import com.android.documentsui.testing.TestRecyclerView;
 
 import org.junit.Before;
@@ -42,10 +44,11 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 
-@RequiresFlagsEnabled(FLAG_USE_MATERIAL3)
+@SmallTest
+@EnableFlags(FLAG_USE_MATERIAL3)
 public class GridEvenSpacingDecorationTest {
     @Rule
-    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     private static final int ITEM_WIDTH = 100;
     private static final int ITEM_HEIGHT = 100;
@@ -76,6 +79,7 @@ public class GridEvenSpacingDecorationTest {
         mGridEvenSpacingDecoration = new GridEvenSpacingDecoration();
     }
 
+    @DesktopTest(cujs = {"b/434068789", "b/434068180", "b/434068480"})
     @Test
     public void testPerfectFit_noRecViewPadding_noItemMargins() {
         // ITEM_COUNT items per row.
@@ -94,6 +98,7 @@ public class GridEvenSpacingDecorationTest {
         }
     }
 
+    @DesktopTest(cujs = {"b/434068789", "b/434068180", "b/434068480"})
     @Test
     public void testPerfectFit_recViewPadding_itemMargins() {
         // ITEM_COUNT items per row.
@@ -121,6 +126,7 @@ public class GridEvenSpacingDecorationTest {
         }
     }
 
+    @DesktopTest(cujs = {"b/434068789", "b/434068180", "b/434068480"})
     @Test
     public void testExtraSpace_SpaceLessThanOneItem() {
         // ITEM_COUNT items per row.
@@ -152,6 +158,7 @@ public class GridEvenSpacingDecorationTest {
         }
     }
 
+    @DesktopTest(cujs = {"b/434068789", "b/434068180", "b/434068480"})
     @Test
     public void testExtraSpace_SpaceMoreThanOneItem() {
         // ITEM_COUNT+1 items per row.
@@ -184,6 +191,7 @@ public class GridEvenSpacingDecorationTest {
         }
     }
 
+    @DesktopTest(cujs = {"b/434068789", "b/434068180", "b/434068480"})
     @Test
     public void perfectFit_testMultipleRows() {
         // ITEM_COUNT-1 items per row.
@@ -213,6 +221,7 @@ public class GridEvenSpacingDecorationTest {
         }
     }
 
+    @DesktopTest(cujs = {"b/434068789", "b/434068180", "b/434068480"})
     @Test
     public void testExtraSpace_testMultipleRows() {
         // ITEM_COUNT-1 items per row.

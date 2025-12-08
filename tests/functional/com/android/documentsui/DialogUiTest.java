@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -42,6 +44,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.dirlist.RenameDocumentFragment;
 import com.android.documentsui.files.DeleteDocumentFragment;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.files.NoApplicationFragment;
 import com.android.documentsui.queries.SearchFragment;
 import com.android.documentsui.sorting.SortListFragment;
 import com.android.documentsui.sorting.SortModel;
@@ -90,10 +93,19 @@ public class DialogUiTest {
         mCreateDirectoryFragment = null;
     }
 
+    void openCreateDirectoryFragmentOnMainThread() {
+        InstrumentationRegistry.getInstrumentation()
+                .runOnMainSync(
+                        () -> {
+                            CreateDirectoryFragment.show(mFragmentManager);
+                            mFragmentManager.executePendingTransactions();
+                        });
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+    }
+
     @Test
     public void testCreateDialogShows() throws Throwable {
-        mActivityTestRule.runOnUiThread(() -> CreateDirectoryFragment.show(mFragmentManager));
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        openCreateDirectoryFragmentOnMainThread();
         mCreateDirectoryFragment =
                 (CreateDirectoryFragment) mFragmentManager.findFragmentByTag(CREATE_FRAGEMENT_TAG);
 
@@ -103,8 +115,7 @@ public class DialogUiTest {
 
     @Test
     public void testCreateDialogShowsDismiss() throws Throwable {
-        mActivityTestRule.runOnUiThread(() -> CreateDirectoryFragment.show(mFragmentManager));
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        openCreateDirectoryFragmentOnMainThread();
         mCreateDirectoryFragment =
                 (CreateDirectoryFragment) mFragmentManager.findFragmentByTag(CREATE_FRAGEMENT_TAG);
 
@@ -120,15 +131,27 @@ public class DialogUiTest {
     @Test
     public void testCreateDialogShows_textInputEditText_shouldNotTruncateOnPortrait()
             throws Throwable {
-        mActivityTestRule.runOnUiThread(() -> CreateDirectoryFragment.show(mFragmentManager));
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        openCreateDirectoryFragmentOnMainThread();
         mCreateDirectoryFragment =
                 (CreateDirectoryFragment) mFragmentManager.findFragmentByTag(CREATE_FRAGEMENT_TAG);
 
         final TextInputEditText inputView =
                 mCreateDirectoryFragment.getDialog().findViewById(android.R.id.text1);
 
-        assertTrue(inputView.getHeight() > getInputTextHeight(inputView));
+        assertThat(inputView.getHeight()).isGreaterThan(getInputTextHeight(inputView));
+    }
+
+    @Test
+    public void testNoAppDialogShows() throws Throwable {
+        DocumentInfo doc = new DocumentInfo();
+        doc.displayName = "doc.pdf";
+        mActivityTestRule.runOnUiThread(() -> NoApplicationFragment.show(mFragmentManager, doc));
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        NoApplicationFragment dialog =
+                (NoApplicationFragment) mFragmentManager.findFragmentByTag("NoApplicationFragment");
+
+        assertNotNull("Dialog was null", dialog.getDialog());
+        assertTrue("Dialog was not being shown", dialog.getDialog().isShowing());
     }
 
     @Test
@@ -140,16 +163,14 @@ public class DialogUiTest {
         mActivityTestRule.launchActivity(mFileActivityIntent);
         mFragmentManager = mActivityTestRule.getActivity().getSupportFragmentManager();
 
-        mActivityTestRule.runOnUiThread(() -> CreateDirectoryFragment.show(mFragmentManager));
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        openCreateDirectoryFragmentOnMainThread();
         mCreateDirectoryFragment =
                 (CreateDirectoryFragment) mFragmentManager.findFragmentByTag(CREATE_FRAGEMENT_TAG);
 
         final TextInputEditText inputView =
                 mCreateDirectoryFragment.getDialog().getWindow().findViewById(android.R.id.text1);
 
-        assertTrue(inputView.getHeight() > getInputTextHeight(inputView));
-
+        assertThat(inputView.getHeight()).isGreaterThan(getInputTextHeight(inputView));
     }
 
     @Test
@@ -161,15 +182,14 @@ public class DialogUiTest {
         mActivityTestRule.launchActivity(mFileActivityIntent);
         mFragmentManager = mActivityTestRule.getActivity().getSupportFragmentManager();
 
-        mActivityTestRule.runOnUiThread(() -> CreateDirectoryFragment.show(mFragmentManager));
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        openCreateDirectoryFragmentOnMainThread();
         mCreateDirectoryFragment =
                 (CreateDirectoryFragment) mFragmentManager.findFragmentByTag(CREATE_FRAGEMENT_TAG);
 
         final TextInputEditText inputView =
                 mCreateDirectoryFragment.getDialog().getWindow().findViewById(android.R.id.text1);
 
-        assertTrue(inputView.getHeight() > getInputTextHeight(inputView));
+        assertThat(inputView.getHeight()).isGreaterThan(getInputTextHeight(inputView));
     }
 
     @Test
@@ -181,19 +201,19 @@ public class DialogUiTest {
         mActivityTestRule.launchActivity(mFileActivityIntent);
         mFragmentManager = mActivityTestRule.getActivity().getSupportFragmentManager();
 
-        mActivityTestRule.runOnUiThread(() -> CreateDirectoryFragment.show(mFragmentManager));
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        openCreateDirectoryFragmentOnMainThread();
+
         mCreateDirectoryFragment =
                 (CreateDirectoryFragment) mFragmentManager.findFragmentByTag(CREATE_FRAGEMENT_TAG);
 
         final TextInputEditText inputView =
                 mCreateDirectoryFragment.getDialog().getWindow().findViewById(android.R.id.text1);
 
-        assertTrue(inputView.getHeight() > getInputTextHeight(inputView));
+        assertThat(inputView.getHeight()).isGreaterThan(getInputTextHeight(inputView));
     }
 
     @Test
-    @Ignore
+    @Ignore("TODO(b/437236527): re-enable")
     public void testCreateDirectoryFragmentShows_textInputEditText_shouldNotTruncateOnLandscape()
             throws Throwable {
         switchOrientation(mActivityTestRule.getActivity());
@@ -203,8 +223,7 @@ public class DialogUiTest {
         mActivityTestRule.launchActivity(mFileActivityIntent);
         mFragmentManager = mActivityTestRule.getActivity().getSupportFragmentManager();
 
-        mActivityTestRule.runOnUiThread(() -> CreateDirectoryFragment.show(mFragmentManager));
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        openCreateDirectoryFragmentOnMainThread();
         mCreateDirectoryFragment =
                 (CreateDirectoryFragment) mFragmentManager.findFragmentByTag(CREATE_FRAGEMENT_TAG);
 
@@ -260,6 +279,14 @@ public class DialogUiTest {
         SortModel sortModel = Mockito.mock(SortModel.class);
 
         SortListFragment.show(mFragmentManager, sortModel);
+    }
+
+    @Test
+    public void testNoAppDialog_skipWhenStateSaved() {
+        mFragmentManager = Mockito.mock(FragmentManager.class);
+        Mockito.when(mFragmentManager.isStateSaved()).thenReturn(true);
+
+        NoApplicationFragment.show(mFragmentManager, new DocumentInfo());
     }
 
     private static int getInputTextHeight(TextInputEditText v) {

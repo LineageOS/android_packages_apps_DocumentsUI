@@ -53,8 +53,8 @@ public final class DocumentItemDetails extends ItemDetails<String> {
     }
 
     @Override
-    public boolean inSelectionHotspot(MotionEvent e) {
-        return mDocumentHolder.inSelectRegion(e);
+    public int classifySelectionHotspot(MotionEvent e) {
+        return mDocumentHolder.classifySelectionHotspot(e);
     }
 
     public boolean inPreviewIconHotspot(MotionEvent e) {

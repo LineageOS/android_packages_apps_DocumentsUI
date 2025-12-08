@@ -19,6 +19,7 @@ package com.android.documentsui;
 import static androidx.core.util.Preconditions.checkNotNull;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.util.FlagUtils.isSupportVisibleBackgroundUserFlagEnabled;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -112,6 +113,13 @@ public interface UserIdManager {
             mCurrentUser = checkNotNull(currentUser);
             mIsDeviceSupported = isDeviceSupported;
 
+            if (isSupportVisibleBackgroundUserFlagEnabled()
+                    && mCurrentUser.isVisibleBackgroundFullUser(mContext)) {
+                // The visible background user does not have profile users.
+                // Visible background users should not be affected by events related to profile
+                // users.
+                return;
+            }
 
             IntentFilter filter = new IntentFilter();
             filter.addAction(Intent.ACTION_MANAGED_PROFILE_ADDED);

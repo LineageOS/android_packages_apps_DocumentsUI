@@ -16,7 +16,9 @@
 package com.android.documentsui
 
 import android.app.Activity
+import android.app.ActivityOptions
 import android.app.UiAutomation
+import android.app.WindowConfiguration
 import android.content.Context
 import android.content.Intent
 import android.os.RemoteException
@@ -34,9 +36,16 @@ import com.android.documentsui.base.RootInfo
 import com.android.documentsui.base.UserId
 import com.android.documentsui.bots.Bots
 import com.android.documentsui.files.FilesActivity
+import com.android.documentsui.util.FlagUtils.Companion.isDesktopFileHandlingFlagEnabled
+import com.android.documentsui.util.FlagUtils.Companion.isSearchV2Enabled
+import com.android.documentsui.util.FlagUtils.Companion.isUseMaterial3FlagEnabled
+import com.android.documentsui.util.FlagUtils.Companion.isUsePeekPreviewFlagEnabled
+import com.android.documentsui.util.FlagUtils.Companion.isVisualSignalsFlagEnabled
+import com.android.documentsui.util.FlagUtils.Companion.isZipNgFlagEnabled
 import java.io.IOException
 import org.junit.After
 import org.junit.Before
+import org.junit.runner.RunWith
 
 /**
  * Provides basic test environment for UI tests:
@@ -44,6 +53,7 @@ import org.junit.Before
  * - Creates and gives access to test root directories and test files
  * - Cleans up the test environment
  */
+@RunWith(TestRunner::class)
 abstract class ActivityTestJunit4<T : Activity?> {
     lateinit var bots: Bots
 
@@ -124,7 +134,11 @@ abstract class ActivityTestJunit4<T : Activity?> {
         disableScreenOffAndSleepTimeouts()
 
         setupTestingRoots()
+        ActivityTest.closeNonDocsUiWindows(context, device)
         launchActivity()
+
+        logLayout()
+        logFeatureFlags()
 
         // Since at the launch of activity, ROOT_0 and ROOT_1 have no files, drawer will
         // automatically open for phone devices. Espresso register click() as (x, y) MotionEvents,
@@ -143,29 +157,44 @@ abstract class ActivityTestJunit4<T : Activity?> {
     protected open fun launchActivity() {
         val intent = Intent(context, FilesActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-        if (this.initialRoot != null) {
+        val root = this.initialRoot
+        if (root != null) {
             intent.setAction(Intent.ACTION_VIEW)
-            intent.setDataAndType(
-                this.initialRoot!!.uri,
-                DocumentsContract.Root.MIME_TYPE_ITEM
-            )
+            intent.setDataAndType(root.uri, DocumentsContract.Root.MIME_TYPE_ITEM)
         }
-        mActivityScenario = ActivityScenario.launch(intent)
+
+        // If the TestRunner is running tests with different screen sizes, we need to launch the
+        // activity in fullscreen mode so that the activity takes up the full device screen.
+        if (System.getProperty("documentsui_fullscreen") != null) {
+            Log.d(TAG, "using launchWindowingMode=FULLSCREEN")
+            val options = ActivityOptions.makeBasic()
+            options.setLaunchWindowingMode(WindowConfiguration.WINDOWING_MODE_FULLSCREEN)
+            mActivityScenario = ActivityScenario.launch(intent, options.toBundle())
+        } else {
+            mActivityScenario = ActivityScenario.launch(intent)
+        }
+    }
+
+    protected fun setNotificationAccess(enabled: Boolean) {
+        mActivityScenario?.onActivity(
+            { activity ->
+                try {
+                    bots.notifications.setNotificationAccess(activity, enabled)
+                } catch (e: Exception) {
+                    Log.d(TAG, "Cannot set notification access. ", e)
+                }
+            }
+        )
     }
 
     @Throws(IOException::class)
     private fun disableScreenOffAndSleepTimeouts() {
-        initialScreenOffTimeoutValue = device!!.executeShellCommand(
-            "settings get system screen_off_timeout"
-        )
-        initialSleepTimeoutValue = device!!.executeShellCommand(
-            "settings get secure sleep_timeout"
-        )
-        Log.w(
-            TAG,
-            """initialScreenOffTimeoutValue = '$initialScreenOffTimeoutValue'
-                |initialSleepTimeoutValue = '$initialSleepTimeoutValue'""".trimMargin()
-        )
+        initialScreenOffTimeoutValue =
+            device!!.executeShellCommand("settings get system screen_off_timeout").trimEnd()
+        initialSleepTimeoutValue =
+            device!!.executeShellCommand("settings get secure sleep_timeout").trimEnd()
+        Log.d(TAG, "initialScreenOffTimeoutValue = $initialScreenOffTimeoutValue")
+        Log.d(TAG, "initialSleepTimeoutValue = $initialSleepTimeoutValue")
         device!!.executeShellCommand("settings put system screen_off_timeout -1")
         device!!.executeShellCommand("settings put secure sleep_timeout -1")
     }
@@ -189,6 +218,31 @@ abstract class ActivityTestJunit4<T : Activity?> {
             initialScreenOffTimeoutValue = null
             initialSleepTimeoutValue = null
         }
+    }
+
+    private fun logLayout() {
+        val layoutType = if (bots.main.inFixedLayout()) {
+            "Fixed layout"
+        } else if (bots.main.inNavRailLayout()) {
+            "Nav rail layout"
+        } else if (bots.main.inDrawerLayout()) {
+            "Drawer layout"
+        } else {
+            "Unknown layout (should not happen)"
+        }
+        Log.d(TAG, "Test is running with layout: $layoutType.")
+    }
+
+    private fun logFeatureFlags() {
+        Log.d(TAG, "Flag isUseMaterial3FlagEnabled() = ${isUseMaterial3FlagEnabled()}")
+        Log.d(
+            TAG,
+            "Flag isDesktopFileHandlingFlagEnabled() = ${isDesktopFileHandlingFlagEnabled()}"
+        )
+        Log.d(TAG, "Flag isSearchV2Enabled() = ${isSearchV2Enabled()}")
+        Log.d(TAG, "Flag isUsePeekPreviewFlagEnabled() = ${isUsePeekPreviewFlagEnabled()}")
+        Log.d(TAG, "Flag isVisualSignalsFlagEnabled() = ${isVisualSignalsFlagEnabled()}")
+        Log.d(TAG, "Flag isZipNgFlagEnabled() = ${isZipNgFlagEnabled()}")
     }
 
     companion object {

@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.queries
 
+import android.content.Context
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.view.MenuItem
@@ -23,11 +24,12 @@ import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.iterator
+import com.android.documentsui.MetricConsts
 import com.android.documentsui.R
+import com.android.documentsui.base.RootInfo
 import com.android.documentsui.util.FlagUtils
 import com.android.documentsui.util.Material3Config.Companion.getRes
 import com.google.android.material.chip.Chip
-import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -40,7 +42,12 @@ class SearchOptionsController(private val container: View?) {
     // The value of currently selected options. Initialized to sensible defaults.
     private var lastModifiedOption: LastModifiedOption = LastModifiedOption.ANY_TIME
     private var fileTypeOption: FileTypeOption = FileTypeOption.ANY_TYPE
-    private var locationOption: SearchLocationOption = SearchLocationOption.CURRENT_FOLDER
+    private var locationOption: SearchLocationOption = SearchLocationOption.ROOT_FOLDER
+
+    // We dynamically set the name of the root folder, based on where in the directory tree
+    // the user is located at the time search is opened. This does not change while the search
+    // options are visible.
+    private var currentRoot: RootInfo? = null
 
     // A single listener to query option change events.
     private var optionsListener: SearchOptionsListener? = null
@@ -75,6 +82,19 @@ class SearchOptionsController(private val container: View?) {
     }
 
     /**
+     * Explicitly sets the file type based on a MetricConsts.
+     */
+    public fun setSelectedFileType(@MetricConsts.SearchType typeId: Int) {
+        fileTypeOption = when (typeId) {
+            MetricConsts.TYPE_CHIP_AUDIOS -> FileTypeOption.AUDIO
+            MetricConsts.TYPE_CHIP_DOCS -> FileTypeOption.DOCUMENTS
+            MetricConsts.TYPE_CHIP_IMAGES -> FileTypeOption.IMAGES
+            MetricConsts.TYPE_CHIP_VIDEOS -> FileTypeOption.VIDEO
+            else -> throw IllegalArgumentException("Cannot convert $typeId to file type")
+        }
+    }
+
+    /**
      * Helper function that removes repetitive setup for each of the option triggers.
      */
     private fun makeTrigger(
@@ -102,6 +122,7 @@ class SearchOptionsController(private val container: View?) {
             return false
         }
         locationOption = selectedOption
+        updateUiForRoot()
         return true
     }
 
@@ -196,10 +217,79 @@ class SearchOptionsController(private val container: View?) {
     }
 
     /**
-     * Sets the visibility of the search drop down options bar.
+     * Shows the search dropdown options bar. The root must be the root to which search is limited,
+     * if the user selects current root search, rather than everywhere search.
+     * @param root The current root in the directory tree.
      */
-    fun setVisible(visible: Boolean) {
-        container?.visibility = if (visible) View.VISIBLE else View.GONE
+    fun show(root: RootInfo?) {
+        if (container == null) {
+            return
+        }
+        currentRoot = root
+        if (isInRecentRoot()) {
+            // If the user goes into in the Recents view from another root we force the location
+            // to the ROOT_FOLDER, and the last modified option to 30 days to match the Recent
+            // view defaults.
+            lastModifiedOption = LastModifiedOption.LAST_30_DAYS
+            locationOption = SearchLocationOption.ROOT_FOLDER
+        }
+        updateUiForRoot()
+        container.visibility = View.VISIBLE
+    }
+
+    /**
+     * Hides the dropdown bar by making it GONE.
+     */
+    fun hide() {
+        container?.visibility = View.GONE
+    }
+
+    /**
+     * Returns the text to be shown in the root folder. This method uses the current root's title,
+     * if available, otherwise falls back to the hardcoded default.
+     */
+    private fun getRootFolderFallbackText(context: Context): String {
+        return currentRoot?.title ?: context.getString(R.string.search_location_root_folder)
+    }
+
+    /**
+     * @return A safe version for checking if the current location is the Recents view.
+     */
+    private fun isInRecentRoot(): Boolean {
+        return currentRoot?.isRecents ?: false
+    }
+
+    /**
+     * Alters the default UI based on the current root. If this method was called from the show()
+     * method, it adjusts the defaults
+     */
+    private fun updateUiForRoot() {
+        if (container == null) {
+            return
+        }
+        val searchingRoot = locationOption == SearchLocationOption.ROOT_FOLDER
+        if (searchingRoot) {
+            // If the locationOption is the root folder, updated the location trigger text.
+            val chip = container.findViewById<Chip>(R.id.search_location_trigger)
+            if (chip != null) {
+                chip.text = getRootFolderFallbackText(container.context)
+            }
+        }
+        val chip = container.findViewById<Chip>(getRes(R.id.search_last_modified_trigger))
+        if (chip != null) {
+           if (isInRecentRoot()) {
+               // In the Recents view last modified should be visible only when the user is
+               // searching everywhere.
+               chip.visibility = if (searchingRoot) View.GONE else View.VISIBLE
+               chip.text = container.resources.getString(lastModifiedOption.textId)
+           } else {
+               chip.visibility = View.VISIBLE
+           }
+        }
+        val typeChip = container.findViewById<Chip>(getRes(R.id.search_file_type_trigger))
+        if (typeChip != null) {
+            typeChip.text = container.resources.getString(fileTypeOption.textId)
+        }
     }
 
     /**
@@ -224,8 +314,11 @@ class SearchOptionsController(private val container: View?) {
             }
             val selectedValue = getSelectedMenuOption(menuRes)
             for (menuItem in menu) {
+                if (menuItem.itemId == R.id.root_folder_option) {
+                    menuItem.title = getRootFolderFallbackText(chip.context)
+                }
                 if (menuItem.itemId != selectedValue) {
-                   menuItem.icon = null
+                    menuItem.icon = null
                 }
             }
             show()

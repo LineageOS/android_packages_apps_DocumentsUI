@@ -34,6 +34,7 @@ import android.content.pm.PackageManager;
 import android.os.UserHandle;
 
 import androidx.core.util.Consumer;
+import androidx.test.filters.LargeTest;
 import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
@@ -164,6 +165,7 @@ public class ThemeOverlayManagerTest {
                 mUserHandle);
     }
 
+    @LargeTest
     @Test
     public void testDefaultEnabled_launchDocumentsUI_shouldSuccess() throws Exception {
         final Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);

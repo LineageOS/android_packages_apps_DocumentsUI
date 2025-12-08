@@ -16,10 +16,13 @@
 
 package com.android.documentsui;
 
+import static android.multiuser.Flags.FLAG_ENABLE_MOVING_CONTENT_INTO_PRIVATE_SPACE;
+
 import static com.android.documentsui.DevicePolicyResources.Drawables.Style.SOLID_COLORED;
 import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFILE_ICON;
 import static com.android.documentsui.DevicePolicyResources.Strings.PERSONAL_TAB;
 import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
+import static com.android.documentsui.flags.Flags.FLAG_SUPPORT_VISIBLE_BACKGROUND_USER;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -44,11 +47,16 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.flag.junit.CheckFlagsRule;
+import android.platform.test.flag.junit.DeviceFlagsValueProvider;
+import android.util.ArraySet;
 
 import androidx.test.filters.SdkSuppress;
 import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.UserManagers;
 import com.android.documentsui.util.VersionUtils;
@@ -57,6 +65,8 @@ import com.android.modules.utils.build.SdkLevel;
 import com.google.common.collect.Lists;
 
 import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -105,6 +115,7 @@ public class UserManagerStateTest {
     private final UserHandle mPrivateUser = UserHandle.of(mCurrentUserId + 20);
     private final UserHandle mOtherUser = UserHandle.of(mCurrentUserId + 30);
     private final UserHandle mNormalUser = UserHandle.of(mCurrentUserId + 40);
+    private final UserHandle mVisibleBackgroundUser = UserHandle.of(mCurrentUserId + 50);
 
     private final ResolveInfo mMockInfoPrimaryUser =
             new ReflectedResolveInfo(mPrimaryUser.getIdentifier());
@@ -120,10 +131,15 @@ public class UserManagerStateTest {
     private final DevicePolicyManager mDevicePolicyManager = mock(DevicePolicyManager.class);
     private UserManagerState mUserManagerState;
 
+    @Rule
+    public final CheckFlagsRule mCheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule();
+
     @Before
     public void setup() throws Exception {
         when(mMockContext.getApplicationContext()).thenReturn(mMockContext);
         when(mMockContext.createContextAsUser(any(UserHandle.class), anyInt()))
+                .thenReturn(mMockContext);
+        when(mMockContext.createPackageContextAsUser(any(), anyInt(), any(UserHandle.class)))
                 .thenReturn(mMockContext);
 
         when(mMockUserManager.isManagedProfile(mManagedUser.getIdentifier())).thenReturn(true);
@@ -171,6 +187,13 @@ public class UserManagerStateTest {
                                     UserProperties
                                             .CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT)
                             .build();
+            UserProperties visibleBackgroundUserProperties =
+                    new UserProperties.Builder()
+                            .setShowInSharingSurfaces(UserProperties.SHOW_IN_SHARING_SURFACES_NO)
+                            .setCrossProfileContentSharingStrategy(
+                                    UserProperties
+                                            .CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT)
+                            .build();
             when(mMockUserManager.getUserProperties(mSystemUser)).thenReturn(systemUserProperties);
             when(mMockUserManager.getUserProperties(mManagedUser))
                     .thenReturn(managedUserProperties);
@@ -178,6 +201,8 @@ public class UserManagerStateTest {
                     .thenReturn(privateUserProperties);
             when(mMockUserManager.getUserProperties(mOtherUser)).thenReturn(otherUserProperties);
             when(mMockUserManager.getUserProperties(mNormalUser)).thenReturn(normalUserProperties);
+            when(mMockUserManager.getUserProperties(mVisibleBackgroundUser))
+                    .thenReturn(visibleBackgroundUserProperties);
         }
 
         when(mMockUserManager.getProfileParent(mSystemUser)).thenReturn(null);
@@ -185,6 +210,7 @@ public class UserManagerStateTest {
         when(mMockUserManager.getProfileParent(mPrivateUser)).thenReturn(mPrimaryUser);
         when(mMockUserManager.getProfileParent(mOtherUser)).thenReturn(mPrimaryUser);
         when(mMockUserManager.getProfileParent(mNormalUser)).thenReturn(null);
+        when(mMockUserManager.getProfileParent(mVisibleBackgroundUser)).thenReturn(null);
 
         when(mMockContext.getPackageManager()).thenReturn(mMockPackageManager);
         when(mMockContext.getSystemServiceName(UserManager.class)).thenReturn("mMockUserManager");
@@ -266,6 +292,30 @@ public class UserManagerStateTest {
                 .that(mUserManagerState.getUserIds())
                 .containsExactly(
                         UserId.of(mSystemUser), UserId.of(mManagedUser), UserId.of(mPrivateUser));
+    }
+
+    /*
+     * This test verifies that the UserManagerState returns the list of user ids
+     * that only includes the visible background user when the display owner user is the
+     * visible background user.
+     */
+    @Test
+    @RequiresFlagsEnabled({FLAG_SUPPORT_VISIBLE_BACKGROUND_USER})
+    public void testGetUserIds_onlyVisibleBackgroundUser_returnsVisibleBackgroundUser() {
+        // This is a test to verify the functionality of visible background non-profile users.
+        // The feature for visible background non-profile users has been supported since U-OS.
+        if (!SdkLevel.isAtLeastU()) return;
+
+        UserId displayOwnerUser = UserId.of(mVisibleBackgroundUser);
+        initializeUserManagerState(displayOwnerUser,
+                Lists.newArrayList(mVisibleBackgroundUser));
+        when(mMockUserManager.isUserForeground()).thenReturn(false);
+        when(mMockUserManager.isProfile()).thenReturn(false);
+        when(mMockUserManager.isUserVisible()).thenReturn(true);
+
+        assertWithMessage("getUserIds returns unexpected list of user ids")
+                .that(mUserManagerState.getUserIds())
+                .containsExactly(displayOwnerUser);
     }
 
     @Test
@@ -754,6 +804,50 @@ public class UserManagerStateTest {
                 .isEqualTo(expectedCanForwardToProfileIdMapAfterIntent);
     }
 
+    /*
+     * This test verifies that the UserManagerState does not change its state
+     * when the intent action is ACTION_PROFILE_AVAILABLE for a visible background user.
+     */
+    @Test
+    @RequiresFlagsEnabled({FLAG_SUPPORT_VISIBLE_BACKGROUND_USER})
+    public void testOnProfileStatusChange_visibleBackgroundUserNotAffected() {
+        // This is a test to verify the functionality of visible background non-profile users.
+        // The feature for visible background non-profile users has been supported since U-OS.
+        if (!SdkLevel.isAtLeastU()) return;
+
+        UserId privateUser = UserId.of(mPrivateUser);
+        UserId visibleBackgroundUserId = UserId.of(mVisibleBackgroundUser);
+
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfoManagedUser);
+        when(mMockUserManager.getVisibleUsers())
+                .thenReturn(new ArraySet(new UserHandle[]{mSystemUser, mVisibleBackgroundUser}));
+        when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
+                mMockResolveInfoList);
+
+        initializeUserManagerState(visibleBackgroundUserId,
+                Lists.newArrayList(mVisibleBackgroundUser));
+        when(mMockUserManager.isUserForeground()).thenReturn(false);
+        when(mMockUserManager.isProfile()).thenReturn(false);
+        when(mMockUserManager.isUserVisible()).thenReturn(true);
+
+        List<UserId> userIdsBeforeIntent = new ArrayList<>(mUserManagerState.getUserIds());
+        Map<UserId, Boolean> canForwardToProfileIdMapBeforeIntent = new HashMap<>(
+                mUserManagerState.getCanForwardToProfileIdMap(mMockIntent));
+
+        String action = Intent.ACTION_PROFILE_AVAILABLE;
+        mUserManagerState.onProfileActionStatusChange(action, privateUser);
+
+        assertWithMessage(
+                "UserIds list should be same before and after receiving intent: " + action)
+                .that(mUserManagerState.getUserIds()).isEqualTo(userIdsBeforeIntent);
+        assertWithMessage(
+                "CanForwardToLabelMap should be same before and after receiving intent: "
+                        + action)
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent)).isEqualTo(
+                        canForwardToProfileIdMapBeforeIntent);
+    }
+
     @Test
     public void testGetUserIdToLabelMap_systemUserAndManagedUser_PreV() {
         assumeFalse(SdkLevel.isAtLeastV());
@@ -791,8 +885,8 @@ public class UserManagerStateTest {
             when(devicePolicyResourcesManager.getString(eq(PERSONAL_TAB), any()))
                     .thenReturn(PERSONAL);
         }
-        UserManager managedUserManager = getUserManagerForManagedUser();
-        UserManager privateUserManager = getUserManagerForPrivateUser();
+        UserManager managedUserManager = getUserManagerForUser(mManagedUser);
+        UserManager privateUserManager = getUserManagerForUser(mPrivateUser);
         when(managedUserManager.getProfileLabel()).thenReturn(WORK);
         when(privateUserManager.getProfileLabel()).thenReturn(PRIVATE);
 
@@ -808,6 +902,39 @@ public class UserManagerStateTest {
                 .that(userIdToLabelMap.get(UserId.of(mPrivateUser)))
                 .isEqualTo(PRIVATE);
     }
+
+    /*
+     * This test verifies that the UserManagerState returns the personal label
+     * when the display owner user is the visible background user.
+     */
+    @Test
+    @RequiresFlagsEnabled({FLAG_SUPPORT_VISIBLE_BACKGROUND_USER})
+    public void testGetUserIdToLabelMap_visibleBackgroundUser_PostV() {
+        assumeTrue(SdkLevel.isAtLeastV());
+
+        initializeUserManagerState(UserId.of(mVisibleBackgroundUser),
+                Lists.newArrayList(mVisibleBackgroundUser));
+        when(mMockUserManager.getVisibleUsers())
+                .thenReturn(new ArraySet(new UserHandle[]{mSystemUser, mVisibleBackgroundUser}));
+        when(mMockUserManager.isUserForeground()).thenReturn(false);
+        when(mMockUserManager.isProfile()).thenReturn(false);
+        when(mMockUserManager.isUserVisible()).thenReturn(true);
+
+        DevicePolicyResourcesManager devicePolicyResourcesManager = mock(
+                DevicePolicyResourcesManager.class);
+        when(mDevicePolicyManager.getResources()).thenReturn(devicePolicyResourcesManager);
+        when(devicePolicyResourcesManager.getString(eq(PERSONAL_TAB), any())).thenReturn(
+                PERSONAL);
+        UserManager visibleBackgroundUserManager = getUserManagerForUser(mVisibleBackgroundUser);
+        when(visibleBackgroundUserManager.getProfileLabel()).thenReturn(PERSONAL);
+
+        Map<UserId, String> userIdToLabelMap = mUserManagerState.getUserIdToLabelMap();
+
+        assertWithMessage("Incorrect label returned for user id " + mVisibleBackgroundUser)
+                .that(userIdToLabelMap.get(UserId.of(mVisibleBackgroundUser)))
+                .isEqualTo(PERSONAL);
+    }
+
 
     @Test
     public void testGetUserIdToBadgeMap_systemUserManagedUser_PreV() {
@@ -845,8 +972,8 @@ public class UserManagerStateTest {
                 currentUser, Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
         Drawable workBadge = mock(Drawable.class);
         Drawable privateBadge = mock(Drawable.class);
-        UserManager managedUserManager = getUserManagerForManagedUser();
-        UserManager privateUserManager = getUserManagerForPrivateUser();
+        UserManager managedUserManager = getUserManagerForUser(mManagedUser);
+        UserManager privateUserManager = getUserManagerForUser(mPrivateUser);
         when(managedUserManager.getUserBadge()).thenReturn(workBadge);
         when(privateUserManager.getUserBadge()).thenReturn(privateBadge);
 
@@ -863,6 +990,85 @@ public class UserManagerStateTest {
                 .isEqualTo(privateBadge);
     }
 
+    /*
+     * This test verifies that the UserManagerState does not return any badge
+     * for the visible background user.
+     */
+    @Test
+    @RequiresFlagsEnabled({FLAG_SUPPORT_VISIBLE_BACKGROUND_USER})
+    public void testGetUserIdToBadgeMap_visibleBackgroundUser_PostV() {
+        assumeTrue(SdkLevel.isAtLeastV());
+
+        initializeUserManagerState(UserId.of(mVisibleBackgroundUser),
+                Lists.newArrayList(mVisibleBackgroundUser));
+        when(mMockUserManager.isUserForeground()).thenReturn(false);
+        when(mMockUserManager.isProfile()).thenReturn(false);
+        when(mMockUserManager.isUserVisible()).thenReturn(true);
+
+        Map<UserId, Drawable> userIdToBadgeMap = mUserManagerState.getUserIdToBadgeMap();
+
+        assertWithMessage("There should be no badge present for personal user")
+                .that(userIdToBadgeMap.get(UserId.of(mVisibleBackgroundUser))).isNull();
+    }
+
+    @Test
+    @Ignore
+    @RequiresFlagsEnabled({FLAG_ENABLE_MOVING_CONTENT_INTO_PRIVATE_SPACE})
+    public void testGetCanForwardToProfileIdMap_emptyExcludedUserList() {
+        assumeTrue(SdkLevel.isAtLeastB());
+        UserId currentUser = UserId.of(mSystemUser);
+        initializeUserManagerState(
+                currentUser, Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+        final List<ResolveInfo> mMockResolveInfoList =
+                Lists.newArrayList(mMockInfoPrimaryUser, mMockInfoManagedUser);
+        when(mMockPackageManager.queryIntentActivitiesAsUser(
+                any(Intent.class), anyInt(), eq(mSystemUser)))
+                .thenReturn(mMockResolveInfoList);
+
+        State state = new State();
+        state.excludedUserIds = new java.util.HashSet<>();
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+
+        assertWithMessage("getCanForwardToProfileIdMapForAllowedUsers returns incorrect mappings")
+                .that(
+                        mUserManagerState.getCanForwardToProfileIdMapForAllowedUsers(
+                                mMockIntent, state))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    @Ignore
+    @RequiresFlagsEnabled({FLAG_ENABLE_MOVING_CONTENT_INTO_PRIVATE_SPACE})
+    public void testGetCanForwardToProfileIdMap_privateProfileExcluded_shouldUseNextUser() {
+        assumeTrue(SdkLevel.isAtLeastB());
+        UserId currentUser = UserId.of(mPrivateUser);
+        initializeUserManagerState(
+                currentUser, Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+        final List<ResolveInfo> mMockResolveInfoList =
+                Lists.newArrayList(mMockInfoPrimaryUser, mMockInfoManagedUser);
+        when(mMockPackageManager.queryIntentActivitiesAsUser(
+                any(Intent.class), anyInt(), eq(mSystemUser)))
+                .thenReturn(mMockResolveInfoList);
+
+        State state = new State();
+        state.excludedUserIds = new java.util.HashSet<>();
+        state.excludedUserIds.add(currentUser.getIdentifier());
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+
+        assertWithMessage("getCanForwardToProfileIdMapForAllowedUsers returns incorrect mappings")
+                .that(
+                        mUserManagerState.getCanForwardToProfileIdMapForAllowedUsers(
+                                mMockIntent, state))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
     private void initializeUserManagerState(UserId current, List<UserHandle> usersOnDevice) {
         when(mMockUserManager.getUserProfiles()).thenReturn(usersOnDevice);
         TestConfigStore testConfigStore = new TestConfigStore();
@@ -872,23 +1078,14 @@ public class UserManagerStateTest {
                         mMockContext, current, true, testConfigStore);
     }
 
-    private UserManager getUserManagerForManagedUser() {
-        Context managedUserContext = mock(Context.class);
-        when(mMockContext.createContextAsUser(mManagedUser, 0)).thenReturn(managedUserContext);
-        UserManager managedUserManager = mock(UserManager.class);
-        when(managedUserContext.getSystemServiceName(UserManager.class))
-                .thenReturn("managedUserManager");
-        when(managedUserContext.getSystemService(UserManager.class)).thenReturn(managedUserManager);
-        return managedUserManager;
-    }
-
-    private UserManager getUserManagerForPrivateUser() {
-        Context privateUserContext = mock(Context.class);
-        when(mMockContext.createContextAsUser(mPrivateUser, 0)).thenReturn(privateUserContext);
-        UserManager privateUserManager = mock(UserManager.class);
-        when(privateUserContext.getSystemServiceName(UserManager.class))
-                .thenReturn("privateUserManager");
-        when(privateUserContext.getSystemService(UserManager.class)).thenReturn(privateUserManager);
-        return privateUserManager;
+    private UserManager getUserManagerForUser(UserHandle user) {
+        Context mockUserContext = mock(Context.class);
+        when(mMockContext.createContextAsUser(user, 0)).thenReturn(mockUserContext);
+        UserManager mockUserManager = mock(UserManager.class);
+        when(mockUserContext.getSystemService(Context.USER_SERVICE)).thenReturn(mockUserManager);
+        when(mockUserContext.getSystemServiceName(UserManager.class)).thenReturn(
+                Context.USER_SERVICE);
+        when(mockUserContext.getSystemService(UserManager.class)).thenReturn(mockUserManager);
+        return mockUserManager;
     }
 }

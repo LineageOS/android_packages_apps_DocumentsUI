@@ -23,6 +23,7 @@ import static org.mockito.Mockito.when;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.res.Resources;
+import android.os.UserHandle;
 import android.os.UserManager;
 import android.view.View;
 
@@ -34,7 +35,6 @@ import com.android.documentsui.R;
 import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
-import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
@@ -57,9 +57,11 @@ import java.util.Objects;
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class UserItemsCombinerTest {
-    private static final UserId PERSONAL_USER = TestProvidersAccess.USER_ID;
-    private static final UserId WORK_USER = TestProvidersAccess.OtherUser.USER_ID;
-    private static final UserId PRIVATE_USER = TestProvidersAccess.AnotherUser.USER_ID;
+    private static final UserId PERSONAL_USER = UserId.of(UserHandle.SYSTEM);
+    private static final UserId WORK_USER =
+            UserId.of(new UserHandle(PERSONAL_USER.getIdentifier() + 1));
+    private static final UserId PRIVATE_USER =
+            UserId.of(new UserHandle(PERSONAL_USER.getIdentifier() + 2));
 
     private static final List<Item> PERSONAL_ITEMS = Lists.newArrayList(
             personalItem("personal 1"),
@@ -298,6 +300,7 @@ public class UserItemsCombinerTest {
     public void testCreatePresentableList_currentIsPersonal_personalAndWorkItems() {
         mCombiner =
                 new UserItemsCombiner(mResources, mMockUserManager, mDpm, mState)
+                        .overrideCurrentUserForTest(PERSONAL_USER)
                         .setRootListForCurrentUser(PERSONAL_ITEMS)
                         .setRootListForOtherUser(WORK_ITEMS);
 

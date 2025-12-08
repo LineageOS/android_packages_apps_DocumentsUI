@@ -30,9 +30,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.platform.test.annotations.RequiresFlagsEnabled;
-import android.platform.test.flag.junit.CheckFlagsRule;
-import android.platform.test.flag.junit.DeviceFlagsValueProvider;
+import android.platform.test.annotations.EnableFlags;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 
@@ -55,6 +53,7 @@ import com.android.documentsui.flags.Flags;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
+import com.android.documentsui.rules.OverrideFlagsRule;
 import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestLastAccessedStorage;
@@ -106,7 +105,7 @@ public class ActionHandlerTest {
     }
 
     @Rule
-    public final CheckFlagsRule mCheckFlagsRule = DeviceFlagsValueProvider.createCheckFlagsRule();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     @Before
     public void setUp() {
@@ -433,7 +432,7 @@ public class ActionHandlerTest {
     }
 
     @Test
-    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    @EnableFlags({Flags.FLAG_USE_MATERIAL3})
     public void testPickSelected_SingleDocuments() throws Exception {
         mEnv.state.action = State.ACTION_OPEN;
 
@@ -449,7 +448,7 @@ public class ActionHandlerTest {
     }
 
     @Test
-    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    @EnableFlags({Flags.FLAG_USE_MATERIAL3})
     public void testPickSelected_MultiDocuments() throws Exception {
         mEnv.state.action = State.ACTION_GET_CONTENT;
 

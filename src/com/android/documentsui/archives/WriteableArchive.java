@@ -27,12 +27,15 @@ import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,9 +43,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 
 /**
  * Provides basic implementation for creating archives.
@@ -132,7 +132,8 @@ public class WriteableArchive extends Archive {
 
     @Override
     @VisibleForTesting
-    public String createDocument(String parentDocumentId, String mimeType, String displayName)
+    public String createDocument(@NonNull String parentDocumentId, String mimeType,
+            String displayName)
             throws FileNotFoundException {
         final ArchiveId parsedParentId = ArchiveId.fromDocumentId(parentDocumentId);
         MorePreconditions.checkArgumentEquals(mArchiveUri, parsedParentId.mArchiveUri,
@@ -199,7 +200,7 @@ public class WriteableArchive extends Archive {
 
     @Override
     public ParcelFileDescriptor openDocument(
-            String documentId, String mode, @Nullable final CancellationSignal signal)
+            @NonNull String documentId, String mode, @Nullable final CancellationSignal signal)
             throws FileNotFoundException {
         MorePreconditions.checkArgumentEquals("w", mode,
                 "Invalid mode. Only writing \"w\" supported, but got: \"%s\".");

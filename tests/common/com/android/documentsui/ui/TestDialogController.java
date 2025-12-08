@@ -55,7 +55,12 @@ public class TestDialogController implements DialogController {
     }
 
     @Override
-    public void showNoApplicationFound() {
+    public void showNoApplicationFoundToast() {
+        mNoApplicationFound = true;
+    }
+
+    @Override
+    public void showNoApplicationFoundDialog(FragmentManager fm, DocumentInfo doc) {
         mNoApplicationFound = true;
     }
 
@@ -102,7 +107,7 @@ public class TestDialogController implements DialogController {
     }
 
     public void assertNoAppFoundShown() {
-        Assert.assertFalse(mNoApplicationFound);
+        Assert.assertTrue(mNoApplicationFound);
     }
 
     public void assertShowOperationUnsupported() {

@@ -35,26 +35,36 @@
         <!-- START VENDOR CUSTOMIZATION -->
         <policy type="product|system|vendor">
             <!-- START THEME / STYLE -->
+            <!-- When force_material3 is true, overriding this section won't work. -->
             <item type="style" name="DocumentsTheme"/>
             <!-- END THEME / STYLE -->
 
             <!-- START COLOR -->
+            <!-- When force_material3 is true, overriding "color_surface_header" and
+                 "list_item_selected_background_color" won't work.
+            -->
             <item type="color" name="color_surface_header"/>
             <item type="color" name="list_item_selected_background_color"/>
             <item type="color" name="primary"/>
             <!-- END COLOR -->
 
             <!-- START DIMEN -->
+            <!-- When force_material3 is true, overriding this section won't work. -->
             <item type="dimen" name="grid_item_radius"/>
             <item type="dimen" name="search_chip_radius"/>
             <!-- END DIMEN -->
 
             <!-- START DRAWABLE -->
+            <!-- TODO(b/428096297): Update these icons when force_material3 is true by default.
+                 The following icons are still using the old SVGs (no "_m3" counterparts) to make
+                 sure it doesn't break OEM if they override them in their RRO.
+            -->
             <item type="drawable" name="ic_advanced_shortcut"/>
             <item type="drawable" name="ic_eject"/>
             <item type="drawable" name="ic_root_download"/>
             <item type="drawable" name="ic_root_smartphone"/>
             <item type="drawable" name="ic_sd_storage"/>
+            <!-- When force_material3 is true, overriding "root_list_selector" won't work. -->
             <item type="drawable" name="root_list_selector"/>
             <!-- END DRAWABLE -->
 
@@ -67,6 +77,8 @@
             <item type="bool" name="show_apps_row"/>
             <item type="bool" name="show_media_roots"/>
             <item type="bool" name="show_search_bar"/>
+            <item type="bool" name="show_picker_cancel_button"/>
+            <item type="bool" name="move_search_chip_when_selected"/>
             <!-- END BOOLEAN CONFIG -->
 
             <!-- START STRING CONFIG -->

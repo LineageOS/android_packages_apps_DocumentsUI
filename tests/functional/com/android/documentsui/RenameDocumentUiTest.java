@@ -148,7 +148,7 @@ public class RenameDocumentUiTest extends ActivityTestJunit4<FilesActivity> {
 
         bots.main.clickDialogCancelButton(/* closeSoftKeyboard */ true);
 
-        bots.directory.assertDocumentsPresent(TestFilesRule.FILE_NAME_1);
+        bots.directory.assertDocumentsVisible(TestFilesRule.FILE_NAME_1);
         bots.directory.assertDocumentsAbsent(newName);
         bots.directory.assertDocumentsCount(4);
 
@@ -168,7 +168,7 @@ public class RenameDocumentUiTest extends ActivityTestJunit4<FilesActivity> {
         bots.keyboard.pressEnter();
 
         bots.directory.assertDocumentsAbsent(oldName);
-        bots.directory.assertDocumentsPresent(newName);
+        bots.directory.assertDocumentsVisible(newName);
         bots.directory.assertDocumentsCount(4);
     }
 
@@ -178,8 +178,8 @@ public class RenameDocumentUiTest extends ActivityTestJunit4<FilesActivity> {
 
         bots.main.clickDialogCancelButton(/* closeSoftKeyboard */ true);
 
-        bots.directory.assertDocumentsPresent(TestFilesRule.FILE_NAME_1);
-        bots.directory.assertDocumentsPresent(TestFilesRule.FILE_NAME_2);
+        bots.directory.assertDocumentsVisible(TestFilesRule.FILE_NAME_1);
+        bots.directory.assertDocumentsVisible(TestFilesRule.FILE_NAME_2);
         bots.directory.assertDocumentsCount(4);
     }
 
@@ -200,7 +200,7 @@ public class RenameDocumentUiTest extends ActivityTestJunit4<FilesActivity> {
 
     private void renameWithConflict() throws Exception {
         // Check that document with the new name exists
-        bots.directory.assertDocumentsPresent(TestFilesRule.FILE_NAME_2);
+        bots.directory.assertDocumentsVisible(TestFilesRule.FILE_NAME_2);
         bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1);
 
         clickRename();

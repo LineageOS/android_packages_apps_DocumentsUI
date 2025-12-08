@@ -16,34 +16,40 @@
 
 package com.android.documentsui;
 
-import android.os.RemoteException;
+
+import static com.android.documentsui.StubProvider.ROOT_0_ID;
+
 import android.view.KeyEvent;
 
 import androidx.test.filters.LargeTest;
-import androidx.test.filters.Suppress;
 
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.rules.OverrideFlagsRule;
+import com.android.documentsui.rules.TestFilesRule;
+
+import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.Test;
 
 @LargeTest
-public class KeyboardNavigationUiTest extends ActivityTest<FilesActivity> {
+public class KeyboardNavigationUiTest extends ActivityTestJunit4<FilesActivity> {
 
-    public KeyboardNavigationUiTest() {
-        super(FilesActivity.class);
-    }
+    @Rule
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-        initTestFiles();
-    }
-
-    @Override
-    public void initTestFiles() throws RemoteException {
-        mDocsHelper.createDocument(rootDir0, "image/png", "file1.png");
-    }
+    @Rule
+    public final TestFilesRule mTestFilesRule =
+            new TestFilesRule()
+                    .createTestFiles(
+                            (docsHelper) -> {
+                                final RootInfo root = docsHelper.getRoot(ROOT_0_ID);
+                                docsHelper.createDocument(root, "image/png", "files1.png");
+                            });
 
     // Tests that pressing tab switches focus between the roots and directory listings.
-    @Suppress
+    @Ignore
+    @Test
     public void testKeyboard_tab() throws Exception {
         bots.keyboard.pressKey(KeyEvent.KEYCODE_TAB);
         bots.roots.assertHasFocus();
@@ -52,7 +58,8 @@ public class KeyboardNavigationUiTest extends ActivityTest<FilesActivity> {
     }
 
     // Tests that arrow keys do not switch focus away from the dir list.
-    @Suppress
+    @Ignore
+    @Test
     public void testKeyboard_arrowsDirList() throws Exception {
         for (int i = 0; i < 10; i++) {
             bots.keyboard.pressKey(KeyEvent.KEYCODE_DPAD_LEFT);
@@ -64,7 +71,8 @@ public class KeyboardNavigationUiTest extends ActivityTest<FilesActivity> {
         }
     }
 
-    @Suppress
+    @Ignore
+    @Test
     public void testKeyboard_tabFocuses() throws Exception {
         bots.roots.closeDrawer();
         if (bots.main.inFixedLayout()) {
@@ -79,6 +87,7 @@ public class KeyboardNavigationUiTest extends ActivityTest<FilesActivity> {
     }
 
     // Tests that arrow keys do not switch focus away from the roots list.
+    @Test
     public void testKeyboard_arrowsRootsList() throws Exception {
 
         // Open the drawer so we can ensure root list available even for phones

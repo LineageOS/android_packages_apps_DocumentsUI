@@ -36,6 +36,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.documentsui.ConfigStore;
@@ -166,8 +167,11 @@ public abstract class DocumentHolder
         return false;
     }
 
-    public boolean inSelectRegion(MotionEvent event) {
-        return false;
+    /**
+     * Passes on an ItemDetails.classifySelectionHotspot call.
+     */
+    public int classifySelectionHotspot(MotionEvent event) {
+        return ItemDetails.SELECTION_HOTSPOT_OUTSIDE;
     }
 
     public boolean inPreviewIconRegion(MotionEvent event) {

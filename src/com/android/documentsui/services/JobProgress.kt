@@ -18,6 +18,7 @@ package com.android.documentsui.services
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.core.os.ParcelCompat
 import com.android.documentsui.base.DocumentStack
 
 /**
@@ -77,7 +78,8 @@ data class JobProgress @JvmOverloads constructor(
                 parcel.readInt(),
                 parcel.readString(),
                 parcel.readBoolean(),
-                parcel.readParcelable(
+                ParcelCompat.readParcelable(
+                    parcel,
                     DocumentStack::class.java.classLoader,
                     DocumentStack::class.java
                 ),

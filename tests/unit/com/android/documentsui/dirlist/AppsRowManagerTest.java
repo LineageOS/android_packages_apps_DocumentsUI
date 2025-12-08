@@ -34,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.android.documentsui.ActionHandler;
@@ -56,7 +57,6 @@ import com.android.modules.utils.build.SdkLevel;
 import com.google.common.collect.Lists;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -66,6 +66,7 @@ import org.junit.runners.Parameterized.Parameters;
 import java.util.ArrayList;
 import java.util.List;
 
+@SmallTest
 @RunWith(Parameterized.class)
 public class AppsRowManagerTest {
 
@@ -94,8 +95,8 @@ public class AppsRowManagerTest {
         return com.google.android.collect.Lists.newArrayList(true, false);
     }
 
-    @BeforeClass
-    public static void setUpClass() {
+    @Before
+    public void checkConfigEnabled() {
         if (isUseMaterial3FlagEnabled()) {
             // The AppsRowManager is only available on devices that have the `show_apps_row`
             // config enabled.
@@ -365,4 +366,3 @@ public class AppsRowManagerTest {
         assertEquals(View.GONE, mAppsRow.getVisibility());
     }
 }
-

@@ -19,13 +19,15 @@ package com.android.documentsui;
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
+import android.platform.test.annotations.DesktopTest;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.OverrideFlagsRule;
 import com.android.documentsui.rules.TestFilesRule;
 
 import org.junit.Rule;
@@ -37,7 +39,7 @@ import org.junit.runner.RunWith;
 public class FilesActivityDefaultsUiTest extends ActivityTestJunit4<FilesActivity> {
 
     @Rule
-    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     @Rule
     public final TestFilesRule mTestFilesRule = new TestFilesRule(/* skipCreation */ true);
@@ -53,14 +55,13 @@ public class FilesActivityDefaultsUiTest extends ActivityTestJunit4<FilesActivit
         device.waitForIdle();
 
         bots.roots.openRoot(mTestFilesRule.getRoot(ROOT_0_ID).title);
-
-        String msg = String.valueOf(context.getString(R.string.empty));
-        bots.directory.assertPlaceholderMessageText(msg);
+        bots.directory.waitAndAssertPlaceholderMessageText(context.getString(R.string.empty));
 
         // Check to make sure back button is properly handled by non-Doc type DocHolders
         device.pressBack();
     }
 
+    @DesktopTest(cujs = {"b/434066211"})
     @Test
     @HugeLongTest
     public void testDefaultRoots() throws Exception {

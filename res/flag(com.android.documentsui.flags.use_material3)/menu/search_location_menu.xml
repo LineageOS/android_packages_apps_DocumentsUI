@@ -22,7 +22,4 @@
     <item android:id="@+id/root_folder_option"
         android:icon="@drawable/ic_done_m3"
         android:title="@string/search_location_root_folder" />
-    <item android:id="@+id/this_folder_option"
-        android:icon="@drawable/ic_done_m3"
-        android:title="@string/search_location_this_folder" />
 </menu>

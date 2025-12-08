@@ -32,9 +32,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class State implements android.os.Parcelable {
 
@@ -86,6 +89,10 @@ public class State implements android.os.Parcelable {
     public SortModel sortModel;
 
     public boolean allowMultiple;
+
+    /** Represents the set of user ids that should be excluded from the picker. */
+    public Set<Integer> excludedUserIds = Collections.emptySet();
+
     public boolean localOnly;
 
     public boolean openableOnly;
@@ -201,6 +208,12 @@ public class State implements android.os.Parcelable {
         out.writeInt(openableOnly ? 1 : 0);
         out.writeInt(restrictScopeStorage ? 1 : 0);
         out.writeParcelable(sortModel, 0);
+        out.writeInt(/*excluded users count*/ excludedUserIds.size());
+        if (!excludedUserIds.isEmpty()) {
+            out.writeIntArray(excludedUserIds.stream()
+                    .mapToInt(Integer::intValue)
+                    .toArray());
+        }
     }
 
     @Override
@@ -216,6 +229,7 @@ public class State implements android.os.Parcelable {
                 + ", openableOnly=" + openableOnly
                 + ", restrictScopeStorage=" + restrictScopeStorage
                 + ", sortModel=" + sortModel
+                + ", excludedUserIds=" + excludedUserIds
                 + "}";
     }
 
@@ -238,6 +252,14 @@ public class State implements android.os.Parcelable {
             state.openableOnly = in.readInt() != 0;
             state.restrictScopeStorage = in.readInt() != 0;
             state.sortModel = in.readParcelable(loader);
+            int excludedUsersCount = in.readInt();
+            if (excludedUsersCount > 0) {
+                int[] excludedUsers = new int[excludedUsersCount];
+                in.readIntArray(excludedUsers);
+                state.excludedUserIds = Arrays.stream(excludedUsers)
+                        .boxed()
+                        .collect(Collectors.toSet());
+            }
             return state;
         }
 

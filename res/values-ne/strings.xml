@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"सेभ गर्नुहोस्"</string>
     <string name="menu_share" msgid="4307140947108068356">"सेयर गर्नुहोस्"</string>
     <string name="menu_delete" msgid="1022254131543256626">"मेट्नुहोस्"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"सदाका लागि मेटाउनुहोस्"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"ट्र्यासमा सार्नुहोस्"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"रिस्टोर गर्नुहोस्"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"सबैलाई चयन गर्नुहोस्"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"सबै चयन रद्द गर्नुहोस्"</string>
     <string name="menu_select" msgid="1366061076507142387">"चयन गर्नुहोस्"</string>
@@ -44,11 +47,12 @@
     <string name="menu_copy" msgid="7404820171352314754">"यसमा प्रतिलिपि बनाउनु…"</string>
     <string name="menu_move" msgid="2310760789561129882">"निम्नमा सार्नुहोस्…"</string>
     <string name="menu_compress" msgid="37539111904724188">"कम्प्रेस गर्नुहोस्"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"जिप"</string>
     <string name="menu_extract" msgid="8171946945982532262">"यसमा एकस्ट्र्याक्ट गर्नुहोस्…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"सबै एक्स्ट्रयाक्ट गर्नुहोस्…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"यहाँ एक्स्ट्रयाक्ट गर्नुहोस्"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"एक्स्ट्रयाक्ट गर्नुहोस्"</string>
     <string name="menu_browse" msgid="6007716414766674967">"ब्राउज गर्नुहोस्"</string>
-    <string name="menu_rename" msgid="1883113442688817554">"पुनःनामाकरण गर्नुहोस्"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"नाम बदल्नुहोस्"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"जानकारी प्राप्त गर्नुहोस्"</string>
     <string name="menu_show_hidden_files" msgid="5140676344684492769">"लुकाइएका फाइलहरू देखाउनुहोस्"</string>
     <string name="menu_hide_hidden_files" msgid="5654495713350153702">"लुकाइएका फाइलहरू नदेखाउनु…"</string>
@@ -96,8 +100,8 @@
     <string name="save_error" msgid="8631128801982095782">"कागजातलाई सुरक्षित गर्न सकिएन"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर सिर्जना गर्न सकिएन"</string>
     <string name="query_error" msgid="6625421453613879336">"यस समय सामग्री लोड गर्न सकिँदैन"</string>
-    <string name="quiet_mode_error_title" msgid="554319751414657910">"कामसम्बन्धी एपहरू पज गरिएका छन्"</string>
-    <string name="quiet_mode_button" msgid="8051436551926677305">"कामसम्बन्धी एपहरू अन गर्नुहोस्"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"वर्क एपहरू पज गरिएका छन्"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"वर्क एपहरू अन गर्नुहोस्"</string>
     <string name="profile_quiet_mode_error_title" msgid="7126962749634841843">"<xliff:g id="PROFILE">%1$s</xliff:g> एपहरू पज गरिएका छन्"</string>
     <string name="profile_quiet_mode_button" msgid="6791235010992920102">"<xliff:g id="PROFILE">%1$s</xliff:g> एपहरू अन गर्नुहोस्"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कार्यालयका फाइलहरू चयन गर्न मिल्दैन"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"यो कार्य गर्ने अनुमति छैन"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"थप जानकारी प्राप्त गर्न आफ्ना IT एड्मिनलाई सम्पर्क गर्नुहोस्"</string>
     <string name="root_recent" msgid="1080156975424341623">"हालको"</string>
+    <string name="root_trash" msgid="1869929519939073178">"ट्र्यास"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> खाली छ"</string>
     <string name="root_type_service" msgid="6521366147466512289">"भण्डारण सम्बन्धी सेवाहरू"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"सर्टकटहरू"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"केही कागजातहरूलाई मेट्न सकिएन"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> भन्दा बढी फाइलहरू आदान प्रदान गर्न सकिँदैन"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"कारबाही गर्ने अनुमति छैन"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"यसमार्फत खोल्नुहोस्…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"प्रयोग गर्न मिल्ने कुनै पनि एप इन्स्टल गरिएको छैन। Google Play स्टोरबाट एउटा एप इन्स्टल गरी हेर्नुहोस्।"</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"Google Play स्टोरमा खोज्नुहोस्"</string>
     <string name="share_via" msgid="8725082736005677161">"निम्नमार्फत सेयर गर्नुहोस्"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फाइलहरूका प्रतिलिपि बनाउँदै"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"फाइलहरू कम्प्रेस गर्दै"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"फाइलहरू एक्स्ट्र्याक्ट गर्दै"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"फाइलहरूलाई सार्दै"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"फाइलहरूलाई मेट्दै"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"फाइलहरू ट्र्यासमा सारिँदै छन्"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"फाइलहरू रिस्टोर गरिँदै छन्"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> बाँकी छ"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वस्तुहरूलाई प्रतिलिपि गर्दै।</item>
@@ -154,29 +164,26 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वस्तुहरू मेटाउँदै।</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वस्तु मेटाउँदै।</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> वस्तु ट्र्यासमा सारिँदै छ}other{<xliff:g id="COUNT_1">{count}</xliff:g> वटा वस्तु ट्र्यासमा सारिँदै छन्}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> वस्तु रिस्टोर गरिँदै छ}other{<xliff:g id="COUNT_1">{count}</xliff:g> वटा वस्तु रिस्टोर गरिँदै छन्}}"</string>
     <string name="undo" msgid="2902438994196400565">"अन्डू गर्नुहोस्"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"तयार पार्दै..."</string>
     <string name="compress_preparing" msgid="7401605598969019696">"तयार पार्दै..."</string>
     <string name="extract_preparing" msgid="4796626960061745796">"तयार पार्दै..."</string>
     <string name="move_preparing" msgid="6504239656430530761">"तयार पार्दै..."</string>
     <string name="delete_preparing" msgid="7339349837842802508">"तयार पार्दै..."</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"तयार पारिँदै छ..."</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"तयार पारिँदै छ..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वस्तुहरूलाई कपी गर्न सकिएन</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वस्तुलाई कपी गर्न सकिएन</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वटा फाइल कम्प्रेस गर्न सकिएन</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वटा फाइल कम्प्रेस गर्न सकिएन</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वस्तुहरूलाई सार्न सकिएन</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वस्तुलाई सार्न सकिएन</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वस्तुहरूलाई मेट्न सकिएन</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वस्तुलाई मेट्न सकिएन</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> वस्तु कपी गर्न सकिएन}other{<xliff:g id="COUNT_1">{count}</xliff:g> वटा वस्तु कपी गर्न सकिएन}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> वस्तु कम्प्रेस गर्न सकिएन}other{<xliff:g id="COUNT_1">{count}</xliff:g> वटा वस्तु कम्प्रेस गर्न सकिएन}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> वस्तु एक्स्ट्र्याक्ट गर्न सकिएन}other{<xliff:g id="COUNT_1">{count}</xliff:g> वटा वस्तु एक्स्ट्र्याक्ट गर्न सकिएन}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> वस्तु सार्न सकिएन}other{<xliff:g id="COUNT_1">{count}</xliff:g> वटा वस्तु सार्न सकिएन}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> वस्तु मेटाउन सकिएन}other{<xliff:g id="COUNT_1">{count}</xliff:g> वटा वस्तु मेटाउन सकिएन}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> वस्तु ट्र्यासमा सार्न सकिएन}other{<xliff:g id="COUNT_1">{count}</xliff:g> वटा वस्तु ट्र्यासमा सार्न सकिएन}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> वस्तु रिस्टोर गर्न सकिएन}other{<xliff:g id="COUNT_1">{count}</xliff:g> वटा वस्तु रिस्टोर गर्न सकिएन}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"विवरणहरू हेर्न ट्याप गर्नुहोस्"</string>
     <string name="close" msgid="905969391788869975">"बन्द गर्नुहोस्"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -207,17 +214,39 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वटा फाइल क्लिपबोर्डमा कपी गरिए।</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> फाइल क्लिपबोर्डमा कपी गरियो।</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"पढ्न मात्र मिल्ने"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"तपाईं यी फाइलहरू हेर्न सक्नुहुन्छ तर यिनमा केही कारबाहीहरू गर्न मिल्दैनन्"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"यो अभिलेख पढ्न मात्र मिल्ने लोकेसनमा छ र यसलाई यहाँ एक्स्ट्र्याक्ट गर्न सकिँदैन।"</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"फाइल सम्बन्धी कार्य समर्थित छैन।"</string>
     <string name="file_operation_error" msgid="2234357335716533795">"फाइल सम्बन्धी कार्य असफल भयो।"</string>
     <string name="rename_error" msgid="6700093173508118635">"कागजातको पुनःनामाकरण गर्न सकिएन"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"निकाल्नुहोस्"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"केही फाइलहरू रूपान्तरण गरिएका छन्"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{“<xliff:g id="FILENAME">{filename}</xliff:g>” कपी गरेर “<xliff:g id="DIRECTORY_0">{directory}</xliff:g>” मा पेस्ट गरिँदै छ}other{# वटा फाइल कपी गरेर “<xliff:g id="DIRECTORY_1">{directory}</xliff:g>” मा पेस्ट गरिँदै छन्}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{“<xliff:g id="FILENAME">{filename}</xliff:g>” “<xliff:g id="DIRECTORY_0">{directory}</xliff:g>” मा एक्स्ट्र्याक्ट गरिँदै छ}other{# वटा अभिलेख “<xliff:g id="DIRECTORY_1">{directory}</xliff:g>” मा एक्स्ट्र्याक्ट गरिँदै छन्}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{“<xliff:g id="FILENAME">{filename}</xliff:g>” सारेर “<xliff:g id="DIRECTORY_0">{directory}</xliff:g>” मा लगिँदै छ}other{# वटा फाइल सारेर “<xliff:g id="DIRECTORY_1">{directory}</xliff:g>” मा लगिँदै छन्}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{“<xliff:g id="FILENAME">{filename}</xliff:g>” मेटाइँदै छ}other{# वटा फाइल मेटाइँदै छन्}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g> ट्र्यासमा सारिँदै छ}other{# वटा फाइल ट्र्यासमा सारिँदै छन्}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g> रिस्टोर गरिँदै छ}other{# वटा फाइल रिस्टोर गरिँदै छन्}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{“<xliff:g id="FILENAME">{filename}</xliff:g>“ जिप गरिँदै छ}other{# वटा फाइल जिप गरिँदै छन्}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"फाइलको प्रोग्रेस देखाउनुहोस्"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"फाइलसम्बन्धी कारबाहीको प्रोग्रेस"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"पूरा भयो"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"रद्द गरिएको छ"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"विवरणहरू हेर्नुहोस्"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="TOTALBYTES">%2$s</xliff:g> मध्ये <xliff:g id="CURRENTBYTES">%1$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"कपी गरियो"</string>
     <string name="move_completed" msgid="3981250605092729273">"सारियो"</string>
     <string name="delete_completed" msgid="4149401155614626199">"मेटाइयो"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"कम्प्रेस गरियो"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"जिप गरियो"</string>
     <string name="extract_completed" msgid="8824595789915249972">"एक्स्ट्र्याक्ट गरियो"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"कपी गर्न सकिएन"</string>
+    <string name="move_failed" msgid="7692364307225994220">"सार्न सकिएन"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"मेटाउन सकिएन"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"जिप गर्न सकिएन"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"एक्स्ट्र्याक्ट गर्न सकिएन"</string>
+    <string name="expand_label" msgid="5683357671239615207">"एक्स्पान्ड गर्नुहोस्"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"कोल्याप्स गर्नुहोस्"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="STORAGE"><i>^3</i></xliff:g> मा रहेको <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकामाथि पहुँच राख्न दिने हो?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकामाथि पहुँच राख्न दिने हो?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="STORAGE"><i>^2</i></xliff:g> मा भएका फोटो र भिडियोहरू लगायत तपाईँको डेटामाथि पहुँच राख्न दिने हो?"</string>
@@ -258,6 +287,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"सामग्रीहरू देखाउन मिल्दैन"</string>
     <string name="sign_in" msgid="6253762676723505592">"साइन इन गर्नुहोस्"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"अभिलेख राख्नुहोस्<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"अभिलेख"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> को अधिलेखन गर्ने हो?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"पृष्ठभूमिमा जारी राख्नुहोस्"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -299,7 +329,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"नयाँ फोल्डर सिर्जना गर्नुहोस्"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"यो डिभाइस खोज्नुहोस्"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"टेक्स्ट हटाउनुहोस्"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"यो फोल्डर"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"मूल फोल्डर"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"सबैतिर"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"जुनसुकै बेला"</string>
@@ -318,7 +347,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"सूची मोडमा देखाइँदै।"</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"फाइलको नाम"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"फाइलको प्रिभ्यू लुकाउनुहोस्"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"प्रिभ्यू उपलब्ध छैन"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"विवरणहरू"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"सामान्य जानकारी"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"आकार"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"प्रकार"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"परिमार्जन गरिएको मिति"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"फाइलको प्रिभ्यू लुकाउनुहोस्"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"<xliff:g id="FILENAME">%s</xliff:g> को फोटोको प्रिभ्यू"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"जानकारी दिने प्यानल लुकाउनुहोस्"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"जानकारी दिने प्यानल देखाउनुहोस्"</string>
 </resources>

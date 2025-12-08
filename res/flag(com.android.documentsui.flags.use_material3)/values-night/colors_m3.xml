@@ -23,6 +23,8 @@
     <color name="success">#3CBA5A</color>
     <color name="on_success">#002110</color>
 
+    <color name="warning">#E69010</color>
+
     <!-- ?attr/colorTertiary -->
     <color name="drag_file_counter_background">#EFB8C8</color>
     <!-- ?attr/colorOnTertiary -->

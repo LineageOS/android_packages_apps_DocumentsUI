@@ -19,6 +19,7 @@ import android.app.Activity
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import androidx.test.filters.SmallTest
 import com.android.documentsui.R
 import com.android.documentsui.base.Shared
 import org.junit.Assert.assertEquals
@@ -35,6 +36,7 @@ import org.mockito.MockitoAnnotations
  * When apps are requesting access to a folder using `ACTION_OPEN_DOCUMENT_TREE` the application
  * label is shown in the UI. Let's ensure that the label is appropriately sanitised.
  */
+@SmallTest
 @RunWith(Parameterized::class)
 class ApplicationNameTest {
     @Mock

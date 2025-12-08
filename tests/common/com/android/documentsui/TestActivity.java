@@ -27,6 +27,7 @@ import static org.mockito.Mockito.doReturn;
 
 import android.app.ActivityManager;
 import android.app.LoaderManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -42,6 +43,7 @@ import android.util.Pair;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentInfo;
@@ -72,8 +74,10 @@ public abstract class TestActivity extends AbstractBase {
     public MockContentResolver contentResolver;
     public TestLoaderManager loaderManager;
     public TestSupportLoaderManager supportLoaderManager;
+    public FragmentManager fm;
     public ActivityManager activityManager;
     public UserManager userManager;
+    public boolean throwOnStartActivity;
 
     public TestEventListener<Intent> startActivity;
     public TestEventListener<Pair<Intent, UserHandle>> startActivityAsUser;
@@ -100,6 +104,7 @@ public abstract class TestActivity extends AbstractBase {
         packageMgr = TestPackageManager.create();
         intent = new Intent();
         currentUserHandle = env.userHandle;
+        fm = Mockito.mock(FragmentManager.class, Mockito.CALLS_REAL_METHODS);
 
         startActivity = new TestEventListener<>();
         startActivityAsUser = new TestEventListener<>();
@@ -133,11 +138,17 @@ public abstract class TestActivity extends AbstractBase {
 
     @Override
     public final void startActivity(Intent intent) {
+        if (throwOnStartActivity) {
+            throw new ActivityNotFoundException();
+        }
         startActivity.accept(intent);
     }
 
     @Override
     public final void startActivityAsUser(Intent intent, UserHandle userHandle) {
+        if (throwOnStartActivity) {
+            throw new ActivityNotFoundException();
+        }
         if (userHandle.equals(currentUserHandle)) {
             startActivity(intent);
         } else {
@@ -178,6 +189,11 @@ public abstract class TestActivity extends AbstractBase {
     @Override
     public final PackageManager getPackageManager() {
         return packageMgr;
+    }
+
+    @Override
+    public final FragmentManager getSupportFragmentManager() {
+        return fm;
     }
 
     @Override

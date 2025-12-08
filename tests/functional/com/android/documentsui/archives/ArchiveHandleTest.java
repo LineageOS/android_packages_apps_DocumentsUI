@@ -26,6 +26,7 @@ import android.os.ParcelFileDescriptor;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
@@ -44,6 +45,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 
+@SmallTest
 @RunWith(AndroidJUnit4.class)
 public class ArchiveHandleTest {
     @Rule

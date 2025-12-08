@@ -268,9 +268,8 @@ public class ReadableArchive extends Archive {
     }
 
     @Override
-    public ParcelFileDescriptor openDocument(
-            String documentId, String mode, @Nullable final CancellationSignal signal)
-            throws FileNotFoundException {
+    public ParcelFileDescriptor openDocument(@NonNull String documentId, String mode,
+            @Nullable final CancellationSignal signal) throws FileNotFoundException {
         MorePreconditions.checkArgumentEquals("r", mode,
                 "Invalid mode. Only reading \"r\" supported, but got: \"%s\".");
         final ArchiveId parsedId = ArchiveId.fromDocumentId(documentId);
@@ -295,9 +294,8 @@ public class ReadableArchive extends Archive {
     }
 
     @Override
-    public AssetFileDescriptor openDocumentThumbnail(
-            String documentId, Point sizeHint, final CancellationSignal signal)
-            throws FileNotFoundException {
+    public AssetFileDescriptor openDocumentThumbnail(@NonNull String documentId, Point sizeHint,
+            final CancellationSignal signal) throws FileNotFoundException {
         final ArchiveId parsedId = ArchiveId.fromDocumentId(documentId);
         MorePreconditions.checkArgumentEquals(mArchiveUri, parsedId.mArchiveUri,
                 "Mismatching archive Uri. Expected: %s, actual: %s.");

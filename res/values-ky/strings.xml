@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"Сактоо"</string>
     <string name="menu_share" msgid="4307140947108068356">"Бөлүшүү"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Жок кылуу"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"Биротоло өчүрүү"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"Таштандыга салуу"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"Калыбына келтирүү"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Баарын тандоо"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Баарын тандоодон чыгаруу"</string>
     <string name="menu_select" msgid="1366061076507142387">"Тандоо"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"Төмөнкүгө көчүрүү…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Төмөнкүгө жылдыруу..."</string>
     <string name="menu_compress" msgid="37539111904724188">"Кысуу"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"Почта индекси"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Төмөнкүгө чыгаруу…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"Баарын чыгаруу…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"Бул жерге чыгаруу"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"Чыгаруу"</string>
     <string name="menu_browse" msgid="6007716414766674967">"Серептөө"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Аталышын өзгөртүү"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Маалымат алуу"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Бул аракетке уруксат жок"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Кененирээк маалымат алгыңыз келсе, IT администраторуңузга кайрылыңыз"</string>
     <string name="root_recent" msgid="1080156975424341623">"Акыркы"</string>
+    <string name="root_trash" msgid="1869929519939073178">"Таштанды"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> бош"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Сактагыч кызматтар"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Кыска жолдор"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Кээ бир документтерди өчүрүү мүмкүн болбой жатат"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> файлдан ашык бөлүшүүгө болбойт"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"Аракетке тыюу салынган"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"Төмөнкү менен ачуу…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"Колдоого алынган колдонмолор орнотулган эмес. Play Store\'дон бир колдонмону орнотуп көрүңүз."</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"Play Store\'до издөө"</string>
     <string name="share_via" msgid="8725082736005677161">"Бул аркылуу бөлүшүү"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Файлдар көчүрүлүүдө"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Файлдар кысылууда"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"Файлдар алынууда"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Файлдар жылдырылууда"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Файлдар жок кылынууда"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"Файлдар таштандыга салынууда"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"Файлдар калыбына келтирилүүдө"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> калды"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе көчүрүлүүдө.</item>
@@ -154,29 +164,26 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе жок кылынууда.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе жок кылынууда.</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> нерсе таштандыга салынууда}other{<xliff:g id="COUNT_1">{count}</xliff:g> нерсе таштандыга салынууда}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> нерсе калыбына келтирилүүдө}other{<xliff:g id="COUNT_1">{count}</xliff:g> нерсе калыбына келтирилүүдө}}"</string>
     <string name="undo" msgid="2902438994196400565">"Кайтаруу"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"Даярдалууда…"</string>
     <string name="compress_preparing" msgid="7401605598969019696">"Даярдалууда…"</string>
     <string name="extract_preparing" msgid="4796626960061745796">"Даярдалууда…"</string>
     <string name="move_preparing" msgid="6504239656430530761">"Даярдалууда…"</string>
     <string name="delete_preparing" msgid="7339349837842802508">"Даярдалууда…"</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"Даярдалууда..."</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"Даярдалууда..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе көчүрүлбөй койду</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе көчүрүлбөй койду</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл кысылбай койду</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл кысылбай койду</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе жылдырылбай койду</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе жылдырылбай койду</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе жок кылынбай койду</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе жок кылынбай койду</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> нерсе көчүрүлбөй койду}other{<xliff:g id="COUNT_1">{count}</xliff:g> нерсе көчүрүлбөй койду}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> нерсе кысылган жок}other{<xliff:g id="COUNT_1">{count}</xliff:g> нерсе кысылган жок}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> нерсе чыгарылбай койду}other{<xliff:g id="COUNT_1">{count}</xliff:g> нерсе чыгарылбай койду}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> нерсе жылдырылбай койду}other{<xliff:g id="COUNT_1">{count}</xliff:g> нерсе жылдырылбай койду}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> нерсе жок кылынбай койду}other{<xliff:g id="COUNT_1">{count}</xliff:g> нерсе жок кылынбай койду}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> нерсе таштандыга салынган жок}other{<xliff:g id="COUNT_1">{count}</xliff:g> нерсе таштандыга салынган жок}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> нерсе калыбына келтирилген жок}other{<xliff:g id="COUNT_1">{count}</xliff:g> нерсе калыбына келтирилген жок}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Чоо-жайын билгиңиз келсе, таптаңыз"</string>
     <string name="close" msgid="905969391788869975">"Жабуу"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -207,17 +214,39 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе буферге көчүрүлдү.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе буферге көчүрүлдү.</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"Окуганга гана"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"Бул файлдарды көрө аласыз, бирок айрым аракеттер колдоого алынбайт"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"Бул архив окуу үчүн гана жана бул жерден чыгарууга болбойт."</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"Файл операциясы колдоого алынбайт."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Файл операциясы ишке ашкан жок."</string>
     <string name="rename_error" msgid="6700093173508118635">"Документтин аталышы өзгөртүлбөй калды"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Чыгаруу"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Айрым файлдардын форматы өзгөртүлдү"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{\"<xliff:g id="FILENAME">{filename}</xliff:g>\" файлы \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\" папкасына көчүрүлүүдө}other{# файл \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\" папкасына көчүрүлүүдө}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{\"<xliff:g id="FILENAME">{filename}</xliff:g>\" файлы \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\" папкасына чыгарылууда}other{# архив \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\" папкасына чыгарылууда}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{\"<xliff:g id="FILENAME">{filename}</xliff:g>\" файлы \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\" папкасына жылдырылууда}other{# файл \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\" папкасына жылдырылууда}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{\"<xliff:g id="FILENAME">{filename}</xliff:g>\" файлы өчүрүлүүдө}other{# файл өчүрүлүүдө}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g> таштандыга салынууда}other{# файл таштандыга салынууда}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g> калыбына келтирилүүдө}other{# файл калыбына келтирилүүдө}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{\"<xliff:g id="FILENAME">{filename}</xliff:g>\" кысылууда}other{# файл кысылууда}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"Файлдагы операциянын аткарылышын көрсөтүү"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"Файлдагы операциянын аткарылышы"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"Бүттү"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"Жокко чыгарылды"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"Чоо-жайын көрүү"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="TOTALBYTES">%2$s</xliff:g> ичинен <xliff:g id="CURRENTBYTES">%1$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"Көчүрүлдү"</string>
     <string name="move_completed" msgid="3981250605092729273">"Дарек өзгөрүлдү"</string>
     <string name="delete_completed" msgid="4149401155614626199">"Өчүрүлдү"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"Кысылды"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"Файл кысылды"</string>
     <string name="extract_completed" msgid="8824595789915249972">"Алынды"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"Көчүрүлбөй койду"</string>
+    <string name="move_failed" msgid="7692364307225994220">"Жылдырылган жок"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"Өчүрүлгөн жок"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"Файл кысылган жок"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"Чыгарылган жок"</string>
+    <string name="expand_label" msgid="5683357671239615207">"Жайып көрсөтүү"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"Жыйыштыруу"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="STORAGE"><i>^3</i></xliff:g> түзмөгүндөгү <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> папканы пайдалануу мүмкүнчүлүгү берилсинби?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> каталогун пайдалануу мүмкүнчүлүгү берилсинби?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="STORAGE"><i>^2</i></xliff:g> түзмөгүндөгү дайын-даректериңиз, сүрөттөрүңүз жана видеолоруңузду пайдалануу мүмкүнчүлүгү берилсинби?"</string>
@@ -258,6 +287,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"Мазмундарды көрсөтүү мүмкүн эмес"</string>
     <string name="sign_in" msgid="6253762676723505592">"Кирүү"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"архив<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"Архивдөө"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> файлынын үстүнөн жазылсынбы?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Фондо улантуу"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -299,7 +329,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Жаңы папка түзүү"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Бул түзмөктү издөө"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"Текстти тазалоо"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"Ушул папка"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"Баштапкы папка"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"Бардык жерде"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"Каалаган убакта"</string>
@@ -318,7 +347,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"Тизме режиминде көрсөтүлүүдө."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"Файлдын аты"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Файлдын алдын ала версиясын жашыруу"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"Алдын ала көрүүгө болбойт"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"Чоо-жайы"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"Жалпы маалымат"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"Өлчөмү"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"Түрү"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"Өзгөртүлгөн күнү"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Файлдын алдын ала версиясын жашыруу"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"<xliff:g id="FILENAME">%s</xliff:g> сүрөтүн алдын ала көрүү"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"Маалымат панелин жашыруу"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"Маалымат панелин көрсөтүү"</string>
 </resources>

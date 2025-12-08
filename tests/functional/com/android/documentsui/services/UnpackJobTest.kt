@@ -21,8 +21,9 @@ import android.app.Notification.EXTRA_PROGRESS_INDETERMINATE
 import android.app.Notification.EXTRA_TEXT
 import android.app.Notification.EXTRA_TITLE
 import android.net.Uri
-import android.platform.test.annotations.RequiresFlagsDisabled
-import android.platform.test.annotations.RequiresFlagsEnabled
+import android.platform.test.annotations.DisableFlags
+import android.platform.test.annotations.EnableFlags
+import android.provider.DocumentsContract.Document.MIME_TYPE_DIR
 import android.provider.DocumentsContract.buildDocumentUri
 import android.util.Log
 import androidx.test.filters.MediumTest
@@ -30,7 +31,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.android.documentsui.base.DocumentInfo
 import com.android.documentsui.flags.Flags.FLAG_USE_MATERIAL3
 import com.android.documentsui.flags.Flags.FLAG_ZIP_NG_RO
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag
+import com.android.documentsui.rules.OverrideFlagsRule
 import com.android.documentsui.services.FileOperationService.OPERATION_UNPACK
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
@@ -42,14 +43,16 @@ import org.junit.Test
 @MediumTest
 internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     @get:Rule
-    val checkFlags = CheckAndForceMaterial3Flag()
+    val setFlags = OverrideFlagsRule()
+
+    private data class Entry(val size: Long, val mimeType: String)
 
     /** Tests with a MIME type that is not a supported archive type. */
     @Test
     fun unsupportedMimeType() {
         val uri = mDocs.createDocument(mSrcRoot, "text/plain", "My Text File.txt")
         mDocs.writeDocument(uri, HAM_BYTES)
-        assertTreeIs(mutableMapOf("/My Text File.txt" to 14))
+        assertTreeIs(mutableMapOf("/My Text File.txt" to textEntry(14)))
 
         val job = createJob(uri)
 
@@ -78,7 +81,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
         }
 
         // No extraction folder should have been created.
-        assertTreeIs(mutableMapOf("/My Text File.txt" to 14))
+        assertTreeIs(mutableMapOf("/My Text File.txt" to textEntry(14)))
     }
 
     /** Tests with an invalid ZIP archive. */
@@ -86,7 +89,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     fun invalidZip() {
         val uri = mDocs.createDocument(mSrcRoot, "application/zip", "My Archive.zip")
         mDocs.writeDocument(uri, HAM_BYTES)
-        assertTreeIs(mutableMapOf("/My Archive.zip" to 14))
+        assertTreeIs(mutableMapOf("/My Archive.zip" to zipEntry(14)))
 
         val job = createJob(uri)
 
@@ -115,14 +118,14 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
         }
 
         // No extraction folder should have been created.
-        assertTreeIs(mutableMapOf("/My Archive.zip" to 14))
+        assertTreeIs(mutableMapOf("/My Archive.zip" to zipEntry(14)))
     }
 
     /** Tests with a valid ZIP archive. */
     @Test
     fun validZip() {
         val uri = createDocument("application/zip", "archives/zip/hello.zip")
-        assertTreeIs(mutableMapOf("/hello.zip" to 806))
+        assertTreeIs(mutableMapOf("/hello.zip" to zipEntry(806)))
 
         val job = createJob(uri)
 
@@ -153,13 +156,13 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
 
         assertTreeIs(
             mutableMapOf(
-                "/hello.zip" to 806,
-                "/hello/" to -1,
-                "/hello/hello/" to -1,
-                "/hello/hello/hello.txt" to 48,
-                "/hello/hello/hello2.txt" to 48,
-                "/hello/hello/inside_folder/" to -1,
-                "/hello/hello/inside_folder/hello_insside.txt" to 14,
+                "/hello.zip" to zipEntry(806),
+                "/hello" to dirEntry,
+                "/hello/hello" to dirEntry,
+                "/hello/hello/hello.txt" to textEntry(48),
+                "/hello/hello/hello2.txt" to textEntry(48),
+                "/hello/hello/inside_folder" to dirEntry,
+                "/hello/hello/inside_folder/hello_insside.txt" to textEntry(14),
             )
         )
     }
@@ -168,7 +171,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     @Test
     fun valid7Z() {
         val uri = createDocument("application/x-7z-compressed", "archives/7z/hello.7z")
-        assertTreeIs(mutableMapOf("/hello.7z" to 253))
+        assertTreeIs(mutableMapOf("/hello.7z" to Entry(253, "application/x-7z-compressed")))
 
         val job = createJob(uri)
 
@@ -199,13 +202,13 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
 
         assertTreeIs(
             mutableMapOf(
-                "/hello.7z" to 253,
-                "/hello/" to -1,
-                "/hello/hello/" to -1,
-                "/hello/hello/hello.txt" to 48,
-                "/hello/hello/hello2.txt" to 48,
-                "/hello/hello/inside_folder/" to -1,
-                "/hello/hello/inside_folder/hello_insside.txt" to 14,
+                "/hello.7z" to Entry(253, "application/x-7z-compressed"),
+                "/hello" to dirEntry,
+                "/hello/hello" to dirEntry,
+                "/hello/hello/hello.txt" to textEntry(48),
+                "/hello/hello/hello2.txt" to textEntry(48),
+                "/hello/hello/inside_folder" to dirEntry,
+                "/hello/hello/inside_folder/hello_insside.txt" to textEntry(14),
             )
         )
     }
@@ -214,7 +217,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     @Test
     fun validTar() {
         val uri = createDocument("application/x-tar", "archives/tar/hello.tar")
-        assertTreeIs(mutableMapOf("/hello.tar" to 10240))
+        assertTreeIs(mutableMapOf("/hello.tar" to Entry(10240, "application/x-tar")))
 
         val job = createJob(uri)
 
@@ -245,13 +248,13 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
 
         assertTreeIs(
             mutableMapOf(
-                "/hello.tar" to 10240,
-                "/hello/" to -1,
-                "/hello/hello/" to -1,
-                "/hello/hello/hello.txt" to 48,
-                "/hello/hello/hello2.txt" to 48,
-                "/hello/hello/inside_folder/" to -1,
-                "/hello/hello/inside_folder/hello_insside.txt" to 14,
+                "/hello.tar" to Entry(10240, "application/x-tar"),
+                "/hello" to dirEntry,
+                "/hello/hello" to dirEntry,
+                "/hello/hello/hello.txt" to textEntry(48),
+                "/hello/hello/hello2.txt" to textEntry(48),
+                "/hello/hello/inside_folder" to dirEntry,
+                "/hello/hello/inside_folder/hello_insside.txt" to textEntry(14),
             )
         )
     }
@@ -260,7 +263,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     @Test
     fun validTgz() {
         val uri = createDocument("application/x-gtar-compressed", "archives/tar_gz/hello.tgz")
-        assertTreeIs(mutableMapOf("/hello.tgz" to 406))
+        assertTreeIs(mutableMapOf("/hello.tgz" to Entry(406, "application/x-gtar-compressed")))
 
         val job = createJob(uri)
 
@@ -291,13 +294,13 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
 
         assertTreeIs(
             mutableMapOf(
-                "/hello.tgz" to 406,
-                "/hello/" to -1,
-                "/hello/hello/" to -1,
-                "/hello/hello/hello.txt" to 48,
-                "/hello/hello/hello2.txt" to 48,
-                "/hello/hello/inside_folder/" to -1,
-                "/hello/hello/inside_folder/hello_insside.txt" to 14,
+                "/hello.tgz" to Entry(406, "application/x-gtar-compressed"),
+                "/hello" to dirEntry,
+                "/hello/hello" to dirEntry,
+                "/hello/hello/hello.txt" to textEntry(48),
+                "/hello/hello/hello2.txt" to textEntry(48),
+                "/hello/hello/inside_folder" to dirEntry,
+                "/hello/hello/inside_folder/hello_insside.txt" to textEntry(14),
             )
         )
     }
@@ -306,7 +309,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     @Test
     fun partiallyEncryptedZip() {
         val uri = createDocument("application/zip", "archives/zip/different-encryptions.zip")
-        assertTreeIs(mutableMapOf("/different-encryptions.zip" to 1083))
+        assertTreeIs(mutableMapOf("/different-encryptions.zip" to zipEntry(1083)))
 
         val job = createJob(uri)
 
@@ -345,9 +348,9 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
         // The archive should have been partially extracted.
         assertTreeIs(
             mutableMapOf(
-                "/different-encryptions.zip" to 1083,
-                "/different-encryptions/" to -1,
-                "/different-encryptions/ClearText.txt" to 23,
+                "/different-encryptions.zip" to zipEntry(1083),
+                "/different-encryptions" to dirEntry,
+                "/different-encryptions/ClearText.txt" to textEntry(23),
             )
         )
     }
@@ -359,8 +362,8 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
         mDocs.createFolder(mSrcRoot, "hello")
         assertTreeIs(
             mutableMapOf(
-                "/hello.zip" to 806,
-                "/hello/" to -1,
+                "/hello.zip" to zipEntry(806),
+                "/hello" to dirEntry,
             )
         )
 
@@ -395,8 +398,8 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
 
         assertTreeIs(
             mutableMapOf(
-                "/hello.zip" to 806,
-                "/hello/" to -1,
+                "/hello.zip" to zipEntry(806),
+                "/hello" to dirEntry,
             )
         )
     }
@@ -405,7 +408,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     @Test
     fun collisionsInArchive() {
         val uri = createDocument("application/zip", "archives/zip/file-dir-same-name.zip")
-        assertTreeIs(mutableMapOf("/file-dir-same-name.zip" to 823))
+        assertTreeIs(mutableMapOf("/file-dir-same-name.zip" to zipEntry(823)))
 
         val job = createJob(uri)
 
@@ -450,21 +453,21 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
         // The archive should have been partially extracted.
         assertTreeIs(
             mutableMapOf(
-                "/file-dir-same-name.zip" to 823,
-                "/file-dir-same-name/" to -1,
-                "/file-dir-same-name/pet/" to -1,
-                "/file-dir-same-name/pet/cat/" to -1,
-                "/file-dir-same-name/pet/cat/fish/" to -1,
+                "/file-dir-same-name.zip" to zipEntry(823),
+                "/file-dir-same-name" to dirEntry,
+                "/file-dir-same-name/pet" to dirEntry,
+                "/file-dir-same-name/pet/cat" to dirEntry,
+                "/file-dir-same-name/pet/cat/fish" to dirEntry,
             )
         )
     }
 
     /** Tests with a ZIP archive containing a corrupted file that can be detected via its CRC. */
     @Test
-    @RequiresFlagsEnabled(FLAG_USE_MATERIAL3, FLAG_ZIP_NG_RO)
+    @EnableFlags(FLAG_USE_MATERIAL3, FLAG_ZIP_NG_RO)
     fun badCrcChecked() {
         val uri = createDocument("application/zip", "archives/zip/bad-crc.zip")
-        assertTreeIs(mutableMapOf("/bad-crc.zip" to 234))
+        assertTreeIs(mutableMapOf("/bad-crc.zip" to zipEntry(234)))
 
         val job = createJob(uri)
 
@@ -500,17 +503,17 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
         // The partially extracted file with a bad CRC should have been removed.
         assertTreeIs(
             mutableMapOf(
-                "/bad-crc.zip" to 234,
-                "/bad-crc/" to -1,
+                "/bad-crc.zip" to zipEntry(234),
+                "/bad-crc" to dirEntry,
             )
         )
     }
 
     @Test
-    @RequiresFlagsDisabled(FLAG_ZIP_NG_RO)
+    @DisableFlags(FLAG_ZIP_NG_RO)
     fun badCrcUnchecked() {
         val uri = createDocument("application/zip", "archives/zip/bad-crc.zip")
-        assertTreeIs(mutableMapOf("/bad-crc.zip" to 234))
+        assertTreeIs(mutableMapOf("/bad-crc.zip" to zipEntry(234)))
 
         val job = createJob(uri)
 
@@ -543,19 +546,19 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
 
         assertTreeIs(
             mutableMapOf(
-                "/bad-crc.zip" to 234,
-                "/bad-crc/" to -1,
-                "/bad-crc/bad-crc.txt" to 62,
+                "/bad-crc.zip" to zipEntry(234),
+                "/bad-crc" to dirEntry,
+                "/bad-crc/bad-crc.txt" to textEntry(62),
             )
         )
     }
 
     /** Tests with a ZIP archive containing a corrupted repository with wrong file sizes. */
     @Test
-    @RequiresFlagsEnabled(FLAG_USE_MATERIAL3, FLAG_ZIP_NG_RO)
+    @EnableFlags(FLAG_USE_MATERIAL3, FLAG_ZIP_NG_RO)
     fun badSizesChecked() {
         val uri = createDocument("application/zip", "archives/zip/bad-sizes.zip")
-        assertTreeIs(mutableMapOf("/bad-sizes.zip" to 886))
+        assertTreeIs(mutableMapOf("/bad-sizes.zip" to zipEntry(886)))
 
         val job = createJob(uri)
 
@@ -599,19 +602,19 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
         // Only the file with the correct size should have been extracted.
         assertTreeIs(
             mutableMapOf(
-                "/bad-sizes.zip" to 886,
-                "/bad-sizes/" to -1,
-                "/bad-sizes/d/" to -1,
-                "/bad-sizes/3.txt" to 3,
+                "/bad-sizes.zip" to zipEntry(886),
+                "/bad-sizes" to dirEntry,
+                "/bad-sizes/d" to dirEntry,
+                "/bad-sizes/3.txt" to textEntry(3),
             )
         )
     }
 
     @Test
-    @RequiresFlagsDisabled(FLAG_ZIP_NG_RO)
+    @DisableFlags(FLAG_ZIP_NG_RO)
     fun badSizesUnchecked() {
         val uri = createDocument("application/zip", "archives/zip/bad-sizes.zip")
-        assertTreeIs(mutableMapOf("/bad-sizes.zip" to 886))
+        assertTreeIs(mutableMapOf("/bad-sizes.zip" to zipEntry(886)))
 
         val job = createJob(uri)
 
@@ -644,17 +647,17 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
 
         assertTreeIs(
             mutableMapOf(
-                "/bad-sizes.zip" to 886,
-                "/bad-sizes/" to -1,
-                "/bad-sizes/d/" to -1,
-                "/bad-sizes/0.txt" to 0,
-                "/bad-sizes/1.txt" to 1,
-                "/bad-sizes/2.txt" to 2,
-                "/bad-sizes/3.txt" to 3,
-                "/bad-sizes/4.txt" to 4,
-                "/bad-sizes/5.txt" to 5,
-                "/bad-sizes/6.txt" to 6,
-                "/bad-sizes/7.txt" to 7,
+                "/bad-sizes.zip" to zipEntry(886),
+                "/bad-sizes" to dirEntry,
+                "/bad-sizes/d" to dirEntry,
+                "/bad-sizes/0.txt" to textEntry(0),
+                "/bad-sizes/1.txt" to textEntry(1),
+                "/bad-sizes/2.txt" to textEntry(2),
+                "/bad-sizes/3.txt" to textEntry(3),
+                "/bad-sizes/4.txt" to textEntry(4),
+                "/bad-sizes/5.txt" to textEntry(5),
+                "/bad-sizes/6.txt" to textEntry(6),
+                "/bad-sizes/7.txt" to textEntry(7),
             )
         )
     }
@@ -663,7 +666,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     @Test
     fun emptyZip() {
         val uri = createDocument("application/zip", "archives/zip/empty.zip")
-        assertTreeIs(mutableMapOf("/empty.zip" to 22))
+        assertTreeIs(mutableMapOf("/empty.zip" to zipEntry(22)))
 
         val job = createJob(uri)
 
@@ -702,8 +705,8 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
 
         assertTreeIs(
             mutableMapOf(
-                "/empty.zip" to 22,
-                "/empty/" to -1,
+                "/empty.zip" to zipEntry(22),
+                "/empty" to dirEntry,
             )
         )
     }
@@ -712,7 +715,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     @Test
     fun notifications() {
         val uri = createDocument("application/zip", "archives/zip/different-encryptions.zip")
-        assertTreeIs(mutableMapOf("/different-encryptions.zip" to 1083))
+        assertTreeIs(mutableMapOf("/different-encryptions.zip" to zipEntry(1083)))
 
         val job = createJob(uri)
 
@@ -739,7 +742,7 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
         with(job.getFailureNotification()) {
             assertThat(category).isEqualTo(CATEGORY_ERROR)
             with(extras) {
-                assertThat(getCharSequence(EXTRA_TITLE)).isEqualTo("Couldn’t copy 4 items")
+                assertThat(getCharSequence(EXTRA_TITLE)).isEqualTo("Couldn’t extract 4 items")
                 assertThat(getCharSequence(EXTRA_TEXT)).isEqualTo("Tap to view details")
             }
         }
@@ -759,33 +762,33 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
     }
 
     private fun assertTreeIs(
-        wantSizes: MutableMap<String, Long>?,
+        wantEntries: MutableMap<String, Entry>?,
         parentPath: String,
         info: DocumentInfo
     ) {
-        var path = "${parentPath}${info.displayName}"
-        if (!info.isDirectory) {
-            if (wantSizes != null) {
-                val wantSize = wantSizes.remove(path)
-                assertWithMessage("For file '%s'", path).that(info.size).isEqualTo(wantSize)
-            } else {
-                Log.i(TAG, "\"$path\" to ${info.size},")
+        val path = "$parentPath/${info.displayName}"
+
+        if (wantEntries != null) {
+            val wantEntry = wantEntries.remove(path)
+            if (wantEntry == null) {
+                throw AssertionError("Found unexpected file '$path'")
             }
-            return
-        }
 
-        path += "/"
-        if (wantSizes != null) {
-            // This is a directory. We ignore the expected size specified in `wantSizes`.
-            // The only important thing is that the directory has an entry in `wantSizes`.
-            val wantSize = wantSizes.remove(path)
-            assertWithMessage("For dir '%s'", path).that(wantSize).isNotNull()
+            assertWithMessage("For file '%s'", path).that(info.mimeType)
+                .isEqualTo(wantEntry.mimeType)
+
+            // Since the underlying DocumentProvider might report an incorrect size in
+            // `info.size` (b/429262410), we ignore the reported size and we don't compare it
+            // to `wantEntry`. So, we don't do:
+            // assertWithMessage("For file '%s'", path).that(info.size).isEqualTo(wantEntry.size)
         } else {
-            Log.i(TAG, "\"$path\" to -1,")
+            Log.i(TAG, "\"$path\" to Entry(${info.size}, \"${info.mimeType}\"),")
         }
 
-        for (childInfo in mDocs.listChildren(info.documentId)) {
-            assertTreeIs(wantSizes, path, childInfo)
+        if (info.isDirectory) {
+            for (childInfo in mDocs.listChildren(info.documentId)) {
+                assertTreeIs(wantEntries, path, childInfo)
+            }
         }
     }
 
@@ -793,15 +796,18 @@ internal class UnpackJobTest : AbstractJobTest<UnpackJob>() {
      * Recursively asserts that the document provider contains the specified files and directories,
      * and that the contained files have the given sizes.
      */
-    private fun assertTreeIs(wantSizes: MutableMap<String, Long>?) {
+    private fun assertTreeIs(wantEntries: MutableMap<String, Entry>?) {
         for (info in mDocs.listAllChildren(mSrcRoot)) {
-            assertTreeIs(wantSizes, "/", info)
+            assertTreeIs(wantEntries, "", info)
         }
 
-        if (wantSizes != null) assertThat(wantSizes).isEmpty()
+        if (wantEntries != null) assertThat(wantEntries).isEmpty()
     }
 
     companion object {
-        const val TAG = "UnpackJobTest"
+        private const val TAG = "UnpackJobTest"
+        private val dirEntry = Entry(-1, MIME_TYPE_DIR)
+        private fun textEntry(size: Long) = Entry(size, "text/plain")
+        private fun zipEntry(size: Long) = Entry(size, "application/zip")
     }
 }

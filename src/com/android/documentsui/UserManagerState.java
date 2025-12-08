@@ -22,6 +22,8 @@ import static com.android.documentsui.DevicePolicyResources.Drawables.Style.SOLI
 import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFILE_ICON;
 import static com.android.documentsui.DevicePolicyResources.Strings.PERSONAL_TAB;
 import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
+import static com.android.documentsui.util.FlagUtils.isMovingContentIntoPrivateSpaceEnabled;
+import static com.android.documentsui.util.FlagUtils.isSupportVisibleBackgroundUserFlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.Manifest;
@@ -47,6 +49,7 @@ import androidx.annotation.RequiresPermission;
 import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.base.Features;
+import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.util.VersionUtils;
 import com.android.modules.utils.build.SdkLevel;
@@ -83,6 +86,15 @@ public interface UserManagerState {
      * UserId}.CURRENT_USER can forward {@link Intent} to that {@link UserId}
      */
     Map<UserId, Boolean> getCanForwardToProfileIdMap(Intent intent);
+
+
+    /**
+     * Returns a map of {@link UserId} to boolean value indicating whether the {@link
+     * UserId}.CURRENT_USER can forward {@link Intent} to that {@link UserId} excluding
+     * {@link State#excludedUserIds}. If the {@link UserId}.CURRENT_USER is hidden, the next
+     * available user is used.
+     */
+    Map<UserId, Boolean> getCanForwardToProfileIdMapForAllowedUsers(Intent intent, State state);
 
     /**
      * Updates the state of the list of userIds and all the associated maps according the intent
@@ -231,6 +243,21 @@ public interface UserManagerState {
         }
 
         @Override
+        public Map<UserId, Boolean> getCanForwardToProfileIdMapForAllowedUsers(Intent intent,
+                State state) {
+            synchronized (mCanForwardToProfileIdMap) {
+                if (mCanForwardToProfileIdMap.isEmpty()) {
+                    if (isMovingContentIntoPrivateSpaceEnabled()) {
+                        getCanForwardToProfileIdMapInternalForAllowedUsers(intent, state);
+                    } else {
+                        getCanForwardToProfileIdMapInternal(intent);
+                    }
+                }
+                return mCanForwardToProfileIdMap;
+            }
+        }
+
+        @Override
         @SuppressLint("NewApi")
         public void onProfileActionStatusChange(String action, UserId userId) {
             if (!SdkLevel.isAtLeastV()) return;
@@ -238,6 +265,17 @@ public interface UserManagerState {
                     mUserManager.getUserProperties(UserHandle.of(userId.getIdentifier()));
             if (userProperties.getShowInQuietMode() != UserProperties.SHOW_IN_QUIET_MODE_HIDDEN) {
                 return;
+            }
+            if (isSupportVisibleBackgroundUserFlagEnabled()) {
+                UserId parent = getProfileParentOrSelf(userId);
+                UserId currParent = getProfileParentOrSelf(mCurrentUser);
+                if (!parent.equals(currParent)) {
+                    // The concurrent multi-user feature allows multiple users to exist concurrently
+                    // and visibly in the system.
+                    // In this case, the process owner user should not be affected by events
+                    // from other profile groups.
+                    return;
+                }
             }
             if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)
                     || Intent.ACTION_PROFILE_REMOVED.equals(action)) {
@@ -299,6 +337,19 @@ public interface UserManagerState {
             return false;
         }
 
+        /**
+        * Gets the profile parent of the given user if the user is a profile.
+        * If not a profile, just return the user.
+        */
+        private UserId getProfileParentOrSelf(UserId user) {
+            UserHandle parent = mUserManager.getProfileParent(user.getUserHandle());
+            if (parent != null) {
+                return UserId.of(parent);
+            }
+
+            return user;
+        }
+
         private List<UserId> getUserIdsInternal() {
             final List<UserId> result = new ArrayList<>();
 
@@ -319,8 +370,20 @@ public interface UserManagerState {
 
             for (UserHandle handle : userProfiles) {
                 if (SdkLevel.isAtLeastV()) {
-                    if (!isProfileAllowed(handle)) {
-                        continue;
+                    if (isSupportVisibleBackgroundUserFlagEnabled()) {
+                        // UserState.getUserIds should include {@link UserId#CURRENT_USER}.
+                        // When a visible background user logged in
+                        // on a secondary display runs DocumentsUI,
+                        // UserId.CURRENT_USER  of that DocumentsUI will be set to the
+                        // UserHandle object of the visible background user.
+                        if (!UserId.of(handle).isVisibleBackgroundFullUser(mContext)
+                                && !isProfileAllowed(handle)) {
+                            continue;
+                        }
+                    } else {
+                        if (!isProfileAllowed(handle)) {
+                            continue;
+                        }
                     }
                 } else {
                     // On Android U and below, ensure the following profiles are included:
@@ -469,6 +532,13 @@ public interface UserManagerState {
             if (userId.getIdentifier() == ActivityManager.getCurrentUser()) {
                 return getEnterpriseString(PERSONAL_TAB, getRes(R.string.personal_tab));
             }
+            if (isSupportVisibleBackgroundUserFlagEnabled()) {
+                if (userId.isVisibleBackgroundFullUser(mContext)) {
+                    // If the user is a visible background user, we return the personal tab label.
+                    // This is because the visible background user is not a profile
+                    return getEnterpriseString(PERSONAL_TAB, getRes(R.string.personal_tab));
+                }
+            }
             try {
                 Context userContext =
                         mContext.createContextAsUser(
@@ -551,6 +621,13 @@ public interface UserManagerState {
             if (userId.getIdentifier() == ActivityManager.getCurrentUser()) {
                 return null;
             }
+            if (isSupportVisibleBackgroundUserFlagEnabled()) {
+                if (userId.isVisibleBackgroundFullUser(mContext)) {
+                    // If the user is a visible background user, we return null
+                    // since it is not a profile user.
+                    return null;
+                }
+            }
             try {
                 Context userContext =
                         mContext.createContextAsUser(
@@ -608,6 +685,50 @@ public interface UserManagerState {
                             userId,
                             isCrossProfileAllowedToUser(
                                     mContext, intent, mCurrentUser, userId));
+                }
+            }
+        }
+
+        /**
+         * Updates Cross Profile access for all non-excluded user profiles in {@code getUserIds()}
+         *
+         * <p>This method looks at a variety of situations for each Profile and decides if the
+         * profile's content is accessible by the current process owner user id.
+         *
+         * <ol>
+         *   <li>UserProperties attributes for CrossProfileDelegation are checked first. When the
+         *       profile delegates to the parent profile, the parent's access is used.
+         *   <li>{@link CrossProfileIntentForwardingActivity}s are resolved via the process owner's
+         *       PackageManager, and are considered when evaluating cross profile to the target
+         *       profile.
+         * </ol>
+         *
+         * <p>In the event none of the above checks succeeds, the profile is considered to be
+         * inaccessible to the current process user.
+         *
+         * @param intent The intent DocumentsUI is currently running under, for
+         *     CrossProfileForwardActivity checking.
+         */
+        private void getCanForwardToProfileIdMapInternalForAllowedUsers(Intent intent,
+                State state) {
+            List<UserId> userIds = UserId.nonExcludedUsers(state, getUserIds());
+            if (userIds.isEmpty()) {
+                return;
+            }
+            UserId currentUser = mCurrentUser;
+
+            // if the current user is excluded, we build the map using the next available user,
+            // since we treat that as the current user in AbstractActionHandler#onCreateLoader
+            if (mCurrentUser.isExcluded(state)) {
+                currentUser = userIds.get(0);
+            }
+            synchronized (mCanForwardToProfileIdMap) {
+                mCanForwardToProfileIdMap.clear();
+                for (UserId userId : userIds) {
+                    mCanForwardToProfileIdMap.put(
+                            userId,
+                            isCrossProfileAllowedToUser(
+                                    mContext, intent, currentUser, userId));
                 }
             }
         }

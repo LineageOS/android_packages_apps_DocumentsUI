@@ -16,7 +16,7 @@
 package com.android.documentsui
 
 import android.content.Intent
-import android.platform.test.annotations.RequiresFlagsEnabled
+import android.platform.test.annotations.EnableFlags
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ProgressBar
@@ -26,7 +26,7 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.assertion.ViewAssertions.selectedDescendantsMatch
-import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.test.espresso.matcher.BoundedDiagnosingMatcher
 import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
 import androidx.test.espresso.matcher.ViewMatchers.hasSibling
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -34,11 +34,13 @@ import androidx.test.espresso.matcher.ViewMatchers.withChild
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
+import com.android.documentsui.actions.RelaxedClickAction
 import com.android.documentsui.files.FilesActivity
 import com.android.documentsui.flags.Flags.FLAG_USE_MATERIAL3
 import com.android.documentsui.flags.Flags.FLAG_VISUAL_SIGNALS_RO
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag
+import com.android.documentsui.rules.OverrideFlagsRule
 import com.android.documentsui.rules.TestFilesRule
 import com.android.documentsui.services.FileOperationService
 import com.android.documentsui.services.FileOperationService.ACTION_PROGRESS
@@ -50,18 +52,25 @@ import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
+import org.junit.Assert.assertTrue
+import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 private fun withProgress(expectedProgress: Int): Matcher<View> {
-    return object : BoundedMatcher<View, ProgressBar>(ProgressBar::class.java) {
-        override fun matchesSafely(view: ProgressBar): Boolean {
-            return view.progress == expectedProgress
+    return object : BoundedDiagnosingMatcher<View, ProgressBar>(ProgressBar::class.java) {
+        override fun matchesSafely(view: ProgressBar, mismatchDescription: Description): Boolean {
+            if (view.progress == expectedProgress) {
+                return true
+            } else {
+                mismatchDescription.appendText("actual progress was ${view.progress}")
+                return false
+            }
         }
 
-        override fun describeTo(description: Description) {
-            description.appendText("with progress: " + expectedProgress)
+        override fun describeMoreTo(description: Description) {
+            description.appendText("with progress: $expectedProgress")
         }
     }
 }
@@ -69,11 +78,12 @@ private fun withProgress(expectedProgress: Int): Matcher<View> {
 // Helper function to match views inside a certain progress item view.
 private fun insideItem(progress: MutableJobProgress) = hasSibling(withText(progress.msg))
 
-@RequiresFlagsEnabled(FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO)
+@LargeTest
+@EnableFlags(FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO)
 @RunWith(AndroidJUnit4::class)
 class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
     @get:Rule
-    val checkFlags = CheckAndForceMaterial3Flag()
+    val setFlags = OverrideFlagsRule()
 
     @get:Rule
     val testFiles = TestFilesRule()
@@ -91,6 +101,7 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
     }
 
     private fun openPanel() {
+        assertTrue(bots.main.waitForJobProgressToolbarIconToAppear())
         onView(withId(R.id.job_progress_toolbar_indicator))
             .check(matches(isDisplayed()))
             .perform(click())
@@ -114,6 +125,7 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
         )
         sendProgress(arrayListOf(progress.toJobProgress()))
 
+        assertTrue(bots.main.waitForJobProgressToolbarIconToAppear())
         onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(40)))
 
         openPanel()
@@ -169,7 +181,7 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
             ))
         onView(withChild(withText(progress2.msg)))
             .check(selectedDescendantsMatch(
-                withText(R.string.job_progress_item_failed),
+                withText(R.string.move_failed),
                 isDisplayed()
             ))
             .check(selectedDescendantsMatch(
@@ -216,6 +228,8 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
         )
         sendProgress(arrayListOf(progress1.toJobProgress(), progress2.toJobProgress()))
 
+        assertTrue(bots.main.waitForJobProgressToolbarIconToAppear())
+
         // Overall progress should be 25%.
         onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(25)))
 
@@ -225,23 +239,37 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
         onView(withText(progress1.msg)).check(matches(isDisplayed()))
         onView(withText(progress2.msg)).check(matches(isDisplayed()))
 
-        // Cancel the first job. Only the second item should be displayed.
+        // Cancel the first job.
         progress1.state = Job.STATE_CANCELED
         sendProgress(arrayListOf(progress1.toJobProgress(), progress2.toJobProgress()))
-        onView(withText(progress1.msg)).check(doesNotExist())
+        onView(withChild(withText(progress1.msg)))
+            .check(selectedDescendantsMatch(
+                withText(R.string.job_progress_item_canceled),
+                isDisplayed()
+            ))
         onView(withText(progress2.msg)).check(matches(isDisplayed()))
 
-        // Overall progress should be 0% as the first job doesn't count. We need to close the popup
+        // Overall progress should be 50% as the first job is finished. We need to close the popup
         // panel first in order to check the menu item behind.
         Espresso.pressBack()
-        onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(0)))
+        onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(50)))
         openPanel()
 
-        // Cancel the second job. The panel should disappear.
+        // Cancel the second job.
         progress2.state = Job.STATE_CANCELED
         sendProgress(arrayListOf(progress2.toJobProgress()))
-        onView(withId(R.id.job_progress_toolbar_indicator)).check(doesNotExist())
-        onView(withId(R.id.job_progress_panel_title)).check(doesNotExist())
+        onView(withChild(withText(progress1.msg)))
+            .check(selectedDescendantsMatch(
+                withText(R.string.job_progress_item_canceled),
+                isDisplayed()
+            ))
+        onView(withChild(withText(progress2.msg)))
+            .check(selectedDescendantsMatch(
+                withText(R.string.job_progress_item_canceled),
+                isDisplayed()
+            ))
+        Espresso.pressBack()
+        onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(100)))
     }
 
     @Test
@@ -257,6 +285,7 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
             msRemaining = 10000,
         )
         sendProgress(arrayListOf(progress.toJobProgress()))
+        assertTrue(bots.main.waitForJobProgressToolbarIconToAppear())
         mActivityScenario!!.recreate()
 
         onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(40)))
@@ -287,6 +316,11 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
 
     @Test
     fun testShowInFolder() {
+        // This test relies on the force_material3 config value being true in the out of process
+        // FileOperationService, which we cannot easily force from the test.
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        assumeTrue(context.resources.getBoolean(R.bool.force_material3))
+
         bots.directory.selectDocument(TestFilesRule.FILE_NAME_1, 1)
         bots.keyboard.pressKey(KeyEvent.KEYCODE_C, KeyEvent.META_CTRL_ON)
 
@@ -337,6 +371,7 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
         )
 
         sendProgress(arrayListOf(inProgress.toJobProgress()))
+        assertTrue(bots.main.waitForJobProgressToolbarIconToAppear())
         onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(40)))
         onView(allOf(withId(R.id.job_progress_toolbar_badge), isDisplayed())).check(doesNotExist())
 
@@ -349,7 +384,7 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
         onView(withId(R.id.job_progress_toolbar_badge)).check(matches(isDisplayed()))
 
         openPanel()
-        onView(withText(R.string.job_progress_item_failed)).perform(click())
+        onView(withText(R.string.copy_failed)).perform(click())
         onView(allOf(withId(R.id.job_progress_item_dismiss), isDisplayed())).perform(click())
         Espresso.pressBack()
         onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(40)))
@@ -359,5 +394,67 @@ class JobPanelUiTest : ActivityTestJunit4<FilesActivity>() {
         sendProgress(arrayListOf(inProgress.toJobProgress()))
         onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(40)))
         onView(withId(R.id.job_progress_toolbar_badge)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun testDismissAll() {
+        val inProgress = MutableJobProgress(
+            id = "in_progress_job",
+            operationType = FileOperationService.OPERATION_COPY,
+            state = Job.STATE_SET_UP,
+            msg = "Job in progress",
+            hasFailures = false,
+            currentBytes = 40,
+            requiredBytes = 100,
+        )
+
+        val succeeded = MutableJobProgress(
+            id = "succeeded_job",
+            operationType = FileOperationService.OPERATION_COPY,
+            state = Job.STATE_COMPLETED,
+            msg = "Job succeeded",
+            hasFailures = false,
+        )
+
+        val failed = MutableJobProgress(
+            id = "failed_job",
+            operationType = FileOperationService.OPERATION_COPY,
+            state = Job.STATE_COMPLETED,
+            msg = "Job failed",
+            hasFailures = true,
+        )
+        sendProgress(arrayListOf(
+            inProgress.toJobProgress(),
+            succeeded.toJobProgress(),
+            failed.toJobProgress(),
+        ))
+
+        assertTrue(bots.main.waitForJobProgressToolbarIconToAppear())
+
+        // There are two jobs completed and one job at 40%, so the total progress is 80%.
+        onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(80)))
+        onView(withId(R.id.job_progress_toolbar_badge)).check(matches(isDisplayed()))
+
+        // Click dismiss all. Only the two completed jobs should disappear.
+        openPanel()
+        onView(withId(R.id.job_progress_panel_dismiss_all)).perform(RelaxedClickAction())
+        onView(withText(succeeded.msg)).check(doesNotExist())
+        onView(withText(failed.msg)).check(doesNotExist())
+        onView(withText(inProgress.msg)).check(matches(isDisplayed()))
+
+        // The total progress should now change to 40% as the two completed jobs are gone.
+        Espresso.pressBack()
+        onView(withId(R.id.job_progress_toolbar_indicator)).check(matches(withProgress(40)))
+        onView(allOf(withId(R.id.job_progress_toolbar_badge), isDisplayed())).check(doesNotExist())
+
+        // Update the in progress job to be completed.
+        inProgress.state = Job.STATE_COMPLETED
+        sendProgress(arrayListOf(inProgress.toJobProgress()))
+
+        // When all tracked jobs are completed, dismiss all should also close the panel.
+        openPanel()
+        onView(withId(R.id.job_progress_panel_dismiss_all)).perform(RelaxedClickAction())
+        onView(withId(R.id.job_progress_toolbar_indicator)).check(doesNotExist())
+        onView(withId(R.id.job_progress_panel_title)).check(doesNotExist())
     }
 }

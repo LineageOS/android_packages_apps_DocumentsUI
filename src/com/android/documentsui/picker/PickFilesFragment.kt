@@ -73,8 +73,17 @@ class PickFilesFragment : Fragment() {
         pick = containerView!!.findViewById(getRes(R.id.button_pick))
         pick!!.setOnClickListener(pickListener)
 
-        cancel = containerView!!.findViewById(getRes(R.id.button_cancel))
-        cancel!!.setOnClickListener(cancelListener)
+        cancel = containerView.findViewById(getRes(R.id.button_cancel))
+        val showCancelButton =
+            context?.resources?.getBoolean(R.bool.show_picker_cancel_button) ?: false
+        cancel?.apply {
+            if (showCancelButton) {
+                setOnClickListener(cancelListener)
+                visibility = View.VISIBLE
+            } else {
+                visibility = View.GONE
+            }
+        }
 
         selectionMgr = (getActivity() as PickActivity).getInjector().selectionMgr
         selectionMgr?.addResetObserver(resetObserver)

@@ -31,6 +31,7 @@ import static com.google.common.truth.Truth.assertThat;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.provider.DocumentsContract;
 
 import androidx.test.filters.LargeTest;
@@ -82,6 +83,7 @@ public class ActionCreateDocumentUiTest extends DocumentsUiTestBase {
         bots.main.setDialogText(fileName);
         device.waitForIdle();
         bots.picker.clickSaveButton();
+        SystemClock.sleep(3000);
 
         final Instrumentation.ActivityResult activityResult = mRule.getActivityResult();
         assertThat(activityResult.getResultCode()).isEqualTo(RESULT_OK);

@@ -23,11 +23,13 @@ import static org.junit.Assert.fail;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.platform.test.annotations.DesktopTest;
 import android.view.KeyEvent;
 
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
@@ -47,13 +49,18 @@ public class FileManagementUiTest extends ActivityTestJunit4<FilesActivity> {
     @Rule
     public final TestFilesRule mTestFilesRule =
             new TestFilesRule()
-                    .createFolderInRoot(ROOT_0_ID, TestFilesRule.DIR_NAME_1)
-                    .createFolderWithParent(TestFilesRule.DIR_NAME_1, "ChildDir1")
-                    .createFileInRoot(ROOT_0_ID, "file0.log", "text/plain")
-                    .createFileInRoot(ROOT_0_ID, "file1.png", "image/png")
-                    .createFileInRoot(ROOT_0_ID, "file2.csv", "text/csv")
-                    .createFileInRoot(ROOT_0_ID, "anotherFile0.log", "text/plain")
-                    .createFileInRoot(ROOT_0_ID, "poodles.text", "text/plain");
+                    .createTestFiles(
+                            (docsHelper) -> {
+                                final RootInfo root = docsHelper.getRoot(ROOT_0_ID);
+                                final Uri dir1 =
+                                        docsHelper.createFolder(root, TestFilesRule.DIR_NAME_1);
+                                docsHelper.createFolder(dir1, "ChildDir1");
+                                docsHelper.createDocument(root, "text/plain", "file0.log");
+                                docsHelper.createDocument(root, "image/png", "file1.png");
+                                docsHelper.createDocument(root, "text/csv", "file2.csv");
+                                docsHelper.createDocument(root, "text/plain", "anotherFile0.log");
+                                docsHelper.createDocument(root, "text/plain", "poodles.text");
+                            });
 
     @Ignore
     @Test
@@ -76,7 +83,7 @@ public class FileManagementUiTest extends ActivityTestJunit4<FilesActivity> {
     public void testDeleteDocument() throws Exception {
         bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
-        bots.main.clickToolbarItem(R.id.action_menu_delete);
+        bots.main.clickDelete();
 
         bots.main.clickDialogOkButton(/* closeSoftKeyboard */ false);
         device.waitForIdle();
@@ -97,12 +104,13 @@ public class FileManagementUiTest extends ActivityTestJunit4<FilesActivity> {
         bots.keyboard.pressKey(KeyEvent.KEYCODE_V, KeyEvent.META_CTRL_ON);
 
         bots.directory.waitForDocument("file1.png");
-        bots.directory.assertDocumentsPresent("file1.png");
+        bots.directory.assertDocumentsVisible("file1.png");
 
         bots.roots.openRoot(ROOT_0_ID);
         bots.directory.assertDocumentsAbsent("file1.png");
     }
 
+    @DesktopTest(cujs = {"b/434068359"})
     @HugeLongTest
     @Test
     public void testKeyboard_CopyDocument() throws Exception {
@@ -134,14 +142,14 @@ public class FileManagementUiTest extends ActivityTestJunit4<FilesActivity> {
         bots.keyboard.pressKey(KeyEvent.KEYCODE_V, KeyEvent.META_CTRL_ON);
         device.waitForIdle();
 
-        bots.directory.assertDocumentsPresent("file1.png");
+        bots.directory.assertDocumentsVisible("file1.png");
     }
 
     @Test
     public void testDeleteDocument_Cancel() throws Exception {
         bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
-        bots.main.clickToolbarItem(R.id.action_menu_delete);
+        bots.main.clickDelete();
 
         bots.main.clickDialogCancelButton(/* closeSoftKeyboard */ false);
 

@@ -22,6 +22,7 @@ import static android.provider.DocumentsContract.buildDocumentUri;
 import static android.provider.DocumentsContract.findDocumentPath;
 import static android.provider.DocumentsContract.getDocumentId;
 import static android.provider.DocumentsContract.isChildDocument;
+import static android.text.TextUtils.isEmpty;
 
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_CONVERTED;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
@@ -149,15 +150,12 @@ class CopyJob extends ResolvedResourcesJob {
         return getSetupNotification(service.getString(getRes(R.string.copy_preparing)));
     }
 
-    Notification getProgressNotification(@StringRes int msgId) {
+    @Override
+    public Notification getProgressNotification() {
+        final @StringRes int msgId = getRes(R.string.copy_remaining);
         mProgressTracker.update(mProgressBuilder, (remainingTime) -> service.getString(msgId,
                 FormatUtils.formatDuration(remainingTime)));
         return mProgressBuilder.build();
-    }
-
-    @Override
-    public Notification getProgressNotification() {
-        return getProgressNotification(getRes(R.string.copy_remaining));
     }
 
     @Override
@@ -173,7 +171,8 @@ class CopyJob extends ResolvedResourcesJob {
     @Override
     public Notification getFailureNotification() {
         return getFailureNotification(
-                getRes(R.plurals.copy_error_notification_title), getRes(R.drawable.ic_menu_copy));
+                getFailureContentTitle(getRes(R.string.copy_error_notification_title)),
+                getRes(R.drawable.ic_menu_copy));
     }
 
     @Override
@@ -333,8 +332,7 @@ class CopyJob extends ResolvedResourcesJob {
         }
 
         if (!available) {
-            failureCount = mResolvedDocs.size();
-            failedDocs.addAll(mResolvedDocs);
+            onFileFailed(mResolvedDocs);
         }
 
         return available;
@@ -454,8 +452,8 @@ class CopyJob extends ResolvedResourcesJob {
                 dstMimeType = streamTypes[0];
                 final String extension = MimeTypeMap.getSingleton().
                         getExtensionFromMimeType(dstMimeType);
-                dstDisplayName = src.displayName +
-                        (extension != null ? "." + extension : src.displayName);
+                dstDisplayName = isEmpty(extension) ? src.displayName
+                        : src.displayName + "." + extension;
             } else {
                 Metrics.logFileOperationFailure(
                         appContext, MetricConsts.SUBFILEOP_OBTAIN_STREAM_TYPE, src.derivedUri);

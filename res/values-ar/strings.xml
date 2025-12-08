@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"حفظ"</string>
     <string name="menu_share" msgid="4307140947108068356">"مشاركة"</string>
     <string name="menu_delete" msgid="1022254131543256626">"حذف"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"الحذف نهائيًا"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"نقل إلى المهملات"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"استعادة"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"اختيار الكل"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"إلغاء اختيار الكلّ"</string>
     <string name="menu_select" msgid="1366061076507142387">"اختيار"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"نسخ إلى…"</string>
     <string name="menu_move" msgid="2310760789561129882">"نقل إلى..."</string>
     <string name="menu_compress" msgid="37539111904724188">"ضغط"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"‏ضغط المستندات بتنسيق ZIP"</string>
     <string name="menu_extract" msgid="8171946945982532262">"الاستخراج إلى…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"استخراج الكل…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"الاستخراج هنا"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"استخراج"</string>
     <string name="menu_browse" msgid="6007716414766674967">"تصفُّح"</string>
     <string name="menu_rename" msgid="1883113442688817554">"إعادة تسمية"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"الحصول على المعلومات"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"هذا الإجراء غير مسموح به."</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"لمعرفة مزيد من المعلومات، يمكنك التواصل مع مشرف تكنولوجيا المعلومات."</string>
     <string name="root_recent" msgid="1080156975424341623">"الأحدث"</string>
+    <string name="root_trash" msgid="1869929519939073178">"المهملات"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> خالية"</string>
     <string name="root_type_service" msgid="6521366147466512289">"خدمات التخزين"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"الاختصارات"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"تعذر حذف بعض المستندات"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"لا يمكن مشاركة أكثر من <xliff:g id="COUNT">%1$d</xliff:g> ملف."</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"غير مسموح بهذا الإجراء"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"فتح باستخدام…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"‏لم يتم تثبيت أي تطبيقات متوافقة. يُرجى تثبيت تطبيق من \"متجر Play\"."</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"‏البحث في \"متجر Play\""</string>
     <string name="share_via" msgid="8725082736005677161">"مشاركة عبر"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"جارٍ نسخ الملفات"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ضغط الملفات"</string>
-    <string name="extract_notification_title" msgid="5067393961754430469">"جارٍ استخلاص الملفات"</string>
+    <string name="extract_notification_title" msgid="5067393961754430469">"جارٍ استخراج الملفات"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"جارٍ نقل الملفات"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"جارٍ حذف الملفات"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"نقل الملفات إلى المهملات"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"جارٍ استعادة الملفات"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"المدة المتبقية: <xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="zero">جارٍ نسخ <xliff:g id="COUNT_1">%1$d</xliff:g> ملف.</item>
@@ -151,12 +161,12 @@
       <item quantity="one">جارٍ ضغط ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>).</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
-      <item quantity="zero">جارٍ فك ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملف.</item>
-      <item quantity="two">جارٍ فك ضغط ملفين (<xliff:g id="COUNT_1">%1$d</xliff:g>).</item>
-      <item quantity="few">جارٍ فك ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملفات.</item>
-      <item quantity="many">جارٍ فك ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملفًا.</item>
-      <item quantity="other">جارٍ فك ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملف.</item>
-      <item quantity="one">جارٍ فك ضغط ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>).</item>
+      <item quantity="zero">جارٍ استخراج <xliff:g id="COUNT_1">%1$d</xliff:g> ملف.</item>
+      <item quantity="two">جارٍ استخراج ملفين (<xliff:g id="COUNT_1">%1$d</xliff:g>).</item>
+      <item quantity="few">جارٍ استخراج <xliff:g id="COUNT_1">%1$d</xliff:g> ملفات.</item>
+      <item quantity="many">جارٍ استخراج <xliff:g id="COUNT_1">%1$d</xliff:g> ملفًا.</item>
+      <item quantity="other">جارٍ استخراج <xliff:g id="COUNT_1">%1$d</xliff:g> ملف.</item>
+      <item quantity="one">جارٍ استخراج ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>).</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
       <item quantity="zero">جارٍ نقل <xliff:g id="COUNT_1">%1$d</xliff:g> ملف.</item>
@@ -174,45 +184,26 @@
       <item quantity="other">جارٍ حذف <xliff:g id="COUNT_1">%1$d</xliff:g> ملف.</item>
       <item quantity="one">جارٍ حذف ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>).</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{جارٍ نقل ملف واحد (<xliff:g id="COUNT_0">{count}</xliff:g>) إلى المهملات}zero{جارٍ نقل <xliff:g id="COUNT_1">{count}</xliff:g> ملف إلى المهملات}two{جارٍ نقل ملفَين (<xliff:g id="COUNT_1">{count}</xliff:g>) إلى المهملات}few{جارٍ نقل <xliff:g id="COUNT_1">{count}</xliff:g> ملفات إلى المهملات}many{جارٍ نقل <xliff:g id="COUNT_1">{count}</xliff:g> ملفًا إلى المهملات}other{جارٍ نقل <xliff:g id="COUNT_1">{count}</xliff:g> ملف إلى المهملات}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{جارٍ استعادة ملف واحد (<xliff:g id="COUNT_0">{count}</xliff:g>)}zero{جارٍ استعادة <xliff:g id="COUNT_1">{count}</xliff:g> ملف}two{جارٍ استعادة ملفّين (<xliff:g id="COUNT_1">{count}</xliff:g>)}few{جارٍ استعادة <xliff:g id="COUNT_1">{count}</xliff:g> ملفات}many{جارٍ استعادة <xliff:g id="COUNT_1">{count}</xliff:g> ملفًا}other{جارٍ استعادة <xliff:g id="COUNT_1">{count}</xliff:g> ملف}}"</string>
     <string name="undo" msgid="2902438994196400565">"تراجع"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"جارٍ التحضير..."</string>
     <string name="compress_preparing" msgid="7401605598969019696">"جارٍ التحضير..."</string>
     <string name="extract_preparing" msgid="4796626960061745796">"جارٍ التحضير..."</string>
     <string name="move_preparing" msgid="6504239656430530761">"جارٍ التحضير..."</string>
     <string name="delete_preparing" msgid="7339349837842802508">"جارٍ التحضير..."</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"جارٍ التحضير..."</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"جارٍ التحضير…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="zero">تعذَّر نسخ <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="two">تعذَّر نسخ ملفين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>
-      <item quantity="few">تعذَّر نسخ <xliff:g id="COUNT_1">%1$d</xliff:g> ملفات</item>
-      <item quantity="many">تعذَّر نسخ <xliff:g id="COUNT_1">%1$d</xliff:g> ملفًا</item>
-      <item quantity="other">تعذَّر نسخ <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="one">تعذَّر نسخ ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="zero">تعذر ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="two">تعذر ضغط ملفين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>
-      <item quantity="few">تعذر ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملفات</item>
-      <item quantity="many">تعذر ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملفًا</item>
-      <item quantity="other">تعذر ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="one">تعذر ضغط ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="zero">تعذَّر نقل <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="two">تعذَّر نقل ملفين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>
-      <item quantity="few">تعذَّر نقل <xliff:g id="COUNT_1">%1$d</xliff:g> ملفات</item>
-      <item quantity="many">تعذَّر نقل <xliff:g id="COUNT_1">%1$d</xliff:g> ملفًا</item>
-      <item quantity="other">تعذَّر نقل <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="one">تعذَّر نقل ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="zero">تعذَّر حذف <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="two">تعذَّر حذف ملفين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>
-      <item quantity="few">تعذَّر حذف <xliff:g id="COUNT_1">%1$d</xliff:g> ملفات</item>
-      <item quantity="many">تعذَّر حذف <xliff:g id="COUNT_1">%1$d</xliff:g> ملفًا</item>
-      <item quantity="other">تعذَّر حذف <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="one">تعذَّر حذف ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"‫<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"‫<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{تعذَّر نسخ عنصر واحد (<xliff:g id="COUNT_0">{count}</xliff:g>)}zero{تعذّر نسخ <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}two{تعذّر نسخ عنصرين (<xliff:g id="COUNT_1">{count}</xliff:g>)}few{تعذّر نسخ <xliff:g id="COUNT_1">{count}</xliff:g> عناصر}many{تعذّر نسخ <xliff:g id="COUNT_1">{count}</xliff:g> عنصرًا}other{تعذّر نسخ <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{تعذَّر ضغط عنصر واحد (<xliff:g id="COUNT_0">{count}</xliff:g>)}zero{تعذَّر ضغط <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}two{تعذَّر ضغط عنصرين (<xliff:g id="COUNT_1">{count}</xliff:g>)}few{تعذَّر ضغط <xliff:g id="COUNT_1">{count}</xliff:g> عناصر}many{تعذَّر ضغط <xliff:g id="COUNT_1">{count}</xliff:g> عنصرًا}other{تعذَّر ضغط <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{تعذّر استخراج عنصر واحد (<xliff:g id="COUNT_0">{count}</xliff:g>)}zero{تعذّر استخراج <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}two{تعذّر استخراج عنصرين (<xliff:g id="COUNT_1">{count}</xliff:g>)}few{تعذّر استخراج <xliff:g id="COUNT_1">{count}</xliff:g> عناصر}many{تعذّر استخراج <xliff:g id="COUNT_1">{count}</xliff:g> عنصرًا}other{تعذّر استخراج <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{تعذّر نقل عنصر واحد (<xliff:g id="COUNT_0">{count}</xliff:g>)}zero{تعذّر نقل <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}two{تعذّر نقل عنصرين (<xliff:g id="COUNT_1">{count}</xliff:g>)}few{تعذّر نقل <xliff:g id="COUNT_1">{count}</xliff:g> عناصر}many{تعذّر نقل <xliff:g id="COUNT_1">{count}</xliff:g> عنصرًا}other{تعذّر نقل <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{تعذر حذف عنصر واحد (<xliff:g id="COUNT_0">{count}</xliff:g>)}zero{تعذر حذف <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}two{تعذر حذف عنصرين (<xliff:g id="COUNT_1">{count}</xliff:g>)}few{تعذر حذف <xliff:g id="COUNT_1">{count}</xliff:g> عناصر}many{تعذر حذف <xliff:g id="COUNT_1">{count}</xliff:g> عنصرًا}other{تعذر حذف <xliff:g id="COUNT_1">{count}</xliff:g> عنصر}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{تعذَّر نقل ملف واحد (<xliff:g id="COUNT_0">{count}</xliff:g>) إلى المهملات}zero{تعذَّر نقل <xliff:g id="COUNT_1">{count}</xliff:g> ملف إلى المهملات}two{تعذَّر نقل ملفَين (<xliff:g id="COUNT_1">{count}</xliff:g>) إلى المهملات}few{تعذَّر نقل <xliff:g id="COUNT_1">{count}</xliff:g> ملفات إلى المهملات}many{تعذَّر نقل <xliff:g id="COUNT_1">{count}</xliff:g> ملفًا إلى المهملات}other{تعذَّر نقل <xliff:g id="COUNT_1">{count}</xliff:g> ملف إلى المهملات}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{لا يمكن استعادة ملف واحد (<xliff:g id="COUNT_0">{count}</xliff:g>)}zero{لا يمكن استعادة <xliff:g id="COUNT_1">{count}</xliff:g> ملف}two{لا يمكن استعادة ملفّين (<xliff:g id="COUNT_1">{count}</xliff:g>)}few{لا يمكن استعادة <xliff:g id="COUNT_1">{count}</xliff:g> ملفات}many{لا يمكن استعادة <xliff:g id="COUNT_1">{count}</xliff:g> ملفًا}other{لا يمكن استعادة <xliff:g id="COUNT_1">{count}</xliff:g> ملف}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"انقر لعرض التفاصيل."</string>
     <string name="close" msgid="905969391788869975">"إغلاق"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -271,17 +262,39 @@
       <item quantity="other">تم نسخ <xliff:g id="COUNT_1">%1$d</xliff:g> ملف إلى الحافظة.</item>
       <item quantity="one">تم نسخ ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>) إلى الحافظة.</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"للقراءة فقط"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"يمكنك الاطّلاع على هذه الملفات، ولكن بعض الإجراءات غير متاحة"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"هذا الأرشيف مخزّن في مكان متاح للقراءة فقط ولا يمكن استخراجه هنا."</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"معالجة الملف غير متوافقة."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"تعذّرت معالجة الملف."</string>
     <string name="rename_error" msgid="6700093173508118635">"تعذّرت إعادة تسمية المستند."</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"إخراج"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"تم تحويل بعض الملفات"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{جارٍ نسخ الملف \"<xliff:g id="FILENAME">{filename}</xliff:g>\" إلى \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}zero{جارٍ نسخ # ملف إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}two{جارٍ نسخ ملفَين إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}few{جارٍ نسخ # ملفات إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}many{جارٍ نسخ # ملفًا إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}other{جارٍ نسخ # ملف إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{جارٍ استخراج الملف \"<xliff:g id="FILENAME">{filename}</xliff:g>\" إلى المجلّد \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}zero{جارٍ استخراج # أرشيف إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}two{جارٍ استخراج أرشيفَين إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}few{جارٍ استخراج # أرشيفات إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}many{جارٍ استخراج # أرشيفًا إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}other{جارٍ استخراج # أرشيف إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{جارِ نقل \"<xliff:g id="FILENAME">{filename}</xliff:g>\" إلى \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}zero{جارٍ نقل # ملف إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}two{جارٍ نقل ملفَين إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}few{جارٍ نقل # ملفات إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}many{جارٍ نقل # ملفًا إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}other{جارٍ نقل # ملف إلى \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{جارٍ حذف الملف \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}zero{جارٍ حذف # ملف}two{جارٍ حذف ملفَين}few{جارٍ حذف # ملفات}many{جارٍ حذف # ملفًا}other{جارٍ حذف # ملف}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{جارٍ نقل ملف <xliff:g id="FILENAME">{filename}</xliff:g> إلى المهملات}zero{جارٍ نقل ملفات # إلى المهملات}two{جارٍ نقل ملفَّي # إلى المهملات}few{جارٍ نقل ملفات # إلى المهملات}many{جارٍ نقل ملفات # إلى المهملات}other{جارٍ نقل ملفات # إلى المهملات}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{جارٍ استعادة الملف \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}zero{جارٍ استعادة # ملف}two{جارٍ استعادة ملفَين}few{جارٍ استعادة # ملفات}many{جارٍ استعادة # ملفًا}other{جارٍ استعادة # ملف}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{جارٍ ضغط الملف \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}zero{جارٍ ضغط # ملف}two{جارٍ ضغط ملفَين}few{جارٍ ضغط # ملفات}many{جارٍ ضغط # ملفًا}other{جارٍ ضغط # ملف}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"عرض مستوى تقدُّم عمليات الملف"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"مستوى تقدُّم الملف"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"اكتملت العملية"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"تم الإلغاء"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"عرض التفاصيل"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"‫<xliff:g id="CURRENTBYTES">%1$s</xliff:g> من إجمالي <xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"تم النسخ"</string>
     <string name="move_completed" msgid="3981250605092729273">"تم النقل"</string>
     <string name="delete_completed" msgid="4149401155614626199">"تم الحذف"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"تم ضغط الملف"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"تم ضغط الملف"</string>
     <string name="extract_completed" msgid="8824595789915249972">"تم استخراج الملف"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"تعذَّر النسخ"</string>
+    <string name="move_failed" msgid="7692364307225994220">"تعذّر النقل"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"تعذَّر الحذف"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"تعذّر ضغط الملف"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"تعذّر استخراج الملف"</string>
+    <string name="expand_label" msgid="5683357671239615207">"توسيع"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"تصغير"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"هل تريد منح التطبيق <xliff:g id="APPNAME"><b>^1</b></xliff:g> الإذن بالوصول إلى الدليل <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> على <xliff:g id="STORAGE"><i>^3</i></xliff:g>؟"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"هل تريد منح <xliff:g id="APPNAME"><b>^1</b></xliff:g> الإذن بالوصول إلى دليل <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>؟"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"هل تريد منح <xliff:g id="APPNAME"><b>^1</b></xliff:g> الإذن بالوصول إلى بياناتك، بما في ذلك الصور والفيديوهات على <xliff:g id="STORAGE"><i>^2</i></xliff:g>؟"</string>
@@ -342,6 +355,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"يتعذَّر عرض المحتوى"</string>
     <string name="sign_in" msgid="6253762676723505592">"تسجيل الدخول"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"أرشيف<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"أرشيف"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"هل تريد استبدال <xliff:g id="NAME">%1$s</xliff:g>؟"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"المتابعة في الخلفية"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -387,7 +401,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"إنشاء مجلد جديد"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"البحث في هذا الجهاز"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"محو النص"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"هذا المجلد"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"المجلد الرئيسي"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"كل مكان"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"في أي وقت"</string>
@@ -406,7 +419,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"يتم العرض في وضع القائمة."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"اسم الملف"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"إخفاء معاينة الملف"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"لا تتوفّر أي معاينة"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"التفاصيل"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"معلومات عامة"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"الحجم"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"النوع"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"تاريخ التعديل"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"إخفاء معاينة الملف"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"معاينة صورة <xliff:g id="FILENAME">%s</xliff:g>"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"إخفاء لوحة المعلومات"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"إظهار لوحة المعلومات"</string>
 </resources>

@@ -16,22 +16,24 @@
 
 package com.android.documentsui.util
 
-import android.platform.test.annotations.RequiresFlagsDisabled
-import android.platform.test.annotations.RequiresFlagsEnabled
+import android.platform.test.annotations.DisableFlags
+import android.platform.test.annotations.EnableFlags
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.SmallTest
 import com.android.documentsui.R
 import com.android.documentsui.flags.Flags.FLAG_USE_MATERIAL3
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag
+import com.android.documentsui.rules.OverrideFlagsRule
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
+@SmallTest
 @RunWith(AndroidJUnit4::class)
 class ThemeUtilsTest {
     @get:Rule
-    val checkFlags = CheckAndForceMaterial3Flag()
+    val setFlags = OverrideFlagsRule()
 
     @Before
     fun setUp() {
@@ -39,13 +41,13 @@ class ThemeUtilsTest {
     }
 
     @Test
-    @RequiresFlagsEnabled(FLAG_USE_MATERIAL3)
+    @EnableFlags(FLAG_USE_MATERIAL3)
     fun testMappingResourceId() {
         assertEquals(111, Material3Config.getRes(R.id.option_menu_debug))
     }
 
     @Test
-    @RequiresFlagsDisabled(FLAG_USE_MATERIAL3)
+    @DisableFlags(FLAG_USE_MATERIAL3)
     fun testMappingResourceIdDisabled() {
         assertEquals(R.id.option_menu_debug, Material3Config.getRes(R.id.option_menu_debug))
     }

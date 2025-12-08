@@ -21,11 +21,14 @@ import static org.junit.Assert.assertEquals;
 import android.Manifest;
 import android.content.pm.PackageManager;
 
+import androidx.test.filters.LargeTest;
+
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.util.VersionUtils;
 
 import org.junit.Test;
 
+@LargeTest
 public class PermissionsTest extends ActivityTestJunit4<FilesActivity> {
     @Test
     public void testPermissionGranted_interactAcrossUsersOnR() {

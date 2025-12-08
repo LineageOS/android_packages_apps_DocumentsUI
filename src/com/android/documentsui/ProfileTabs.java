@@ -130,7 +130,12 @@ public class ProfileTabs implements ProfileTabsAddons {
             // Update the layout according to the current root if necessary.
             // Make sure we do not invoke callback. Otherwise, it is likely to cause infinite loop.
             mTabs.removeOnTabSelectedListener(mOnTabSelectedListener);
-            mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
+
+            if (currentRoot.userId.isExcluded(mState)) {
+                mTabs.selectTab(mTabs.getTabAt(0));
+            } else {
+                mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
+            }
             mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
         }
         mTabsContainer.setVisibility(shouldShow() ? View.VISIBLE : View.GONE);
@@ -205,7 +210,7 @@ public class ProfileTabs implements ProfileTabsAddons {
         // returns just the current user, we don't need to do anything on the tab layout.
         if (!userIds.equals(mUserIds)) {
             mUserIds = new ArrayList<>();
-            mUserIds.addAll(userIds);
+            mUserIds.addAll(UserId.nonExcludedUsers(mState, userIds));
             mTabs.removeAllTabs();
             if (mUserIds.size() > 1) {
                 if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {

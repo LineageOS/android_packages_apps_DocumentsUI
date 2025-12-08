@@ -82,6 +82,11 @@
         <item name="cornerSize">@dimen/list_item_thumbnail_corner_radius</item>
     </style>
 
+    <style name="SnackbarStyle" parent="Widget.Material3.Snackbar">
+        <item name="android:maxWidth">@dimen/snackbar_max_width</item>
+        <item name="android:layout_margin">16dp</item>
+    </style>
+
     <style name="SnackbarButtonStyleM3" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">?android:colorPrimary</item>
     </style>
@@ -160,7 +165,6 @@
         <item name="android:paddingHorizontal">@dimen/drawer_padding_horizontal</item>
         <item name="android:paddingTop">@dimen/drawer_padding_top</item>
         <item name="android:paddingBottom">@dimen/drawer_padding_bottom</item>
-        <item name="android:dividerHeight">@dimen/drawer_item_vertical_margin</item>
         <item name="android:scrollbarStyle">outsideOverlay</item>
         <item name="android:clipToPadding">false</item>
     </style>
@@ -243,7 +247,7 @@
         <item name="android:minHeight">0dp</item>
         <item name="android:paddingHorizontal">6dp</item>
         <item name="android:paddingVertical">1dp</item>
-        <item name="backgroundTint">?attr/colorSurfaceBright</item>
+        <item name="backgroundTint">?attr/colorSurfaceContainerHighest</item>
         <item name="icon">@drawable/ic_job_progress_expand</item>
         <item name="iconSize">16dp</item>
         <item name="iconTint">?attr/colorOnSurface</item>

@@ -38,6 +38,13 @@ import com.android.documentsui.base.UserId;
  */
 public abstract class Item {
     private final @LayoutRes int mLayoutId;
+    /**
+     * This is to manage the item selection state in RecyclerView, with ListView the selection
+     * state is managed by the list via `setChoiceMode`, but there's no such thing in RecyclerView,
+     * we need to maintain that in the model layer here and do control the selection logic in the
+     * adapter.
+     */
+    private boolean mIsSelected;
 
     public final String title;
     public final UserId userId;
@@ -94,4 +101,12 @@ public abstract class Item {
     }
 
     void createContextMenu(Menu menu, MenuInflater inflater, MenuManager menuManager) {}
+
+    public void setSelected(boolean selected) {
+        mIsSelected = selected;
+    }
+
+    public boolean isSelected() {
+        return mIsSelected;
+    }
 }

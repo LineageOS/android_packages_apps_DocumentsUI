@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.test.AndroidTestCase;
@@ -259,5 +260,31 @@ public class DocumentInfoTest extends AndroidTestCase {
         assertThat(doc.isContainer()).isFalse();
         assertThat(doc.isDirectory()).isFalse();
         assertThat(doc.isInArchive()).isTrue();
+    }
+
+    @Test
+    public void testGetCursorInt() {
+        Cursor cursor = mock(Cursor.class);
+        String columnName = "column";
+        int index = 0;
+        int value = 5;
+
+        // When cursor is null, the default value value should be returned.
+        assertThat(DocumentInfo.getCursorInt(null, columnName)).isEqualTo(0);
+        assertThat(DocumentInfo.getCursorInt(null, columnName, /*returnIfMissingOrNull=*/
+                -10)).isEqualTo(-10);
+
+        // When the column has no index (-1), the default value value should be returned.
+        when(cursor.getColumnIndex(columnName)).thenReturn(-1);
+        assertThat(DocumentInfo.getCursorInt(cursor, columnName)).isEqualTo(0);
+        assertThat(DocumentInfo.getCursorInt(cursor, columnName, /*returnIfMissingOrNull=*/
+                -10)).isEqualTo(-10);
+
+        // When the column has a valid, the column's value should be returned.
+        when(cursor.getColumnIndex(columnName)).thenReturn(index);
+        when(cursor.getInt(index)).thenReturn(value);
+        assertThat(DocumentInfo.getCursorInt(cursor, columnName)).isEqualTo(value);
+        assertThat(DocumentInfo.getCursorInt(cursor, columnName, /*returnIfMissingOrNull=*/
+                -10)).isEqualTo(value);
     }
 }

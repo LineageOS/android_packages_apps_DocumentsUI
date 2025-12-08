@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"አስቀምጥ"</string>
     <string name="menu_share" msgid="4307140947108068356">"አጋራ"</string>
     <string name="menu_delete" msgid="1022254131543256626">"ሰርዝ"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"በቋሚነት ሰርዝ"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"ወደ መጣያ ያንቀሳቅሱ"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"ወደነበረበት መልስ"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"ሁሉንም ምረጥ"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"ሁሉንም አትምረጥ"</string>
     <string name="menu_select" msgid="1366061076507142387">"ይምረጡ"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"ቅዳ ወደ…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ውሰድ ወደ…"</string>
     <string name="menu_compress" msgid="37539111904724188">"ጭመቅ"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"ዚፕ"</string>
     <string name="menu_extract" msgid="8171946945982532262">"አውጣ ወደ…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"ሁሉንም አውጣ…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"ወደዚህ አውጣ"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"አውጣ"</string>
     <string name="menu_browse" msgid="6007716414766674967">"ያስሱ"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ዳግም ሰይም"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"መረጃ አግኝ"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"ይህ እርምጃ አይፈቀድም"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"የበለጠ ለመረዳት የእርስዎን አይቲ አስተዳዳሪ ያነጋግሩ"</string>
     <string name="root_recent" msgid="1080156975424341623">"የቅርብ ጊዜ"</string>
+    <string name="root_trash" msgid="1869929519939073178">"መጣያ"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ነፃ"</string>
     <string name="root_type_service" msgid="6521366147466512289">"የማከማቻ አገልግሎቶች"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"አቋራጮች"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"አንዳንድ ሰነዶችን መሰረዝ አልተቻለም"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"ከ <xliff:g id="COUNT">%1$d</xliff:g> በላይ ፋይሎች ማጋራት አይቻልም"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"እርምጃ አይፈቀድም"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"ክፈት በ…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"ምንም የሚደገፉ የተጫኑ መተግበሪያዎች የሉም። ከPlay መደብር አንድ መጫን ይሞክሩ።"</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"Play መደብር ላይ ፈልግ"</string>
     <string name="share_via" msgid="8725082736005677161">"በዚህ በኩል ያጋሩ፦"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ፋይሎችን በመቅዳት ላይ"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ፋይሎችን በመጭመቅ ላይ"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"ፋይሎችን ሰርስሮ በማውጣት ላይ"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"ፋይሎችን በመውሰድ ላይ"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"ፋይሎችን በመሰረዝ ላይ"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"ፋይሎችን በመጣል ላይ"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"ፋይሎችን ወደነበሩበት በመመለስ ላይ"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> ቀርቷል"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎችን በመቅዳት ላይ።</item>
@@ -154,29 +164,26 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎችን በመሰረዝ ላይ።</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎችን በመሰረዝ ላይ።</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ንጥልን በመጣል ላይ}one{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥልን በመጣል ላይ}other{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥሎችን በመጣል ላይ}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ንጥልን ወደነበረበት በመመለስ ላይ}one{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥልን ወደነበረበት በመመለስ ላይ}other{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥሎችን ወደነበሩበት በመመለስ ላይ}}"</string>
     <string name="undo" msgid="2902438994196400565">"ቀልብስ"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"በማዘጋጀት ላይ..."</string>
     <string name="compress_preparing" msgid="7401605598969019696">"በማዘጋጀት ላይ..."</string>
     <string name="extract_preparing" msgid="4796626960061745796">"በማዘጋጀት ላይ..."</string>
     <string name="move_preparing" msgid="6504239656430530761">"በማዘጋጀት ላይ..."</string>
     <string name="delete_preparing" msgid="7339349837842802508">"በማዘጋጀት ላይ..."</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"በማዘጋጀት ላይ..."</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"በማዘጋጀት ላይ..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎችን መቅዳት አልተቻለም</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎችን መቅዳት አልተቻለም</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ፋይሎችን መጭመቅ አልተቻለም</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ፋይሎችን መጭመቅ አልተቻለም</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎችን መውሰድ አልተቻለም</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎችን መውሰድ አልተቻለም</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎችን መሰረዝ አልተቻለም</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎችን መሰረዝ አልተቻለም</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ንጥል መቅዳት አልተቻለም}one{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥል መቅዳት አልተቻለም}other{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥሎች መቅዳት አልተቻለም}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ንጥል ማመቅ አልተቻለም}one{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥል ማመቅ አልተቻለም}other{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥሎች ማመቅ አልተቻለም}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ንጥል ማውጣት አልተቻለም}one{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥል ማውጣት አልተቻለም}other{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥሎች ማውጣት አልተቻለም}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ንጥል ማንቀሳቀስ አልተቻለም}one{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥል ማንቀሳቀስ አልተቻለም}other{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥሎች ማንቀሳቀስ አልተቻለም}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ንጥል መሰረዝ አልተቻለም}one{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥል መሰረዝ አልተቻለም}other{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥሎች መሰረዝ አልተቻለም}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ንጥልን መጣል አልተቻለም}one{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥልን መጣል አልተቻለም}other{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥሎችን መጣል አልተቻለም}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> ንጥልን ወደነበረበት መመለስ አልተቻለም}one{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥልን ወደነበረበት መመለስ አልተቻለም}other{<xliff:g id="COUNT_1">{count}</xliff:g> ንጥሎችን ወደነበሩበት መመለስ አልተቻለም}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"ዝርዝሮችን ለመመልከት መታ ያድርጉ"</string>
     <string name="close" msgid="905969391788869975">"ዝጋ"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -207,17 +214,39 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎች ወደ ቅንጥብ ሰሌዳ ተቀድተዋል።</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ንጥሎች ወደ ቅንጥብ ሰሌዳ ተቀድተዋል።</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"ተነባቢ ብቻ"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"እነዚህን ፋይሎ መመልከት ይችላሉ ነገር ግን አንዳንድ እርምጃዎች አይደገፉም"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"ይህ ማህደር የሚነበብ ብቻ አካባቢ ውስጥ ነው እና እዚህ መውጣት አይችልም።"</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"የፋይል ሥርዓተ ክወና አይደገፍም።"</string>
     <string name="file_operation_error" msgid="2234357335716533795">"የፋይል ክወና አልተሳካም።"</string>
     <string name="rename_error" msgid="6700093173508118635">"ሰነዱን ዳግም መሰየም አልተሳካም"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"አስወጣ"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"አንዳንድ ፋይሎች ተለውጠዋል"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{«<xliff:g id="FILENAME">{filename}</xliff:g>»ን ወደ «<xliff:g id="DIRECTORY_0">{directory}</xliff:g>» በመቅዳት ላይ}one{# ፋይልን ወደ «<xliff:g id="DIRECTORY_1">{directory}</xliff:g>»ን በመቅዳት ላይ}other{# ፋይሎችን ወደ «<xliff:g id="DIRECTORY_1">{directory}</xliff:g>»ን በመቅዳት ላይ}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{«<xliff:g id="FILENAME">{filename}</xliff:g>»ን ወደ «<xliff:g id="DIRECTORY_0">{directory}</xliff:g>» በማውጣት ላይ}one{# ማህደርን ወደ «<xliff:g id="DIRECTORY_1">{directory}</xliff:g>» በማውጣት ላይ}other{# ማህደሮችን ወደ «<xliff:g id="DIRECTORY_1">{directory}</xliff:g>» በማውጣት ላይ}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{«<xliff:g id="FILENAME">{filename}</xliff:g>» ወደ «<xliff:g id="DIRECTORY_0">{directory}</xliff:g>» በመንቀሳቀስ ላይ}one{# ፋይልን ወደ «<xliff:g id="DIRECTORY_1">{directory}</xliff:g>» ወደ በማንቀሳቀስ ላይ}other{# ፋይሎችን ወደ «<xliff:g id="DIRECTORY_1">{directory}</xliff:g>» ወደ በማንቀሳቀስ ላይ}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{«<xliff:g id="FILENAME">{filename}</xliff:g>»ን በመሰረዝ ላይ}one{# ፋይል በመሰረዝ ላይ}other{# ፋይሎችን በመሰረዝ ላይ}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g>ን በመጣል ላይ}one{# ፋይል በመጣል ላይ}other{# ፋይሎችን በመጣል ላይ}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{<xliff:g id="FILENAME">{filename}</xliff:g>ን ወደነበረበት በመመለስ ላይ}one{# ፋይልን ወደነበረበት በመመለስ ላይ}other{# ፋይሎችን ወደነበሩበት በመመለስ ላይ}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{«<xliff:g id="FILENAME">{filename}</xliff:g>»ን ዚፕ በማድረግ ላይ}one{# ፋይልን ዚፕ በማድረግ ላይ}other{# ፋይሎችን ዚፕ በማድረግ ላይ}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"የፋይል ሂደትን አሳይ"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"የፋይል ሂደት"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"ተጠናቅቋል"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"ተሰርዟል"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"ዝርዝሮችን ይመልከቱ"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="CURRENTBYTES">%1$s</xliff:g> ከ<xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"ተቀድቷል"</string>
     <string name="move_completed" msgid="3981250605092729273">"ተዘዋውሯል"</string>
     <string name="delete_completed" msgid="4149401155614626199">"ተሰርዟል"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"የታመቀ"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"ዚፕ ተደርጓል"</string>
     <string name="extract_completed" msgid="8824595789915249972">"ወጥቷል"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"መቅዳት አልተቻለም"</string>
+    <string name="move_failed" msgid="7692364307225994220">"ማንቀሳቀስ አልተቻለም"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"መሰረዝ አልተቻለም"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"ዚፕ ማድረግ አልተቻለም"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"ማውጣት አልተቻለም"</string>
+    <string name="expand_label" msgid="5683357671239615207">"ዘርጋ"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"ሰብስብ"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> በ<xliff:g id="STORAGE"><i>^3</i></xliff:g> ላይ የ<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ማውጫ መዳረሻ ይሰጠው?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"የ<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ማውጫ መዳረሻ ለ<xliff:g id="APPNAME"><b>^1</b></xliff:g> ይሰጠው?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"በ<xliff:g id="STORAGE"><i>^2</i></xliff:g> ላይ ያሉትን ፎቶዎች እና ቪዲዮዎች ጨምሮ የውሂብዎ መዳረሻ ለ<xliff:g id="APPNAME"><b>^1</b></xliff:g> ይሰጥ?"</string>
@@ -258,6 +287,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"ይዘቶችን ማሳየት አልተቻለም"</string>
     <string name="sign_in" msgid="6253762676723505592">"ግባ"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"ማህደር<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"መዝገብ"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> ይተካ?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"በበስተጀርባ ውስጥ ቀጥል"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -299,7 +329,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"አዲስ አቃፊ ፍጠር"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"ይህንን መሣሪያ ይፈልጉ"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"ጽሑፍን አጽዳ"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"ይህ አቃፊ"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"የስር አቃፊ"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"ሁሉም ቦታ"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"በማንኛውም ጊዜ"</string>
@@ -318,7 +347,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"በዝርዝር ሁነታ ላይ በማሳየት ላይ።"</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"የፋይል ስም"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"የፋይል ቅድመ ዕይታን ይደብቁ"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"ምንም ቅድመ-ዕይታ አይገኝም"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"ዝርዝሮች"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"አጠቃላይ መረጃ"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"መጠን"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"ዓይነት"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"ቀን ተሻሽሏል"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"የፋይል ቅድመ ዕይታን ይደብቁ"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"የ<xliff:g id="FILENAME">%s</xliff:g> ምስል ቅድመ ዕይታ"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"የመረጃ ፓነልን ደብቅ"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"የመረጃ ፓነልን አሳይ"</string>
 </resources>

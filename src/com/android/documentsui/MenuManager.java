@@ -80,7 +80,15 @@ public abstract class MenuManager {
         updateInspect(menu.findItem(getRes(R.id.action_menu_inspect)), selection);
         updateViewInOwner(menu.findItem(getRes(R.id.action_menu_view_in_owner)), selection);
         updateSort(menu.findItem(getRes(R.id.action_menu_sort)));
+        updateMoveToTrash(menu.findItem(getRes(R.id.action_menu_move_to_trash)), selection);
+        updateRestoreFromTrash(menu.findItem(getRes(R.id.action_menu_restore_from_trash)),
+                selection);
         updateAddLauncherShortcut(menu.findItem(getRes(R.id.action_menu_add_shortcut)), selection);
+
+        if (isZipNgFlagEnabled()) {
+            updateExtractHere(menu.findItem(getRes(R.id.action_menu_extract_here)), selection);
+            updateBrowse(menu.findItem(getRes(R.id.action_menu_browse)), selection);
+        }
 
         Menus.disableHiddenItems(menu);
     }
@@ -404,8 +412,8 @@ public abstract class MenuManager {
         Menus.setEnabledAndVisible(copyTo, false);
     }
 
-    protected void updateCompress(MenuItem compress, SelectionDetails selectionDetails) {
-        Menus.setEnabledAndVisible(compress, false);
+    protected void updateCompress(@NonNull MenuItem it, @NonNull SelectionDetails selection) {
+        Menus.setEnabledAndVisible(it, false);
     }
 
     protected void updateExtractTo(MenuItem extractTo, SelectionDetails selectionDetails) {
@@ -445,6 +453,15 @@ public abstract class MenuManager {
         Menus.setEnabledAndVisible(it, false);
     }
 
+    protected void updateMoveToTrash(MenuItem moveToTrash, SelectionDetails selectionDetails) {
+        Menus.setEnabledAndVisible(moveToTrash, false);
+    }
+
+    protected void updateRestoreFromTrash(MenuItem restoreFromTrash,
+            SelectionDetails selectionDetails) {
+        Menus.setEnabledAndVisible(restoreFromTrash, false);
+    }
+
     protected abstract void updateSelectAll(MenuItem selectAll);
 
     protected abstract void updateSelectAll(MenuItem selectAll, SelectionDetails selectionDetails);
@@ -482,6 +499,16 @@ public abstract class MenuManager {
          */
         boolean isArchive();
 
+        /**
+         * Returns whether the selection is a single file that can be opened by multiple opening
+         * apps.
+         *
+         * This is a necessary signal to enable "open with" on desktop devices since performing
+         * "open with" with a file that has a single opening app will automatically open that app
+         * (i.e. does not do the expected "open with" behavior).
+         */
+        boolean hasMultipleOpeningApps();
+
         // TODO: Update these to express characteristics instead of answering concrete questions,
         // since the answer to those questions is (or can be) activity specific.
         boolean canDelete();
@@ -495,6 +522,16 @@ public abstract class MenuManager {
         boolean canOpen();
 
         boolean canViewInOwner();
+
+        /**
+         * Check whether to show the trash option on the selection
+         */
+        boolean canTrash();
+
+        /**
+         * Check whether to show the restore option on the selection.
+         */
+        boolean canRestore();
     }
 
     public static class DirectoryDetails {

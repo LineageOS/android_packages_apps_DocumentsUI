@@ -65,6 +65,19 @@
                         android:layout_marginTop="@dimen/action_bar_margin_m3"
                         android:touchscreenBlocksFocus="false">
 
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/read_only_label"
+                            android:background="@drawable/read_only_label_background"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_marginStart="@dimen/space_extra_small_4"
+                            android:paddingHorizontal="@dimen/space_extra_small_6"
+                            android:text="@string/read_only_label"
+                            android:textAppearance="@style/TextAppearance.DocumentsUI.LabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:tooltipText="@string/read_only_explanation"
+                            android:visibility="gone" />
+
                         <TextView
                             android:id="@+id/searchbar_title"
                             android:layout_width="match_parent"

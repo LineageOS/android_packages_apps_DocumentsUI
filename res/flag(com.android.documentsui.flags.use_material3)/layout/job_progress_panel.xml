@@ -39,6 +39,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/job_progress_list" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/job_progress_panel_dismiss_all"
+                style="@style/JobProgressItemActionButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:text="@string/button_dismiss"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/job_progress_list"
                 android:layout_width="0dp"

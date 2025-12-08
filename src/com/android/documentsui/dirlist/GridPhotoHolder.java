@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 
 import com.android.documentsui.ConfigStore;
 import com.android.documentsui.DocumentsApplication;
@@ -162,9 +163,9 @@ final class GridPhotoHolder extends DocumentHolder {
     }
 
     @Override
-    public boolean inSelectRegion(MotionEvent event) {
-        // Photo gird should not have any select region.
-        return false;
+    public int classifySelectionHotspot(MotionEvent event) {
+        // Photo grid should not have any select region.
+        return ItemDetails.SELECTION_HOTSPOT_OUTSIDE;
     }
 
     @Override

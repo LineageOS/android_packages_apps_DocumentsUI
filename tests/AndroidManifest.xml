@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.android.documentsui.tests">
 
   <uses-sdk android:minSdkVersion="30" android:targetSdkVersion="30"/>
@@ -130,6 +131,13 @@
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>
         </provider>
+
+        <!-- To avoid resource ID conflicts, we've removed androidx.startup class from the test jar
+             using jarjar. We need to remove this provider as well otherwise the test will crash
+             because it can't find the androidx.startup class. -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            tools:node="remove" />
 
         <service android:name="com.android.documentsui.services.TestNotificationService"
                  android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"

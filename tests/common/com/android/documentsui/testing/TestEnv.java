@@ -22,11 +22,13 @@ import android.test.mock.MockContentResolver;
 
 import androidx.test.InstrumentationRegistry;
 
+import com.android.documentsui.ActionHandler;
 import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.ModelId;
 import com.android.documentsui.SelectionHelpers;
+import com.android.documentsui.UserManagerProvider;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
@@ -38,6 +40,7 @@ import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.ui.TestDialogController;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +80,8 @@ public class TestEnv {
     public final TestModel archiveModel;
     public final DocsSelectionHelper selectionMgr;
     public final TestSearchViewManager searchViewManager;
-    public final Injector<?> injector;
+    // Mocking injector.actions requires a valid Generic type.
+    public final Injector<ActionHandler> injector;
     public final Features features;
     public final UserId userId;
     public final UserHandle userHandle;
@@ -96,14 +100,20 @@ public class TestEnv {
         archiveModel = new TestModel(userId, ArchivesProvider.AUTHORITY, features);
         selectionMgr = SelectionHelpers.createTestInstance();
         searchViewManager = new TestSearchViewManager();
-        injector = new Injector(
+        injector = new Injector<>(
                 features,
                 new TestActivityConfig(),
                 null,       // MessageBuilder is not currently required for tests
                 dialogs,
                 new TestFileTypeLookup(),
                 (roots) -> {},  // not sure why, but java gets angry when I declare roots type.
-                model);
+                model,
+                new UserManagerProvider() {
+                    @Override
+                    public List<UserId> getUserIds(Context context) {
+                        return Collections.singletonList(userId);
+                    }
+                });
 
         injector.selectionMgr = selectionMgr;
         injector.focusManager = new FocusManager(features, selectionMgr, null, null, 0);

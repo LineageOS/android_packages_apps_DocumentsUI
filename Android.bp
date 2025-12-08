@@ -14,6 +14,7 @@
 
 package {
     default_applicable_licenses: ["Android-Apache-2.0"],
+    default_team: "trendy_team_documentsui",
 }
 
 // See: http://go/android-license-faq
@@ -53,25 +54,37 @@ java_defaults {
     name: "documentsui_defaults",
 
     static_libs: [
+        "android.provider.flags-aconfig-java",
         "androidx.appcompat_appcompat",
         "androidx.legacy_legacy-support-core-ui",
         "androidx.legacy_legacy-support-v13",
         "androidx.legacy_legacy-support-v4",
+        "androidx.lifecycle_lifecycle-livedata-ktx",
         "androidx.lifecycle_lifecycle-viewmodel-ktx",
         "androidx.recyclerview_recyclerview",
         "androidx.recyclerview_recyclerview-selection",
         "androidx.transition_transition",
+        "android.multiuser.flags-aconfig-java",
         "apache-commons-compress",
         "com.google.android.material_material",
         "docsui-change-ids",
         "guava",
         "modules-utils-build_system",
-        // Glide and dependencies. Optimized out when use_peek_preview_ro flag enabled.
+
+        // The following dependencies are optimized out when use_peek_preview_ro is disabled.
         // See b/421076517 for more details.
+        // Glide dependencies.
         "androidx.exifinterface_exifinterface",
+        "glide-annotation-and-compiler-prebuilt",
         "glide-disklrucache-prebuilt",
         "glide-gifdecoder-prebuilt",
         "glide-prebuilt",
+        // Exoplayer dependencies.
+        "androidx.media3.media3-exoplayer",
+        "androidx.media3.media3-ui",
+    ],
+    plugins: [
+        "glide-annotation-processor",
     ],
 
     privileged: true,
@@ -181,6 +194,9 @@ android_app {
 
     required: ["privapp_whitelist_com.android.documentsui"],
 
-    min_sdk_version: "30",
+    min_sdk_version: select(release_flag("RELEASE_DEPRECATE_MAINLINE_R_SUPPORT"), {
+        true: "31",
+        default: "30",
+    }),
     updatable: true,
 }

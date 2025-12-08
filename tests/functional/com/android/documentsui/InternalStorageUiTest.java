@@ -72,7 +72,7 @@ public class InternalStorageUiTest extends ActivityTestJunit4<FilesActivity> {
         bots.keyboard.pressEnter();
 
         bots.directory.assertDocumentsAbsent(fileName);
-        bots.directory.assertDocumentsPresent(newFileName);
+        bots.directory.assertDocumentsVisible(newFileName);
         // Snackbar will not show if no exception.
         assertNull(bots.directory.getSnackbar(context.getString(R.string.rename_error)));
     }

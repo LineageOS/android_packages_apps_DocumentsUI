@@ -74,6 +74,10 @@ public abstract class TestMenu implements Menu {
                 R.id.action_menu_inspect,
                 R.id.action_menu_view_in_owner,
                 R.id.action_menu_sort,
+                R.id.action_menu_extract_here,
+                R.id.action_menu_browse,
+                R.id.action_menu_move_to_trash,
+                R.id.action_menu_restore_from_trash,
                 R.id.option_menu_search,
                 R.id.option_menu_debug,
                 R.id.option_menu_new_window,
@@ -104,7 +108,8 @@ public abstract class TestMenu implements Menu {
             }
 
             if (id == R.id.option_menu_extract_all || id == R.id.dir_menu_extract_here
-                    || id == R.id.dir_menu_browse) {
+                    || id == R.id.dir_menu_browse || id == R.id.action_menu_extract_here
+                    || id == R.id.action_menu_browse) {
                 item.setEnabled(false);
                 item.setVisible(false);
             }

@@ -16,16 +16,19 @@
 package com.android.documentsui.loaders
 
 import android.os.Bundle
-import android.platform.test.annotations.RequiresFlagsEnabled
+import android.platform.test.annotations.EnableFlags
 import android.provider.DocumentsContract
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.Loader
 import androidx.test.filters.SmallTest
 import com.android.documentsui.ContentLock
+import com.android.documentsui.DirectoryResult
 import com.android.documentsui.LockingContentObserver
 import com.android.documentsui.Model
 import com.android.documentsui.base.DocumentInfo
-import com.android.documentsui.base.FolderInfo
+import com.android.documentsui.flags.Flags.FLAG_USE_MATERIAL3
 import com.android.documentsui.flags.Flags.FLAG_USE_SEARCH_V2_READ_ONLY
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag
+import com.android.documentsui.rules.OverrideFlagsRule
 import com.android.documentsui.sorting.SortModel
 import com.android.documentsui.testing.TestFeatures
 import com.android.documentsui.testing.TestFileTypeLookup
@@ -33,8 +36,14 @@ import com.android.documentsui.testing.TestProvidersAccess
 import com.google.common.truth.Expect
 import java.time.Duration
 import java.util.Locale
+import java.util.UUID
+import java.util.concurrent.CyclicBarrier
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.measureTime
+import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -47,20 +56,20 @@ private const val TOTAL_FILE_COUNT = 8
 
 fun createQueryArgs(vararg mimeTypes: String): Bundle {
     val args = Bundle()
-    args.putStringArray(DocumentsContract.QUERY_ARG_MIME_TYPES, arrayOf<String>(*mimeTypes))
+    args.putStringArray(DocumentsContract.QUERY_ARG_MIME_TYPES, arrayOf(*mimeTypes))
     return args
 }
 
 @RunWith(Enclosed::class)
-@SmallTest
 class SearchLoaderTest {
 
     // Collection of tests that are parametrized by query, duration, and MIME type.
     @RunWith(Parameterized::class)
+    @SmallTest
     class ParametrizedTests(private val testParams: LoaderTestParams) : BaseLoaderTest() {
-        lateinit var mExecutor: ExecutorService
-        val mContentLock = ContentLock()
-        val mContentObserver = LockingContentObserver(mContentLock) {}
+        lateinit var executor: ExecutorService
+        val contentLock = ContentLock()
+        val contentObserver = LockingContentObserver(contentLock) {}
 
         companion object {
             @JvmStatic
@@ -120,23 +129,22 @@ class SearchLoaderTest {
         }
 
         @get:Rule
-        val checkFlags = CheckAndForceMaterial3Flag()
+        val setFlags = OverrideFlagsRule()
 
         @get:Rule
         val expect: Expect = Expect.create()
 
         @Before
         fun setUpTest() {
-            mExecutor = Executors.newSingleThreadExecutor()
+            executor = Executors.newSingleThreadExecutor()
         }
 
         @Test
-        @RequiresFlagsEnabled(FLAG_USE_SEARCH_V2_READ_ONLY)
+        @EnableFlags(FLAG_USE_SEARCH_V2_READ_ONLY, FLAG_USE_MATERIAL3)
         fun testLoadInBackground() {
-            val mockProvider = mEnv.mockProviders[TestProvidersAccess.DOWNLOADS.authority]
+            val mockProvider = environment.mockProviders[TestProvidersAccess.DOWNLOADS.authority]
             val docs = createDocuments(testParams.fakeFileCount)
             mockProvider!!.setNextChildDocumentsReturns(*docs)
-            val userIds = listOf(TestProvidersAccess.DOWNLOADS.userId)
             val queryOptions = QueryOptions(
                 testParams.fakeFileCount + 1,
                 testParams.maxResultsPerRoot,
@@ -147,24 +155,17 @@ class SearchLoaderTest {
                 testParams.otherArgs,
             )
 
-            val folderInfo = listOf(
-                FolderInfo(
-                    TestProvidersAccess.DOWNLOADS.rootId,
-                    TestProvidersAccess.DOWNLOADS.authority,
-                    TestProvidersAccess.DOWNLOADS.supportsSearchResultLimit()
-                )
-            )
+            val rootInfoList = listOf(TestProvidersAccess.DOWNLOADS)
 
             val loader = SearchLoader(
-                mActivity,
-                userIds,
+                activity,
+                rootInfoList,
                 TestFileTypeLookup(),
-                mContentObserver,
-                folderInfo,
+                contentObserver,
                 testParams.query,
                 queryOptions,
-                mEnv.state.sortModel,
-                mExecutor,
+                environment.state.sortModel,
+                executor,
             )
             val directoryResult = loader.loadInBackground()
             expect.that(getFileCount(directoryResult)).isEqualTo(testParams.expectedCount)
@@ -172,20 +173,28 @@ class SearchLoaderTest {
     }
 
     // Collection of plain tests that do not use parameters.
+    @SmallTest
     class PlainTests : BaseLoaderTest() {
         @get:Rule
-        val checkFlags = CheckAndForceMaterial3Flag()
+        val setFlags = OverrideFlagsRule()
 
         @get:Rule
         val expect: Expect = Expect.create()
 
-        lateinit var mExecutor: ExecutorService
-        val mContentLock = ContentLock()
-        val mContentObserver = LockingContentObserver(mContentLock) {}
+        lateinit var executor: ExecutorService
+        val contentLock = ContentLock()
+        val contentObserver = LockingContentObserver(contentLock) {}
 
         @Before
         fun setUpTest() {
-            mExecutor = Executors.newSingleThreadExecutor()
+            executor = Executors.newSingleThreadExecutor()
+        }
+
+        @After
+        fun tearDownTest() {
+            for (provider in environment.mockProviders) {
+                provider.value.setQueryDelay(0)
+            }
         }
 
         fun generateDocuments(
@@ -196,7 +205,7 @@ class SearchLoaderTest {
             return Array(count) { i ->
                 val suffix = String.format(Locale.US, "%05d", 2 * i + suffixOffset)
                 val ext = extensions[i % extensions.size]
-                mEnv.model.createFile("document-$suffix.$ext")
+                environment.model.createFile("document-$suffix.$ext")
             }
         }
 
@@ -207,10 +216,11 @@ class SearchLoaderTest {
          * produces the expected result.
          */
         @Test
+        @EnableFlags(FLAG_USE_SEARCH_V2_READ_ONLY, FLAG_USE_MATERIAL3)
         fun testValidateMergeFilterSort() {
             val fileCount = 200
             val maxCount = fileCount / 2
-            mEnv.mockProviders.apply {
+            environment.mockProviders.apply {
                 // Pickles documents have IDs 0, 2, 4, .., 398. Half of the documents are images,
                 // the other half are documents (PDFs).
                 get(TestProvidersAccess.PICKLES.authority)!!.setNextChildDocumentsReturns(
@@ -226,24 +236,11 @@ class SearchLoaderTest {
             // Setup the sort model so that results are sorted by their name.
             val sortModel = SortModel.createModel()
             sortModel.setDefaultDimension(SortModel.SORT_DIMENSION_ID_TITLE)
-            val folderInfo = listOf(
-                FolderInfo(
-                    TestProvidersAccess.PICKLES.rootId,
-                    TestProvidersAccess.PICKLES.authority,
-                    TestProvidersAccess.DOWNLOADS.supportsSearchResultLimit()
-                ),
-                FolderInfo(
-                    TestProvidersAccess.HOME.rootId,
-                    TestProvidersAccess.HOME.authority,
-                    TestProvidersAccess.DOWNLOADS.supportsSearchResultLimit()
-                ),
-            )
             val loader = SearchLoader(
-                mActivity,
-                listOf(TestProvidersAccess.PICKLES.userId, TestProvidersAccess.HOME.userId),
+                activity,
+                listOf(TestProvidersAccess.PICKLES, TestProvidersAccess.HOME),
                 TestFileTypeLookup(),
-                mContentObserver,
-                folderInfo,
+                contentObserver,
                 "document-",
                 QueryOptions(
                     maxCount,
@@ -255,7 +252,7 @@ class SearchLoaderTest {
                     Bundle()
                 ),
                 sortModel,
-                mExecutor,
+                executor,
             )
             val result = loader.loadInBackground()
             expect.that(result?.cursor?.getCount()).isEqualTo(maxCount)
@@ -274,29 +271,22 @@ class SearchLoaderTest {
         }
 
         @Test
+        @EnableFlags(FLAG_USE_SEARCH_V2_READ_ONLY, FLAG_USE_MATERIAL3)
         fun testExtraArgs() {
-            mEnv.mockProviders.apply {
+            environment.mockProviders.apply {
                 get(TestProvidersAccess.PICKLES.authority)!!.setNextChildDocumentsReturns(
                     *generateDocuments(2, 1, arrayOf("png", "avi"))
                 )
             }
-            val folderInfo = listOf(
-                FolderInfo(
-                    TestProvidersAccess.PICKLES.rootId,
-                    TestProvidersAccess.PICKLES.authority,
-                    TestProvidersAccess.PICKLES.supportsSearchResultLimit(),
-                ),
-            )
             val loader = SearchLoader(
-                mActivity,
-                listOf(TestProvidersAccess.PICKLES.userId, TestProvidersAccess.HOME.userId),
+                activity,
+                listOf(TestProvidersAccess.PICKLES, TestProvidersAccess.HOME),
                 TestFileTypeLookup(),
-                mContentObserver,
-                folderInfo,
+                contentObserver,
                 "document",
                 QueryOptions(10, ALL_RESULTS, null, null, false, arrayOf("image/png"), Bundle()),
-                mEnv.state.sortModel,
-                mExecutor,
+                environment.state.sortModel,
+                executor,
             )
             val result = loader.loadInBackground()
             expect.that(result!!.cursor).isNotNull()
@@ -306,6 +296,172 @@ class SearchLoaderTest {
             // TODO(417818526): Add ability to force mock providers to be extra slow, so that
             // we can test for the case when they do not finish on time.
             expect.that(extras.getBoolean(DocumentsContract.EXTRA_LOADING)).isFalse()
+        }
+
+        @Test
+        @EnableFlags(FLAG_USE_SEARCH_V2_READ_ONLY, FLAG_USE_MATERIAL3)
+        fun testShowOrHideHiddenFiles() {
+            val commonSearchString = "verdant"
+            val doc1 = environment.model.createFile(".test$commonSearchString")
+            val doc2 = environment.model.createFile("test$commonSearchString")
+            doc1.documentId = ".test"
+            doc2.documentId = "parent_folder/.hidden_folder/test"
+            environment.mockProviders[TestProvidersAccess.DOWNLOADS.authority]?.apply {
+                setNextChildDocumentsReturns(
+                    doc1,
+                    doc2
+                )
+            }
+
+            val hideHiddenLoader = SearchLoader(
+                activity,
+                listOf(TestProvidersAccess.DOWNLOADS),
+                TestFileTypeLookup(),
+                contentObserver,
+                commonSearchString,
+                QueryOptions(10, ALL_RESULTS, null, null, false, null, Bundle()),
+                environment.state.sortModel,
+                executor,
+            )
+
+            var result: DirectoryResult = hideHiddenLoader.loadInBackground()!!
+            assertEquals(0, result.cursor.getCount())
+
+            val showHiddenLoader = SearchLoader(
+                activity,
+                listOf(TestProvidersAccess.DOWNLOADS),
+                TestFileTypeLookup(),
+                contentObserver,
+                commonSearchString,
+                QueryOptions(10, ALL_RESULTS, null, null, true, null, Bundle()),
+                environment.state.sortModel,
+                executor,
+            )
+            result = showHiddenLoader.loadInBackground()!!
+            assertEquals(2, result.cursor.getCount())
+        }
+
+        @Test
+        @EnableFlags(FLAG_USE_SEARCH_V2_READ_ONLY, FLAG_USE_MATERIAL3)
+        fun testCompletesInPresenceOfExceptions() {
+            environment.mockProviders[TestProvidersAccess.DOWNLOADS.authority]?.apply {
+                setThrownRuntimeMessage("Testing exception throwing")
+            }
+
+            val loader =
+                SearchLoader(
+                    activity,
+                    listOf(TestProvidersAccess.DOWNLOADS),
+                    TestFileTypeLookup(),
+                    contentObserver,
+                    "query",
+                    QueryOptions(10, ALL_RESULTS, null, null, true, null, Bundle()),
+                    environment.state.sortModel,
+                    executor,
+                )
+            val queryDuration = measureTime {
+                val result = loader.loadInBackground()
+                val cursor = result?.cursor
+                expect.that(cursor).isNotNull()
+                expect.that(cursor!!.count).isEqualTo(0)
+                // Expect that no cursor is still loading.
+                expect.that(cursor.extras?.getBoolean(DocumentsContract.EXTRA_LOADING)).isFalse()
+            }
+            // The no results should be due to the task terminating immediately, not because
+            // it timed out. We give it 100 milliseconds.
+            expect.that(queryDuration).isLessThan(100.milliseconds)
+        }
+
+        @Test
+        @EnableFlags(FLAG_USE_SEARCH_V2_READ_ONLY, FLAG_USE_MATERIAL3)
+        fun testDeliversFastAndSlowResults() {
+            val commonSearchString = UUID.randomUUID().toString()
+            val doc1 = environment.model.createFile("downloads$commonSearchString")
+            val doc2 = environment.model.createFile("pickles$commonSearchString")
+            val doc3 = environment.model.createFile("home$commonSearchString")
+            // The barrier awaits for 2 callers. One from the test thread and one from
+            // the thread that runs the loader.
+            val barrier = CyclicBarrier(2)
+            var result: DirectoryResult? = null
+            val firstPassWaitMs = 500L
+            val passDeltaMs = 200L
+            // bufferMs is to allow some processing time between the time the results are
+            // released by a document provider vs the time they make it to onLoadFinished method.
+            val bufferMs = 100L
+
+            // Wait times for the above firstPassWaitMs and passDeltaMs are going to be:
+            //  DOWNLOADS: 300ms
+            //  PICKLES:   700ms
+            //  HOME:      900ms
+            environment.mockProviders[TestProvidersAccess.DOWNLOADS.authority]?.apply {
+                setQueryDelay(firstPassWaitMs - passDeltaMs)
+                setNextChildDocumentsReturns(doc1)
+            }
+            environment.mockProviders[TestProvidersAccess.PICKLES.authority]?.apply {
+                setQueryDelay(firstPassWaitMs + passDeltaMs)
+                setNextChildDocumentsReturns(doc2)
+            }
+            environment.mockProviders[TestProvidersAccess.HOME.authority]?.apply {
+                setQueryDelay(firstPassWaitMs + 2 * passDeltaMs)
+                setNextChildDocumentsReturns(doc3)
+            }
+
+            val loaderCallbacks: LoaderManager.LoaderCallbacks<DirectoryResult> =
+                object : LoaderManager.LoaderCallbacks<DirectoryResult> {
+
+                    override fun onCreateLoader(
+                        id: Int,
+                        args: Bundle?
+                    ): Loader<DirectoryResult?> {
+                        return SearchLoader(
+                            activity,
+                            listOf(
+                                TestProvidersAccess.DOWNLOADS,
+                                TestProvidersAccess.PICKLES,
+                                TestProvidersAccess.HOME,
+                            ),
+                            TestFileTypeLookup(),
+                            contentObserver,
+                            commonSearchString,
+                            QueryOptions(
+                                10,
+                                ALL_RESULTS,
+                                null,
+                                Duration.ofMillis(firstPassWaitMs),
+                                false,
+                                null,
+                                Bundle()
+                            ),
+                            environment.state.sortModel,
+                            Executors.newFixedThreadPool(3)
+                        )
+                    }
+
+                    override fun onLoadFinished(
+                        loader: Loader<DirectoryResult>,
+                        data: DirectoryResult?
+                    ) {
+                        result = data
+                        barrier.await()
+                    }
+
+                    override fun onLoaderReset(loader: Loader<DirectoryResult>) {
+                        loader.reset()
+                    }
+                }
+
+            activity.supportLoaderManager.restartLoader(1, null, loaderCallbacks).startLoading()
+            // Wait for the Downloads result.
+            barrier.await()
+            expect.that(getFileCount(result)).isEqualTo(1)
+
+            // Now wait for the PICKLES result.
+            barrier.await()
+            // Expect that both the old and the new results are returned.
+            expect.that(getFileCount(result)).isEqualTo(2)
+
+            barrier.await()
+            expect.that(getFileCount(result)).isEqualTo(3)
         }
     }
 }

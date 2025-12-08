@@ -26,12 +26,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import android.net.Uri;
-import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.annotations.EnableFlags;
 import android.provider.DocumentsContract.Document;
 
+import androidx.test.filters.LargeTest;
 import androidx.test.filters.MediumTest;
 
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.OverrideFlagsRule;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,7 +41,7 @@ import org.junit.Test;
 public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
 
     @Rule
-    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     public CopyJobTest() {
         super(OPERATION_COPY);
@@ -52,7 +53,7 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testCopyFilesWithProgress() throws Exception {
         runCopyFilesTestWithJobProgress();
     }
@@ -63,7 +64,7 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testCopyVirtualTypedFileWithJobProgress() throws Exception {
         runCopyVirtualTypedFileTestWithJobProgress();
     }
@@ -74,7 +75,7 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testCopyVirtualNonTypedFileWithProgress() throws Exception {
         runCopyVirtualNonTypedFileTestWithJobProgress();
     }
@@ -96,7 +97,7 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testCopyWithJobProgress_BackendSideVirtualTypedFile_Fallback() throws Exception {
         mDocs.assertChildCount(mDestRoot, 0);
 
@@ -110,7 +111,7 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
         JobProgress progress = job.getJobProgress();
         assertEquals(job.id, progress.id);
         assertEquals(Job.STATE_CREATED, progress.state);
-        assertEquals("Copying tokyo.sth to " + mDestRoot.title, progress.msg);
+        assertEquals("Copying “tokyo.sth” to “" + mDestRoot.title + "”", progress.msg);
         assertFalse(progress.hasFailures);
 
         job.run();
@@ -122,7 +123,7 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
         assertEquals(Job.STATE_COMPLETED, progress.state);
         assertEquals(OPERATION_COPY, progress.operationType);
         assertFalse(progress.hasFailures);
-        assertEquals("Copying tokyo.sth to " + mDestRoot.title, progress.msg);
+        assertEquals("Copying “tokyo.sth” to “" + mDestRoot.title + "”", progress.msg);
         assertEquals(-1, progress.currentBytes);
         assertEquals(-1, progress.requiredBytes);
     }
@@ -133,7 +134,7 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testCopyEmptyDirWithJobProgress() throws Exception {
         runCopyEmptyDirTestWithJobProgress();
     }
@@ -143,6 +144,8 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
         runCopyDirRecursivelyTest();
     }
 
+    // This test sometimes takes >1 minute to run.
+    @LargeTest
     @Test
     public void testCopyDirRecursively_loadingInFirstCursor() throws Exception {
         mDocs.setLoadingDuration(500);

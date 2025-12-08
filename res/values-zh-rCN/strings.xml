@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"保存"</string>
     <string name="menu_share" msgid="4307140947108068356">"分享"</string>
     <string name="menu_delete" msgid="1022254131543256626">"删除"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"永久删除"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"移至回收站"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"恢复"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"全选"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"取消全选"</string>
     <string name="menu_select" msgid="1366061076507142387">"选择"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"复制到…"</string>
     <string name="menu_move" msgid="2310760789561129882">"移至…"</string>
     <string name="menu_compress" msgid="37539111904724188">"压缩"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"压缩"</string>
     <string name="menu_extract" msgid="8171946945982532262">"解压到…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"提取全部…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"解压缩到此处"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"解压"</string>
     <string name="menu_browse" msgid="6007716414766674967">"浏览"</string>
     <string name="menu_rename" msgid="1883113442688817554">"重命名"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"获取信息"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"不允许执行该操作"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"如需了解详情，请与您的 IT 管理员联系"</string>
     <string name="root_recent" msgid="1080156975424341623">"最近"</string>
+    <string name="root_trash" msgid="1869929519939073178">"回收站"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"可用空间：<xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"存储服务"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"快捷方式"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"无法删除部分文档"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"最多只能分享 <xliff:g id="COUNT">%1$d</xliff:g> 个文件"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"不允许执行此操作"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"打开方式…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"未安装任何受支持的应用。请尝试从 Google Play 商店安装一款应用。"</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"在 Google Play 商店中搜索"</string>
     <string name="share_via" msgid="8725082736005677161">"分享方式"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"正在复制文件"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"正在压缩文件"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"正在解压缩文件"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"正在移动文件"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"正在删除文件"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"正在将文件移至回收站"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"正在恢复文件"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"剩余时间：<xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other">正在复制 <xliff:g id="COUNT_1">%1$d</xliff:g> 项。</item>
@@ -143,8 +153,8 @@
       <item quantity="one">正在压缩 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
-      <item quantity="other">正在解压 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件。</item>
-      <item quantity="one">正在解压 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
+      <item quantity="other">正在解压缩 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件。</item>
+      <item quantity="one">正在解压缩 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
       <item quantity="other">正在移动 <xliff:g id="COUNT_1">%1$d</xliff:g> 项。</item>
@@ -154,29 +164,26 @@
       <item quantity="other">正在删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 项。</item>
       <item quantity="one">正在删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 项。</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{正在将 <xliff:g id="COUNT_0">{count}</xliff:g> 项内容移至回收站}other{正在将 <xliff:g id="COUNT_1">{count}</xliff:g> 项内容移至回收站}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{正在恢复 <xliff:g id="COUNT_0">{count}</xliff:g> 项内容}other{正在恢复 <xliff:g id="COUNT_1">{count}</xliff:g> 项内容}}"</string>
     <string name="undo" msgid="2902438994196400565">"撤消"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"正在准备…"</string>
     <string name="compress_preparing" msgid="7401605598969019696">"正在准备…"</string>
     <string name="extract_preparing" msgid="4796626960061745796">"正在准备…"</string>
     <string name="move_preparing" msgid="6504239656430530761">"正在准备…"</string>
     <string name="delete_preparing" msgid="7339349837842802508">"正在准备…"</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"正在准备…"</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"正在准备…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="other">无法复制 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
-      <item quantity="one">无法复制 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">无法压缩 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
-      <item quantity="one">无法压缩 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="other">无法移动 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
-      <item quantity="one">无法移动 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="other">无法删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
-      <item quantity="one">无法删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{无法复制 <xliff:g id="COUNT_0">{count}</xliff:g> 项内容}other{无法复制 <xliff:g id="COUNT_1">{count}</xliff:g> 项内容}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{无法压缩 <xliff:g id="COUNT_0">{count}</xliff:g> 项内容}other{无法压缩 <xliff:g id="COUNT_1">{count}</xliff:g> 项内容}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{无法解压 <xliff:g id="COUNT_0">{count}</xliff:g> 项内容}other{无法解压 <xliff:g id="COUNT_1">{count}</xliff:g> 项内容}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{无法移动 <xliff:g id="COUNT_0">{count}</xliff:g> 项内容}other{无法移动 <xliff:g id="COUNT_1">{count}</xliff:g> 项内容}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{无法删除 <xliff:g id="COUNT_0">{count}</xliff:g> 项内容}other{无法删除 <xliff:g id="COUNT_1">{count}</xliff:g> 项内容}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{无法将 <xliff:g id="COUNT_0">{count}</xliff:g> 项内容移至回收站}other{无法将 <xliff:g id="COUNT_1">{count}</xliff:g> 项内容移至回收站}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{无法恢复 <xliff:g id="COUNT_0">{count}</xliff:g> 项内容}other{无法恢复 <xliff:g id="COUNT_1">{count}</xliff:g> 项内容}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"点按即可查看详情"</string>
     <string name="close" msgid="905969391788869975">"关闭"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -207,17 +214,39 @@
       <item quantity="other">已将 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件复制到剪贴板。</item>
       <item quantity="one">已将 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件复制到剪贴板。</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"只读"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"您可以查看这些文件，但无法执行某些操作"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"此归档文件位于只读位置，无法解压缩到此处。"</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"不支持文件操作。"</string>
     <string name="file_operation_error" msgid="2234357335716533795">"文件操作失败。"</string>
     <string name="rename_error" msgid="6700093173508118635">"无法重命名文档"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"退出"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"部分文件已转换成其他格式"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{正在将“<xliff:g id="FILENAME">{filename}</xliff:g>”复制到“<xliff:g id="DIRECTORY_0">{directory}</xliff:g>”}other{正在将 # 个文件复制到“<xliff:g id="DIRECTORY_1">{directory}</xliff:g>”}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{正在将“<xliff:g id="FILENAME">{filename}</xliff:g>”解压缩到“<xliff:g id="DIRECTORY_0">{directory}</xliff:g>”}other{正在将 # 个归档文件解压缩到“<xliff:g id="DIRECTORY_1">{directory}</xliff:g>”}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{正在将“<xliff:g id="FILENAME">{filename}</xliff:g>”移动到“<xliff:g id="DIRECTORY_0">{directory}</xliff:g>”}other{正在将 # 个文件移动到“<xliff:g id="DIRECTORY_1">{directory}</xliff:g>”}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{正在删除“<xliff:g id="FILENAME">{filename}</xliff:g>”}other{正在删除 # 个文件}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{正在将 <xliff:g id="FILENAME">{filename}</xliff:g> 移至回收站}other{正在将 # 个文件移至回收站}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{正在恢复“<xliff:g id="FILENAME">{filename}</xliff:g>”}other{正在恢复 # 个文件}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{正在压缩“<xliff:g id="FILENAME">{filename}</xliff:g>”}other{正在压缩 # 个文件}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"显示文件操作进度"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"文件进度"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"已完成"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"已取消"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"查看详情"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="CURRENTBYTES">%1$s</xliff:g>/<xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"已复制"</string>
     <string name="move_completed" msgid="3981250605092729273">"已移动"</string>
     <string name="delete_completed" msgid="4149401155614626199">"已删除"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"已压缩"</string>
-    <string name="extract_completed" msgid="8824595789915249972">"已提取"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"已压缩"</string>
+    <string name="extract_completed" msgid="8824595789915249972">"已解压缩"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"无法复制"</string>
+    <string name="move_failed" msgid="7692364307225994220">"无法移动"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"无法删除"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"无法压缩"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"无法解压缩"</string>
+    <string name="expand_label" msgid="5683357671239615207">"展开"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"收起"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"要授权<xliff:g id="APPNAME"><b>^1</b></xliff:g>访问<xliff:g id="STORAGE"><i>^3</i></xliff:g>上的“<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>”目录吗？"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"要授权<xliff:g id="APPNAME"><b>^1</b></xliff:g>访问“<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>”目录吗？"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"要授权<xliff:g id="APPNAME"><b>^1</b></xliff:g>访问您<xliff:g id="STORAGE"><i>^2</i></xliff:g>上的数据（包括照片和视频）吗？"</string>
@@ -258,6 +287,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"无法显示内容"</string>
     <string name="sign_in" msgid="6253762676723505592">"登录"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"归档<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"归档"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"要覆盖 <xliff:g id="NAME">%1$s</xliff:g> 吗？"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"继续在后台执行"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -299,7 +329,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"新建文件夹"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"在此设备上搜索"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"清除文字"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"此文件夹"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"根文件夹"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"所有位置"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"时间不限"</string>
@@ -318,7 +347,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"目前以列表模式显示。"</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"文件名"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"隐藏文件预览"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"无法预览"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"详细信息"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"常规信息"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"大小"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"类型"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"修改日期"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"隐藏文件预览"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"<xliff:g id="FILENAME">%s</xliff:g>的图片预览"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"隐藏信息面板"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"显示信息面板"</string>
 </resources>

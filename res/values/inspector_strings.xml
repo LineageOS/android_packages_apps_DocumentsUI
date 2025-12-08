@@ -112,6 +112,10 @@
     <string name="debug_supports_create" translatable="false">Supports create</string>
     <!-- String label for developer/debug file details, specifying that a file is deletable. -->
     <string name="debug_supports_delete" translatable="false">Supports delete</string>
+    <!-- String label for developer/debug file details, specifying that a file can be trashed. -->
+    <string name="debug_supports_trash" translatable="false">Supports trash</string>
+    <!-- String label for developer/debug file details, specifying that a file can be restored. -->
+    <string name="debug_supports_restore_from_trash" translatable="false">Supports restore</string>
     <!-- String label for developer/debug file details, specifying that a file has associated metadata. -->
     <string name="debug_supports_metadata" translatable="false">Supports metadata</string>
     <!-- String label for developer/debug file details, specifying that a file can be moved. -->

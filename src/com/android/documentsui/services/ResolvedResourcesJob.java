@@ -30,6 +30,8 @@ import android.os.RemoteException;
 import android.text.BidiFormatter;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -42,6 +44,7 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -68,7 +71,7 @@ public abstract class ResolvedResourcesJob extends Job {
         assert(srcs.getItemCount() > 0);
 
         // Delay the initialization of it to setUp() because it may be IO extensive.
-        mResolvedDocs = new ArrayList<>(srcs.getItemCount());
+        mResolvedDocs = Collections.synchronizedList(new ArrayList<>(srcs.getItemCount()));
 
         if (isVisualSignalsFlagEnabled() && srcs.getItemCount() == 1) {
             // Prebuild the document list so we can get the filename for a single file progress
@@ -199,14 +202,22 @@ public abstract class ResolvedResourcesJob extends Job {
         return mResolvedDocs.size();
     }
 
-    protected String getProgressMessage(int stringId, Map<String, Object> formatArgs) {
-        formatArgs.put("count", mResourceUris.getItemCount());
-        if (mResourceUris.getItemCount() == 1 && mResolvedDocs.size() == 1) {
-            formatArgs.put("filename",
-                    BidiFormatter.getInstance().unicodeWrap(mResolvedDocs.get(0).displayName));
+    protected String getProgressMessage(int stringId, @NonNull Map<String, Object> formatArgs) {
+        final int n = mResourceUris.getItemCount();
+        formatArgs.put("count", n);
+
+        if (n == 1) {
+            String name;
+            try {
+                name = mResolvedDocs.get(0).displayName;
+            } catch (IndexOutOfBoundsException ignored) {
+                name = "";
+            }
+            formatArgs.put("filename", BidiFormatter.getInstance().unicodeWrap(name));
         }
-        return (new MessageFormat(service.getString(getRes(stringId)), Locale.getDefault()))
-                .format(formatArgs);
+
+        return new MessageFormat(service.getString(getRes(stringId)), Locale.getDefault()).format(
+                formatArgs);
     }
 
     protected String getProgressMessage(int stringId) {

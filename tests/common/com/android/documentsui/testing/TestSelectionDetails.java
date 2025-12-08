@@ -31,10 +31,13 @@ public class TestSelectionDetails implements SelectionDetails {
     public boolean containDirectories;
     public boolean containFiles;
     public boolean isArchive;
+    public boolean hasMultipleOpeningApps;
     public boolean canPasteInto;
     public boolean canExtract;
     public boolean canOpen;
     public boolean canViewInOwner;
+    public boolean canTrash;
+    public boolean canRestore;
 
     @Override
     public boolean containsPartialFiles() {
@@ -59,6 +62,11 @@ public class TestSelectionDetails implements SelectionDetails {
     @Override
     public boolean isArchive() {
         return isArchive;
+    }
+
+    @Override
+    public boolean hasMultipleOpeningApps() {
+        return hasMultipleOpeningApps;
     }
 
     @Override
@@ -89,6 +97,16 @@ public class TestSelectionDetails implements SelectionDetails {
     @Override
     public boolean canViewInOwner() {
         return canViewInOwner;
+    }
+
+    @Override
+    public boolean canTrash() {
+        return canTrash;
+    }
+
+    @Override
+    public boolean canRestore() {
+        return canRestore;
     }
 
     @Override

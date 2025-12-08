@@ -23,12 +23,13 @@ import static com.android.documentsui.services.FileOperationService.OPERATION_MO
 import static com.google.common.collect.Lists.newArrayList;
 
 import android.net.Uri;
-import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.annotations.EnableFlags;
 import android.provider.DocumentsContract.Document;
 
+import androidx.test.filters.LargeTest;
 import androidx.test.filters.MediumTest;
 
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.OverrideFlagsRule;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,7 +38,7 @@ import org.junit.Test;
 public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {
 
     @Rule
-    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     public MoveJobTest() {
         super(OPERATION_MOVE);
@@ -51,7 +52,7 @@ public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testMoveFilesWithJobProgress() throws Exception {
         runCopyFilesTestWithJobProgress();
 
@@ -101,7 +102,7 @@ public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testMoveVirtualNonTypedFileWithJobProgress() throws Exception {
         runCopyVirtualNonTypedFileTestWithJobProgress();
 
@@ -133,7 +134,7 @@ public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {
     }
 
     @Test
-    @RequiresFlagsEnabled({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
+    @EnableFlags({FLAG_USE_MATERIAL3, FLAG_VISUAL_SIGNALS_RO})
     public void testMoveEmptyDirWithJobProgress() throws Exception {
         runCopyEmptyDirTestWithJobProgress();
 
@@ -147,6 +148,7 @@ public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {
         mDocs.assertChildCount(mSrcRoot, 0);
     }
 
+    @LargeTest
     @Test
     public void testMoveDirRecursively_loadingInFirstCursor() throws Exception {
         mDocs.setLoadingDuration(500);

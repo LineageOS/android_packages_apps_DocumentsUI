@@ -42,5 +42,10 @@ class HasChildCountCondition(
         fun hasMoreThanOneChild(): HasChildCountCondition {
             return HasChildCountCondition({ it > 1 })
         }
+
+        @JvmStatic
+        fun hasNoChildren(): HasChildCountCondition {
+            return HasChildCountCondition({ it == 0})
+        }
     }
 }

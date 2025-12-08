@@ -1,2 +1,47 @@
 rule com.google.common.** docsui.@0
 rule android.support.annotation.** docsui.@0
+
+# The dependency on androidx.test.espresso.contrib pulls in a bunch of stuff in androidx which also
+# exists in DocumentsUI. When the test starts, classes in both the test apk and the instrumented_for
+# apk (as defined in Android.bp) are added to classpath and this causes duplicate classes looking
+# for resources with different IDs, crashing the test. b/437010833 tracks a more permanent solution.
+zap androidx.activity.**
+zap androidx.annotation.**
+zap androidx.appcompat.**
+zap androidx.arch.core.**
+zap androidx.autofill.**
+zap androidx.benchmark.**
+zap androidx.cardview.**
+zap androidx.collection.**
+zap androidx.compose.**
+zap androidx.concurrent.**
+zap androidx.constraintlayout.**
+zap androidx.coordinatorlayout.**
+zap androidx.core.**
+zap androidx.cursoradapter.**
+zap androidx.customview.**
+zap androidx.drawerlayout.**
+zap androidx.dynamicanimation.**
+zap androidx.emoji2.**
+zap androidx.fragment.**
+zap androidx.graphics.**
+zap androidx.inspection.**
+zap androidx.interpolator.**
+zap androidx.lifecycle.**
+zap androidx.loader.**
+zap androidx.navigationevent.**
+zap androidx.preference.**
+zap androidx.profileinstaller.**
+zap androidx.recyclerview.**
+zap androidx.resourceinspection.**
+zap androidx.savedstate.**
+zap androidx.slidingpanelayout.**
+zap androidx.startup.**
+zap androidx.tracing.**
+zap androidx.transition.**
+zap androidx.vectordrawable.**
+zap androidx.versionedparcelable.**
+zap androidx.viewpager.**
+zap androidx.viewpager2.**
+zap androidx.window.**
+zap com.google.android.material.**

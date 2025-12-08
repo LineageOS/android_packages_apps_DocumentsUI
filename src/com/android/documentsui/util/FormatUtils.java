@@ -37,7 +37,7 @@ public class FormatUtils {
      * For example, 500 milliseconds round to 1 second,
      * 90000 milliseconds (90 seconds or 1.5 minutes) round to 2 minutes.
      * The returned unit of time is from seconds up to hours.
-     * This founction is copied from {@link DateUtils}
+     * This function is copied from {@link DateUtils}.
      * @param millis the duration time in milliseconds.
      * @return String of the duration.
      */

@@ -16,6 +16,8 @@
 
 package com.android.documentsui.util;
 
+import android.os.Build;
+
 import com.android.modules.utils.build.SdkLevel;
 
 /**
@@ -39,5 +41,12 @@ public class VersionUtils {
      */
     public static boolean isAtLeastS() {
         return SdkLevel.isAtLeastS();
+    }
+
+    /**
+     * Returns whether the device is running on a version newer than Android BAKLAVA.
+     */
+    public static boolean isGreaterThanB() {
+        return Build.VERSION.SDK_INT > Build.VERSION_CODES.BAKLAVA;
     }
 }

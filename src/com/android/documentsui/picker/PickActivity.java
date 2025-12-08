@@ -21,15 +21,22 @@ import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
+import static com.android.documentsui.util.FlagUtils.isMovingContentIntoPrivateSpaceEnabled;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -38,6 +45,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -54,6 +62,7 @@ import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SelectionBarController;
 import com.android.documentsui.SharedInputHandler;
+import com.android.documentsui.UserManagerProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.MimeTypes;
@@ -71,9 +80,12 @@ import com.android.documentsui.util.CrossProfileUtils;
 import com.android.documentsui.util.VersionUtils;
 import com.android.modules.utils.build.SdkLevel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
@@ -110,7 +122,13 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 new MessageBuilder(this),
                 DialogController.create(features, this),
                 DocumentsApplication.getFileTypeLookup(this),
-                (Collection<RootInfo> roots) -> {
+                (Collection<RootInfo> roots) -> {},
+                new UserManagerProvider() {
+                    @Override
+                    @RequiresApi(Build.VERSION_CODES.S)
+                    public List<UserId> getUserIds(Context context) {
+                        return DocumentsApplication.getUserManagerState(context).getUserIds();
+                    }
                 });
 
         super.onCreate(icicle);
@@ -134,6 +152,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         if (isUseMaterial3FlagEnabled()) {
             mInjector.selectionBarController =
                     new SelectionBarController(
+                            findViewById(getRes(R.id.toolbar)),
                             findViewById(getRes(R.id.selection_bar)),
                             mInjector.menuManager,
                             mInjector.selectionMgr);
@@ -261,8 +280,9 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         moreApps.setPackage(null);
         if (mState.supportsCrossProfile) {
             if (mConfigStore.isPrivateSpaceInDocsUIEnabled() && SdkLevel.isAtLeastS()) {
-                mState.canForwardToProfileIdMap = mUserManagerState.getCanForwardToProfileIdMap(
-                        moreApps);
+                mState.canForwardToProfileIdMap =
+                        mUserManagerState.getCanForwardToProfileIdMapForAllowedUsers(
+                                moreApps, mState);
             } else if (CrossProfileUtils.getCrossProfileResolveInfo(UserId.CURRENT_USER,
                     getPackageManager(), moreApps, getApplicationContext(),
                     mConfigStore.isPrivateSpaceInDocsUIEnabled()) != null) {
@@ -315,6 +335,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                     Intent.EXTRA_ALLOW_MULTIPLE, false);
         }
 
+        String packageName = Shared.getCallingPackageName(this);
+        if (isMovingContentIntoPrivateSpaceEnabled()
+                && hasCrossUsersPermissions(packageName)) {
+            setExcludedUsers(state, intent);
+        }
         if (state.action == ACTION_OPEN || state.action == ACTION_GET_CONTENT
                 || state.action == ACTION_CREATE) {
             state.openableOnly = intent.hasCategory(Intent.CATEGORY_OPENABLE);
@@ -516,5 +541,49 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     @Override
     public Injector<ActionHandler<PickActivity>> getInjector() {
         return mInjector;
+    }
+
+    private boolean hasCrossUsersPermissions(String packageName) {
+        PackageManager packageManager = getApplicationContext().getPackageManager();
+        return packageManager.checkPermission(
+                Manifest.permission.INTERACT_ACROSS_USERS, packageName)
+                == PackageManager.PERMISSION_GRANTED
+                || packageManager.checkPermission(
+                Manifest.permission.INTERACT_ACROSS_USERS_FULL, packageName)
+                == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void setExcludedUsers(State state, Intent intent) {
+        try {
+            ArrayList<UserHandle> excludedUsersArray = intent.getParcelableArrayListExtra(
+                    DocumentsContract.EXTRA_EXCLUDED_USERS, UserHandle.class);
+            // Validate if we are not excluding all the users
+            if (excludedUsersArray != null && !excludedUsersArray.isEmpty()) {
+                List<UserHandle> allUsers = getApplicationContext().getSystemService(
+                        UserManager.class).getAllProfiles();
+                Set<Integer> excludedIdsSet = excludedUsersArray.stream()
+                        .map(UserHandle::getIdentifier)
+                        .collect(Collectors.toSet());
+
+                // Check if the set of excluded IDs contains every available user ID.
+                boolean allUsersAreExcluded = true;
+                if (allUsers.isEmpty()) {
+                    allUsersAreExcluded = false;
+                } else {
+                    for (UserHandle user : allUsers) {
+                        if (!excludedIdsSet.contains(user.getIdentifier())) {
+                            allUsersAreExcluded = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (!allUsersAreExcluded) {
+                    state.excludedUserIds = excludedIdsSet;
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Unable to get excluded users from intent", e);
+        }
     }
 }

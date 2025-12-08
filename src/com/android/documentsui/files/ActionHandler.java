@@ -313,7 +313,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
             doc.userId.startActivityAsUser(mActivity, intent);
         } catch (ActivityNotFoundException e) {
             Log.e(TAG, "Failed to view settings in application for " + doc.derivedUri, e);
-            mDialogs.showNoApplicationFound();
+            mDialogs.showNoApplicationFoundToast();
         }
     }
 
@@ -373,6 +373,88 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
     }
 
     @Override
+    public void trashSelectedDocuments(List<DocumentInfo> docs) {
+        if (docs == null || docs.isEmpty()) {
+            return;
+        }
+
+        if (isUseMaterial3FlagEnabled()) {
+            mCloseSelectionBar.run();
+        } else {
+            mActionModeAddons.finishActionMode();
+        }
+
+        List<Uri> uris = new ArrayList<>(docs.size());
+        for (DocumentInfo doc : docs) {
+            uris.add(doc.derivedUri);
+        }
+
+        UrisSupplier srcs;
+        try {
+            srcs = UrisSupplier.create(
+                    uris,
+                    mClipStore);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to trash because we were unable to get item URIs.", e);
+            mDialogs.showFileOperationStatus(
+                    FileOperations.Callback.STATUS_FAILED,
+                    FileOperationService.OPERATION_TRASH,
+                    uris.size());
+            return;
+        }
+
+        FileOperation operation = new FileOperation.Builder()
+                .withOpType(FileOperationService.OPERATION_TRASH)
+                .withDestination(mState.stack)
+                .withSrcs(srcs)
+                .build();
+
+        FileOperations.start(mActivity, operation, mDialogs::showFileOperationStatus,
+                FileOperations.createJobId());
+    }
+
+    @Override
+    public void restoreSelectedDocumentsFromTrash(List<DocumentInfo> docs) {
+        if (docs == null || docs.isEmpty()) {
+            return;
+        }
+
+        if (isUseMaterial3FlagEnabled()) {
+            mCloseSelectionBar.run();
+        } else {
+            mActionModeAddons.finishActionMode();
+        }
+
+        List<Uri> uris = new ArrayList<>(docs.size());
+        for (DocumentInfo doc : docs) {
+            uris.add(doc.derivedUri);
+        }
+
+        UrisSupplier srcs;
+        try {
+            srcs = UrisSupplier.create(
+                    uris,
+                    mClipStore);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to restore a file because we were unable to get item URIs.", e);
+            mDialogs.showFileOperationStatus(
+                    FileOperations.Callback.STATUS_FAILED,
+                    FileOperationService.OPERATION_RESTORE,
+                    uris.size());
+            return;
+        }
+
+        FileOperation operation = new FileOperation.Builder()
+                .withOpType(FileOperationService.OPERATION_RESTORE)
+                .withDestination(mState.stack)
+                .withSrcs(srcs)
+                .build();
+
+        FileOperations.start(mActivity, operation, mDialogs::showFileOperationStatus,
+                FileOperations.createJobId());
+    }
+
+    @Override
     public void shareSelectedDocuments() {
         Metrics.logUserAction(MetricConsts.USER_ACTION_SHARE);
 
@@ -393,7 +475,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
         if (docs.size() == 1) {
             intent = new Intent(Intent.ACTION_SEND);
             DocumentInfo doc = docs.get(0);
-            intent.setType(doc.mimeType);
+            intent.setDataAndType(doc.getDocumentUri(), doc.mimeType);
             intent.putExtra(Intent.EXTRA_STREAM, doc.getDocumentUri());
 
         } else if (docs.size() > 1) {
@@ -502,10 +584,10 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
             return false;
         }
 
-        mState.stack.reset(stack);
-        if (mState.stack.isEmpty()) {
-            mActivity.onRootPicked(mState.stack.getRoot());
+        if (stack.isEmpty()) {
+            mActivity.onRootPicked(stack.getRoot());
         } else {
+            mState.stack.reset(stack);
             mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         }
 
@@ -570,22 +652,30 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
 
         if (isDesktopFileHandlingFlagEnabled()) {
             Intent intent = buildViewIntent(doc);
+            if (intent.resolveActivity(mActivity.getPackageManager()) == null) {
+                mDialogs.showNoApplicationFoundDialog(mActivity.getSupportFragmentManager(), doc);
+                return;
+            }
             intent.setComponent(
                     new ComponentName("android", "com.android.internal.app.ResolverActivity"));
+
             try {
                 doc.userId.startActivityAsUser(mActivity, intent);
             } catch (ActivityNotFoundException e) {
-                mDialogs.showNoApplicationFound();
+                mDialogs.showNoApplicationFoundDialog(
+                        mActivity.getSupportFragmentManager(), doc);
             }
         } else {
             Intent intent = Intent.createChooser(buildViewIntent(doc), null);
             intent.putExtra(Intent.EXTRA_AUTO_LAUNCH_SINGLE_CHOICE, false);
+
             try {
                 doc.userId.startActivityAsUser(mActivity, intent);
             } catch (ActivityNotFoundException e) {
-                mDialogs.showNoApplicationFound();
+                mDialogs.showNoApplicationFoundToast();
             }
         }
+
     }
 
     private void showInspector(DocumentInfo doc) {

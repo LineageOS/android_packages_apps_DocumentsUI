@@ -18,6 +18,7 @@ package com.android.documentsui.base;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.redact;
+import static com.android.documentsui.util.FlagUtils.isTrashFlowEnabled;
 
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -245,6 +246,8 @@ public class DocumentInfo implements Durable, Parcelable {
                 + ", isPartial=" + isPartial()
                 + ", isVirtual=" + isVirtual()
                 + ", isDeleteSupported=" + isDeleteSupported()
+                + ", isTrashSupported=" + isTrashSupported()
+                + ", isRestoreSupported=" + isRestoreSupported()
                 + ", isCreateSupported=" + isCreateSupported()
                 + ", isMoveSupported=" + isMoveSupported()
                 + ", isRenameSupported=" + isRenameSupported()
@@ -260,6 +263,26 @@ public class DocumentInfo implements Durable, Parcelable {
 
     public boolean isDeleteSupported() {
         return (flags & Document.FLAG_SUPPORTS_DELETE) != 0;
+    }
+
+    /**
+     * Returns {@code true} if this document supports being trashed.
+     */
+    public boolean isTrashSupported() {
+        if (!isTrashFlowEnabled()) {
+            return false;
+        }
+        return (flags & Document.FLAG_SUPPORTS_TRASH) != 0;
+    }
+
+    /**
+     * Returns {@code true} if this document supports being restored.
+     */
+    public boolean isRestoreSupported() {
+        if (!isTrashFlowEnabled()) {
+            return false;
+        }
+        return (flags & Document.FLAG_SUPPORTS_RESTORE) != 0;
     }
 
     public boolean isMetadataSupported() {
@@ -408,15 +431,27 @@ public class DocumentInfo implements Durable, Parcelable {
     }
 
     /**
-     * Missing or null values are returned as 0.
+     * Gets the int at the column with {@code columnName} on the {@code cursor}. Returns 0 if the
+     * cursor is null or the column is missing.
      */
     public static int getCursorInt(Cursor cursor, String columnName) {
+        return getCursorInt(cursor, columnName, 0);
+    }
+
+    /**
+     * Gets the int at the column with {@code columnName} on the {@code cursor}. Returns
+     * {@code returnIfMissingOrNull} if the cursor is null or the column is missing.
+     *
+     * @param returnIfMissingOrNull The value to return if the cursor is null or the column is
+     *                              missing.
+     */
+    public static int getCursorInt(Cursor cursor, String columnName, int returnIfMissingOrNull) {
         if (cursor == null) {
-            return 0;
+            return returnIfMissingOrNull;
         }
 
         final int index = cursor.getColumnIndex(columnName);
-        return (index != -1) ? cursor.getInt(index) : 0;
+        return (index != -1) ? cursor.getInt(index) : returnIfMissingOrNull;
     }
 
     public static FileNotFoundException asFileNotFoundException(Throwable t)

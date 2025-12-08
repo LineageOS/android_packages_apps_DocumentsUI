@@ -46,7 +46,7 @@ public final class SharedMinimal {
         if (o == null) return "(null)";
 
         if (DEBUG) {
-            if (o instanceof Uri) return o.toString();
+            if (o instanceof Uri || o instanceof DocumentInfo) return o.toString();
             return "'" + o.toString() + "'";
         }
 

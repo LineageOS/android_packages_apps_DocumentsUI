@@ -49,7 +49,7 @@ public class IntegratedDownloadsUiTest extends ActivityTestJunit4<FilesActivity>
         dm.enqueue(new Request(Uri.parse("http://hammychamp.toodles")));
 
         bots.roots.openRoot("Downloads");
-        bots.directory.assertDocumentsPresent("Queued");
+        bots.directory.assertDocumentsVisible("Queued");
     }
 
     @Ignore

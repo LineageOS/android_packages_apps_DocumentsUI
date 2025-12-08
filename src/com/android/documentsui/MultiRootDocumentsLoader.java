@@ -28,6 +28,7 @@ import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.FileUtils;
+import android.os.Trace;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
@@ -124,6 +125,7 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
     @Override
     public DirectoryResult loadInBackground() {
+        Trace.beginSection("documentsui.searchv1.MultiRootDocumentsLoader#loadInBackground");
         try {
             synchronized (mTasks) {
                 return loadInBackgroundLocked();
@@ -131,6 +133,8 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
         } catch (InterruptedException e) {
             Log.w(TAG, "loadInBackground is interrupted: ", e);
             return null;
+        } finally {
+            Trace.endSection();
         }
     }
 
@@ -201,7 +205,9 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
                                         // Ignored, since we manage cursor lifecycle internally
                                     }
                                 };
-                        filteredCursor.filterHiddenFiles(mState.showHiddenFiles);
+                        if (shouldFilterHiddenFiles()) {
+                            filteredCursor.filterHiddenFiles(mState.showHiddenFiles);
+                        }
                         filteredCursor.filterMimes(mState.acceptMimes, getRejectMimes());
                         filteredCursor.filterLastModified(rejectBefore);
 
@@ -242,7 +248,7 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
         if (isDocumentsMovable()) {
             sorted = mState.sortModel.sortCursor(merged, mFileTypeMap);
         } else {
-            final Cursor notMovableMasked = new NotMovableMaskCursor(merged);
+            final Cursor notMovableMasked = getMaskCursor(merged);
             sorted = mState.sortModel.sortCursor(notMovableMasked, mFileTypeMap);
         }
 
@@ -293,6 +299,30 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
     protected boolean isDocumentsMovable() {
         return false;
+    }
+
+    /**
+     * Returns whether hidden files should be filtered from the results.
+     *
+     * @return {@code true} if hidden files should be filtered, {@code false} otherwise.
+     */
+    protected boolean shouldFilterHiddenFiles() {
+        return true;
+    }
+
+    /**
+     * Wraps the given cursor to mask or alter certain document properties.
+     *
+     * <p>This method uses a {@link NotMovableMaskCursor} to wrap the original cursor. This
+     * wrapper intercepts data requests and modifies the results on the fly. Specifically, it
+     * prevents documents from appearing as movable or deletable by clearing the corresponding flags
+     * in {@link android.provider.DocumentsContract.Document#COLUMN_FLAGS}.
+     *
+     * @param mergedCursor The original cursor containing the document data.
+     * @return A new cursor that masks certain document flags, making them non-movable.
+     */
+    protected Cursor getMaskCursor(Cursor mergedCursor) {
+        return new NotMovableMaskCursor(mergedCursor);
     }
 
     protected abstract QueryTask getQueryTask(String authority, List<RootInfo> rootInfos);
@@ -385,6 +415,16 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
         @Override
         public void run() {
+            try {
+                Trace.beginSection(
+                        "documentsui.searchv1.MultiRootDocumentsLoader.QueryTask#run");
+                runTraced();
+            } finally {
+                Trace.endSection();
+            }
+        }
+
+        private void runTraced() {
             if (isCancelled()) {
                 return;
             }

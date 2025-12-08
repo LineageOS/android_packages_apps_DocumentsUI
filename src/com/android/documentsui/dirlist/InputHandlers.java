@@ -17,6 +17,11 @@ package com.android.documentsui.dirlist;
 
 import static androidx.core.util.Preconditions.checkArgument;
 
+import static com.android.documentsui.ActionHandler.VIEW_TYPE_NONE;
+import static com.android.documentsui.ActionHandler.VIEW_TYPE_PREVIEW;
+import static com.android.documentsui.ActionHandler.VIEW_TYPE_REGULAR;
+import static com.android.documentsui.util.FlagUtils.isDesktopFileHandlingFlagEnabled;
+
 import android.view.KeyEvent;
 
 import androidx.recyclerview.selection.SelectionTracker;
@@ -86,15 +91,12 @@ final class InputHandlers {
                     case KeyEvent.KEYCODE_ENTER:
                     case KeyEvent.KEYCODE_DPAD_CENTER:
                     case KeyEvent.KEYCODE_BUTTON_A:
-                        return mActions.openItem(
-                                item,
-                                ActionHandler.VIEW_TYPE_REGULAR,
-                                ActionHandler.VIEW_TYPE_PREVIEW);
+                        if (isDesktopFileHandlingFlagEnabled()) {
+                            return mActions.openItem(item, VIEW_TYPE_REGULAR, VIEW_TYPE_NONE);
+                        }
+                        return mActions.openItem(item, VIEW_TYPE_PREVIEW, VIEW_TYPE_REGULAR);
                     case KeyEvent.KEYCODE_SPACE:
-                        return mActions.openItem(
-                                item,
-                                ActionHandler.VIEW_TYPE_PREVIEW,
-                                ActionHandler.VIEW_TYPE_NONE);
+                        return mActions.openItem(item, VIEW_TYPE_PREVIEW, VIEW_TYPE_NONE);
                 }
 
                 return false;

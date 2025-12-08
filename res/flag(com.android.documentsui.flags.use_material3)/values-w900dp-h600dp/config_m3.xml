@@ -22,5 +22,5 @@
 
     <!-- Dictates whether we show a search icon or a docked search bar in the toolbar. It's false
          on small screens to show the icon and true on larger screens to show the docked search. -->
-    <bool name="show_docked_search">true</bool>
+    <bool name="show_docked_search_m3">true</bool>
 </resources>

@@ -32,6 +32,7 @@ import android.system.OsConstants;
 import android.text.TextUtils;
 
 import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.MediumTest;
 import androidx.test.runner.AndroidJUnit4;
@@ -78,7 +79,7 @@ public class ReadableArchiveTest {
         }
     }
 
-    public static ArchiveId createArchiveId(String path) {
+    public static ArchiveId createArchiveId(@NonNull String path) {
         return new ArchiveId(ARCHIVE_URI, ParcelFileDescriptor.MODE_READ_ONLY, path);
     }
 

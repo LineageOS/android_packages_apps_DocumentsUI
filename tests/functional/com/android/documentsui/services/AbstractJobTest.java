@@ -86,8 +86,10 @@ public abstract class AbstractJobTest<T extends Job> {
 
     @After
     public void tearDown() throws Exception {
-        resetStorage();
-        mDocs.cleanUp();
+        if (mDocs != null) {
+            resetStorage();
+            mDocs.cleanUp();
+        }
     }
 
     private void resetStorage() throws RemoteException {

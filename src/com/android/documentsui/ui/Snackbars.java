@@ -20,6 +20,7 @@ import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.app.Activity;
+import android.icu.text.MessageFormat;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -31,6 +32,9 @@ import com.android.documentsui.base.Shared;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public final class Snackbars {
@@ -71,6 +75,35 @@ public final class Snackbars {
     public static final void showDelete(Activity activity, int docCount) {
         CharSequence message =
                 Shared.getQuantityString(activity, getRes(R.plurals.deleting), docCount);
+        makeSnackbar(activity, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public static void showError(Activity activity, @StringRes int id) {
+        makeSnackbar(activity, getRes(id), Snackbar.LENGTH_LONG).show();
+    }
+
+    /**
+     * Show Trash snackbar.
+     */
+    public static void showTrash(Activity activity, int docCount) {
+        Map<String, Object> formatArgs = new HashMap<>();
+        formatArgs.put("count", docCount);
+
+        String message = new MessageFormat(activity.getString(getRes(R.string.trashing)),
+                Locale.getDefault()).format(formatArgs);
+        makeSnackbar(activity, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    /**
+     * Show Restore snackbar
+     */
+    public static void showRestore(Activity activity, int docCount) {
+        Map<String, Object> formatArgs = new HashMap<>();
+        formatArgs.put("count", docCount);
+
+        String message = new MessageFormat(
+                activity.getString(getRes(R.string.restoring_from_trash)),
+                Locale.getDefault()).format(formatArgs);
         makeSnackbar(activity, message, Snackbar.LENGTH_LONG).show();
     }
 

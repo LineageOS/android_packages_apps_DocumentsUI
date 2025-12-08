@@ -20,7 +20,6 @@ import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -139,13 +138,12 @@ public class SaveFragment extends Fragment {
         mSave.setEnabled(false);
 
         mCancel = (MaterialButton) view.findViewById(android.R.id.button2);
-        // For >600dp, this button is always available (via the values-600dp layout override).
-        // However on smaller layouts, the button is default GONE to save on space (the back gesture
-        // can cancel the saver) and when FEATURE_PC is set a cancel button is required due to the
-        // lack of a back gesture (mainly mouse support).
+        // The "Cancel" button is default gone, however, if the "show_picker_cancel_button" is set
+        // to true, then it is shown. This is useful on devices with less obvious back buttons to
+        // allow for exiting the picker.
         if (isUseMaterial3FlagEnabled()
                 && mCancel != null
-                && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_PC)) {
+                && context.getResources().getBoolean(R.bool.show_picker_cancel_button)) {
             mCancel.setOnClickListener(mCancelListener);
             mCancel.setVisibility(View.VISIBLE);
             mCancel.setEnabled(true);

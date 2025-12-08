@@ -62,6 +62,12 @@
     <string name="menu_share">Share</string>
     <!-- Menu item title that deletes the selected documents [CHAR LIMIT=28] -->
     <string name="menu_delete">Delete</string>
+    <!-- Menu item title that permanently deletes the selected documents [CHAR LIMIT=28] -->
+    <string name="menu_permanently_delete">Delete permanently</string>
+    <!-- Menu item title that trashes the selected documents [CHAR LIMIT=28] -->
+    <string name="menu_move_to_trash">Move to trash</string>
+    <!-- Menu item title that restores the selected trashed documents [CHAR LIMIT=28] -->
+    <string name="menu_restore_from_trash">Restore</string>
     <!-- Menu item title that selects all documents in the current directory [CHAR LIMIT=28] -->
     <string name="menu_select_all">Select all</string>
     <!-- Menu item title that deselects all documents in the current directory [CHAR LIMIT=28] -->
@@ -76,12 +82,20 @@
     <string name="menu_move">Move to\u2026</string>
     <!-- Menu item title that compresses the selected documents to the current directory [CHAR LIMIT=28] -->
     <string name="menu_compress">Compress</string>
+    <!-- This string appears within the File Manager as a menu item of the context menu when one or
+    several files and/or folders are selected. The word "zip" is a verb meaning: to bundle and
+    compress the selected files in order to reduce the amount of memory and storage space required
+    to store them. The result of "zipping" the selected files is a new file (also known as a ZIP
+    archive) containing a copy of the files originally selected by the user. In this context, the
+    word "zip" has nothing to do with ZIP codes or postcodes.
+    [CHAR_LIMIT=28] -->
+    <string name="menu_zip">Zip</string>
     <!-- Menu item title that extracts the selected documents [CHAR LIMIT=28] -->
     <string name="menu_extract">Extract to\u2026</string>
     <!-- Menu item title that extracts all the documents in the current directory [CHAR LIMIT=28] -->
     <string name="menu_extract_all">Extract all\u2026</string>
     <!-- Menu item title that extracts the contents of the selected archive [CHAR LIMIT=28] -->
-    <string name="menu_extract_here">Extract here</string>
+    <string name="menu_extract_here">Extract</string>
     <!-- Menu item title that browses the contents of the selected archive [CHAR LIMIT=28] -->
     <string name="menu_browse">Browse</string>
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
@@ -261,6 +275,8 @@
 
     <!-- Title of storage root location that contains recently modified or used documents [CHAR LIMIT=24] -->
     <string name="root_recent">Recent</string>
+    <!-- Title of trash root location that contains trashed documents [CHAR LIMIT=24] -->
+    <string name="root_trash">Trash</string>
     <!-- Subtitle of storage root indicating the total free space available, in bytes [CHAR LIMIT=24] -->
     <string name="root_available_bytes"><xliff:g id="size" example="3GB">%1$s</xliff:g> free</string>
 
@@ -290,46 +306,81 @@
     <!-- Toast shown when a document is not allowed to share across users. This is a last-resort toast and not expected to be shown. [CHAR LIMIT=48] -->
     <string name="toast_action_not_allowed">Action not allowed</string>
 
+    <string name="no_application_dialog_title">Open with\u2026</string>
+    <string name="no_application_dialog_message">There are no supported apps installed. Try installing one from the Play Store.</string>
+    <string name="no_application_dialog_button">Search Play Store</string>
+
     <!-- Title of dialog when prompting user to select an app to share documents with [CHAR LIMIT=32] -->
     <string name="share_via">Share via</string>
 
     <!-- Title of the copy notification [CHAR LIMIT=24] -->
     <string name="copy_notification_title">Copying files</string>
+
     <!-- Title of the compress notification [CHAR LIMIT=24] -->
     <string name="compress_notification_title">Compressing files</string>
+
     <!-- Title of the extract notification [CHAR LIMIT=24] -->
     <string name="extract_notification_title">Extracting files</string>
+
     <!-- Title of the move notification [CHAR LIMIT=24] -->
     <string name="move_notification_title">Moving files</string>
+
     <!-- Title of the move notification [CHAR LIMIT=24] -->
     <string name="delete_notification_title">Deleting files</string>
+
+    <!-- Title of the move to trash notification [CHAR LIMIT=24] -->
+    <string name="move_to_trash_notification_title">Trashing files</string>
+
+    <!-- Title of the restore from trash notification [CHAR LIMIT=24] -->
+    <string name="restore_from_trash_notification_title">Restoring files</string>
+
     <!-- Text shown on the copy notification to indicate remaining time, in minutes [CHAR LIMIT=24] -->
     <string name="copy_remaining"><xliff:g id="duration" example="3 minutes">%s</xliff:g> left</string>
+
     <!-- Toast shown when a file copy is kicked off -->
     <plurals name="copy_begin">
         <item quantity="one">Copying <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
         <item quantity="other">Copying <xliff:g id="count" example="3">%1$d</xliff:g> items.</item>
     </plurals>
+
     <!-- Toast shown when a file compressing is kicked off -->
     <plurals name="compress_begin">
         <item quantity="one">Compressing <xliff:g id="count" example="1">%1$d</xliff:g> file.</item>
         <item quantity="other">Compressing <xliff:g id="count" example="3">%1$d</xliff:g> files.</item>
     </plurals>
+
     <!-- Toast shown when a file extracting is kicked off -->
     <plurals name="extract_begin">
         <item quantity="one">Extracting <xliff:g id="count" example="1">%1$d</xliff:g> file.</item>
         <item quantity="other">Extracting <xliff:g id="count" example="3">%1$d</xliff:g> files.</item>
     </plurals>
+
     <!-- Toast shown when a file move is kicked off -->
     <plurals name="move_begin">
         <item quantity="one">Moving <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
         <item quantity="other">Moving <xliff:g id="count" example="3">%1$d</xliff:g> items.</item>
     </plurals>
+
     <!-- Text shown when files are deleted -->
     <plurals name="deleting">
         <item quantity="one">Deleting <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
         <item quantity="other">Deleting <xliff:g id="count" example="3">%1$d</xliff:g> items.</item>
     </plurals>
+
+    <!-- Progress message shown by the Android File Manager when one or more
+         files are being moved to the trash bin.  -->
+    <string name="trashing">{count, plural,
+        =1 {Trashing <xliff:g id="count" example="1">{count}</xliff:g> item}
+        other {Trashing <xliff:g id="count" example="3">{count}</xliff:g> items}
+    }</string>
+
+    <!-- Progress message shown by the Android File Manager when one or more
+         files are being restored from the trash bin. -->
+    <string name="restoring_from_trash">{count, plural,
+        =1 {Restoring <xliff:g id="count" example="1">{count}</xliff:g> item}
+        other {Restoring <xliff:g id="count" example="3">{count}</xliff:g> items}
+    }</string>
+
     <!-- Text shown for the undo button -->
     <string name="undo">Undo</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for copying files [CHAR LIMIT=32] -->
@@ -342,67 +393,115 @@
     <string name="move_preparing">Preparing...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for deleting files [CHAR LIMIT=32] -->
     <string name="delete_preparing">Preparing...</string>
+    <!-- Text shown on the notification while DocumentsUI performs setup in preparation for trashing files [CHAR LIMIT=32] -->
+    <string name="move_to_trash_preparing">Preparing...</string>
+    <!-- Text shown on the notification while DocumentsUI performs setup in preparation for restoring files from trash [CHAR LIMIT=32] -->
+    <string name="restore_from_trash_preparing">Preparing...</string>
     <!-- Text progress shown on the notification while DocumentsUI is deleting files. -->
     <string name="delete_progress"><xliff:g id="count" example="3">%1$d</xliff:g> / <xliff:g id="totalCount" example="5">%2$d</xliff:g></string>
+    <!-- Text progress shown on the notification while DocumentsUI is trashing files from trash. -->
+    <string name="move_to_trash_progress"><xliff:g id="count" example="3">%1$d</xliff:g> / <xliff:g id="totalCount" example="5">%2$d</xliff:g></string>
+    <!-- Text progress shown on the notification while DocumentsUI is restoring files. -->
+    <string name="restore_from_trash_progress"><xliff:g id="count" example="3">%1$d</xliff:g> / <xliff:g id="totalCount" example="5">%2$d</xliff:g></string>
+
     <!-- Title of the copy error notification [CHAR LIMIT=48] -->
-    <plurals name="copy_error_notification_title">
-        <item quantity="one">Couldn\u2019t copy <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
-        <item quantity="other">Couldn\u2019t copy <xliff:g id="count" example="2">%1$d</xliff:g> items</item>
-    </plurals>
+    <string name="copy_error_notification_title">{count, plural,
+        =1 {Couldn\u2019t copy <xliff:g id="count" example="1">{count}</xliff:g> item}
+        other {Couldn\u2019t copy <xliff:g id="count" example="2">{count}</xliff:g> items}
+    }</string>
+
     <!-- Title of the compress error notification [CHAR LIMIT=48] -->
-    <plurals name="compress_error_notification_title">
-        <item quantity="one">Couldn\u2019t compress <xliff:g id="count" example="1">%1$d</xliff:g> file</item>
-        <item quantity="other">Couldn\u2019t compress <xliff:g id="count" example="2">%1$d</xliff:g> files</item>
-    </plurals>
+    <string name="compress_error_notification_title">{count, plural,
+        =1 {Couldn\u2019t compress <xliff:g id="count" example="1">{count}</xliff:g> item}
+        other {Couldn\u2019t compress <xliff:g id="count" example="2">{count}</xliff:g> items}
+    }</string>
+
+    <!-- Title of the extract error notification [CHAR LIMIT=48] -->
+    <string name="extract_error_notification_title">{count, plural,
+        =1 {Couldn\u2019t extract <xliff:g id="count" example="1">{count}</xliff:g> item}
+        other {Couldn\u2019t extract <xliff:g id="count" example="2">{count}</xliff:g> items}
+    }</string>
+
     <!-- Title of the move error notification [CHAR LIMIT=48] -->
-    <plurals name="move_error_notification_title">
-        <item quantity="one">Couldn\u2019t move <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
-        <item quantity="other">Couldn\u2019t move <xliff:g id="count" example="2">%1$d</xliff:g> items</item>
-    </plurals>
+    <string name="move_error_notification_title">{count, plural,
+        =1 {Couldn\u2019t move <xliff:g id="count" example="1">{count}</xliff:g> item}
+        other {Couldn\u2019t move <xliff:g id="count" example="2">{count}</xliff:g> items}
+    }</string>
+
     <!-- Title of the delete error notification [CHAR LIMIT=48] -->
-    <plurals name="delete_error_notification_title">
-        <item quantity="one">Couldn\u2019t delete <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
-        <item quantity="other">Couldn\u2019t delete <xliff:g id="count" example="2">%1$d</xliff:g> items</item>
-    </plurals>
+    <string name="delete_error_notification_title">{count, plural,
+        =1 {Couldn\u2019t delete <xliff:g id="count" example="1">{count}</xliff:g> item}
+        other {Couldn\u2019t delete <xliff:g id="count" example="2">{count}</xliff:g> items}
+    }</string>
+
+    <!-- Title of the trash file error notification [CHAR LIMIT=48] -->
+    <string name="move_to_trash_error_notification_title">{count, plural,
+        =1 {Couldn\u2019t trash <xliff:g id="count" example="1">{count}</xliff:g> item}
+        other {Couldn\u2019t trash <xliff:g id="count" example="2">{count}</xliff:g> items}
+    }</string>
+
+    <!-- Title of the restore from trash error notification [CHAR LIMIT=48] -->
+    <string name="restore_from_trash_error_notification_title">{count, plural,
+        =1 {Couldn\u2019t restore <xliff:g id="count" example="1">{count}</xliff:g> item}
+        other {Couldn\u2019t restore <xliff:g id="count" example="2">{count}</xliff:g> items}
+    }</string>
+
     <!-- Second line for notifications saying that more information will be shown after touching [CHAR LIMIT=48] -->
     <string name="notification_touch_for_details">Tap to view details</string>
     <!-- Label of the close dialog button.[CHAR LIMIT=24] -->
     <string name="close">Close</string>
+
     <!-- Contents of the copying failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="copy_failure_alert_content">
         <item quantity="one">This file wasn\u2019t copied: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="other">These files weren\u2019t copied: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+
     <!-- Contents of the compressing failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="compress_failure_alert_content">
         <item quantity="one">This file wasn\u2019t compressed: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="other">These files weren\u2019t compressed: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+
     <!-- Contents of the extracting failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="extract_failure_alert_content">
         <item quantity="one">This file wasn\u2019t extracted: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="other">These files weren\u2019t extracted: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+
     <!-- Contents of the moving failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="move_failure_alert_content">
         <item quantity="one">This file wasn\u2019t moved: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="other">These files weren\u2019t moved: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+
     <!-- Contents of the deleting failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="delete_failure_alert_content">
         <item quantity="one">This file wasn\u2019t deleted: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="other">These files weren\u2019t deleted: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+
     <!-- Contents of the copying warning dialog due to converted files. [CHAR LIMIT=64] -->
     <plurals name="copy_converted_warning_content">
         <item quantity="one">This file was converted to another format: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="other">These files were converted to another format: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+
     <!-- Toast shown when a user copies files to clipboard. -->
     <plurals name="clipboard_files_clipped">
         <item quantity="one">Copied <xliff:g id="count" example="1">%1$d</xliff:g> item to clipboard.</item>
         <item quantity="other">Copied <xliff:g id="count" example="3">%1$d</xliff:g> items to clipboard.</item>
     </plurals>
+    <!-- This string appears within the Android File Manager as an informative label next to the
+    name of the folder being browsed when this folder is a "read-only" folder. "Read-only" means
+    that no item can be added, removed or renamed in this folder. [CHAR_LIMIT=28] -->
+    <string name="read_only_label">Read-only</string>
+    <!-- This string appears within the Android File Manager as an informative tooltip message when
+    the user hovers the mouse pointer over the "read-only" label of a read-only folder. "Read-only"
+    means that no item can be added, removed or renamed in this folder. [CHAR_LIMIT=96] -->
+    <string name="read_only_explanation">You can view these files but some actions aren\u2019t supported</string>
+    <!-- Toast shown when an archive cannot be extracted in a read-only folder [CHAR LIMIT=96] -->
+    <string name="cannot_extract_in_read_only_folder">This archive is in a read-only location and cannot be extracted here.</string>
     <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
     <string name="file_operation_rejected">File operation is not supported.</string>
     <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
@@ -415,44 +514,119 @@
          during a copy. [CHAR LIMIT=48] -->
     <string name="notification_copy_files_converted_title">Some files were converted</string>
 
-    <string name="copy_in_progress" translatable="false">{count, plural,
-        =1 {Copying <xliff:g id="filename" example="foobar.txt">{filename}</xliff:g> to <xliff:g id="directory" example="example folder">{directory}</xliff:g>}
-        other {Copying # files to <xliff:g id="directory" example="example folder">{directory}</xliff:g>}
+    <!-- Progress message shown by the Android File Manager when one or more
+         files are being copied.  [CHAR_LIMIT=48] -->
+    <string name="copy_in_progress">{count, plural,
+        =1 {Copying \u201C<xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>\u201D to \u201C<xliff:g id="directory" example="example folder">{directory}</xliff:g>\u201D}
+        other {Copying # files to \u201C<xliff:g id="directory" example="example folder">{directory}</xliff:g>\u201D}
     }</string>
-    <string name="extract_in_progress" translatable="false">{count, plural,
+
+    <!-- Progress message shown by the Android File Manager when one or more
+         files are being extracted from an archive.  [CHAR_LIMIT=48] -->
+    <string name="extract_in_progress">{count, plural,
         =1 {Extracting \u201C<xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>\u201D to \u201C<xliff:g id="directory" example="example folder">{directory}</xliff:g>\u201D}
         other {Extracting # archives to \u201C<xliff:g id="directory" example="example folder">{directory}</xliff:g>\u201D}
     }</string>
-    <string name="move_in_progress" translatable="false">{count, plural,
-        =1 {Moving <xliff:g id="filename" example="foobar.txt">{filename}</xliff:g> to <xliff:g id="directory" example="example folder">{directory}</xliff:g>}
-        other {Moving # files to <xliff:g id="directory" example="example folder">{directory}</xliff:g>}
+
+    <!-- Progress message shown by the Android File Manager when one or more
+         files are being moved from one folder to another.  [CHAR_LIMIT=48] -->
+    <string name="move_in_progress">{count, plural,
+        =1 {Moving \u201C<xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>\u201D to \u201C<xliff:g id="directory" example="example folder">{directory}</xliff:g>\u201D}
+        other {Moving # files to \u201C<xliff:g id="directory" example="example folder">{directory}</xliff:g>\u201D}
     }</string>
-    <string name="delete_in_progress" translatable="false">{count, plural,
-        =1 {Deleting <xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>}
+
+    <!-- Progress message shown by the Android File Manager when one or more
+         files are being deleted.  [CHAR_LIMIT=48] -->
+    <string name="delete_in_progress">{count, plural,
+        =1 {Deleting \u201C<xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>\u201D}
         other {Deleting # files}
     }</string>
-    <string name="compress_in_progress" translatable="false">{count, plural,
-        =1 {Zipping <xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>}
+
+    <!-- Progress message shown by the Android File Manager when one or more
+         files are being moved to the trash bin.  [CHAR_LIMIT=48] -->
+    <string name="trash_in_progress">{count, plural,
+        =1 {Trashing <xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>}
+        other {Trashing # files}
+    }</string>
+
+    <!-- Progress message shown by the Android File Manager when one or more
+         files are being restored from the trash bin.  [CHAR_LIMIT=48] -->
+    <string name="restore_in_progress">{count, plural,
+        =1 {Restoring <xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>}
+        other {Restoring # files}
+    }</string>
+
+    <!-- Progress message shown by the Android File Manager when one or more
+         files are being zipped, i.e. bundled together and compressed into a
+         ZIP archive.  [CHAR_LIMIT=48] -->
+    <string name="compress_in_progress">{count, plural,
+        =1 {Zipping \u201C<xliff:g id="filename" example="foobar.txt">{filename}</xliff:g>\u201D}
         other {Zipping # files}
     }</string>
-    <string name="job_progress_panel_title" translatable="false">File Progress</string>
-    <string name="job_progress_item_completed" translatable="false">Completed</string>
-    <string name="job_progress_item_failed" translatable="false">Failed</string>
+
+    <!-- Accessibility label for an icon button which shows the progress of file operations when clicked. -->
+    <string name="job_progress_icon_label">Show file progress</string>
+    <!-- Title for a pop-up window showing the progress of file operations. -->
+    <string name="job_progress_panel_title">File Progress</string>
+    <!-- Status message shown when a file operation is completed. -->
+    <string name="job_progress_item_completed">Completed</string>
+    <!-- Status message shown when a file operation is canceled by the user. -->
+    <string name="job_progress_item_canceled">Canceled</string>
     <!-- Label prompting the user to interact to view more details about errors/warnings encountered during a file operation. -->
     <string name="job_progress_item_see_details">See details</string>
-    <string name="job_progress_item_byte_progress" translatable="false">
+    <!-- Status message showing the current progress of a file operation in terms of bytes. -->
+    <string name="job_progress_item_byte_progress">
         <xliff:g id="currentBytes" example="2.4 MB">%1$s</xliff:g> of <xliff:g id="totalBytes" example="50 MB">%2$s</xliff:g>
     </string>
-    <!-- Status message shown when a copy is completed. -->
+
+    <!-- Success message shown by the Android File Manager when the operation
+         copying one or more files finished successfully.  [CHAR_LIMIT=24] -->
     <string name="copy_completed">Copied</string>
-    <!-- Status message shown when a move is completed. -->
+
+    <!-- Success message shown by the Android File Manager when the operation
+         moving one or more files from one folder to another finished
+         successfully.  [CHAR_LIMIT=24] -->
     <string name="move_completed">Moved</string>
-    <!-- Status message shown when a delete is completed. -->
+
+    <!-- Success message shown by the Android File Manager when the operation
+         deleting one or more files finished successfully.  [CHAR_LIMIT=24] -->
     <string name="delete_completed">Deleted</string>
-    <!-- Status message shown when a compress file operation is completed. -->
-    <string name="compress_completed">Compressed</string>
-    <!-- Status message shown when an extract file operation is completed. -->
+
+    <!-- Success message shown by the Android File Manager when the operation
+         zipping (i.e. bundling together and compressing) one or more files
+         finished successfully.  [CHAR_LIMIT=24] -->
+    <string name="compress_completed">Zipped</string>
+
+    <!-- Success message shown by the Android File Manager when the operation
+         extracting one or more files from an archive finished successfully.
+         [CHAR_LIMIT=24] -->
     <string name="extract_completed">Extracted</string>
+
+    <!-- Error message shown by the Android File Manager when one or more files
+         failed to be copied.  [CHAR_LIMIT=24] -->
+    <string name="copy_failed">Couldn\u2019t copy</string>
+
+    <!-- Error message shown by the Android File Manager when one or more files
+         failed to be moved from one folder to another.  [CHAR_LIMIT=24] -->
+    <string name="move_failed">Couldn\u2019t move</string>
+
+    <!-- Error message shown by the Android File Manager when one or more files
+         failed to be deleted.  [CHAR_LIMIT=24] -->
+    <string name="delete_failed">Couldn\u2019t delete</string>
+
+    <!-- Error message shown by the Android File Manager when one or more files
+         failed to be zipped (i.e. bundled and compressed into a ZIP archive).
+         [CHAR_LIMIT=24] -->
+    <string name="compress_failed">Couldn\u2019t zip</string>
+
+    <!-- Error message shown by the Android File Manager when one or more files
+         failed to be extracted from an archive.  [CHAR_LIMIT=24] -->
+    <string name="extract_failed">Couldn\u2019t extract</string>
+
+    <!-- Accessibility label for a button to expand a notification. -->
+    <string name="expand_label">Expand</string>
+    <!-- Accessibility label for a button to collapse a notification. -->
+    <string name="collapse_label">Collapse</string>
 
     <!-- Text in an alert dialog asking user to grant app access to a given directory in an external storage volume -->
     <string name="open_external_dialog_request">Grant <xliff:g id="appName" example="System Settings"><b>^1</b></xliff:g>
@@ -539,6 +713,11 @@
 
     <!-- File name of an archive file created when compressing files, without the file extension (.zip). -->
     <string name="new_archive_file_name">archive<xliff:g id="extension" example=".zip">%s</xliff:g></string>
+
+    <!-- This string is used by the File Manager as the file name for the created ZIP archive when
+    two or more item are zipped (i.e. bundled and compressed) together. In this context, the word
+    "Archive" is a noun as in "An archive", and not a verb. [CHAR_LIMIT=28] -->
+    <string name="new_archive_file_name_2">Archive</string>
 
     <!-- Dialog text shown when confirming if they want to overwrite a file -->
     <string name="overwrite_file_confirmation_message">Overwrite <xliff:g id="name" example="foobar.txt">%1$s</xliff:g>?</string>
@@ -631,9 +810,6 @@
     <!-- Content description for the X button to clear text [CHAR_LIMIT=NONE] -->
     <string name="search_bar_clear">Clear text</string>
 
-    <!-- Search location selector placeholder for this folder -->
-    <string name="search_location_this_folder">This folder</string>
-
     <!-- Search location selector placeholder for root folder -->
     <string name="search_location_root_folder">Root folder</string>
 
@@ -689,12 +865,33 @@
     <!-- Text used at the top of the text field when saving a document. [CHAR_LIMIT=100] -->
     <string name="file_name_hint">File name</string>
 
-    <!-- Accessibility label for the Peek navigation icon. -->
-    <string name="a11y_peek_navigation_icon">Hide file preview</string>
-
     <!-- Text used in Peek to indicate that no preview is available. -->
     <string name="peek_no_preview">No preview available</string>
 
+    <!-- Peek metadata panel header title. -->
+    <string name="peek_metadata_header_title">Details</string>
+
+    <!-- Peek metadata panel header title. -->
+    <string name="peek_metadata_general_info_title">General info</string>
+
+    <!-- Peek metadata "Size" row. -->
+    <string name="peek_metadata_size">Size</string>
+
+    <!-- Peek metadata "Type" row. -->
+    <string name="peek_metadata_type">Type</string>
+
+    <!-- Peek metadata "Date modified" row. -->
+    <string name="peek_metadata_date_modified">Date modified</string>
+
+    <!-- Accessibility label for the Peek navigation icon. -->
+    <string name="a11y_peek_navigation_icon">Hide file preview</string>
+
     <!-- Accessibility label for an image preview in Peek. -->
     <string name="a11y_peek_image_preview">Image preview of <xliff:g id="filename" example="image.png">%s</xliff:g></string>
+
+    <!-- Accessibility label for the toolbar's "show info" toggle button in Peek. -->
+    <string name="a11y_peek_hide_info_button">Hide info panel</string>
+
+    <!-- Accessibility label for the toolbar's "hide info" toggle button in Peek. -->
+    <string name="a11y_peek_show_info_button">Show info panel</string>
 </resources>

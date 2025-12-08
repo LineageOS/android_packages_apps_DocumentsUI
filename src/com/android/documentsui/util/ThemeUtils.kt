@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("ktlint:standard:filename")
+
 package com.android.documentsui.util
 
 import android.util.Log
@@ -39,6 +41,7 @@ private const val TAG = "ThemeUtils"
 private fun initializeIdMapping() {
   idMapping = mapOf(
     R.bool.full_bar_search_view to R.bool.full_bar_search_view_m3,
+    R.bool.show_docked_search to R.bool.show_docked_search_m3,
     R.color.app_background_color to R.color.app_background_color_m3,
     R.color.app_icon_background to R.color.app_icon_background_m3,
     R.color.background_floating to R.color.background_floating_m3,
@@ -182,7 +185,6 @@ private fun initializeIdMapping() {
     R.drawable.hourglass to R.drawable.hourglass_m3,
     R.drawable.ic_action_clear to R.drawable.ic_action_clear_m3,
     R.drawable.ic_action_open to R.drawable.ic_action_open_m3,
-    R.drawable.ic_advanced_shortcut to R.drawable.ic_advanced_shortcut_m3,
     R.drawable.ic_arrow_back to R.drawable.ic_arrow_back_m3,
     R.drawable.ic_arrow_upward to R.drawable.ic_arrow_upward_m3,
     R.drawable.ic_breadcrumb_arrow to R.drawable.ic_breadcrumb_arrow_m3,
@@ -199,7 +201,6 @@ private fun initializeIdMapping() {
     R.drawable.ic_dialog_info to R.drawable.ic_dialog_info_m3,
     R.drawable.ic_done to R.drawable.ic_done_m3,
     R.drawable.ic_drop_copy_badge to R.drawable.ic_drop_copy_badge_m3,
-    R.drawable.ic_eject to R.drawable.ic_eject_m3,
     R.drawable.ic_exit_to_app to R.drawable.ic_exit_to_app_m3,
     R.drawable.ic_folder_shortcut to R.drawable.ic_folder_shortcut_m3,
     R.drawable.ic_hamburger to R.drawable.ic_hamburger_m3,
@@ -214,10 +215,7 @@ private fun initializeIdMapping() {
     R.drawable.ic_menu_view_list to R.drawable.ic_menu_view_list_m3,
     R.drawable.ic_reject_drop_badge to R.drawable.ic_reject_drop_badge_m3,
     R.drawable.ic_root_bugreport to R.drawable.ic_root_bugreport_m3,
-    R.drawable.ic_root_download to R.drawable.ic_root_download_m3,
     R.drawable.ic_root_recent to R.drawable.ic_root_recent_m3,
-    R.drawable.ic_root_smartphone to R.drawable.ic_root_smartphone_m3,
-    R.drawable.ic_sd_storage to R.drawable.ic_sd_storage_m3,
     R.drawable.ic_sort to R.drawable.ic_sort_m3,
     R.drawable.ic_sort_arrow to R.drawable.ic_sort_arrow_m3,
     R.drawable.ic_subdirectory_arrow to R.drawable.ic_subdirectory_arrow_m3,
@@ -331,46 +329,8 @@ private fun initializeIdMapping() {
   )
 }
 
-interface Config {
-  /**
-   * Material3 is only fully enabled if the config forceMaterial3 is true AND the flag use_material3
-   * is enabled.
-   */
-  var forceMaterial3: Boolean?
-}
-
-class Material3ConfigImpl() : Config {
-  override var forceMaterial3: Boolean? = null
-    set(value) {
-      if (field != null && field != value) {
-        Log.w(
-            TAG,
-            "forceMaterial3 already set ($field) but overriding to $value. " +
-                    "This could result in unstable behaviour."
-        )
-      }
-
-      field = value
-      if (DEBUG) {
-        Log.d(
-          TAG,
-          "forceMaterial3 initializing with $value use_material3: ${
-            isUseMaterial3FlagEnabled()
-          }",
-        )
-      }
-    }
-}
-
 abstract class Material3Config private constructor() {
   companion object {
-    private val _instance: Config by lazy { Material3ConfigImpl() }
-
-    @JvmStatic
-    fun getInstance(): Config {
-      return _instance
-    }
-
     /**
      * Convert the resource ID from non-Material3 to Material3 version if the Material3 is enabled,
      * otherwise it returns the given ID as is.
@@ -378,7 +338,6 @@ abstract class Material3Config private constructor() {
     @JvmStatic
     @AnyRes
     fun getRes(@AnyRes originalResourceId: Int): Int {
-      // NOTE: isUseMaterial3FlagEnabled() already checks for the config forceMaterial3.
       if (!isUseMaterial3FlagEnabled()) {
         return originalResourceId
       }
@@ -408,13 +367,6 @@ abstract class Material3Config private constructor() {
     fun overrideMappingForTest(overrides: Map<Int, Int>) {
       initialized = true
       idMapping = overrides
-    }
-
-    @JvmStatic
-    fun setEnabledForTest(enabled: Boolean) {
-      getInstance().forceMaterial3 = enabled
-      // Force the mapping to be re-initialized.
-      initialized = false
     }
   }
 }

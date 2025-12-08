@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"שמירה"</string>
     <string name="menu_share" msgid="4307140947108068356">"שיתוף"</string>
     <string name="menu_delete" msgid="1022254131543256626">"מחיקה"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"מחיקה לתמיד"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"העברה לאשפה"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"שחזור"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"בחירת הכול"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"ביטול הבחירה של הכול"</string>
     <string name="menu_select" msgid="1366061076507142387">"בחירה"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"העתקה אל…"</string>
     <string name="menu_move" msgid="2310760789561129882">"העברה אל…"</string>
     <string name="menu_compress" msgid="37539111904724188">"דחיסה"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"‏כיווץ לקובץ Zip"</string>
     <string name="menu_extract" msgid="8171946945982532262">"חילוץ לתיקייה…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"חילוץ הכול…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"חילוץ לכאן"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"חילוץ"</string>
     <string name="menu_browse" msgid="6007716414766674967">"עיון"</string>
     <string name="menu_rename" msgid="1883113442688817554">"שינוי שם"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"מידע על המסמך"</string>
@@ -115,24 +119,30 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"הפעולה הזו אסורה"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"‏כדי לקבל מידע נוסף, צריך לפנות אל מנהל ה-IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"בשימוש לאחרונה"</string>
+    <string name="root_trash" msgid="1869929519939073178">"אשפה"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"מקום פנוי: <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"שירותי אחסון"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"קיצורי דרך"</string>
     <string name="root_type_device" msgid="1713604128005476585">"מכשירים"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"עוד אפליקציות"</string>
     <string name="empty" msgid="5300254272613103004">"אין פריטים"</string>
-    <string name="no_results" msgid="2371026325236359209">"‏אין התאמות ב%1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"‏אין התאמות בתיקייה: %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"לא ניתן לפתוח את הקובץ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"לא ניתן לפתוח קבצים בארכיונים"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"לא ניתן למחוק חלק מהמסמכים"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"לא ניתן לשתף יותר מ-<xliff:g id="COUNT">%1$d</xliff:g> קבצים"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"הפעולה אינה מותרת"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"פתיחה באמצעות…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"‏לא מותקנות אפליקציות נתמכות. אפשר להתקין אפליקציה נתמכת מחנות Play."</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"‏חיפוש בחנות Play"</string>
     <string name="share_via" msgid="8725082736005677161">"שיתוף באמצעות"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"המערכת מעתיקה את הקבצים"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"מתבצעת דחיסה של קבצים"</string>
-    <string name="extract_notification_title" msgid="5067393961754430469">"שליפת קבצים"</string>
+    <string name="extract_notification_title" msgid="5067393961754430469">"המערכת מחלצת קבצים"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"בתהליך העברת קבצים"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"מחיקת קבצים"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"הקבצים מועברים לאשפה"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"מתבצע שחזור קבצים…"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> נותרו"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="one">מתבצעת העתקה של <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
@@ -159,33 +169,26 @@
       <item quantity="two">מתבצעת מחיקה של <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
       <item quantity="other">מתבצעת מחיקה של <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{מתבצעת העברה של פריט אחד (<xliff:g id="COUNT_0">{count}</xliff:g>) לאשפה}one{מתבצעת העברה של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים לאשפה}two{מתבצעת העברה של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים לאשפה}other{מתבצעת העברה של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים לאשפה}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{מתבצע שחזור של פריט אחד (<xliff:g id="COUNT_0">{count}</xliff:g>)}one{מתבצע שחזור של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}two{מתבצע שחזור של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}other{מתבצע שחזור של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}}"</string>
     <string name="undo" msgid="2902438994196400565">"ביטול"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"בהכנה…"</string>
     <string name="compress_preparing" msgid="7401605598969019696">"בהכנה…"</string>
     <string name="extract_preparing" msgid="4796626960061745796">"בהכנה…"</string>
     <string name="move_preparing" msgid="6504239656430530761">"בהכנה…"</string>
     <string name="delete_preparing" msgid="7339349837842802508">"בהכנה…"</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"בהכנה…"</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"בהכנה…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="one">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
-      <item quantity="two">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
-      <item quantity="other">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="two">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="other">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="one">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
-      <item quantity="two">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
-      <item quantity="other">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="one">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
-      <item quantity="two">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
-      <item quantity="other">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"‫<xliff:g id="COUNT_0">%1$d</xliff:g> מתוך <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"‫<xliff:g id="COUNT_0">%1$d</xliff:g> מתוך <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{לא הצלחנו להעתיק פריט אחד (<xliff:g id="COUNT_0">{count}</xliff:g>)}one{לא הצלחנו להעתיק <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}two{לא הצלחנו להעתיק <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}other{לא הצלחנו להעתיק <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{לא הצלחנו לדחוס את הנתונים של פריט אחד (<xliff:g id="COUNT_0">{count}</xliff:g>)}one{לא הצלחנו לדחוס את הנתונים של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}two{לא הצלחנו לדחוס את הנתונים של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}other{לא הצלחנו לדחוס את הנתונים של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{לא הצלחנו לחלץ את הנתונים של פריט אחד (<xliff:g id="COUNT_0">{count}</xliff:g>)}one{לא הצלחנו לחלץ את הנתונים של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}two{לא הצלחנו לחלץ את הנתונים של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}other{לא הצלחנו לחלץ את הנתונים של <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{לא הצלחנו להעביר פריט אחד (<xliff:g id="COUNT_0">{count}</xliff:g>)}one{לא הצלחנו להעביר <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}two{לא הצלחנו להעביר <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}other{לא הצלחנו להעביר <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{לא הצלחנו למחוק פריט אחד (<xliff:g id="COUNT_0">{count}</xliff:g>)}one{לא הצלחנו למחוק <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}two{לא הצלחנו למחוק <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}other{לא הצלחנו למחוק <xliff:g id="COUNT_1">{count}</xliff:g> פריטים}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{לא הצלחנו להעביר פריט אחד (<xliff:g id="COUNT_0">{count}</xliff:g>) לאשפה}one{לא הצלחנו להעביר <xliff:g id="COUNT_1">{count}</xliff:g> פריטים לאשפה}two{לא הצלחנו להעביר <xliff:g id="COUNT_1">{count}</xliff:g> פריטים לאשפה}other{לא הצלחנו להעביר <xliff:g id="COUNT_1">{count}</xliff:g> פריטים לאשפה}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{לא היתה אפשרות לשחזר פריט אחד (<xliff:g id="COUNT_0">{count}</xliff:g>).}one{לא היתה אפשרות לשחזר <xliff:g id="COUNT_1">{count}</xliff:g> פריטים.}two{לא היתה אפשרות לשחזר <xliff:g id="COUNT_1">{count}</xliff:g> פריטים.}other{לא היתה אפשרות לשחזר <xliff:g id="COUNT_1">{count}</xliff:g> פריטים.}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"יש ללחוץ להצגת הפרטים"</string>
     <string name="close" msgid="905969391788869975">"סגירה"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -223,17 +226,39 @@
       <item quantity="two"><xliff:g id="COUNT_1">%1$d</xliff:g> פריטים הועתקו ללוח.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> פריטים הועתקו ללוח.</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"לקריאה בלבד"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"אפשר לצפות בקבצים האלה, אבל יש פעולות שלא ניתן לעשות"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"הארכיון הזה נמצא במיקום לקריאה בלבד ואי-אפשר לחלץ אותו לכאן."</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"פעולת הקובץ אינה נתמכת."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"פעולת הקובץ נכשלה."</string>
     <string name="rename_error" msgid="6700093173508118635">"לא ניתן היה לשנות את שם המסמך"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"הוצאה"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"קבצים מסוימים הומרו"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{מתבצעת העתקה של \"<xliff:g id="FILENAME">{filename}</xliff:g>\" לתיקייה \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}one{‫# קבצים מועתקים אל \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}two{‫# קבצים מועתקים אל \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}other{‫# קבצים מועתקים אל \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{הקובץ \"<xliff:g id="FILENAME">{filename}</xliff:g>\" מחולץ אל \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}one{‫# ארכיונים מחולצים אל \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}two{‫# ארכיונים מחולצים אל \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}other{‫# ארכיונים מחולצים אל \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{המערכת מעבירה את \"<xliff:g id="FILENAME">{filename}</xliff:g>\" אל \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}one{‫# קבצים מועברים אל \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}two{‫# קבצים מועברים אל \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}other{‫# קבצים מועברים אל \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{מתבצעת מחיקה של \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}one{מתבצעת מחיקה של # קבצים}two{מתבצעת מחיקה של # קבצים}other{מתבצעת מחיקה של # קבצים}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{מתבצעת העברה לאשפה של <xliff:g id="FILENAME">{filename}</xliff:g>}one{מתבצעת העברה של # קבצים לאשפה}two{מתבצעת העברה של # קבצים לאשפה}other{מתבצעת העברה של # קבצים לאשפה}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{מתבצע שחזור של <xliff:g id="FILENAME">{filename}</xliff:g>}one{מתבצע שחזור של # קבצים}two{מתבצע שחזור של # קבצים}other{מתבצע שחזור של # קבצים}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{מתבצעת דחיסה לקובץ \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}one{מתבצעת דחיסה ל-# קבצים}two{מתבצעת דחיסה ל-# קבצים}other{מתבצעת דחיסה ל-# קבצים}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"הצגת ההתקדמות בהעלאת הקובץ"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"ההתקדמות בפעולה בקובץ"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"הפעולה הסתיימה"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"בוטלה"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"לפרטים"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"‫<xliff:g id="CURRENTBYTES">%1$s</xliff:g> מתוך <xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"הועתק"</string>
     <string name="move_completed" msgid="3981250605092729273">"ההעברה הושלמה"</string>
     <string name="delete_completed" msgid="4149401155614626199">"נמחק"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"הקובץ נדחס"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"הקובץ נדחס"</string>
     <string name="extract_completed" msgid="8824595789915249972">"הקובץ חולץ"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"ההעתקה נכשלה"</string>
+    <string name="move_failed" msgid="7692364307225994220">"ההעברה נכשלה"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"המחיקה נכשלה"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"הדחיסה נכשלה"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"החילוץ נכשל"</string>
+    <string name="expand_label" msgid="5683357671239615207">"הרחבה"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"כיווץ"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"לתת לאפליקציה <xliff:g id="APPNAME"><b>^1</b></xliff:g> גישה לספרייה <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> באחסון <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"לתת לאפליקציה <xliff:g id="APPNAME"><b>^1</b></xliff:g> גישה לספרייה <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"לתת לאפליקציה <xliff:g id="APPNAME"><b>^1</b></xliff:g> גישה לנתונים שלך (כולל תמונות וסרטונים) השמורים ב-<xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
@@ -279,6 +304,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"לא ניתן להציג את התוכן"</string>
     <string name="sign_in" msgid="6253762676723505592">"כניסה"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"העברה לארכיון"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"להחליף את <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"המשך ברקע"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -321,7 +347,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"יצירת תיקייה חדשה"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"חיפוש במכשיר הזה"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"מחיקת הטקסט"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"התיקייה הזו"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"תיקיית הבסיס"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"כל מקום"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"כל זמן"</string>
@@ -340,7 +365,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"הצגה בתצוגת רשימה."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"שם הקובץ"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"הסתרת התצוגה המקדימה של הקובץ"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"אין תצוגה מקדימה"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"פרטים"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"מידע כללי"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"גודל"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"סוג"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"תאריך השינוי"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"הסתרת התצוגה המקדימה של הקובץ"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"תצוגה מקדימה של <xliff:g id="FILENAME">%s</xliff:g>"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"הסתרת חלונית המידע"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"הצגת חלונית המידע"</string>
 </resources>

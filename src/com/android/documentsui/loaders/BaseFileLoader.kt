@@ -22,14 +22,14 @@ import android.database.MergeCursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.CancellationSignal
-import android.os.RemoteException
+import android.os.Trace
 import android.provider.DocumentsContract.Document
 import android.util.Log
 import androidx.loader.content.AsyncTaskLoader
 import com.android.documentsui.DirectoryResult
 import com.android.documentsui.base.Lookup
+import com.android.documentsui.base.RootInfo
 import com.android.documentsui.base.SharedMinimal.DEBUG
-import com.android.documentsui.base.UserId
 import com.android.documentsui.roots.RootCursorWrapper
 
 const val TAG = "SearchV2"
@@ -70,22 +70,29 @@ fun toSingleCursor(cursorList: List<Cursor>): Cursor {
  */
 abstract class BaseFileLoader(
     context: Context,
-    private val userIdList: List<UserId>,
     protected val mimeTypeLookup: Lookup<String, String>,
 ) : AsyncTaskLoader<DirectoryResult>(context) {
 
-    private var signal: CancellationSignal? = null
+    /**
+     * The cancellation signal passed to the `client.query()` method that allows us to notify the
+     * client about the query being cancelled while it is still being run. Extending classes need to
+     * set it to a non-null value if they wish to be able to cancel queries in progress.
+     */
+    protected var cancelNotifier: CancellationSignal? = null
     private var storedResult: DirectoryResult? = null
 
+    /**
+     * Overrides the default implementation to notify content provider clients with still running
+     * queries that the loading has been cancelled. This only takes place if the cancelNotifier
+     * instance variable has been initialized by extending classes.
+     */
     override fun cancelLoadInBackground() {
         if (DEBUG) {
             Log.d(TAG, "${this::class.simpleName}.cancelLoadInBackground")
         }
         super.cancelLoadInBackground()
 
-        synchronized(this) {
-            signal?.cancel()
-        }
+        synchronized(this) { cancelNotifier?.cancel() }
     }
 
     override fun deliverResult(result: DirectoryResult?) {
@@ -187,45 +194,52 @@ abstract class BaseFileLoader(
     /**
      * A function that, for the specified location rooted in the root with the given rootId
      * attempts to obtain a non-null cursor from the content provider client obtained for the
-     * given locationUri. It returns the first non-null cursor, if one can be found, or null,
-     * if it fails to query the given location for all known users.
+     * given locationUri. It returns a non-null cursor, if it can access the location given
+     * by the `locationUri`, or null, if it fails to query the given location for the current user.
      */
     fun queryLocation(
-        rootId: String,
+        rootInfo: RootInfo,
+        locationUri: Uri,
+        queryArgs: Bundle?,
+        maxResults: Int,
+    ): Cursor? {
+        try {
+            Trace.beginSection("documentsui.searchv2.BaseFileLoader#queryLocation")
+            return queryLocationTraced(rootInfo, locationUri, queryArgs, maxResults)
+        } finally {
+            Trace.endSection()
+        }
+    }
+
+    /**
+     * A queryLocation code run within a trace.
+     */
+    private fun queryLocationTraced(
+        rootInfo: RootInfo,
         locationUri: Uri,
         queryArgs: Bundle?,
         maxResults: Int,
     ): Cursor? {
         val authority = locationUri.authority ?: return null
-        for (userId in userIdList) {
-            if (DEBUG) {
-                Log.d(TAG, "BaseFileLoader.queryLocation for $userId at $locationUri")
-            }
-            val resolver = userId.getContentResolver(context)
-            try {
-                resolver.acquireUnstableContentProviderClient(
-                    authority
-                ).use { client ->
-                    if (client == null) {
-                        return null
-                    }
-                    try {
-                        val cursor =
-                            client.query(locationUri, null, queryArgs, signal) ?: return null
-                        return RootCursorWrapper(userId, authority, rootId, cursor, maxResults)
-                    } catch (e: RemoteException) {
-                        if (DEBUG) {
-                            Log.d(TAG, "Failed to get cursor for $locationUri", e)
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                if (DEBUG) {
-                    Log.d(TAG, "Failed to get a content provider client for $locationUri", e)
-                }
-            }
+        if (DEBUG) {
+            Log.d(TAG, "BaseFileLoader.queryLocation for ${rootInfo.userId} at $locationUri")
         }
-
-        return null
+        val resolver = rootInfo.userId.getContentResolver(context) ?: return null
+        resolver.acquireUnstableContentProviderClient(
+            authority
+        ).use { client ->
+            if (client == null) {
+                return null
+            }
+            // TODO(b:440453094): Fix handling of cancel signal is documents providers.
+            val cursor = client.query(locationUri, null, queryArgs, cancelNotifier) ?: return null
+            return RootCursorWrapper(
+                rootInfo.userId,
+                authority,
+                rootInfo.rootId,
+                cursor,
+                maxResults
+            )
+        }
     }
 }

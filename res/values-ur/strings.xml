@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"محفوظ کریں"</string>
     <string name="menu_share" msgid="4307140947108068356">"اشتراک کریں"</string>
     <string name="menu_delete" msgid="1022254131543256626">"حذف کریں"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"مستقل طور پر حذف کریں"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"کوڑے دان میں منتقل کریں"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"بحال کریں"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"سبھی کو منتخب کریں"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"سبھی غیر منتخب کریں"</string>
     <string name="menu_select" msgid="1366061076507142387">"منتخب کریں"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"اس میں کاپی کریں…"</string>
     <string name="menu_move" msgid="2310760789561129882">"اس میں منتقل کریں…"</string>
     <string name="menu_compress" msgid="37539111904724188">"کمپریس کریں"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"زپ"</string>
     <string name="menu_extract" msgid="8171946945982532262">"اس میں کھولیں۔۔۔"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"سبھی نکالیں…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"یہاں نکالیں"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"آرکائیو سے نکالیں"</string>
     <string name="menu_browse" msgid="6007716414766674967">"براؤز کریں"</string>
     <string name="menu_rename" msgid="1883113442688817554">"نام تبدیل کریں"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"معلومات حاصل کریں"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"اس کارروائی کی اجازت نہیں ہے"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"‏مزید جاننے کے لیے، اپنے IT منتظم سے رابطہ کریں۔"</string>
     <string name="root_recent" msgid="1080156975424341623">"حالیہ"</string>
+    <string name="root_trash" msgid="1869929519939073178">"کوڑے دان"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> خالی"</string>
     <string name="root_type_service" msgid="6521366147466512289">"اسٹوریج سروسز"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"شارٹ کٹس"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"کچھ دستاویزات کو حذف کرنے سے قاصر"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> سے زیادہ فائلز کا اشتراک نہیں کر سکتے"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"کارروائی کی اجازت نہیں ہے"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"ان کے ساتھ کھولیں…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"‏کوئی تعاون یافتہ ایپ انسٹال نہیں ہے۔ ‫Play اسٹور سے کوئی ایپ انسٹال کرنے کی کوشش کریں۔"</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"‏‫Play اسٹور میں تلاش کریں"</string>
     <string name="share_via" msgid="8725082736005677161">"اشتراک کریں بذریعہ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"فائلیں کاپی ہو رہی ہیں"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"فائلز کمپریس ہو رہی ہیں"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"فائلیں نکالی جا رہی ہیں"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"فائلیں منتقل ہو رہی ہیں"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"فائلیں حذف کی جا رہی ہیں"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"فائلز کو کوڑے دان میں منتقل کرنا"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"فائلیں بحال ہو رہی ہیں…"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> باقی"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> آئٹمز کاپی ہو رہے ہیں۔</item>
@@ -154,29 +164,26 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> آئٹمز حذف ہو رہے ہیں۔</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> آئٹم حذف ہو رہا ہے۔</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{‫<xliff:g id="COUNT_0">{count}</xliff:g> آئٹم کو کوڑے دان میں منتقل کیا جا رہا ہے}other{‫<xliff:g id="COUNT_1">{count}</xliff:g> آئٹمز کو کوڑے دان میں منتقل کیا جا رہا ہے}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{‫<xliff:g id="COUNT_0">{count}</xliff:g> آئٹم کو بحال کیا جا رہا ہے}other{‫<xliff:g id="COUNT_1">{count}</xliff:g> آئٹمز کو بحال کیا جا رہا ہے}}"</string>
     <string name="undo" msgid="2902438994196400565">"کالعدم کریں"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"تیار ہو رہا ہے…"</string>
     <string name="compress_preparing" msgid="7401605598969019696">"تیار ہو رہا ہے…"</string>
     <string name="extract_preparing" msgid="4796626960061745796">"تیار ہو رہا ہے…"</string>
     <string name="move_preparing" msgid="6504239656430530761">"تیار ہو رہا ہے…"</string>
     <string name="delete_preparing" msgid="7339349837842802508">"تیار ہو رہا ہے…"</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"تیار ہو رہا ہے..."</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"تیار ہو رہی ہے..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> آئٹمز کاپی نہیں ہو سکے</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> آئٹم کاپی نہیں ہو سکا</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> فائلز کمپریس نہیں کی جا سکیں</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>فائل کمپریس نہیں کی جا سکی</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> آئٹمز منتقل نہیں ہو سکے</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> آئٹم منتقل نہیں ہو سکا</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> آئٹمز حذف نہیں ہو سکے</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> آئٹم حذف نہیں ہو سکا</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="TOTALCOUNT">%2$d</xliff:g> / <xliff:g id="COUNT_0">%1$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="TOTALCOUNT">%2$d</xliff:g> / <xliff:g id="COUNT_0">%1$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> آئٹم کو کاپی نہیں کیا جا سکا}other{<xliff:g id="COUNT_1">{count}</xliff:g> آئٹمز کو کاپی نہیں کیا جا سکا}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> آئٹم کو کمپریس نہیں کیا جا سکا}other{<xliff:g id="COUNT_1">{count}</xliff:g> آئٹمز کو کمپریس نہیں کیا جا سکا}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> آئٹم کو ایکسٹریکٹ نہیں کیا جا سکا}other{<xliff:g id="COUNT_1">{count}</xliff:g> آئٹمز کو ایکسٹریکٹ نہیں کیا جا سکا}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> آئٹم کو منتقل نہیں کیا جا سکا}other{<xliff:g id="COUNT_1">{count}</xliff:g> آئٹمز کو منتقل نہیں کیا جا سکا}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{<xliff:g id="COUNT_0">{count}</xliff:g> آئٹم کو حذف نہیں کیا جا سکا}other{<xliff:g id="COUNT_1">{count}</xliff:g> آئٹمز کو حذف نہیں کیا جا سکا}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{‫<xliff:g id="COUNT_0">{count}</xliff:g> آئٹم کو کوڑے دان میں منتقل نہیں کیا جا سکا}other{‫<xliff:g id="COUNT_1">{count}</xliff:g> آئٹمز کو کوڑے دان میں منتقل نہیں کیا جا سکا}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{‫<xliff:g id="COUNT_0">{count}</xliff:g> آئٹم کو بحال نہیں کیا جا سکا}other{‫<xliff:g id="COUNT_1">{count}</xliff:g> آئٹمز کو بحال نہیں کیا جا سکا}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"تفصیلات دیکھنے کیلئے تھپتھپائیں"</string>
     <string name="close" msgid="905969391788869975">"بند کریں"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -207,17 +214,39 @@
       <item quantity="other">کلپ بورڈ پر <xliff:g id="COUNT_1">%1$d</xliff:g> آئٹمز کاپی کئے گئے۔</item>
       <item quantity="one">کلپ بورڈ پر <xliff:g id="COUNT_0">%1$d</xliff:g> آئٹم کاپی کیا گیا۔</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"صرف پڑھنے کیلئے"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"آپ ان فائلز کو دیکھ سکتے ہیں لیکن کچھ کارروائیاں تعاون یافتہ نہیں ہیں"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"یہ آرکائیو صرف پڑھنے کی جگہ پر ہے اور اسے یہاں نہیں نکالا جا سکتا۔"</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"فائل کارروائی تعاون یافتہ نہیں ہے۔"</string>
     <string name="file_operation_error" msgid="2234357335716533795">"فائل کارروائی ناکام ہو گئی۔"</string>
     <string name="rename_error" msgid="6700093173508118635">"دستاویز کا نام تبدیل کرنے میں ناکام"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"خارج کریں"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"کچھ فائلوں کو تبدیل کیا گیا تھا"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{‫\"<xliff:g id="FILENAME">{filename}</xliff:g>\" کو \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\" میں کاپی کیا جا رہا ہے}other{‫# فائلز کو \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\" میں کاپی کیا جا رہا ہے}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{‫\"<xliff:g id="FILENAME">{filename}</xliff:g>\" کو \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\" میں نکالا جا رہا ہے}other{‫# آرکائیوز کو \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\" میں نکالا جا رہا ہے}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{‫\"<xliff:g id="FILENAME">{filename}</xliff:g>\" کو \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\" میں منتقل کیا جا رہا ہے}other{‫# فائلز کو \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\" میں منتقل کیا جا رہا ہے}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{‫\"<xliff:g id="FILENAME">{filename}</xliff:g>\" کو حذف کیا جار ہا ہے}other{‫# فائلز کو حذف کیا جا رہا ہے}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{‫<xliff:g id="FILENAME">{filename}</xliff:g> کو کوڑے دان میں منتقل کیا جا رہا ہے}other{‫# فائلز کو کوڑے دان میں منتقل کیا جا رہا ہے}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{‫<xliff:g id="FILENAME">{filename}</xliff:g> کو بحال کیا جا رہا ہے}other{‫# فائلز کو بحال کیا جا رہا ہے}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{‫\"<xliff:g id="FILENAME">{filename}</xliff:g>\" کو زپ کیا جا رہا ہے}other{‫# فائلز کو زپ کیا جا رہا ہے}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"فائل کی پیشرفت دکھائیں"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"فائل کی پیشرفت"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"مکمل"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"منسوخ کردہ"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"تفصیلات دیکھیں"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"‫<xliff:g id="CURRENTBYTES">%1$s</xliff:g> از <xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"کاپی ہو گیا"</string>
     <string name="move_completed" msgid="3981250605092729273">"منتقل ہو گیا"</string>
     <string name="delete_completed" msgid="4149401155614626199">"حذف کردہ"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"کمپریس کردہ"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"زپ کردہ"</string>
     <string name="extract_completed" msgid="8824595789915249972">"ایکسٹریکٹ کیا گیا"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"کاپی نہیں ہو سکا"</string>
+    <string name="move_failed" msgid="7692364307225994220">"منتقلی نہیں ہو سکی"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"حذف نہیں ہو سکا"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"زپ نہیں ہو سکی"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"نہیں نکالا جا سکا"</string>
+    <string name="expand_label" msgid="5683357671239615207">"پھیلائیں"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"سکیڑیں"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> کو <xliff:g id="STORAGE"><i>^3</i></xliff:g> پر <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ڈائرکٹری تک رسائی عطا کریں؟"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> کو <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ڈائرکٹری تک رسائی دیں؟"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> کو اپنے ڈیٹا بشمول <xliff:g id="STORAGE"><i>^2</i></xliff:g> پر موجود تصاویر اور ویڈیوز تک رسائی عطا کریں؟"</string>
@@ -258,6 +287,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"موادوں کو ڈسپلے نہیں کیا جا سکتا"</string>
     <string name="sign_in" msgid="6253762676723505592">"سائن ان کریں"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"آرکائیو<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"آرکائیو کریں"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> کو اوور رائٹ کریں؟"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"پس منظر میں جاری رکھیں"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -299,7 +329,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"نیا فولڈر بنائیں"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"اس آلے پر تلاش کریں"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"ٹیکسٹ صاف کریں"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"یہ فولڈر"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"روٹ فولڈر"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"ہر جگہ"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"کسی بھی وقت"</string>
@@ -318,7 +347,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"فہرست وضع میں دکھائی جا رہی ہیں۔"</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"فائل کا نام"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"فائل کا پیش منظر چھپائیں"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"کوئی پیش منظر دستیاب نہیں ہے"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"تفصیلات"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"عام معلومات"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"سائز"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"قسم"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"تاریخ میں ترمیم کی گئی"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"فائل کا پیش منظر چھپائیں"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"‫<xliff:g id="FILENAME">%s</xliff:g> کی تصویر کا پیش منظر"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"معلوماتی پینل چھپائیں"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"معلوماتی پینل دکھائیں"</string>
 </resources>

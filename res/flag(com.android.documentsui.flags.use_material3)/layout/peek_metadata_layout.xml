@@ -13,10 +13,60 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/peek_metadata_sheet_width"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/space_small_1"
-    android:background="@drawable/peek_metadata_sheet_background"
-    android:backgroundTint="?attr/colorSurfaceContainerHigh"
-    android:orientation="vertical"/>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/peek_metadata_contents"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- Header. -->
+    <LinearLayout
+        android:id="@+id/peek_metadata_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/space_extra_small_6"
+        android:paddingBottom="@dimen/space_small_1"
+        android:paddingStart="@dimen/space_small_4"
+        android:paddingEnd="@dimen/space_extra_small_6"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:text="@string/peek_metadata_header_title"
+            app:titleTextAppearance="@style/TextAppearance.DocumentsUI.TitleMedium"
+            android:textColor="?attr/colorOnSurface" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/peek_side_sheet_close_button"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="@dimen/icon_size_headline_large"
+            android:layout_height="@dimen/icon_size_headline_large"
+            android:layout_gravity="end"
+            app:icon="@drawable/ic_close"
+            app:iconTint="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+
+    <!-- Contents. -->
+    <LinearLayout
+        android:id="@+id/peek_metadata_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_small_1"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/peek_metadata_header">
+        <!-- Padding bottom 6dp instead of 8, accounting for metadata item's
+        2dp top padding -->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/space_extra_small_3"
+            android:paddingHorizontal="@dimen/space_extra_small_4"
+            android:text="@string/peek_metadata_general_info_title"
+            android:textAppearance="@style/TextAppearance.DocumentsUI.TitleSmall"
+            android:textColor="?attr/colorSecondary" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,14 @@ flag {
 }
 
 flag {
+    name: "desktop_ux_phase_2_ro"
+    namespace: "documentsui"
+    description: "Desktop UX bug fixes and improvements, phase 2"
+    bug: "432658978"
+    is_fixed_read_only: true
+}
+
+flag {
     name: "use_search_v2_read_only"
     namespace: "documentsui"
     description: "Enables the next generation search functionality."
@@ -62,5 +70,29 @@ flag {
     namespace: "documentsui"
     description: "Enables the documents trash flow"
     bug: "409265240"
+    is_fixed_read_only: true
+}
+
+flag {
+    name: "support_visible_background_user"
+    namespace: "documentsui"
+    description: "Enables support for visible background users."
+    bug: "393987170"
+    is_fixed_read_only: true
+}
+
+flag {
+    name: "home_screen_files_ro"
+    namespace: "documentsui"
+    description: "Enables the home screen folder and its files."
+    bug: "438288106"
+    is_fixed_read_only: true
+}
+
+flag {
+    name: "single_click_to_select"
+    namespace: "documentsui"
+    description: "Enables single mouse-click to select files"
+    bug: "389814214"
     is_fixed_read_only: true
 }

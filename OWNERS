@@ -5,6 +5,8 @@ include platform/frameworks/base:/core/java/android/os/storage/OWNERS
 # For one of the below, please use android-files+reviews@google.com as the
 # reviewer.
 alexbn@google.com
+austinct@google.com
 benreich@google.com
+erfanio@google.com
 lucmult@google.com
 wenbojie@google.com

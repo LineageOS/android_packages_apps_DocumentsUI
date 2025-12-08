@@ -31,10 +31,15 @@ import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.VisibleForTesting
+import androidx.core.content.IntentCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -52,6 +57,8 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.shape.ShapeAppearanceModel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * Adds a gap between items in a vertical Recycler View.
@@ -129,10 +136,14 @@ class JobPanelController(
                 titleView.isSingleLine = false
                 toggleExpandButton.icon =
                     context.getDrawable(getRes(R.drawable.ic_job_progress_collapse))
+                toggleExpandButton.contentDescription =
+                    context.getString(getRes(R.string.collapse_label))
             } else {
                 titleView.isSingleLine = true
                 toggleExpandButton.icon =
                     context.getDrawable(getRes(R.drawable.ic_job_progress_expand))
+                toggleExpandButton.contentDescription =
+                    context.getString(getRes(R.string.expand_label))
             }
 
             updateProgressBar(jobProgress)
@@ -179,9 +190,7 @@ class JobPanelController(
                     primaryStatusView.setTextAppearance(
                         getRes(R.style.JobProgressItemStatusText_Failure)
                     )
-                    primaryStatusView.text = context.getString(
-                        getRes(R.string.job_progress_item_failed)
-                    )
+                    primaryStatusView.text = getFailedStatusString(jobProgress.operationType)
                     secondaryStatusView.isGone = expanded
                     secondaryStatusView.text =
                         context.getString(getRes(R.string.job_progress_item_see_details))
@@ -193,6 +202,13 @@ class JobPanelController(
                         context.getString(getRes(R.string.job_progress_item_completed))
                     secondaryStatusView.text = getCompletionStatusString(jobProgress.operationType)
                 }
+            } else if (jobProgress.state == Job.STATE_CANCELED) {
+                primaryStatusView.setTextAppearance(
+                    getRes(R.style.JobProgressItemStatusText_Warning)
+                )
+                primaryStatusView.text =
+                    context.getString(getRes(R.string.job_progress_item_canceled))
+                secondaryStatusView.isGone = true
             } else if (expanded && jobProgress.state == Job.STATE_SET_UP &&
                 !jobProgress.isIndeterminate) {
                 primaryStatusView.setTextAppearance(getRes(R.style.JobProgressItemStatusText))
@@ -212,19 +228,34 @@ class JobPanelController(
 
         private fun getCompletionStatusString(@FileOperationService.OpType opType: Int): String {
             return when (opType) {
-                FileOperationService.OPERATION_COPY -> context.getString(
-                    getRes(R.string.copy_completed)
-                )
-
-                FileOperationService.OPERATION_MOVE -> context.getString(
-                    getRes(R.string.move_completed)
-                )
+                FileOperationService.OPERATION_COPY ->
+                    context.getString(getRes(R.string.copy_completed))
+                FileOperationService.OPERATION_MOVE ->
+                    context.getString(getRes(R.string.move_completed))
                 FileOperationService.OPERATION_DELETE ->
                     context.getString(getRes(R.string.delete_completed))
                 FileOperationService.OPERATION_COMPRESS ->
                     context.getString(getRes(R.string.compress_completed))
-                FileOperationService.OPERATION_EXTRACT ->
+                FileOperationService.OPERATION_EXTRACT,
+                FileOperationService.OPERATION_UNPACK ->
                     context.getString(getRes(R.string.extract_completed))
+                else -> ""
+            }
+        }
+
+        private fun getFailedStatusString(@FileOperationService.OpType opType: Int): String {
+            return when (opType) {
+                FileOperationService.OPERATION_COPY ->
+                    context.getString(getRes(R.string.copy_failed))
+                FileOperationService.OPERATION_MOVE ->
+                    context.getString(getRes(R.string.move_failed))
+                FileOperationService.OPERATION_DELETE ->
+                    context.getString(getRes(R.string.delete_failed))
+                FileOperationService.OPERATION_COMPRESS ->
+                    context.getString(getRes(R.string.compress_failed))
+                FileOperationService.OPERATION_EXTRACT,
+                FileOperationService.OPERATION_UNPACK ->
+                    context.getString(getRes(R.string.extract_failed))
                 else -> ""
             }
         }
@@ -337,6 +368,10 @@ class JobPanelController(
                 getRes(R.layout.job_progress_panel),
                 /* root= */ null
             )
+
+            panel.findViewById<Button>(R.id.job_progress_panel_dismiss_all)
+                .setOnClickListener { viewModel.dismissCompleted() }
+
             val listAdapter = ProgressListAdapter(this)
             listAdapter.submitList(ArrayList(viewModel.currentJobs.values))
             panel.findViewById<RecyclerView>(getRes(R.id.job_progress_list)).apply {
@@ -382,10 +417,34 @@ class JobPanelController(
         }
         menuItem = newMenuItem
         // Don't animate for the initial state update.
-        updateMenuItem(viewModel.getMenuState(), animate = false)
+        updateMenuItem(viewModel.menuIconState.value, animate = false)
+    }
+
+    override fun onCreate(owner: LifecycleOwner) {
+        owner.lifecycleScope.launch {
+            owner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                observeViewModel()
+            }
+        }
+    }
+
+    // Exposed so unit tests can run this in a test scope.
+    @VisibleForTesting
+    suspend fun observeViewModel() = coroutineScope {
+        launch {
+            viewModel.jobUpdateEvent.collect {
+                progressListAdapter?.submitList(ArrayList(viewModel.currentJobs.values))
+            }
+        }
+        launch {
+            viewModel.menuIconState.collect { menuIconState ->
+                updateMenuItem(menuIconState, animate = true)
+            }
+        }
     }
 
     override fun onDestroy(owner: LifecycleOwner) {
+        activityContext.unregisterReceiver(this)
         // We need to save the popup's UI state and manually dismiss the popup, as it somehow
         // stays alive even if the activity is destroyed due to a configuration change.
         viewModel.listState = popup?.contentView
@@ -395,24 +454,20 @@ class JobPanelController(
     }
 
     override fun onReceive(context: Context?, intent: Intent) {
-        val progresses = intent.getParcelableArrayListExtra(
+        val progresses = IntentCompat.getParcelableArrayListExtra(
+            intent,
             FileOperationService.EXTRA_PROGRESS,
             JobProgress::class.java
         )
         viewModel.updateProgress(progresses!!)
-        updateMenuItem(viewModel.getMenuState(), animate = true)
-        progressListAdapter?.submitList(ArrayList(viewModel.currentJobs.values))
     }
 
     private fun dismissProgress(id: String) {
         viewModel.dismissProgress(id)
-        updateMenuItem(viewModel.getMenuState(), animate = true)
-        progressListAdapter?.submitList(ArrayList(viewModel.currentJobs.values))
     }
 
     private fun toggleExpanded(id: String) {
         viewModel.toggleExpanded(id)
-        progressListAdapter?.submitList(ArrayList(viewModel.currentJobs.values))
     }
 
     private fun showInFolder(jobProgress: JobProgress) {

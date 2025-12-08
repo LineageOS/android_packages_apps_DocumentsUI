@@ -215,6 +215,9 @@ public final class Metrics {
             case FileOperationService.OPERATION_MOVE:
                 opCode = MetricConsts.FILEOP_MOVE_ERROR;
                 break;
+            case FileOperationService.OPERATION_UNPACK:
+                opCode = MetricConsts.FILEOP_UNPACK_ERROR;
+                break;
         }
         if (counts.systemProvider > 0) {
             DocumentsStatsLog.write(
@@ -434,7 +437,10 @@ public final class Metrics {
     }
 
     /** @see #sanitizeRoot(Uri) */
-    public static @MetricConsts.Root int sanitizeRoot(RootInfo root) {
+    public static @MetricConsts.Root int sanitizeRoot(@Nullable RootInfo root) {
+        if (root == null) {
+            return MetricConsts.ROOT_UNKNOWN;
+        }
         if (root.isRecents()) {
             // Recents root is special and only identifiable via this method call. Other roots are
             // identified by URI.

@@ -15,22 +15,24 @@
  */
 package com.android.documentsui.queries
 
-import android.platform.test.annotations.RequiresFlagsEnabled
+import android.platform.test.annotations.EnableFlags
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
+import com.android.documentsui.R
 import com.android.documentsui.flags.Flags.FLAG_USE_SEARCH_V2_READ_ONLY
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag
+import com.android.documentsui.rules.OverrideFlagsRule
+import com.android.documentsui.util.Material3Config.Companion.getRes
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RequiresFlagsEnabled(FLAG_USE_SEARCH_V2_READ_ONLY)
+@EnableFlags(FLAG_USE_SEARCH_V2_READ_ONLY)
 @RunWith(AndroidJUnit4::class)
 @SmallTest
 class FileTypeOptionTest {
     @get:Rule
-    val checkFlags = CheckAndForceMaterial3Flag()
+    val setFlags = OverrideFlagsRule()
 
     @Test
     fun testEnumValueMapping() {
@@ -38,5 +40,13 @@ class FileTypeOptionTest {
         for (fileType in fileTypeArray) {
             assertEquals(fileType, fileTypeOptionFor(fileType.value))
         }
+    }
+
+    @Test
+    fun testEnumText() {
+        assertEquals(FileTypeOption.DOCUMENTS.textId, getRes(R.string.chip_title_documents))
+        assertEquals(FileTypeOption.AUDIO.textId, getRes(R.string.chip_title_audio))
+        assertEquals(FileTypeOption.VIDEO.textId, getRes(R.string.chip_title_videos))
+        assertEquals(FileTypeOption.IMAGES.textId, getRes(R.string.chip_title_images))
     }
 }

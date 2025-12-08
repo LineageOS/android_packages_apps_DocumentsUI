@@ -18,14 +18,14 @@ package com.android.documentsui.sidebar;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.annotations.EnableFlags;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.flags.Flags;
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.OverrideFlagsRule;
 import com.android.documentsui.testing.TestProvidersAccess;
 
 import com.google.common.collect.Lists;
@@ -69,7 +69,7 @@ public class RootItemListBuilderTest {
     private RootItemListBuilder mBuilder;
 
     @Rule
-    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     @Test
     public void testGetList_empty() {
@@ -190,7 +190,7 @@ public class RootItemListBuilderTest {
     }
 
     @Test
-    @RequiresFlagsEnabled({Flags.FLAG_USE_MATERIAL3})
+    @EnableFlags({Flags.FLAG_USE_MATERIAL3})
     public void testGetList_twoUsers_secondUserFillsUpNonMatchingNavRailRoots() {
         // NavRailRootItem can only be initialized when use_material3 flag is ON, because the
         // underlying layout doesn't exist when the flag is OFF.

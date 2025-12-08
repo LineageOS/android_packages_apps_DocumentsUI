@@ -17,6 +17,7 @@ package com.android.documentsui;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.platform.test.annotations.DesktopTest;
 import android.view.View;
 
 import androidx.test.filters.LargeTest;
@@ -45,6 +46,7 @@ public class BandSelectionUiTest extends ActivityTestJunit4<FilesActivity> {
         bots.roots.closeDrawer();
     }
 
+    @DesktopTest(cujs = {"b/434067616"})
     @Test
     public void testBandSelection_allFiles() throws Exception {
         bots.main.switchToGridMode();
@@ -57,6 +59,7 @@ public class BandSelectionUiTest extends ActivityTestJunit4<FilesActivity> {
         bots.directory.assertSelection(4);
     }
 
+    @DesktopTest(cujs = {"b/434067616"})
     @Test
     public void testBandSelection_someFiles() throws Exception {
         // Switch to Grid mode and ensure the list is sorted by title.

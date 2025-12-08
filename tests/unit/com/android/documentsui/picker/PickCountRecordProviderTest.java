@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
+import androidx.test.filters.SmallTest;
 import androidx.test.rule.provider.ProviderTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
@@ -15,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+@SmallTest
 @RunWith(AndroidJUnit4.class)
 public class PickCountRecordProviderTest {
 

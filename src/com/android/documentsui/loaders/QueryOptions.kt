@@ -49,7 +49,7 @@ data class QueryOptions(
     val maxLastModifiedDelta: Duration?,
     val maxQueryTime: Duration?,
     val showHidden: Boolean,
-    val acceptableMimeTypes: Array<String>,
+    val acceptableMimeTypes: Array<String>?,
     val otherQueryArgs: Bundle,
 ) {
 

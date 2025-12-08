@@ -23,7 +23,9 @@ import android.content.Context;
 
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.Until;
 
 import java.util.Map;
 
@@ -37,12 +39,20 @@ public class MenuBot extends Bots.BaseBot {
         super(device, context, timeout);
     }
 
-    public boolean hasMenuItem(String menuLabel) throws UiObjectNotFoundException {
+    public boolean hasMenuItem(String menuLabel) {
         return mDevice.findObject(By.text(menuLabel)) != null;
     }
 
-    public boolean hasMenuItemByDesc(String menuDesc) throws UiObjectNotFoundException {
+    public boolean hasMenuItemByDesc(String menuDesc) {
         return mDevice.findObject(By.desc(menuDesc)) != null;
+    }
+
+    public void clickMenuItem(String label) throws UiObjectNotFoundException {
+        final UiObject2 item = mDevice.wait(Until.findObject(By.text(label)), mTimeout);
+        if (item == null) {
+            throw new UiObjectNotFoundException("Cannot find the '" + label + "' menu item");
+        }
+        item.click();
     }
 
     public void assertPresentMenuItems(Map<String, Boolean> menuStates) throws Exception {

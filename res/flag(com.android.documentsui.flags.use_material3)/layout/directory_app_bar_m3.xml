@@ -32,6 +32,7 @@
         app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
         <LinearLayout
+            android:id="@+id/collapsing_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -56,6 +57,19 @@
             android:touchscreenBlocksFocus="false"
             android:background="?attr/colorSurfaceBright"
             app:layout_collapseMode="pin">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/read_only_label"
+                android:background="@drawable/read_only_label_background"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/space_extra_small_4"
+                android:paddingHorizontal="@dimen/space_extra_small_6"
+                android:text="@string/read_only_label"
+                android:textAppearance="@style/TextAppearance.DocumentsUI.LabelSmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:tooltipText="@string/read_only_explanation"
+                android:visibility="gone" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/searchbar_title"

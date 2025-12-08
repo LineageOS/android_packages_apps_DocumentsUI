@@ -18,8 +18,11 @@ package com.android.documentsui.util;
 
 import static org.junit.Assert.assertEquals;
 
+import androidx.test.filters.SmallTest;
+
 import org.junit.Test;
 
+@SmallTest
 public class FormatUtilsTest {
     @Test
     public void testFormatDuration_seconds() {

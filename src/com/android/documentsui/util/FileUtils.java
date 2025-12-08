@@ -16,10 +16,17 @@
 
 package com.android.documentsui.util;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+
 import androidx.annotation.NonNull;
+
+import com.android.documentsui.base.DocumentInfo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class FileUtils {
@@ -51,6 +58,21 @@ public class FileUtils {
         final String docIdPath = docId.substring(docId.indexOf(':', 1) + 1);
 
         return getCanonicalPath(docIdPath);
+    }
+
+    /**
+     * Returns the number of opening apps for the given file type.
+     *
+     * @param doc File MIME type.
+     * @param pm PackageManager (usually Activity.getPackageManager())
+     * @return Number of opening apps.
+     */
+    public static int countOpeningApps(DocumentInfo doc, PackageManager pm) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(doc.getDocumentUri(), doc.mimeType);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, 0);
+        return resolveInfos.size();
     }
 
     private FileUtils() {

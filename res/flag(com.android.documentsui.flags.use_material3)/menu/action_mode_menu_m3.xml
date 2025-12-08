@@ -25,6 +25,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_menu_extract_here"
+        android:title="@string/menu_extract_here"
+        android:visible="false" />
+    <item
+        android:id="@+id/action_menu_browse"
+        android:title="@string/menu_browse"
+        android:visible="false" />
+    <item
         android:id="@+id/action_menu_open_with"
         android:title="@string/menu_open_with"
         android:showAsAction="never"
@@ -33,12 +41,6 @@
         android:id="@+id/action_menu_share"
         android:icon="@drawable/ic_menu_share_m3"
         android:title="@string/menu_share"
-        android:showAsAction="always"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_menu_delete"
-        android:icon="@drawable/ic_menu_delete_m3"
-        android:title="@string/menu_delete"
         android:showAsAction="always"
         app:showAsAction="always" />
     <item
@@ -62,6 +64,23 @@
         android:title="@string/menu_deselect_all"
         android:showAsAction="never"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_menu_move_to_trash"
+        android:icon="@drawable/ic_menu_delete"
+        android:title="@string/menu_move_to_trash"
+        android:showAsAction="always"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_menu_restore_from_trash"
+        android:title="@string/menu_restore_from_trash"
+        android:showAsAction="never"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_menu_delete"
+        android:icon="@drawable/ic_menu_delete"
+        android:title="@string/menu_permanently_delete"
+        android:showAsAction="never"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/action_menu_copy_to"
         android:title="@string/menu_copy"

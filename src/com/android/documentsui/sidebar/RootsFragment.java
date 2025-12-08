@@ -22,13 +22,13 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
+import static java.util.Objects.requireNonNull;
+
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.UserManager;
@@ -46,10 +46,6 @@ import android.view.View;
 import android.view.View.OnDragListener;
 import android.view.View.OnGenericMotionListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import androidx.annotation.IdRes;
@@ -62,11 +58,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.app.LoaderManager.LoaderCallbacks;
 import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.DragHoverListener;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
@@ -119,26 +115,7 @@ public class RootsFragment extends Fragment {
     private static final String EXTRA_CONTAINER_ID = "containerId";
     private static final int CONTEXT_MENU_ITEM_TIMEOUT = 500;
 
-    private final OnItemClickListener mItemListener = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final Item item = mAdapter.getItem(position);
-            item.open();
-
-            getBaseActivity().setRootsDrawerOpen(false);
-        }
-    };
-
-    private final OnItemLongClickListener mItemLongClickListener = new OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-            final Item item = mAdapter.getItem(position);
-            return item.showAppDetails();
-        }
-    };
-
-    private ListView mList;
-    private RootsAdapter mAdapter;
+    private RootsListHandler mListHandler;
     private LoaderCallbacks<Collection<RootInfo>> mCallbacks;
     private @Nullable OnDragListener mDragListener;
 
@@ -232,38 +209,40 @@ public class RootsFragment extends Fragment {
                                 : getRes(R.layout.fragment_roots),
                         container,
                         false);
-        mList = (ListView) view.findViewById(getRes(R.id.roots_list));
-        mList.setOnItemClickListener(mItemListener);
+        if (isUseMaterial3FlagEnabled()) {
+            final RecyclerView recyclerView = view.findViewById(getRes(R.id.roots_list));
+            mListHandler = new RootsRecyclerViewHandler(requireNonNull(recyclerView));
+        } else {
+            final ListView listView = view.findViewById(getRes(R.id.roots_list));
+            mListHandler = new RootsListViewHandler(requireNonNull(listView));
+        }
+        mListHandler.setup(getBaseActivity());
         // ListView does not have right-click specific listeners, so we will have a
         // GenericMotionListener to listen for it.
         // Currently, right click is viewed the same as long press, so we will have to quickly
         // register for context menu when we receive a right click event, and quickly unregister
         // it afterwards to prevent context menus popping up upon long presses.
         // All other motion events will then get passed to OnItemClickListener.
-        mList.setOnGenericMotionListener(
-                new OnGenericMotionListener() {
-                    @Override
-                    public boolean onGenericMotion(View v, MotionEvent event) {
-                        if (Events.isMousyEvent(event)
-                                && event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
-                            int x = (int) event.getX();
-                            int y = (int) event.getY();
-                            return onRightClick(v, x, y, () -> {
-                                mInjector.menuManager.showContextMenu(
-                                        RootsFragment.this, v, x, y);
-                            });
-                        }
-                        return false;
-                    }
-                });
-        mList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        mList.setSelector(new ColorDrawable(Color.TRANSPARENT));
+        mListHandler.setOnGenericMotionListener(new OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent event) {
+                if (Events.isMousyEvent(event)
+                        && event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                    int x = (int) event.getX();
+                    int y = (int) event.getY();
+                    return onRightClick(v, x, y, () -> {
+                        mInjector.menuManager.showContextMenu(
+                                RootsFragment.this, v, x, y);
+                    });
+                }
+                return false;
+            }
+        });
         return view;
     }
 
     private boolean onRightClick(View v, int x, int y, Runnable callback) {
-        final int pos = mList.pointToPosition(x, y);
-        final Item item = mAdapter.getItem(pos);
+        Item item = mListHandler.getItemFromViewUnder(x, y);
 
         // If a read-only root, no need to see if top level is writable (it's not)
         if (!(item instanceof RootItem) || !((RootItem) item).root.supportsCreate()) {
@@ -304,8 +283,7 @@ public class RootsFragment extends Fragment {
                     return item.dropOn(event);
                 }
             };
-            mDragListener = DragHoverListener.create(listener, mList);
-            mList.setOnDragListener(mDragListener);
+            mDragListener = mListHandler.createDragListener(listener);
         }
 
         mCallbacks = new LoaderCallbacks<Collection<RootInfo>>() {
@@ -341,7 +319,8 @@ public class RootsFragment extends Fragment {
                             && SdkLevel.isAtLeastS()) {
                         userManagerState = DocumentsApplication.getUserManagerState(getContext());
                         Map<UserId, Boolean> canForwardToProfileIdMap =
-                                userManagerState.getCanForwardToProfileIdMap(handlerAppIntent);
+                                userManagerState.getCanForwardToProfileIdMapForAllowedUsers(intent,
+                                        state);
                         updateCrossProfileMapStateAndMaybeRefresh(canForwardToProfileIdMap);
                     } else {
                         crossProfileResolveInfo = CrossProfileUtils.getCrossProfileResolveInfo(
@@ -390,19 +369,7 @@ public class RootsFragment extends Fragment {
                 // Disable drawer if only one root
                 activity.setRootsDrawerLocked(sortedItems.size() <= 1);
 
-                // Get the first visible position and offset
-                final int firstPosition = mList.getFirstVisiblePosition();
-                View firstChild = mList.getChildAt(0);
-                final int offset =
-                        firstChild != null ? firstChild.getTop() - mList.getPaddingTop() : 0;
-                final int oriItemCount = mAdapter != null ? mAdapter.getCount() : 0;
-                mAdapter = new RootsAdapter(activity, sortedItems, mDragListener);
-                mList.setAdapter(mAdapter);
-
-                // recover the position.
-                if (oriItemCount == mAdapter.getCount()) {
-                    mList.setSelectionFromTop(firstPosition, offset);
-                }
+                mListHandler.scrollToFirstVisiblePosition(sortedItems, mDragListener);
 
                 mInjector.shortcutsUpdater.accept(roots);
                 mInjector.appsRowManager.updateList(mApplicationItemList);
@@ -419,8 +386,7 @@ public class RootsFragment extends Fragment {
 
             @Override
             public void onLoaderReset(Loader<Collection<RootInfo>> loader) {
-                mAdapter = null;
-                mList.setAdapter(null);
+                mListHandler.resetAdapter();
             }
         };
     }
@@ -785,33 +751,25 @@ public class RootsFragment extends Fragment {
     }
 
     public void onDisplayStateChanged() {
-        final Context context = getActivity();
-        final State state = ((BaseActivity) context).getDisplayState();
-
-        if (state.action == State.ACTION_GET_CONTENT) {
-            mList.setOnItemLongClickListener(mItemLongClickListener);
-        } else {
-            mList.setOnItemLongClickListener(null);
-            mList.setLongClickable(false);
-        }
+        mListHandler.onDisplayStateChange();
 
         LoaderManager.getInstance(this).restartLoader(2, null, mCallbacks);
     }
 
     public void onCurrentRootChanged() {
-        if (mAdapter == null) {
+        if (!mListHandler.isAdapterInitialized()) {
             return;
         }
 
         final RootInfo root = ((BaseActivity) getActivity()).getCurrentRoot();
-        for (int i = 0; i < mAdapter.getCount(); i++) {
-            final Object item = mAdapter.getItem(i);
+        for (int i = 0; i < mListHandler.getItemCount(); i++) {
+            final Object item = mListHandler.getItem(i);
             if (item instanceof RootItem) {
                 final RootInfo testRoot = ((RootItem) item).root;
                 if (Objects.equals(testRoot, root)) {
                     // b/37358441 should reload all root title after configuration changed
                     root.title = testRoot.title;
-                    mList.setItemChecked(i, true);
+                    mListHandler.selectItem(i);
                     return;
                 }
             }
@@ -829,7 +787,7 @@ public class RootsFragment extends Fragment {
      * Attempts to shift focus back to the navigation drawer.
      */
     public boolean requestFocus() {
-        return mList.requestFocus();
+        return mListHandler.requestListFocus();
     }
 
     private BaseActivity getBaseActivity() {
@@ -840,28 +798,29 @@ public class RootsFragment extends Fragment {
     public void onCreateContextMenu(
             ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        AdapterContextMenuInfo adapterMenuInfo = (AdapterContextMenuInfo) menuInfo;
-        final Item item = mAdapter.getItem(adapterMenuInfo.position);
+        final Item item = mListHandler.getItemForContextMenu(menuInfo);
+        if (item == null) {
+            return;
+        }
 
         BaseActivity activity = getBaseActivity();
         item.createContextMenu(menu, activity.getMenuInflater(), mInjector.menuManager);
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterContextMenuInfo adapterMenuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
-        // There is a possibility that this is called from DirectoryFragment since
-        // all fragments' onContextItemSelected gets called when any menu item is selected
-        // This is to guard against it since DirectoryFragment's RecylerView does not have a
-        // menuInfo
-        if (adapterMenuInfo == null) {
+    public boolean onContextItemSelected(MenuItem menuItem) {
+        final Item item = mListHandler.getItemForContextMenu(menuItem.getMenuInfo());
+        if (item == null) {
             return false;
         }
-        final RootItem rootItem = (RootItem) mAdapter.getItem(adapterMenuInfo.position);
-        final int id = item.getItemId();
+        final RootItem rootItem = (RootItem) item;
+        final int id = menuItem.getItemId();
         if (id == getRes(R.id.root_menu_eject_root)) {
-            final View ejectIcon =
-                    adapterMenuInfo.targetView.findViewById(getRes(R.id.action_icon));
+            View itemView = mListHandler.getItemViewForContextMenu(menuItem.getMenuInfo());
+            if (itemView == null) {
+                return false;
+            }
+            final View ejectIcon = itemView.findViewById(getRes(R.id.action_icon));
             ejectClicked(ejectIcon, rootItem.root, mActionHandler);
             return true;
         } else if (id == getRes(R.id.root_menu_open_in_new_window)) {
@@ -893,7 +852,7 @@ public class RootsFragment extends Fragment {
 
     private Item getItem(View v) {
         final int pos = (Integer) v.getTag(getRes(R.id.item_position_tag));
-        return mAdapter.getItem(pos);
+        return mListHandler.getItem(pos);
     }
 
     static void ejectClicked(View ejectIcon, RootInfo root, ActionHandler actionHandler) {

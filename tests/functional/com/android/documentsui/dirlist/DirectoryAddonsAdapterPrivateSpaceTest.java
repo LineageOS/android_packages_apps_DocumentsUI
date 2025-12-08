@@ -30,6 +30,7 @@ import android.test.AndroidTestCase;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.filters.MediumTest;
 import androidx.test.filters.SdkSuppress;
 
 import com.android.documentsui.ActionHandler;
@@ -48,6 +49,7 @@ import com.android.documentsui.util.VersionUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+@MediumTest
 @SdkSuppress(minSdkVersion = 35, codeName = "V")
 public class DirectoryAddonsAdapterPrivateSpaceTest extends AndroidTestCase {
 

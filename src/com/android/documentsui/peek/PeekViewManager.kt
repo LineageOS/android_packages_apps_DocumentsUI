@@ -30,7 +30,7 @@ open class PeekViewManager(
     private val viewModel: PeekViewModel,
     private val container: FrameLayout,
     val fm: FragmentManager
-) : Observer<Boolean?> {
+) : Observer<Boolean> {
     companion object {
         private const val TAG = "PeekViewManager"
     }
@@ -71,8 +71,8 @@ open class PeekViewManager(
     }
 
     /** This method is called every time viewModel.overlayActive changes its value. */
-    override fun onChanged(value: Boolean?) {
-        setContainerVisibility(value ?: false)
+    override fun onChanged(value: Boolean) {
+        setContainerVisibility(value)
     }
 
     private fun setContainerVisibility(visible: Boolean) {

@@ -28,6 +28,9 @@ import android.provider.DocumentsContract.Document;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.Shared;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  * Cursor wrapper that presents a sorted view of the underlying cursor. Handles
  * common {@link Document} sorting modes, such as ordering directories first.
@@ -42,25 +45,20 @@ class SortingCursorWrapper extends AbstractCursor {
         mCursor = cursor;
 
         final int count = cursor.getCount();
-        mPosition = new int[count];
-        boolean[] isDirs = new boolean[count];
-        String[] stringValues = null;
-        long[] longValues = null;
-        String[] ids = new String[count];
+        final boolean[] isDirs = new boolean[count];
+        final String[] ids = new String[count];
 
         final int id = dimension.getId();
-        if (id == SortModel.SORT_DIMENSION_ID_TITLE
-                || id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
-            stringValues = new String[count];
-        } else if (id == SortModel.SORT_DIMENSION_ID_DATE
-                || id == SortModel.SORT_DIMENSION_ID_SIZE) {
-            longValues = new long[count];
-        }
+        boolean stringy = (id == SortModel.SORT_DIMENSION_ID_TITLE)
+                || (id == SortModel.SORT_DIMENSION_ID_FILE_TYPE);
+        final String[] stringValues = stringy ? new String[count] : null;
+        final long[] longValues = !stringy ? new long[count] : null;
 
+        Integer[] boxedInts = new Integer[count];
         cursor.moveToPosition(-1);
         for (int i = 0; i < count; i++) {
             cursor.moveToNext();
-            mPosition[i] = i;
+            boxedInts[i] = Integer.valueOf(i);
 
             final String mimeType = getCursorString(mCursor, Document.COLUMN_MIME_TYPE);
             isDirs[i] = Document.MIME_TYPE_DIR.equals(mimeType);
@@ -77,17 +75,48 @@ class SortingCursorWrapper extends AbstractCursor {
             } else if (id == SortModel.SORT_DIMENSION_ID_SIZE) {
                 longValues[i] = getCursorLong(mCursor, Document.COLUMN_SIZE);
             }
-
         }
 
-        if (id == SortModel.SORT_DIMENSION_ID_TITLE
-                || id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
-            binarySort(stringValues, isDirs, mPosition, ids, dimension.getSortDirection());
-        } else if (id == SortModel.SORT_DIMENSION_ID_DATE
-                || id == SortModel.SORT_DIMENSION_ID_SIZE) {
-            binarySort(longValues, isDirs, mPosition, ids, dimension.getSortDirection());
-        }
+        final boolean ascending =
+                dimension.getSortDirection() == SortDimension.SORT_DIRECTION_ASCENDING;
 
+        Arrays.sort(boxedInts, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer index1, Integer index2) {
+                int i1 = index1.intValue();
+                int i2 = index2.intValue();
+                boolean isDir1 = isDirs[i1];
+                boolean isDir2 = isDirs[i2];
+                int result = 0;
+
+                // Directories always go in front of non-directories...
+                if (isDir1 != isDir2) {
+                    result = isDir1 ? -1 : +1;
+
+                // ...otherwise sort by stringValues or longValues.
+                } else if (stringValues != null) {
+                    result = ascending
+                        ? Shared.compareToIgnoreCaseNullable(stringValues[i1], stringValues[i2])
+                        : Shared.compareToIgnoreCaseNullable(stringValues[i2], stringValues[i1]);
+                } else if (longValues != null) {
+                    result = ascending
+                        ? Long.compare(longValues[i1], longValues[i2])
+                        : Long.compare(longValues[i2], longValues[i1]);
+                }
+
+                // Use document ID as a tie breaker to achieve a stable sort.
+                if (result == 0) {
+                    result = ids[i1].compareTo(ids[i2]);
+                }
+
+                return result;
+            }
+        });
+
+        mPosition = new int[count];
+        for (int i = 0; i < count; i++) {
+            mPosition[i] = boxedInts[i].intValue();
+        }
     }
 
     @Override
@@ -174,174 +203,5 @@ class SortingCursorWrapper extends AbstractCursor {
     private static long getLastModified(Cursor cursor) {
         long l = getCursorLong(cursor, Document.COLUMN_LAST_MODIFIED);
         return (l == -1) ? Long.MAX_VALUE : l;
-    }
-
-    /**
-     * Borrowed from TimSort.binarySort(), but modified to sort two column
-     * dataset.
-     */
-    private static void binarySort(
-            String[] sortKey,
-            boolean[] isDirs,
-            int[] positions,
-            String[] ids,
-            @SortDimension.SortDirection int direction) {
-        final int count = positions.length;
-        for (int start = 1; start < count; start++) {
-            final int pivotPosition = positions[start];
-            final String pivotValue = sortKey[start];
-            final boolean pivotIsDir = isDirs[start];
-            final String pivotId = ids[start];
-
-            int left = 0;
-            int right = start;
-
-            while (left < right) {
-                int mid = (left + right) >>> 1;
-
-                // Directories always go in front.
-                int compare = 0;
-                final boolean rhsIsDir = isDirs[mid];
-                if (pivotIsDir && !rhsIsDir) {
-                    compare = -1;
-                } else if (!pivotIsDir && rhsIsDir) {
-                    compare = 1;
-                } else {
-                    final String lhs = pivotValue;
-                    final String rhs = sortKey[mid];
-                    switch (direction) {
-                        case SortDimension.SORT_DIRECTION_ASCENDING:
-                            compare = Shared.compareToIgnoreCaseNullable(lhs, rhs);
-                            break;
-                        case SortDimension.SORT_DIRECTION_DESCENDING:
-                            compare = -Shared.compareToIgnoreCaseNullable(lhs, rhs);
-                            break;
-                        default:
-                            throw new IllegalArgumentException(
-                                    "Unknown sorting direction: " + direction);
-                    }
-                }
-
-                // Use document ID as a tie breaker to achieve stable sort result.
-                if (compare == 0) {
-                    compare = pivotId.compareTo(ids[mid]);
-                }
-
-                if (compare < 0) {
-                    right = mid;
-                } else {
-                    left = mid + 1;
-                }
-            }
-
-            int n = start - left;
-            switch (n) {
-                case 2:
-                    positions[left + 2] = positions[left + 1];
-                    sortKey[left + 2] = sortKey[left + 1];
-                    isDirs[left + 2] = isDirs[left + 1];
-                case 1:
-                    positions[left + 1] = positions[left];
-                    sortKey[left + 1] = sortKey[left];
-                    isDirs[left + 1] = isDirs[left];
-                    break;
-                default:
-                    System.arraycopy(positions, left, positions, left + 1, n);
-                    System.arraycopy(sortKey, left, sortKey, left + 1, n);
-                    System.arraycopy(isDirs, left, isDirs, left + 1, n);
-            }
-
-            positions[left] = pivotPosition;
-            sortKey[left] = pivotValue;
-            isDirs[left] = pivotIsDir;
-        }
-    }
-
-    /**
-     * Borrowed from TimSort.binarySort(), but modified to sort two column
-     * dataset.
-     */
-    private static void binarySort(
-            long[] sortKey,
-            boolean[] isDirs,
-            int[] positions,
-            String[] ids,
-            @SortDimension.SortDirection int direction) {
-        final int count = positions.length;
-        for (int start = 1; start < count; start++) {
-            final int pivotPosition = positions[start];
-            final long pivotValue = sortKey[start];
-            final boolean pivotIsDir = isDirs[start];
-            final String pivotId = ids[start];
-
-            int left = 0;
-            int right = start;
-
-            while (left < right) {
-                int mid = ((left + right) >>> 1);
-
-                // Directories always go in front.
-                int compare = 0;
-                final boolean rhsIsDir = isDirs[mid];
-                if (pivotIsDir && !rhsIsDir) {
-                    compare = -1;
-                } else if (!pivotIsDir && rhsIsDir) {
-                    compare = 1;
-                } else {
-                    final long lhs = pivotValue;
-                    final long rhs = sortKey[mid];
-                    switch (direction) {
-                        case SortDimension.SORT_DIRECTION_ASCENDING:
-                            compare = Long.compare(lhs, rhs);
-                            break;
-                        case SortDimension.SORT_DIRECTION_DESCENDING:
-                            compare = -Long.compare(lhs, rhs);
-                            break;
-                        default:
-                            throw new IllegalArgumentException(
-                                    "Unknown sorting direction: " + direction);
-                    }
-                }
-
-                // If numerical comparison yields a tie, use document ID as a tie breaker.  This
-                // will yield stable results even if incoming items are continually shuffling and
-                // have identical numerical sort keys.  One common example of this scenario is seen
-                // when sorting a set of active downloads by mod time.
-                if (compare == 0) {
-                    compare = pivotId.compareTo(ids[mid]);
-                }
-
-                if (compare < 0) {
-                    right = mid;
-                } else {
-                    left = mid + 1;
-                }
-            }
-
-            int n = start - left;
-            switch (n) {
-                case 2:
-                    positions[left + 2] = positions[left + 1];
-                    sortKey[left + 2] = sortKey[left + 1];
-                    isDirs[left + 2] = isDirs[left + 1];
-                    ids[left + 2] = ids[left + 1];
-                case 1:
-                    positions[left + 1] = positions[left];
-                    sortKey[left + 1] = sortKey[left];
-                    isDirs[left + 1] = isDirs[left];
-                    ids[left + 1] = ids[left];
-                    break;
-                default:
-                    System.arraycopy(positions, left, positions, left + 1, n);
-                    System.arraycopy(sortKey, left, sortKey, left + 1, n);
-                    System.arraycopy(isDirs, left, isDirs, left + 1, n);
-                    System.arraycopy(ids, left, ids, left + 1, n);
-            }
-
-            positions[left] = pivotPosition;
-            sortKey[left] = pivotValue;
-            isDirs[left] = pivotIsDir;
-            ids[left] = pivotId;
-        }
     }
 }

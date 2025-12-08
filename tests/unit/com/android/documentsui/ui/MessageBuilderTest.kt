@@ -43,7 +43,6 @@ import org.mockito.Mockito.eq
 import org.mockito.Mockito.`when` as whenever
 import org.mockito.MockitoAnnotations
 
-@SmallTest
 @RunWith(Suite::class)
 @SuiteClasses(
     MessageBuilderTest.GenerateDeleteMessage::class,
@@ -54,6 +53,7 @@ open class MessageBuilderTest() {
         const val EXPECTED_MESSAGE = "Delete message"
     }
 
+    @SmallTest
     class GenerateDeleteMessage() {
         private lateinit var messageBuilder: MessageBuilder
 
@@ -135,6 +135,7 @@ open class MessageBuilderTest() {
         }
     }
 
+    @SmallTest
     @RunWith(Parameterized::class)
     class GenerateListMessage() {
         private lateinit var messageBuilder: MessageBuilder

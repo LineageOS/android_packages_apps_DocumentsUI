@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import android.net.Uri;
+
 import androidx.annotation.Nullable;
 
 import com.android.documentsui.base.DocumentInfo;
@@ -49,25 +50,25 @@ public class TestJobListener implements Job.Listener {
 
     public void assertStarted() {
         if (started == null) {
-            fail("Job didn't start. onStart never called.");
+            fail("Job didn't start: onStart was never called");
         }
     }
 
     public void assertFinished() {
         if (finished == null) {
-            fail("Job didn't finish. onFinish never called.");
+            fail("Job didn't finish: onFinish was never called");
         }
     }
 
     public void assertFailed() {
         if (finished == null || !finished.hasFailures()) {
-            fail("Job didn't fail. onFailed never called.");
+            fail("Job didn't fail: onFailed was never called");
         }
     }
 
     public void assertFilesFailed(List<String> names) {
         if (finished == null || !finished.hasFailures()) {
-            fail("Can't test failed documetns. Job didn't fail.");
+            fail("Can't test failed documents: Job didn't fail");
         }
 
         assertEquals(finished.failedDocs.size(), names.size());
@@ -78,7 +79,7 @@ public class TestJobListener implements Job.Listener {
 
     public void assertFileFailed(String name) {
         if (finished == null || !finished.hasFailures()) {
-            fail("Can't test failed documetns. Job didn't fail.");
+            fail("Can't test failed documents: Job didn't fail");
         }
 
         for (DocumentInfo failed : finished.failedDocs) {
@@ -86,12 +87,12 @@ public class TestJobListener implements Job.Listener {
                 return;
             }
         }
-        fail("Couldn't find failed file: " + name);
+        fail("Can't find failed file: " + name);
     }
 
     public void assertUrisFailed(List<Uri> uris) {
         if (finished == null || !finished.hasFailures()) {
-            fail("Can't test failed documetns. Job didn't fail.");
+            fail("Can't test failed documents: Job didn't fail");
         }
 
         assertEquals(finished.failedDocs.size(), uris.size());
@@ -102,7 +103,7 @@ public class TestJobListener implements Job.Listener {
 
     public void assertUriFailed(Uri uri) {
         if (finished == null || !finished.hasFailures()) {
-            fail("Can't test failed documetns. Job didn't fail.");
+            fail("Can't test failed documents: Job didn't fail");
         }
 
         for (Uri failed : finished.failedUris) {
@@ -110,12 +111,12 @@ public class TestJobListener implements Job.Listener {
                 return;
             }
         }
-        fail("Couldn't find failed uri: " + uri);
+        fail("Can't find failed URI: " + uri);
     }
 
     public void assertFailureCount(int expected) {
         if (finished == null) {
-            fail("No job to test.");
+            fail("Job didn't finish: onFinish was never called");
         }
 
         assertEquals(expected, finished.failureCount);
@@ -123,16 +124,16 @@ public class TestJobListener implements Job.Listener {
 
     public void assertCanceled() {
         if (finished == null) {
-            fail("Can't determine if job was canceled. Job didn't finish.");
+            fail("Job didn't finish: onFinish was never called");
         }
         if (!finished.isCanceled()) {
-            fail("Job wasn't canceled. Job#isCanceled returned false.");
+            fail("Job wasn't canceled: Job.isCanceled() returned false");
         }
     }
 
     public void assertMadeProgress() {
         if (progress.isEmpty()) {
-            fail("Job made no progress. onProgress never called.");
+            fail("Job made no progress: onProgress was never called");
         }
     }
 

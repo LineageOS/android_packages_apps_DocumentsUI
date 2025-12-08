@@ -37,6 +37,9 @@
     <string name="menu_save" msgid="5195367497138965168">"Lưu"</string>
     <string name="menu_share" msgid="4307140947108068356">"Chia sẻ"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Xóa"</string>
+    <string name="menu_permanently_delete" msgid="1177349666644056627">"Xoá vĩnh viễn"</string>
+    <string name="menu_move_to_trash" msgid="1809017212900920775">"Chuyển vào thùng rác"</string>
+    <string name="menu_restore_from_trash" msgid="6335501796145576127">"Khôi phục"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Chọn tất cả"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Bỏ chọn tất cả"</string>
     <string name="menu_select" msgid="1366061076507142387">"Chọn"</string>
@@ -44,9 +47,10 @@
     <string name="menu_copy" msgid="7404820171352314754">"Sao chép vào…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Chuyển tới..."</string>
     <string name="menu_compress" msgid="37539111904724188">"Nén"</string>
+    <string name="menu_zip" msgid="5734673122376258045">"Nén"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Trích xuất sang…"</string>
     <string name="menu_extract_all" msgid="7335680068521252718">"Trích xuất tất cả…"</string>
-    <string name="menu_extract_here" msgid="8725302045721604762">"Trích xuất ở đây"</string>
+    <string name="menu_extract_here" msgid="7120939831786325360">"Trích xuất"</string>
     <string name="menu_browse" msgid="6007716414766674967">"Duyệt xem"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Đổi tên"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Xem thông tin"</string>
@@ -115,6 +119,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Quản trị viên CNTT không cho phép thực hiện thao tác này"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Để tìm hiểu thêm, hãy liên hệ với quản trị viên CNTT của bạn"</string>
     <string name="root_recent" msgid="1080156975424341623">"Gần đây"</string>
+    <string name="root_trash" msgid="1869929519939073178">"Thùng rác"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> còn trống"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Dịch vụ lưu trữ"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Phím tắt"</string>
@@ -127,12 +132,17 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Không thể xóa một số tài liệu"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Bạn không thể chia sẻ quá <xliff:g id="COUNT">%1$d</xliff:g> tệp"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"Thao tác này không được phép"</string>
+    <string name="no_application_dialog_title" msgid="515133936841913019">"Mở bằng…"</string>
+    <string name="no_application_dialog_message" msgid="5444094365658346573">"Chưa cài đặt ứng dụng được hỗ trợ nào. Hãy thử cài đặt một ứng dụng trên Cửa hàng Google Play."</string>
+    <string name="no_application_dialog_button" msgid="5317480122655874659">"Tìm kiếm trên Cửa hàng Google Play"</string>
     <string name="share_via" msgid="8725082736005677161">"Chia sẻ qua"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Đang sao chép tệp"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Nén tệp"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"Đang giải nén tệp"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Đang di chuyển tệp"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Đang xóa tệp"</string>
+    <string name="move_to_trash_notification_title" msgid="6134372996525273852">"Đang chuyển tệp vào thùng rác"</string>
+    <string name="restore_from_trash_notification_title" msgid="6818405564188548805">"Đang khôi phục tệp"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Còn lại <xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other">Đang sao chép <xliff:g id="COUNT_1">%1$d</xliff:g> mục.</item>
@@ -154,29 +164,26 @@
       <item quantity="other">Đang xóa <xliff:g id="COUNT_1">%1$d</xliff:g> mục.</item>
       <item quantity="one">Đang xóa <xliff:g id="COUNT_0">%1$d</xliff:g> mục.</item>
     </plurals>
+    <string name="trashing" msgid="4643112474465979863">"{count,plural, =1{Đang chuyển <xliff:g id="COUNT_0">{count}</xliff:g> mục vào thùng rác}other{Đang chuyển <xliff:g id="COUNT_1">{count}</xliff:g> mục vào thùng rác}}"</string>
+    <string name="restoring_from_trash" msgid="6346617909485060438">"{count,plural, =1{Đang khôi phục <xliff:g id="COUNT_0">{count}</xliff:g> mục}other{Đang khôi phục <xliff:g id="COUNT_1">{count}</xliff:g> mục}}"</string>
     <string name="undo" msgid="2902438994196400565">"Hủy"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"Đang chuẩn bị…"</string>
     <string name="compress_preparing" msgid="7401605598969019696">"Đang chuẩn bị…"</string>
     <string name="extract_preparing" msgid="4796626960061745796">"Đang chuẩn bị…"</string>
     <string name="move_preparing" msgid="6504239656430530761">"Đang chuẩn bị…"</string>
     <string name="delete_preparing" msgid="7339349837842802508">"Đang chuẩn bị…"</string>
+    <string name="move_to_trash_preparing" msgid="6180195603212537441">"Đang chuẩn bị…"</string>
+    <string name="restore_from_trash_preparing" msgid="2829747628222239861">"Đang chuẩn bị…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="other">Không thể sao chép <xliff:g id="COUNT_1">%1$d</xliff:g> mục</item>
-      <item quantity="one">Không thể sao chép <xliff:g id="COUNT_0">%1$d</xliff:g> mục</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">Không thể nén <xliff:g id="COUNT_1">%1$d</xliff:g> tệp</item>
-      <item quantity="one">Không thể nén <xliff:g id="COUNT_0">%1$d</xliff:g> tệp</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="other">Không thể di chuyển <xliff:g id="COUNT_1">%1$d</xliff:g> mục</item>
-      <item quantity="one">Không thể di chuyển <xliff:g id="COUNT_0">%1$d</xliff:g> mục</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="other">Không thể xóa <xliff:g id="COUNT_1">%1$d</xliff:g> mục</item>
-      <item quantity="one">Không thể xóa <xliff:g id="COUNT_0">%1$d</xliff:g> mục</item>
-    </plurals>
+    <string name="move_to_trash_progress" msgid="7117416860391196406">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="restore_from_trash_progress" msgid="6003816126633922428">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <string name="copy_error_notification_title" msgid="5426120176307563562">"{count,plural, =1{Không sao chép được <xliff:g id="COUNT_0">{count}</xliff:g> mục}other{Không sao chép được <xliff:g id="COUNT_1">{count}</xliff:g> mục}}"</string>
+    <string name="compress_error_notification_title" msgid="7238511273511460182">"{count,plural, =1{Không nén được <xliff:g id="COUNT_0">{count}</xliff:g> mục}other{Không nén được <xliff:g id="COUNT_1">{count}</xliff:g> mục}}"</string>
+    <string name="extract_error_notification_title" msgid="2644824788957108658">"{count,plural, =1{Không trích xuất được <xliff:g id="COUNT_0">{count}</xliff:g> mục}other{Không trích xuất được <xliff:g id="COUNT_1">{count}</xliff:g> mục}}"</string>
+    <string name="move_error_notification_title" msgid="7094494564254143696">"{count,plural, =1{Không di chuyển được <xliff:g id="COUNT_0">{count}</xliff:g> mục}other{Không di chuyển được <xliff:g id="COUNT_1">{count}</xliff:g> mục}}"</string>
+    <string name="delete_error_notification_title" msgid="6510460288416352803">"{count,plural, =1{Không xoá được <xliff:g id="COUNT_0">{count}</xliff:g> mục}other{Không xoá được <xliff:g id="COUNT_1">{count}</xliff:g> mục}}"</string>
+    <string name="move_to_trash_error_notification_title" msgid="2766270864756812690">"{count,plural, =1{Không chuyển được <xliff:g id="COUNT_0">{count}</xliff:g> mục vào thùng rác}other{Không chuyển được <xliff:g id="COUNT_1">{count}</xliff:g> mục vào thùng rác}}"</string>
+    <string name="restore_from_trash_error_notification_title" msgid="5097907450416686866">"{count,plural, =1{Không khôi phục được <xliff:g id="COUNT_0">{count}</xliff:g> mục}other{Không khôi phục được <xliff:g id="COUNT_1">{count}</xliff:g> mục}}"</string>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Nhấn để xem chi tiết"</string>
     <string name="close" msgid="905969391788869975">"Đóng"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
@@ -207,17 +214,39 @@
       <item quantity="other">Đã sao chép <xliff:g id="COUNT_1">%1$d</xliff:g> mục vào bảng nhớ tạm.</item>
       <item quantity="one">Đã sao chép <xliff:g id="COUNT_0">%1$d</xliff:g> mục vào bảng nhớ tạm.</item>
     </plurals>
+    <string name="read_only_label" msgid="894442752344379606">"Chỉ có thể đọc"</string>
+    <string name="read_only_explanation" msgid="213951358525192590">"Bạn có thể xem các tệp này nhưng một số thao tác không được hỗ trợ"</string>
+    <string name="cannot_extract_in_read_only_folder" msgid="8234900543730064252">"Tệp lưu trữ này ở vị trí chỉ đọc và không thể giải nén tại đây."</string>
     <string name="file_operation_rejected" msgid="4301554203329008794">"Thao tác tệp không được hỗ trợ."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Thao tác tệp không thành công."</string>
     <string name="rename_error" msgid="6700093173508118635">"Không đổi được tên tài liệu"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Đẩy ra"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Đã chuyển đổi một số tệp"</string>
+    <string name="copy_in_progress" msgid="3314396340163205014">"{count,plural, =1{Đang sao chép \"<xliff:g id="FILENAME">{filename}</xliff:g>\" sang \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}other{Đang sao chép # tệp sang \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="extract_in_progress" msgid="519951867474301835">"{count,plural, =1{Đang giải nén \"<xliff:g id="FILENAME">{filename}</xliff:g>\" vào \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}other{Đang giải nén # tệp lưu trữ vào \"<xliff:g id="DIRECTORY_1">{directory}</xliff:g>\"}}"</string>
+    <string name="move_in_progress" msgid="2569791135683944801">"{count,plural, =1{Đang di chuyển \"<xliff:g id="FILENAME">{filename}</xliff:g>\" sang \"<xliff:g id="DIRECTORY_0">{directory}</xliff:g>\"}other{Đang di chuyển # tệp sang <xliff:g id="DIRECTORY_1">{directory}</xliff:g>}}"</string>
+    <string name="delete_in_progress" msgid="9032473164450943788">"{count,plural, =1{Đang xoá \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}other{Đang xoá # tệp}}"</string>
+    <string name="trash_in_progress" msgid="6889113199087672853">"{count,plural, =1{Đang chuyển <xliff:g id="FILENAME">{filename}</xliff:g> vào thùng rác}other{Đang chuyển # tệp vào thùng rác}}"</string>
+    <string name="restore_in_progress" msgid="6756221866797865046">"{count,plural, =1{Đang khôi phục <xliff:g id="FILENAME">{filename}</xliff:g>}other{Đang khôi phục # tệp}}"</string>
+    <string name="compress_in_progress" msgid="6585173688835909381">"{count,plural, =1{Đang nén \"<xliff:g id="FILENAME">{filename}</xliff:g>\"}other{Đang nén # tệp}}"</string>
+    <string name="job_progress_icon_label" msgid="1387365706178067075">"Hiện tiến trình thao tác với tệp"</string>
+    <string name="job_progress_panel_title" msgid="1640388840961608168">"Tiến trình thao tác với tệp"</string>
+    <string name="job_progress_item_completed" msgid="3933347715328014840">"Ðã hoàn tất"</string>
+    <string name="job_progress_item_canceled" msgid="8915289522101993231">"Đã huỷ"</string>
     <string name="job_progress_item_see_details" msgid="2069387639574541325">"Xem chi tiết"</string>
+    <string name="job_progress_item_byte_progress" msgid="5457665342067136443">"<xliff:g id="CURRENTBYTES">%1$s</xliff:g>/<xliff:g id="TOTALBYTES">%2$s</xliff:g>"</string>
     <string name="copy_completed" msgid="3749037014674785400">"Đã sao chép"</string>
     <string name="move_completed" msgid="3981250605092729273">"Đã di chuyển"</string>
     <string name="delete_completed" msgid="4149401155614626199">"Đã xoá"</string>
-    <string name="compress_completed" msgid="8808356399995313077">"Đã nén"</string>
+    <string name="compress_completed" msgid="6522047921428919799">"Đã nén"</string>
     <string name="extract_completed" msgid="8824595789915249972">"Đã giải nén"</string>
+    <string name="copy_failed" msgid="3700193913993844675">"Không sao chép được"</string>
+    <string name="move_failed" msgid="7692364307225994220">"Không di chuyển được"</string>
+    <string name="delete_failed" msgid="2642684566325252513">"Không xoá được"</string>
+    <string name="compress_failed" msgid="7397502181042157261">"Không nén được"</string>
+    <string name="extract_failed" msgid="8372397499452831323">"Không giải nén được"</string>
+    <string name="expand_label" msgid="5683357671239615207">"Mở rộng"</string>
+    <string name="collapse_label" msgid="4530974883269531062">"Thu gọn"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Cấp cho <xliff:g id="APPNAME"><b>^1</b></xliff:g> quyền truy cập vào thư mục <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> trong <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Cấp cho <xliff:g id="APPNAME"><b>^1</b></xliff:g> quyền truy cập vào thư mục <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Cấp cho <xliff:g id="APPNAME"><b>^1</b></xliff:g> quyền truy cập vào dữ liệu của bạn, kể cả ảnh và video trên <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
@@ -258,6 +287,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"Không thể hiển thị nội dung"</string>
     <string name="sign_in" msgid="6253762676723505592">"Đăng nhập"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"lưu trữ<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name_2" msgid="6787685985722032255">"Lưu trữ"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Ghi đè <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Tiếp tục ở chế độ nền"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
@@ -299,7 +329,6 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Tạo thư mục mới"</string>
     <string name="search_bar_hint" msgid="146031513183888721">"Tìm kiếm trên thiết bị này"</string>
     <string name="search_bar_clear" msgid="2072000748823434188">"Xoá văn bản"</string>
-    <string name="search_location_this_folder" msgid="6458835123175563013">"Thư mục này"</string>
     <string name="search_location_root_folder" msgid="4280523560213522303">"Thư mục gốc"</string>
     <string name="search_location_everywhere" msgid="747799487494833887">"Mọi nơi"</string>
     <string name="search_last_modified_any_time" msgid="6027501367865939696">"Mọi lúc"</string>
@@ -318,7 +347,14 @@
     <string name="list_mode_showing" msgid="1225413902295895166">"Đang hiển thị ở chế độ danh sách."</string>
     <string name="bullet" msgid="5606740650312122766">"•"</string>
     <string name="file_name_hint" msgid="7843637320487415838">"Tên tệp"</string>
-    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Ẩn bản xem trước tệp"</string>
     <string name="peek_no_preview" msgid="8717084152736749464">"Không có bản xem trước"</string>
+    <string name="peek_metadata_header_title" msgid="6196387248590120756">"Chi tiết"</string>
+    <string name="peek_metadata_general_info_title" msgid="5805064715498467299">"Thông tin chung"</string>
+    <string name="peek_metadata_size" msgid="2377426288276139988">"Kích thước"</string>
+    <string name="peek_metadata_type" msgid="1386923517471758392">"Loại"</string>
+    <string name="peek_metadata_date_modified" msgid="5403086549396155362">"Ngày sửa đổi"</string>
+    <string name="a11y_peek_navigation_icon" msgid="6692873662104342476">"Ẩn bản xem trước tệp"</string>
     <string name="a11y_peek_image_preview" msgid="3917148390186060263">"Bản xem trước hình ảnh của <xliff:g id="FILENAME">%s</xliff:g>"</string>
+    <string name="a11y_peek_hide_info_button" msgid="918293386310947930">"Ẩn bảng thông tin"</string>
+    <string name="a11y_peek_show_info_button" msgid="9028075652389911413">"Hiện bảng thông tin"</string>
 </resources>

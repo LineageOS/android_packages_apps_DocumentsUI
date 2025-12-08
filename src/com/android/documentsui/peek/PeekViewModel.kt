@@ -18,17 +18,20 @@ package com.android.documentsui.peek
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.distinctUntilChanged
 import com.android.documentsui.base.DocumentInfo
 
 /** Manages the UI state for Peek. */
 class PeekViewModel : ViewModel() {
     // Whether the Peek overlay is active or not.
     private val _overlayActive: MutableLiveData<Boolean> = MutableLiveData(false)
-    val overlayActive: LiveData<Boolean> = _overlayActive
+    val overlayActive: LiveData<Boolean> = _overlayActive.distinctUntilChanged()
 
     // Peek fragment's state.
     private val _docInfo: MutableLiveData<DocumentInfo> = MutableLiveData(null)
-    val docInfo: LiveData<DocumentInfo> = _docInfo
+    val docInfo: LiveData<DocumentInfo> = _docInfo.distinctUntilChanged()
+    private val _metadataSheetExpanded: MutableLiveData<Boolean> = MutableLiveData(true)
+    val metadataSheetExpanded: LiveData<Boolean> = _metadataSheetExpanded.distinctUntilChanged()
 
     fun clear() {
         _overlayActive.value = false
@@ -44,5 +47,9 @@ class PeekViewModel : ViewModel() {
         // docInfo.
         _overlayActive.value = true
         _docInfo.value = docInfo
+    }
+
+    fun toggleMetadataSheet(expanded: Boolean) {
+        _metadataSheetExpanded.value = expanded
     }
 }

@@ -33,6 +33,9 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RemoteViews;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 /**
 * This class receives a callback when Notification is posted or removed
 * and monitors the Notification status.
@@ -49,6 +52,12 @@ public class TestNotificationService extends NotificationListenerService {
 
     public static final String ACTION_OPERATION_RESULT =
             "com.android.documentsui.services.TestNotificationService.ACTION_OPERATION_RESULT";
+
+    public static final String ACTION_PING =
+            "com.android.documentsui.services.TestNotificationService.ACTION_PING";
+
+    public static final String ACTION_PONG =
+            "com.android.documentsui.services.TestNotificationService.ACTION_PONG";
 
     public static final String ANDROID_PACKAGENAME = "android";
 
@@ -75,11 +84,40 @@ public class TestNotificationService extends NotificationListenerService {
 
     private ProgressBar mProgressBar = null;
 
+    /**
+     * Waits for the TestNotificationService (which may be in a different process to the caller) to
+     * be ready to receive intents, as proven by exchanging ping/pong intents.
+     *
+     * @param context the Context for sending broadcast intents.
+     * @param countDownLatch a latch for the caller to release (count set to zero) after the caller
+     * receives an ACTION_PONG intent.
+     */
+    // TODO(b/440933276): make TestNotificationService a bound service instead.
+    public static boolean rendezvous(Context context, CountDownLatch countDownLatch) {
+        if (countDownLatch.getCount() == 0) {
+            return true;
+        }
+        // Retry with exponential backoff. (1 << 15) milliseconds is 32.768 seconds.
+        for (int millis = 1; millis <= 32768; millis *= 2) {
+            context.sendBroadcast(new Intent(TestNotificationService.ACTION_PING));
+            try {
+                if (countDownLatch.await(millis, TimeUnit.MILLISECONDS)) {
+                    return true;
+                }
+            } catch (InterruptedException e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (ACTION_CHANGE_CANCEL_MODE.equals(action)) {
+            if (ACTION_PING.equals(action)) {
+                sendBroadcast(new Intent(ACTION_PONG));
+            } else if (ACTION_CHANGE_CANCEL_MODE.equals(action)) {
                 Log.i(TAG, "Received cancel mode");
                 mCurrentMode = MODE.CANCEL_MODE;
             } else if (ACTION_CHANGE_EXECUTION_MODE.equals(action)) {
@@ -96,6 +134,7 @@ public class TestNotificationService extends NotificationListenerService {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_CHANGE_CANCEL_MODE);
         filter.addAction(ACTION_CHANGE_EXECUTION_MODE);
+        filter.addAction(ACTION_PING);
         registerReceiver(mReceiver, filter);
     }
 

@@ -26,8 +26,8 @@ import static org.junit.Assert.assertTrue;
 
 import android.annotation.SuppressLint;
 import android.database.MatrixCursor;
-import android.platform.test.annotations.RequiresFlagsDisabled;
-import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.annotations.DisableFlags;
+import android.platform.test.annotations.EnableFlags;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 
@@ -41,7 +41,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.rules.CheckAndForceMaterial3Flag;
+import com.android.documentsui.rules.OverrideFlagsRule;
 import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestMenu;
@@ -59,7 +59,7 @@ import org.junit.runner.RunWith;
 public final class MenuManagerTest {
 
     @Rule
-    public final CheckAndForceMaterial3Flag mCheckFlagsRule = new CheckAndForceMaterial3Flag();
+    public final OverrideFlagsRule mOverrideFlagsRule = new OverrideFlagsRule();
 
     private TestMenu testMenu;
 
@@ -103,6 +103,8 @@ public final class MenuManagerTest {
     private TestMenuItem actionModeRename;
     private TestMenuItem actionModeViewInOwner;
     private TestMenuItem actionModeSort;
+    private TestMenuItem mActionExtractHere;
+    private TestMenuItem mActionBrowse;
 
     /* Option Menu items */
     private TestMenuItem optionSearch;
@@ -168,6 +170,8 @@ public final class MenuManagerTest {
         actionModeRename = testMenu.findItem(R.id.action_menu_rename);
         actionModeViewInOwner = testMenu.findItem(R.id.action_menu_view_in_owner);
         actionModeSort = testMenu.findItem(R.id.action_menu_sort);
+        mActionExtractHere = testMenu.findItem(R.id.action_menu_extract_here);
+        mActionBrowse = testMenu.findItem(R.id.action_menu_browse);
 
         optionSearch = testMenu.findItem(R.id.option_menu_search);
         optionDebug = testMenu.findItem(R.id.option_menu_debug);
@@ -213,10 +217,25 @@ public final class MenuManagerTest {
         actionModeViewInOwner.assertDisabledAndInvisible();
         actionModeSort.assertEnabledAndVisible();
         mOptionExtractAll.assertDisabledAndInvisible();
+        mActionExtractHere.assertDisabledAndInvisible();
+        mActionBrowse.assertDisabledAndInvisible();
     }
 
     @Test
-    @RequiresFlagsDisabled(FLAG_USE_MATERIAL3)
+    public void testActionMenu_OnArchive() {
+        selectionDetails.size = 1;
+        selectionDetails.containFiles = true;
+        selectionDetails.isArchive = true;
+        selectionDetails.containsFilesInArchive = false;
+        dirDetails.isInArchive = false;
+        dirDetails.canCreateDirectory = true;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+        mActionExtractHere.assertDisabledAndInvisible();
+        mActionBrowse.assertDisabledAndInvisible();
+    }
+
+    @Test
+    @DisableFlags(FLAG_USE_MATERIAL3)
     public void testActionMenu_selectAction() {
         state.action = ACTION_OPEN;
         mgr.updateActionMenu(testMenu, selectionDetails);
@@ -225,7 +244,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    @RequiresFlagsEnabled(FLAG_USE_MATERIAL3)
+    @EnableFlags(FLAG_USE_MATERIAL3)
     public void testActionMenu_selectAction_useMaterial3Enabled() {
         state.action = ACTION_OPEN;
         mgr.updateActionMenu(testMenu, selectionDetails);
@@ -242,7 +261,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    @RequiresFlagsDisabled(FLAG_USE_MATERIAL3)
+    @DisableFlags(FLAG_USE_MATERIAL3)
     public void testActionMenu_getContentAction() {
         state.action = ACTION_GET_CONTENT;
         mgr.updateActionMenu(testMenu, selectionDetails);
@@ -251,7 +270,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    @RequiresFlagsEnabled(FLAG_USE_MATERIAL3)
+    @EnableFlags(FLAG_USE_MATERIAL3)
     public void testActionMenu_getContentAction_useMaterial3Enabled() {
         state.action = ACTION_GET_CONTENT;
         mgr.updateActionMenu(testMenu, selectionDetails);

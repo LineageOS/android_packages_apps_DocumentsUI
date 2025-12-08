@@ -29,6 +29,7 @@ import android.os.CancellationSignal;
 import android.os.FileUtils;
 import android.os.OperationCanceledException;
 import android.os.RemoteException;
+import android.os.Trace;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
@@ -108,6 +109,19 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
     @Override
     public final DirectoryResult loadInBackground() {
+        Trace.beginSection("documentsui.searchv1.DirectoryLoader#loadInBackground");
+        try {
+            return loadInBackgroundTraced();
+        } finally {
+            Trace.endSection();
+        }
+    }
+
+    /**
+     * The loadInBackground code run within a trace.
+     * @return A representation of files found within a directory.
+     */
+    private DirectoryResult loadInBackgroundTraced() {
         synchronized (this) {
             if (isLoadInBackgroundCanceled()) {
                 throw new OperationCanceledException();
@@ -130,14 +144,14 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             if (mSearchMode) {
                 queryArgs.putAll(mQueryArgs);
                 if (shouldSearchAcrossProfile()) {
-                    for (UserId userId : getUserIds()) {
+                    for (UserId userId : UserId.nonExcludedUsers(mState, getUserIds())) {
                         if (mState.canInteractWith(userId)) {
                             userIds.add(userId);
                         }
                     }
                 }
             }
-            if (userIds.isEmpty()) {
+            if (userIds.isEmpty() && !mRoot.userId.isExcluded(mState)) {
                 userIds.add(mRoot.userId);
             }
 

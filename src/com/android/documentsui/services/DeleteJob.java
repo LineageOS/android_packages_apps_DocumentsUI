@@ -90,7 +90,7 @@ final class DeleteJob extends ResolvedResourcesJob {
     @Override
     public Notification getFailureNotification() {
         return getFailureNotification(
-                getRes(R.plurals.delete_error_notification_title),
+                getFailureContentTitle(getRes(R.string.delete_error_notification_title)),
                 getRes(R.drawable.ic_menu_delete));
     }
 

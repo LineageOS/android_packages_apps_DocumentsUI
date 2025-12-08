@@ -27,19 +27,24 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
+import android.os.SystemClock;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsProvider;
+import android.util.Log;
 
 import com.android.documentsui.base.DocumentInfo;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Test doubles of {@link DocumentsProvider} to isolate document providers. This is not registered
  * or exposed through AndroidManifest, but only used locally.
  */
 public class TestDocumentsProvider extends DocumentsProvider {
+
+    private static final String TAG = "TestDocumentsProvider";
 
     private String[] DOCUMENTS_PROJECTION = new String[] {
             Document.COLUMN_DOCUMENT_ID,
@@ -54,12 +59,22 @@ public class TestDocumentsProvider extends DocumentsProvider {
 
     private Cursor mNextChildDocuments;
     private Cursor mNextRecentDocuments;
+    private Cursor mNextTrashDocuments;
+    private String mRuntimeMessage;
+    private long mQueryDelayMs = 0;
+    /**
+     * A latch that will be decremented when a query is about to be delayed. This allows tests to
+     * synchronize with the start of the delay.
+     */
+    @Nullable private CountDownLatch mQueryDelayLatch = null;
+    private final String mAuthority;
 
     // Emulates FileSystemProvider's support for search result limiting.
     private Boolean mSupportsSearchResultLimit = false;
     private static final int DEFAULT_MAX_RESULTS = 23;  /* FileSystemProvider.DEFAULT_MAX_RESULTS */
 
     public TestDocumentsProvider(Context context, String authority) {
+        mAuthority = authority;
         ProviderInfo info = new ProviderInfo();
         info.authority = authority;
         attachInfoForTesting(context, info);
@@ -84,6 +99,8 @@ public class TestDocumentsProvider extends DocumentsProvider {
     @Override
     public Cursor queryChildDocuments(String parentDocumentId, String[] projection,
             String sortOrder) throws FileNotFoundException {
+        maybeThrowException();
+        maybeDelayQueryResults();
         return mNextChildDocuments;
     }
 
@@ -98,6 +115,13 @@ public class TestDocumentsProvider extends DocumentsProvider {
         return mNextRecentDocuments;
     }
 
+    @Nullable
+    @Override
+    public Cursor queryTrashDocuments(@Nullable String[] projection) throws FileNotFoundException {
+        maybeThrowException();
+        return mNextTrashDocuments;
+    }
+
     private String getStringColumn(Cursor cursor, String name) {
         return cursor.getString(cursor.getColumnIndexOrThrow(name));
     }
@@ -109,6 +133,8 @@ public class TestDocumentsProvider extends DocumentsProvider {
     @Override
     public Cursor querySearchDocuments(@NonNull String rootId, @Nullable String[] projection,
             @NonNull Bundle queryArgs) {
+        maybeThrowException();
+        maybeDelayQueryResults();
         TestCursor cursor = new TestCursor(DOCUMENTS_PROJECTION);
 
         int maxResults = -1;
@@ -154,11 +180,14 @@ public class TestDocumentsProvider extends DocumentsProvider {
                                 getLongColumn(mNextChildDocuments, Document.COLUMN_ICON));
             }
         }
+        Log.d(TAG, "Delivering " + cursor.getCount() + " results");
         return cursor;
     }
 
     @Override
     public Cursor querySearchDocuments(String rootId, String query, String[] projection) {
+        maybeThrowException();
+        maybeDelayQueryResults();
         if (mNextChildDocuments == null) {
             return null;
         }
@@ -179,6 +208,55 @@ public class TestDocumentsProvider extends DocumentsProvider {
         mNextChildDocuments = createDocumentsCursor(docs);
     }
 
+    private void maybeThrowException() {
+        if (mRuntimeMessage != null) {
+            throw new RuntimeException(mRuntimeMessage);
+        }
+    }
+
+    /**
+     * Sets the artificial delay added before this provider returns its results. Setting the delay
+     * to a non-positive number causes the results to be returned immediately.
+     */
+    public void setQueryDelay(long queryDelayMs) {
+        Log.d(TAG, "Setting delay " + queryDelayMs + "ms on " + mAuthority);
+        mQueryDelayMs = queryDelayMs;
+    }
+
+    /**
+     * Sets a latch to be activated when the query delay is about to be triggered. If the set
+     * `latch` is null, the latch is cleared and no latch count down is called.
+     * @param latch Either a latch to be used or null.
+     */
+    public void setQueryDelayLatch(@Nullable CountDownLatch latch) {
+        Log.d(TAG, "Setting query delay latch to " + latch);
+        mQueryDelayLatch = latch;
+    }
+
+    private void maybeDelayQueryResults() {
+        if (mQueryDelayMs <= 0) {
+            Log.d(TAG, "Immediate delivery of results for " + mAuthority);
+            return;
+        }
+        if (mQueryDelayLatch != null) {
+            Log.d(TAG, "Decrementing count on the queryDealyLatch " + mQueryDelayLatch);
+            mQueryDelayLatch.countDown();
+        }
+        Log.d(TAG, "Delaying query results by " + mQueryDelayMs + "ms for " + mAuthority);
+        SystemClock.sleep(mQueryDelayMs);
+        Log.d(TAG, "Delay of " + mQueryDelayMs + "ms for " + mAuthority + " done");
+    }
+
+    /**
+     * Sets the runtime exception thrown in either querySearchDocuments or queryChildDocuments. If
+     * the message is set to null, no exception is thrown. A non-null message causes an exception
+     * to be thrown, interrupting a regular flow of document query.
+     * @param message The message to be used with a Runtime exception.
+     */
+    public void setThrownRuntimeMessage(String message) {
+        mRuntimeMessage = message;
+    }
+
     /**
      * Allows TestDocumentsProvider to emulate search result limiting feature of FileSystemProvider.
      * @param supportsLimit Whether {@link #querySearchDocuments(String, String[], Bundle)}
@@ -190,6 +268,15 @@ public class TestDocumentsProvider extends DocumentsProvider {
 
     public void setNextRecentDocumentsReturns(DocumentInfo... docs) {
         mNextRecentDocuments = createDocumentsCursor(docs);
+    }
+
+    /**
+     * Sets the documents to be returned by the next call to {@link #queryTrashDocuments(String[])}.
+     *
+     * @param docs The documents to be returned in the cursor.
+     */
+    public void setNextTrashDocumentsReturns(DocumentInfo... docs) {
+        mNextTrashDocuments = createDocumentsCursor(docs);
     }
 
     private Cursor createDocumentsCursor(DocumentInfo... docs) {

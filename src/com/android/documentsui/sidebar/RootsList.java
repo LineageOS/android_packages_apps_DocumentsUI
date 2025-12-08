@@ -26,6 +26,8 @@ import com.android.documentsui.base.Features;
  * The list in the navigation drawer. This class exists for the purpose of overriding the key
  * handler on ListView. Ignoring keystrokes (e.g. the tab key) cannot be properly done using
  * View.OnKeyListener.
+ * Note: when use_material3 flag is ON, we are using RecyclerView instead of ListView, the
+ * functionalities here is covered by {@link RecyclerRootsAdapter}.
  */
 public class RootsList extends ListView {
 

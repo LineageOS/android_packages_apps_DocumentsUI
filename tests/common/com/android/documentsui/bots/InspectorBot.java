@@ -50,18 +50,15 @@ public class InspectorBot extends Bots.BaseBot {
         assertEquals(expected, text);
     }
 
-    public void assertRowPresent(String key, Activity activity)
-            throws Exception {
+    public void assertRowPresent(String key, Activity activity) {
         assertTrue(isRowPresent(key, activity));
     }
 
-    public void assertRowEquals(String key, String value, Activity activity)
-            throws Exception {
+    public void assertRowEquals(String key, String value, Activity activity) {
         assertTrue(isRowEquals(key, value, activity));
     }
 
-    private static Map<String, String> getTableRows(TableView table)
-            throws Exception {
+    private static Map<String, String> getTableRows(TableView table) {
         Map<String, String> rows = new HashMap<>();
         int children = table.getChildCount();
         for (int i = 0; i < children; i++) {
@@ -78,15 +75,13 @@ public class InspectorBot extends Bots.BaseBot {
         return rows;
     }
 
-    private boolean isRowPresent(String key, Activity activity)
-            throws Exception {
+    private boolean isRowPresent(String key, Activity activity) {
         DetailsView details = (DetailsView) activity.findViewById(R.id.inspector_details_view);
         Map<String, String> rows = getTableRows(details);
         return rows.containsKey(key);
     }
 
-    private boolean isRowEquals(String key, String value, Activity activity)
-            throws Exception {
+    private boolean isRowEquals(String key, String value, Activity activity) {
         DetailsView details = (DetailsView) activity.findViewById(R.id.inspector_details_view);
         Map<String, String> rows = getTableRows(details);
         return rows.containsKey(key) && value.equals(rows.get(key));

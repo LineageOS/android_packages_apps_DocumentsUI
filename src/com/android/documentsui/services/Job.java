@@ -36,6 +36,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.MessageFormat;
 import android.net.Uri;
 import android.os.CancellationSignal;
 import android.os.DeadObjectException;
@@ -48,7 +49,6 @@ import android.util.Log;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
-import androidx.annotation.PluralsRes;
 
 import com.android.documentsui.Metrics;
 import com.android.documentsui.OperationDialogFragment;
@@ -65,7 +65,9 @@ import java.io.FileNotFoundException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -101,7 +103,13 @@ abstract public class Job implements Runnable {
 
     final @OpType int operationType;
     final String id;
-    final DocumentStack stack;
+
+    /**
+     * Don't modify the referenced DocumentStack object in place, in order to avoid any data race
+     * condition between the job-running thread and the progress-reporting thread. If the stack
+     * needs to be modified, create a new DocumentStack object and update the following reference.
+     */
+    volatile DocumentStack stack;
 
     final UrisSupplier mResourceUris;
 
@@ -118,6 +126,7 @@ abstract public class Job implements Runnable {
 
     final CancellationSignal mSignal = new CancellationSignal();
 
+    /** Map of URIs to cached clients. */
     private final Map<String, ContentProviderClient> mClients = new HashMap<>();
     private final Features mFeatures;
 
@@ -222,7 +231,11 @@ abstract public class Job implements Runnable {
         return Uri.parse(String.format("data,%s-%s", tag, id));
     }
 
-    ContentProviderClient getClient(Uri uri) throws RemoteException {
+    /**
+     * Gets or creates a ContentProviderClient for the given URI. The returned object is cached
+     * by this Job and will be closed by Job.cleanup().
+     */
+    @NonNull ContentProviderClient getClient(Uri uri) throws RemoteException {
         ContentProviderClient client = mClients.get(uri.getAuthority());
         if (client == null) {
             // Acquire content providers.
@@ -233,14 +246,22 @@ abstract public class Job implements Runnable {
             mClients.put(uri.getAuthority(), client);
         }
 
-        assert(client != null);
+        assert client != null;
         return client;
     }
 
-    ContentProviderClient getClient(DocumentInfo doc) throws RemoteException {
+    /**
+     * Gets or creates a ContentProviderClient for the given document. The returned object is
+     * cached by this Job and will be closed by Job.cleanup().
+     */
+    @NonNull ContentProviderClient getClient(DocumentInfo doc) throws RemoteException {
         return getClient(doc.derivedUri);
     }
 
+    /**
+     * Closes and releases the ContentProviderClient that was previously created and cached for
+     * the given URI. Does nothing if there is no such ContentProviderClient.
+     */
     void releaseClient(Uri uri) {
         ContentProviderClient client = mClients.get(uri.getAuthority());
         if (client != null) {
@@ -249,10 +270,15 @@ abstract public class Job implements Runnable {
         }
     }
 
+    /**
+     * Closes and releases the ContentProviderClient that was previously created and cached for
+     * the given document. Does nothing if there is no such ContentProviderClient.
+     */
     void releaseClient(DocumentInfo doc) {
         releaseClient(doc.derivedUri);
     }
 
+    /** Closes and releases all the ContentProviderClient objects currently cached by this Job. */
     final void cleanup() {
         for (ContentProviderClient client : mClients.values()) {
             FileUtils.closeQuietly(client);
@@ -284,17 +310,34 @@ abstract public class Job implements Runnable {
         return service.getContentResolver();
     }
 
+    @SuppressWarnings("NonAtomicVolatileUpdate")
     void onFileFailed(DocumentInfo file) {
+        // Non-atomic operation is Ok since failureCount is only modified in one thread.
+        // noinspection NonAtomicOperationOnVolatileField
         failureCount++;
         failedDocs.add(file);
     }
 
+    @SuppressWarnings("NonAtomicVolatileUpdate")
+    void onFileFailed(@NonNull Collection<? extends DocumentInfo> files) {
+        // Non-atomic operation is Ok since failureCount is only modified in one thread.
+        // noinspection NonAtomicOperationOnVolatileField
+        failureCount += files.size();
+        failedDocs.addAll(files);
+    }
+
+    @SuppressWarnings("NonAtomicVolatileUpdate")
     void onResolveFailed(Uri uri) {
+        // Non-atomic operation is Ok since failureCount is only modified in one thread.
+        // noinspection NonAtomicOperationOnVolatileField
         failureCount++;
         failedUris.add(uri);
     }
 
+    @SuppressWarnings("NonAtomicVolatileUpdate")
     void onPathFailed(@NonNull String path) {
+        // Non-atomic operation is Ok since failureCount is only modified in one thread.
+        // noinspection NonAtomicOperationOnVolatileField
         failureCount++;
         failedPaths.add(path);
     }
@@ -334,7 +377,7 @@ abstract public class Job implements Runnable {
         return mProgressBuilder.build();
     }
 
-    Notification getFailureNotification(@PluralsRes int titleId, @DrawableRes int icon) {
+    Notification getFailureNotification(@NonNull String contentTitle, @DrawableRes int icon) {
         final Intent navigateIntent = buildNavigateIntent(INTENT_TAG_FAILURE);
         navigateIntent.putExtra(EXTRA_DIALOG_TYPE, OperationDialogFragment.DIALOG_TYPE_FAILURE);
         navigateIntent.putExtra(EXTRA_OPERATION_TYPE, operationType);
@@ -353,9 +396,7 @@ abstract public class Job implements Runnable {
 
         final Notification.Builder errorBuilder =
                 createNotificationBuilder()
-                        .setContentTitle(
-                                service.getResources()
-                                        .getQuantityString(titleId, failureCount, failureCount))
+                        .setContentTitle(contentTitle)
                         .setContentText(
                                 service.getString(getRes(R.string.notification_touch_for_details)))
                         .setContentIntent(
@@ -401,6 +442,29 @@ abstract public class Job implements Runnable {
                         | PendingIntent.FLAG_MUTABLE));
 
         return progressBuilder;
+    }
+
+    /**
+     * Gets a formatted failure message from a string resource.
+     *
+     * @param stringId   The resource ID of the string to format.
+     * @param formatArgs The map of arguments to use for formatting.
+     * @return The formatted failure message.
+     */
+    String getFailureContentTitle(int stringId, @NonNull Map<String, Object> formatArgs) {
+        formatArgs.put("count", failureCount);
+        return new MessageFormat(service.getString(getRes(stringId)), Locale.getDefault()).format(
+                formatArgs);
+    }
+
+    /**
+     * Gets a formatted failure message from a string resource.
+     *
+     * @param stringId The resource ID of the string to format.
+     * @return The formatted failure message
+     */
+    final String getFailureContentTitle(int stringId) {
+        return getFailureContentTitle(stringId, new HashMap<>());
     }
 
     Notification.Builder createNotificationBuilder() {

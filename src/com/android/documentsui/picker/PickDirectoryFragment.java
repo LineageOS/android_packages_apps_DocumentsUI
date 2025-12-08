@@ -25,7 +25,6 @@ import static com.android.documentsui.services.FileOperationService.OPERATION_UN
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -191,13 +190,15 @@ public class PickDirectoryFragment extends Fragment {
                             mPickTarget.isBlockedFromTree() && mRestrictScopeStorage
                                     ? View.VISIBLE
                                     : View.GONE);
-                } else if (!getActivity()
-                        .getPackageManager()
-                        .hasSystemFeature(PackageManager.FEATURE_PC)) {
-                    // On non-desktop devices the back gesture is used to cancel the picker, so
-                    // don't show the "Cancel" button on these devices and instead enable the pick
-                    // overlay which enables showing a toast when the disabled button is pressed.
-                    mCancel.setVisibility(View.GONE);
+                } else {
+                    // For devices that use freeform windows, the back gesture is less obvious.
+                    // The "show_picker_cancel_button" config value can be set to true to show a
+                    // more obvious cancel button beside the pick button.
+                    int cancelVisibility =
+                            getResources().getBoolean(R.bool.show_picker_cancel_button)
+                                    ? View.VISIBLE
+                                    : View.GONE;
+                    mCancel.setVisibility(cancelVisibility);
                     mPickOverlay.setVisibility(
                             mPickTarget.isBlockedFromTree() && mRestrictScopeStorage
                                     ? View.VISIBLE

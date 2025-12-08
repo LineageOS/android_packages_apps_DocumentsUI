@@ -21,10 +21,15 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import android.widget.ImageView
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
+import com.android.documentsui.GlideApp
 import com.android.documentsui.R
 import com.android.documentsui.base.DocumentInfo
 import com.android.documentsui.util.Material3Config.Companion.getRes
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
@@ -45,13 +50,13 @@ abstract class PreviewHandler(protected val previewFrame: FrameLayout) {
 }
 
 /** Preview handler for unsupported file types. */
-class DefaultPreviewHandler(previewFrame: FrameLayout) : PreviewHandler(previewFrame) {
+class UnsupportedPreviewHandler(previewFrame: FrameLayout) : PreviewHandler(previewFrame) {
     init {
         handleUnsupportedFileType()
     }
 }
 
-/** Preview handler for unsupported images. */
+/** Preview handler for images. */
 class ImagePreviewHandler(previewFrame: FrameLayout, doc: DocumentInfo) :
     PreviewHandler(previewFrame) {
     companion object {
@@ -100,7 +105,7 @@ class ImagePreviewHandler(previewFrame: FrameLayout, doc: DocumentInfo) :
             }
         previewFrame.addView(imageView)
 
-        Glide.with(previewFrame)
+        GlideApp.with(previewFrame)
             .load(doc.derivedUri)
             .fitCenter()
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -111,8 +116,51 @@ class ImagePreviewHandler(previewFrame: FrameLayout, doc: DocumentInfo) :
     override fun clear() {
         // Cancel any Glide load request if one is in progress.
         imageView?.let {
-            Glide.with(previewFrame).clear(it)
+            GlideApp.with(previewFrame).clear(it)
             imageView = null
+        }
+        super.clear()
+    }
+}
+
+/** Preview handler for audio and video contents. */
+class AudioAndVideoPreviewHandler(previewFrame: FrameLayout, doc: DocumentInfo) :
+    PreviewHandler(previewFrame) {
+    companion object {
+        private const val TAG = "VideoPreviewHandler"
+    }
+
+    var player: ExoPlayer? = null
+
+    private val playerListener = object : Player.Listener {
+        override fun onPlayerError(error: PlaybackException) {
+            Log.e(TAG, "ExoPlayer Error: ${error.message}")
+            clear()
+            handleUnsupportedFileType()
+        }
+    }
+
+    init {
+        val playerView =
+            PlayerView(previewFrame.context).apply {
+                layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+            }
+        previewFrame.addView(playerView)
+
+        player = ExoPlayer.Builder(previewFrame.context).build()
+        player!!.setMediaItem(MediaItem.fromUri(doc.derivedUri))
+
+        player!!.addListener(playerListener)
+        playerView.player = player
+        player!!.prepare()
+        player!!.playWhenReady = true
+    }
+
+    override fun clear() {
+        // Stop the player and release its internal resources.
+        player?.let {
+            it.release()
+            player = null
         }
         super.clear()
     }

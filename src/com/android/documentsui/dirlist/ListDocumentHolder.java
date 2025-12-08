@@ -20,6 +20,7 @@ import static com.android.documentsui.DevicePolicyResources.Drawables.Style.SOLI
 import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFILE_ICON;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.util.FlagUtils.isSingleClickToSelectEnabled;
 import static com.android.documentsui.util.FlagUtils.isUseMaterial3FlagEnabled;
 import static com.android.documentsui.util.Material3Config.getRes;
 
@@ -41,11 +42,13 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 
 import com.android.documentsui.ConfigStore;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -220,9 +223,18 @@ final class ListDocumentHolder extends DocumentHolder {
     }
 
     @Override
-    public boolean inSelectRegion(MotionEvent event) {
-        return (mDoc.isDirectory() && !(mAction == State.ACTION_BROWSE)) ?
-                false : Views.isEventOver(event, itemView.getParent(), mIconLayout);
+    public int classifySelectionHotspot(MotionEvent event) {
+        if (mDoc.isDirectory() && (mAction != State.ACTION_BROWSE)) {
+            // No-op.
+
+        } else if (Views.isEventOver(event, itemView.getParent(), mIconLayout)) {
+            return ItemDetails.SELECTION_HOTSPOT_INSIDE_TOGGLE_MULTI;
+
+        } else if (Events.isMousyEvent(event) && isSingleClickToSelectEnabled()) {
+            return ItemDetails.SELECTION_HOTSPOT_INSIDE_TOGGLE_SOLO;
+        }
+
+        return ItemDetails.SELECTION_HOTSPOT_OUTSIDE;
     }
 
     @Override
@@ -258,17 +270,7 @@ final class ListDocumentHolder extends DocumentHolder {
         if (isUseMaterial3FlagEnabled()) {
             // Only Normal type work with ellipsize=middle.
             mTitle.setText(mDoc.displayName, TextView.BufferType.NORMAL);
-            // Doing this hacky way instead of just "mTitle.setTooltipText()" because calling
-            // "mTitle.setTooltipText()" directly will break the ripple effects on the title area.
-            itemView.setOnHoverListener(
-                    (v, event) -> {
-                        if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER) {
-                            mTitle.setTooltipText(mDoc.displayName);
-                        } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-                            mTitle.setTooltipText(null);
-                        }
-                        return false;
-                    });
+            mTitle.setTooltipText(mDoc.displayName);
         } else {
             mTitle.setText(mDoc.displayName, TextView.BufferType.SPANNABLE);
         }

@@ -32,10 +32,10 @@
 # TODO(b/339312616): Remove after a more permanent fix is available
 # On modifying or adding new test run the following command to generate new keep rules and replace
 # the once listed below with the newly generated keep rules:
-# java -cp prebuilts/r8/r8.jar com.android.tools.r8.tracereferences.TraceReferences \
-# --lib out/soong/.intermediates/frameworks/base/framework/android_common/<some_hash>/combined/framework.jar \
-# --source out/target/product/panther/testcases/DocumentsUIGoogleTests/arm64/DocumentsUIGoogleTests.apk \
-# --target  out/soong/.intermediates/vendor/unbundled_google/packages/DocumentsUIGoogle/DocumentsUIGoogle/android_common/<some_hash>/javac/DocumentsUIGoogle.jar \
+# $ java -cp prebuilts/r8/r8.jar com.android.tools.r8.tracereferences.TraceReferences \
+# --lib out/soong/.intermediates/frameworks/base/framework/android_common/combined/framework.jar  \
+# --source $OUT/testcases/DocumentsUIGoogleTests/x86_64/DocumentsUIGoogleTests.apk \
+# --target out/soong/.intermediates/vendor/unbundled_google/packages/DocumentsUIGoogle/DocumentsUIGoogleInternal/android_common/turbine-combined/DocumentsUIGoogleInternal.jar \
 # --keep-rules \
 # --output /tmp/keep.txt
 
@@ -68,15 +68,18 @@
   int work_off;
 }
 -keep class com.android.documentsui.R$id {
+  int action_menu_browse;
   int action_menu_compress;
   int action_menu_copy_to;
   int action_menu_delete;
   int action_menu_deselect_all;
+  int action_menu_extract_here;
   int action_menu_extract_to;
   int action_menu_inspect;
   int action_menu_move_to;
   int action_menu_open_with;
   int action_menu_rename;
+  int action_menu_restore_from_trash;
   int action_menu_select;
   int action_menu_select_all;
   int action_menu_share;
@@ -106,6 +109,7 @@
   int dir_menu_select_all;
   int dir_menu_share;
   int dir_menu_view_in_owner;
+  int docked_search_toolbar;
   int drawer_layout;
   int inspector_details_view;
   int job_progress_panel_title;
@@ -139,6 +143,7 @@
   int files_activity;
   int fixed_layout;
   int item_doc_list;
+  int nav_rail_layout;
 }
 -keep class com.android.documentsui.R$menu {
   int dir_context_menu;
@@ -146,20 +151,23 @@
   int mixed_context_menu;
 }
 -keep class com.android.documentsui.R$plurals {
-  int copy_error_notification_title;
   int elements_dragged;
 }
 -keep class com.android.documentsui.R$string {
   int cant_select_work_files_error_message;
   int cant_select_work_files_error_title;
   int clear_selection;
+  int compress_error_notification_title;
+  int copy_error_notification_title;
   int copy_notification_title;
   int copy_preparing;
   int copy_remaining;
   int debug_content_uri;
   int default_root_uri;
+  int delete_error_notification_title;
   int directory_items;
   int empty;
+  int extract_error_notification_title;
   int menu_copy;
   int menu_move;
   int menu_rename;
@@ -187,6 +195,7 @@
   int metadata_iso_format;
   int metadata_iso_speed_ratings;
   int metadata_shutter_speed;
+  int move_error_notification_title;
   int name_conflict;
   int no_results;
   int personal_tab;
@@ -195,9 +204,9 @@
   int quiet_mode_error_title;
   int rename_error;
   int search_bar_hint;
-  int share_via;
   int search_last_modified_30_days;
   int search_location_everywhere;
+  int share_via;
   int sort_dimension_date;
   int sort_dimension_file_type;
   int sort_dimension_name;
@@ -223,10 +232,95 @@
 -keep class com.android.documentsui.util.Material3Config {
   static int getRes(int);
   static void overrideMappingForTest(java.util.Map);
-  static void setEnabledForTest(boolean);
 }
+
+-keep class com.android.documentsui.util.FlagUtils { *; }
+
+-keep class com.android.documentsui.util.VersionUtils { *; }
 
 # The SideSheetBehavior state is not directly accessed from DocumentsUI, but is used in tests
 -keep class com.google.android.material.sidesheet.SideSheetBehavior {
   public int getState();
+}
+
+# The BottomSheetBehavior state is not directly accessed from DocumentsUI, but is used in tests
+-keep class com.google.android.material.bottomsheet.BottomSheetBehavior {
+  public float getHalfExpandedRatio();
+}
+
+-keep class com.android.documentsui.JobPanelViewModel$Companion {
+  public void setDisableAutoDismiss(boolean);
+}
+
+# This is used in the unit test RecyclerRootsAdapterTest
+-keep class androidx.recyclerview.widget.RecyclerView$AdapterDataObserver {
+  public void onItemRangeChanged(int, int, Object);
+}
+
+# Temporarily add this here because the class is not used in the source code yet, will remove it
+# after adopting the class in the follow-up CL.
+-keep class com.android.documentsui.sidebar.RecyclerRootsAdapter { *; }
+
+-keep class com.android.documentsui.queries.SearchOptionsState {
+  *;
+}
+
+# Temporarily while use_material3 flag isn't fully rolled out.
+-keep interface com.android.documentsui.util.Config {
+  public java.lang.Boolean getForceMaterial3();
+}
+
+-keep class com.android.documentsui.peek.MetadataBottomSheetController {
+  public com.google.android.material.bottomsheet.BottomSheetBehavior getSheetBehavior();
+  public com.google.android.material.bottomsheet.BottomSheetBehavior$BottomSheetCallback getSheetStateListener();
+}
+
+-keep interface com.android.documentsui.UserManagerState {
+  public boolean areHiddenInQuietModeProfilesPresent();
+  public static com.android.documentsui.UserManagerState create(android.content.Context);
+  public java.util.Map getCanForwardToProfileIdMap(android.content.Intent);
+  public java.util.Map getCanForwardToProfileIdMapForAllowedUsers(android.content.Intent, com.android.documentsui.base.State);
+  public java.util.Map getUserIdToBadgeMap();
+  public java.util.Map getUserIdToLabelMap();
+  public java.util.List getUserIds();
+  public void onProfileActionStatusChange(java.lang.String, com.android.documentsui.base.UserId);
+  public void setCurrentStateIntent(android.content.Intent);
+}
+
+-keep class com.android.documentsui.Injector {
+  public <init>(com.android.documentsui.base.Features, com.android.documentsui.ActivityConfig, com.android.documentsui.ui.MessageBuilder, com.android.documentsui.ui.DialogController, com.android.documentsui.base.Lookup, java.util.function.Consumer, com.android.documentsui.Model, com.android.documentsui.UserManagerProvider);
+  com.android.documentsui.ActivityConfig config;
+  com.android.documentsui.ui.DialogController dialogs;
+  com.android.documentsui.FocusManager focusManager;
+  com.android.documentsui.picker.PickResult pickResult;
+  com.android.documentsui.queries.SearchViewManager searchManager;
+  com.android.documentsui.DocsSelectionHelper selectionMgr;
+}
+
+-keep interface com.android.documentsui.UserManagerProvider {
+  public java.util.List getUserIds(android.content.Context);
+}
+
+-keep class com.android.documentsui.files.ActionHandler {
+  public void restoreSelectedDocumentsFromTrash(java.util.List);
+}
+
+-keep interface androidx.drawerlayout.widget.DrawerLayout$DrawerListener {
+}
+-keep class androidx.drawerlayout.widget.DrawerLayout$SimpleDrawerListener {
+  public <init>();
+  public void onDrawerClosed(android.view.View);
+  public void onDrawerStateChanged(int);
+}
+-keep class androidx.drawerlayout.widget.DrawerLayout {
+  public void addDrawerListener(androidx.drawerlayout.widget.DrawerLayout$DrawerListener);
+  public void closeDrawer(int);
+  public boolean isDrawerOpen(int);
+  public boolean isDrawerVisible(int);
+  public void openDrawer(int);
+  public void removeDrawerListener(androidx.drawerlayout.widget.DrawerLayout$DrawerListener);
+}
+
+-keep class android.provider.Flags {
+  public static boolean enableDocumentsTrashApi();
 }

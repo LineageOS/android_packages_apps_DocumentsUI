@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.queries
 
+import androidx.annotation.StringRes
 import com.android.documentsui.R
 import com.android.documentsui.util.Material3Config.Companion.getRes
 import kotlin.time.Duration.Companion.days
@@ -23,13 +24,33 @@ import kotlin.time.Duration.Companion.days
  * Enumerates possible options for the last modified filters. These values correspond directly
  * to the values of hte search_last_modified_menu.
  */
-enum class LastModifiedOption(val value: Int, val millis: Long) {
-    ANY_TIME(getRes(R.id.last_modified_any_time_option), 0),
-    LAST_DAY(getRes(R.id.last_modified_1_day_option), 1.days.inWholeMilliseconds),
-    LAST_2_DAYS(getRes(R.id.last_modified_2_days_option), 2.days.inWholeMilliseconds),
-    LAST_7_DAYS(getRes(R.id.last_modified_7_days_option), 7.days.inWholeMilliseconds),
-    LAST_30_DAYS(getRes(R.id.last_modified_30_days_option), 30.days.inWholeMilliseconds),
-    LAST_365_DAYS(getRes(R.id.last_modified_365_days_option), 365.days.inWholeMilliseconds),
+enum class LastModifiedOption(val value: Int, val millis: Long, @StringRes val textId: Int) {
+    ANY_TIME(getRes(R.id.last_modified_any_time_option), 0, R.string.search_last_modified_any_time),
+    LAST_DAY(
+        getRes(R.id.last_modified_1_day_option),
+        1.days.inWholeMilliseconds,
+        R.string.search_last_modified_1_day
+    ),
+    LAST_2_DAYS(
+        getRes(R.id.last_modified_2_days_option),
+        2.days.inWholeMilliseconds,
+        R.string.search_last_modified_2_days
+    ),
+    LAST_7_DAYS(
+        getRes(R.id.last_modified_7_days_option),
+        7.days.inWholeMilliseconds,
+        R.string.search_last_modified_7_days
+    ),
+    LAST_30_DAYS(
+        getRes(R.id.last_modified_30_days_option),
+        30.days.inWholeMilliseconds,
+        R.string.search_last_modified_30_days
+    ),
+    LAST_365_DAYS(
+        getRes(R.id.last_modified_365_days_option),
+        365.days.inWholeMilliseconds,
+        R.string.search_last_modified_365_days
+    ),
 }
 
 /**

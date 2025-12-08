@@ -520,7 +520,7 @@ public abstract class BaseActivity
         boolean fullBarSearch = getResources().getBoolean(getRes(R.bool.full_bar_search_view));
         boolean showSearchBar = isUseMaterial3FlagEnabled() ? false : getResources().getBoolean(
                 R.bool.show_search_bar);
-        boolean showDockedSearch = getResources().getBoolean(R.bool.show_docked_search);
+        boolean showDockedSearch = getResources().getBoolean(getRes(R.bool.show_docked_search));
         mSearchManager.install(menu, fullBarSearch, showSearchBar, showDockedSearch);
 
         // Remove the subMenu when material3 is launched b/379776735.
@@ -898,7 +898,7 @@ public abstract class BaseActivity
     }
 
     /**
-     * Reload documnets by current stack in certain situation.
+     * Reload documents by current stack in certain situation.
      */
     public void reloadDocumentsIfNeeded() {
         if (isInRecents() || mSearchManager.isSearching()) {
