@@ -227,16 +227,9 @@ public final class Shared {
         return sCollator.compare(lhs, rhs);
     }
 
-    private static boolean isSystemApp(ApplicationInfo ai) {
-        return (ai.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
-    }
-
-    private static boolean isUpdatedSystemApp(ApplicationInfo ai) {
-        return (ai.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0;
-    }
-
     /**
      * Returns the calling package, possibly overridden by EXTRA_PACKAGE_NAME.
+     *
      * @param activity
      * @return
      */
@@ -246,9 +239,9 @@ public final class Shared {
         try {
             ApplicationInfo info =
                     activity.getPackageManager().getApplicationInfo(callingPackage, 0);
-            if (isSystemApp(info) || isUpdatedSystemApp(info)) {
-                final String extra = activity.getIntent().getStringExtra(
-                        Intent.EXTRA_PACKAGE_NAME);
+            if (activity.getIntent() != null
+                    && isTrustedSystemSignature(activity.getPackageManager(), info.uid)) {
+                final String extra = activity.getIntent().getStringExtra(Intent.EXTRA_PACKAGE_NAME);
                 if (extra != null && !TextUtils.isEmpty(extra)) {
                     callingPackage = extra;
                 }
@@ -260,6 +253,21 @@ public final class Shared {
             // For that reason, we ignore this exception.
         }
         return callingPackage;
+    }
+
+    /**
+     * Verifies if a package is signed with the device's platform certificate.
+     *
+     * @param pm PackageManager instance.
+     * @param callingUid The UID of the package to verify.
+     * @return {@code true} if the package matches the platform system signature.
+     */
+    private static boolean isTrustedSystemSignature(PackageManager pm, int callingUid) {
+        // Only allow name spoofing if the calling app is signed with the device's platform key
+        // (the same key used by the Android OS itself). Compare the caller's signature with
+        // the system UID (UID 1000), which represents the platform signature.
+        return pm.checkSignatures(callingUid, android.os.Process.SYSTEM_UID)
+                == PackageManager.SIGNATURE_MATCH;
     }
 
     /**
