@@ -44,6 +44,10 @@
     <!-- Permissions required for reading device configs -->
     <uses-permission android:name="android.permission.READ_DEVICE_CONFIG"/>
 
+    <!-- Features needed for navigation -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="true" />
+    <uses-feature android:name="android.hardware.faketouch" android:required="false" />
+
     <application
         android:name=".DocumentsApplication"
         android:label="@string/app_label"
