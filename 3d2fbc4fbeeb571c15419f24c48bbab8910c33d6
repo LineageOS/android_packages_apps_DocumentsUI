@@ -16,6 +16,24 @@
       "message": "yeah, first off this isnt\u0027 all the copyrights, second idk if we even want to do this on apps that still get updates.",
       "revId": "3d2fbc4fbeeb571c15419f24c48bbab8910c33d6",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fac6a64_dc35a969",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2026-06-08T02:01:49Z",
+      "side": 1,
+      "message": "So, i should just abandon this commit",
+      "parentUuid": "b05dbf61_a7b0c054",
+      "revId": "3d2fbc4fbeeb571c15419f24c48bbab8910c33d6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
